@@ -1,30 +1,44 @@
 package com.ulbs.careerstartup.entity;
 
+import com.ulbs.careerstartup.entity.pk.UserSkillPK;
 import jakarta.persistence.*;
-import lombok.Data;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Entity
 @Table(name = "user_skills")
-@Data
 public class UserSkills {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private UserSkillPK id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_email", referencedColumnName = "email", nullable = false)
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @MapsId("userId")
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    @NotNull
     private User user;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @MapsId("skillId")
+    @NotNull
     @JoinColumn(name = "skill_id", referencedColumnName = "id", nullable = false)
     private Skill skill;
 
-    @Column(name = "proficiency", nullable = false)
-    @Min(value = 1, message = "Proficiency must be at least 1")
-    @Max(value = 100, message = "Proficiency must be at most 100")
+    @Column(nullable = false)
+    @NotNull
     private Integer proficiency;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserSkills that = (UserSkills) o;
+        return Objects.equals(id, that.id) && Objects.equals(proficiency, that.proficiency);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, proficiency);
+    }
 }

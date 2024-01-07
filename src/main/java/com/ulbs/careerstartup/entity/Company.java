@@ -1,32 +1,62 @@
 package com.ulbs.careerstartup.entity;
 
-import com.ulbs.careerstartup.constant.Constants;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
-import javax.validation.constraints.Pattern;
-import java.util.List;
+import java.util.Collection;
+import java.util.Objects;
+import java.util.UUID;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
-@Data
 public class Company {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
+    @Column(unique = true, nullable = false)
+    private UUID id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 100)
     private String name;
 
-    @Column(name = "logo_url")
-    private String logoUrl;
-
+    @Column(nullable = false)
     private String address;
 
     @Column(nullable = false)
-    @Pattern(regexp = Constants.URL_PATTERN, message = "Invalid URL format")
-    private String url;
+    private String website;
 
-    @OneToMany(mappedBy = "company", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PostedJob> postedJobs;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "company",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Collection<JobHistory> jobHistories;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "company",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Collection<PostedJob> postedJobs;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "company",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    private Collection<Review> reviews;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Company that = (Company) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(website, that.website);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, address, website);
+    }
+
 }

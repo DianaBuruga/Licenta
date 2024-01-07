@@ -2,222 +2,219 @@ USE career_startup;
 
 CREATE TABLE IF NOT EXISTS skill
 (
-    id   INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    id   BINARY(16)   NOT NULL PRIMARY KEY,
     name VARCHAR(100) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS user
 (
-    email           VARCHAR(255) NOT NULL PRIMARY KEY,
-    role            VARCHAR(45)  NOT NULL,
-    name            VARCHAR(255) NOT NULL,
-    phone           VARCHAR(10),
-    picture_name    VARCHAR(255),
-    picture_content LONGBLOB,
-    url             VARCHAR(255),
-    description     TEXT,
-    status          VARCHAR(255) NOT NULL
+    id          BINARY(16)                                                       NOT NULL PRIMARY KEY,
+    email       VARCHAR(255)                                                     NOT NULL,
+    role        ENUM ('STUDENT','TEACHER','COMPANY_REPRESENTATIVE', 'MODERATOR') NOT NULL,
+    name        VARCHAR(255)                                                     NOT NULL,
+    phone       VARCHAR(10),
+    website     VARCHAR(255),
+    description TEXT,
+    status      ENUM ('RECRUITING','OPEN_TO_WORK','EMPLOYEE')
 );
 
 CREATE TABLE IF NOT EXISTS language
 (
-    id           INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name         VARCHAR(60)  NOT NULL,
-    listening    VARCHAR(3)   NOT NULL,
-    reading      VARCHAR(2)   NOT NULL,
-    speaking     VARCHAR(2)   NOT NULL,
-    conversation VARCHAR(2)   NOT NULL,
-    writing      VARCHAR(2)   NOT NULL,
-    user_email   VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email)
+    id           BINARY(16)                                          NOT NULL PRIMARY KEY,
+    name         VARCHAR(60)                                         NOT NULL,
+    listening    ENUM ('A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'TONGUE') NOT NULL,
+    reading      ENUM ('A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'TONGUE') NOT NULL,
+    speaking     ENUM ('A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'TONGUE') NOT NULL,
+    conversation ENUM ('A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'TONGUE') NOT NULL,
+    writing      ENUM ('A1', 'A2', 'B1', 'B2', 'C1', 'C2', 'TONGUE') NOT NULL,
+    user_id      BINARY(16)                                          NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE IF NOT EXISTS company
 (
-    id       INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name     VARCHAR(255) NOT NULL,
-    logo_url VARCHAR(255),
-    address  VARCHAR(255),
-    url      VARCHAR(255) NOT NULL
+    id      BINARY(16)   NOT NULL PRIMARY KEY,
+    name    VARCHAR(100) NOT NULL,
+    address VARCHAR(255),
+    website VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS job_history
 (
-    id                    INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_email            VARCHAR(255) NOT NULL,
-    company_id            INT          NOT NULL,
-    position              VARCHAR(60)  NOT NULL,
-    start_date            DATETIME     NOT NULL,
-    end_date              DATETIME,
-    description           TEXT,
-    rating_job_at_company INT,
-    review_job_at_company TEXT,
-    need_qualification    TINYINT      NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email),
+    id                 BINARY(16)   NOT NULL PRIMARY KEY,
+    user_id            BINARY(16)   NOT NULL,
+    company_id         BINARY(16)   NOT NULL,
+    position           VARCHAR(100) NOT NULL,
+    start_date         DATETIME     NOT NULL,
+    end_date           DATETIME,
+    description        TEXT,
+    need_qualification BOOLEAN      NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id),
     FOREIGN KEY (company_id) REFERENCES company (id)
 );
 
-CREATE TABLE IF NOT EXISTS interview
+CREATE TABLE IF NOT EXISTS review
 (
-    id         INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    position   VARCHAR(255) NOT NULL,
-    interview  TEXT         NOT NULL,
-    rating     INT          NOT NULL,
-    company_id INT          NOT NULL,
+    id          BINARY(16)               NOT NULL PRIMARY KEY,
+    company_id  BINARY(16)               NOT NULL,
+    position    VARCHAR(255)             NOT NULL,
+    description TEXT                     NOT NULL,
+    type        ENUM ('INTERVIEW','JOB') NOT NULL,
+    rating      INT                      NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id)
 );
 
-CREATE TABLE IF NOT EXISTS interview_file
+CREATE TABLE IF NOT EXISTS file
 (
-    id           INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    name         VARCHAR(255) NOT NULL,
-    content      LONGBLOB     NOT NULL,
-    interview_id INT          NOT NULL,
-    FOREIGN KEY (interview_id) REFERENCES interview (id)
+    table_id   BINARY(16)                                               NOT NULL,
+    table_name VARCHAR(255)                                             NOT NULL,
+    name       VARCHAR(255)                                             NOT NULL,
+    content    LONGBLOB                                                 NOT NULL,
+    type       ENUM ('CV','CERTIFICATE', 'PROFILE_PHOTO', 'POST_PHOTO') NOT NULL,
+    PRIMARY KEY (table_name, table_id)
 );
 
 CREATE TABLE IF NOT EXISTS posted_job
 (
-    id          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    description TEXT         NOT NULL,
+    id          BINARY(16)                 NOT NULL PRIMARY KEY,
+    description TEXT                       NOT NULL,
     open_until  DATETIME,
-    status      VARCHAR(60)  NOT NULL,
-    location    VARCHAR(255) NOT NULL,
-    type        VARCHAR(60)  NOT NULL,
-    company_id  INT          NOT NULL,
+    posted_date DATETIME                   NOT NULL,
+    status      ENUM ('ACTIVE','INACTIVE') NOT NULL,
+    location    VARCHAR(100)               NOT NULL,
+    type        ENUM ('REMOTE','ONSITE')   NOT NULL,
+    company_id  BINARY(16)                 NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id)
 );
 
 CREATE TABLE IF NOT EXISTS event
 (
-    id          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_email  VARCHAR(255) NOT NULL,
+    id          BINARY(16)   NOT NULL PRIMARY KEY,
+    user_id     BINARY(16)   NOT NULL,
     description TEXT         NOT NULL,
     date        DATETIME     NOT NULL,
-    url         VARCHAR(255),
     location    VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email)
+    FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE IF NOT EXISTS experience
 (
-    id          INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_email  VARCHAR(255) NOT NULL,
-    title       VARCHAR(255) NOT NULL,
-    description TEXT         NOT NULL,
-    date        DATETIME     NOT NULL,
+    id          BINARY(16)                                                      NOT NULL PRIMARY KEY,
+    user_id     BINARY(16)                                                      NOT NULL,
+    title       VARCHAR(100)                                                    NOT NULL,
+    description TEXT                                                            NOT NULL,
+    date        DATETIME                                                        NOT NULL,
     url         VARCHAR(255),
-    type        VARCHAR(45)  NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email)
-);
-
-CREATE TABLE IF NOT EXISTS event_file
-(
-    id                 INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    event_id           INT          NOT NULL,
-    event_file_name    VARCHAR(255) NOT NULL,
-    event_file_content LONGBLOB     NOT NULL,
-    FOREIGN KEY (event_id) REFERENCES event (id)
-);
-
-CREATE TABLE IF NOT EXISTS language_file
-(
-    id           INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    language_id  INT          NOT NULL,
-    file_name    VARCHAR(255) NOT NULL,
-    file_content LONGBLOB     NOT NULL,
-    FOREIGN KEY (language_id) REFERENCES language (id)
+    type        ENUM ('COMPETITION','PROJECT', 'ACCREDITATION', 'VOLUNTEERING') NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE IF NOT EXISTS bibliography
 (
-    id         INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_email VARCHAR(255) NOT NULL,
-    skill_id   INT          NOT NULL,
-    url        VARCHAR(255),
-    text       TEXT         NOT NULL,
-    title      VARCHAR(255) NOT NULL,
-    date       DATETIME     NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email),
+    id       BINARY(16)   NOT NULL PRIMARY KEY,
+    user_id  BINARY(16)   NOT NULL,
+    skill_id BINARY(16)   NOT NULL,
+    text     TEXT         NOT NULL,
+    title    VARCHAR(255) NOT NULL,
+    date     DATETIME     NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id),
     FOREIGN KEY (skill_id) REFERENCES skill (id)
 );
 
 CREATE TABLE IF NOT EXISTS user_skills
 (
-    user_email  VARCHAR(255) NOT NULL,
-    skill_id    INT          NOT NULL,
-    proficiency INT          NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email),
+    user_id     BINARY(16) NOT NULL,
+    skill_id    BINARY(16) NOT NULL,
+    proficiency INTEGER    NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id),
     FOREIGN KEY (skill_id) REFERENCES skill (id)
 );
 
 CREATE TABLE IF NOT EXISTS job_candidates
 (
-    candidate_email  VARCHAR(255) NOT NULL,
-    job_id           INT          NOT NULL,
-    application_date DATETIME     NOT NULL,
-    FOREIGN KEY (candidate_email) REFERENCES user (email),
+    candidate_id     BINARY(16) NOT NULL,
+    job_id           BINARY(16) NOT NULL,
+    application_date DATETIME   NOT NULL,
+    FOREIGN KEY (candidate_id) REFERENCES user (id),
     FOREIGN KEY (job_id) REFERENCES posted_job (id)
 );
 
 CREATE TABLE IF NOT EXISTS referral
 (
-    id            INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    teacher_email VARCHAR(255) NOT NULL,
-    user_email    VARCHAR(255) NOT NULL,
-    title         VARCHAR(255) NOT NULL,
-    description   TEXT         NOT NULL,
-    FOREIGN KEY (teacher_email) REFERENCES user (email),
-    FOREIGN KEY (user_email) REFERENCES user (email)
+    id          BINARY(16)   NOT NULL PRIMARY KEY,
+    teacher_id  BINARY(16)   NOT NULL,
+    user_id     BINARY(16)   NOT NULL,
+    title       VARCHAR(100) NOT NULL,
+    description TEXT         NOT NULL,
+    FOREIGN KEY (teacher_id) REFERENCES user (id),
+    FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE IF NOT EXISTS message
 (
-    id             INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    sender_email   VARCHAR(255) NOT NULL,
-    receiver_email VARCHAR(255) NOT NULL,
-    message        TEXT         NOT NULL,
-    datetime       DATETIME     NOT NULL,
-    seen           TINYINT      NOT NULL,
-    FOREIGN KEY (sender_email) REFERENCES user (email),
-    FOREIGN KEY (receiver_email) REFERENCES user (email)
-);
-
-CREATE TABLE IF NOT EXISTS experience_file
-(
-    id                    INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    file_name             VARCHAR(255) NOT NULL,
-    file_content          LONGBLOB     NOT NULL,
-    experience_id INT          NOT NULL,
-    FOREIGN KEY (experience_id) REFERENCES experience (id)
-);
-
-CREATE TABLE IF NOT EXISTS cv
-(
-    id           INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    file_name    VARCHAR(255) NOT NULL,
-    file_content LONGBLOB     NOT NULL,
-    user_email   VARCHAR(255) NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email)
-);
-
-CREATE TABLE IF NOT EXISTS education
-(
-    id             INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_email     VARCHAR(255) NOT NULL,
-    specialization VARCHAR(255) NOT NULL,
-    faculty        VARCHAR(255) NOT NULL,
-    started_date   DATETIME     NOT NULL,
-    finished_date  DATETIME     NOT NULL,
-    degree         TINYINT      NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email)
+    id          BINARY(16) NOT NULL PRIMARY KEY,
+    sender_id   BINARY(16) NOT NULL,
+    receiver_id BINARY(16) NOT NULL,
+    message     TEXT       NOT NULL,
+    send_date   DATETIME   NOT NULL,
+    seen        BOOLEAN    NOT NULL,
+    FOREIGN KEY (sender_id) REFERENCES user (id),
+    FOREIGN KEY (receiver_id) REFERENCES user (id)
 );
 
 CREATE TABLE IF NOT EXISTS notification
 (
-    id           INT          NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    user_email   VARCHAR(255) NOT NULL,
-    notification VARCHAR(500) NOT NULL,
+    id           BINARY(16)   NOT NULL PRIMARY KEY,
+    user_id      BINARY(16)   NOT NULL,
+    notification VARCHAR(255) NOT NULL,
     date         DATETIME     NOT NULL,
-    FOREIGN KEY (user_email) REFERENCES user (email)
+    FOREIGN KEY (user_id) REFERENCES user (id)
+);
+
+CREATE TABLE IF NOT EXISTS event_subscribers
+(
+    user_id  BINARY(16) NOT NULL,
+    event_id BINARY(16) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id),
+    FOREIGN KEY (event_id) REFERENCES event (id)
+);
+
+CREATE TABLE IF NOT EXISTS faculty
+(
+    id             BINARY(16)   NOT NULL PRIMARY KEY,
+    name           VARCHAR(100) NULL,
+    address        VARCHAR(100) NULL,
+    years_of_study INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS specialization
+(
+    id            BINARY(16) NOT NULL PRIMARY KEY,
+    user_id       BINARY(16) NOT NULL,
+    faculty_id    BINARY(16) NOT NULL,
+    started_date  DATETIME   NOT NULL,
+    finished_date DATETIME   NOT NULL,
+    degree        VARCHAR(4) NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user (id),
+    FOREIGN KEY (faculty_id) REFERENCES faculty (id)
+);
+
+
+CREATE TABLE IF NOT EXISTS course
+(
+    id                BINARY(16)  NOT NULL PRIMARY KEY,
+    specialization_id BINARY(16)  NOT NULL,
+    name              VARCHAR(45) NOT NULL,
+    year              INTEGER     NOT NULL,
+    semester          INTEGER     NOT NULL,
+    FOREIGN KEY (specialization_id) REFERENCES specialization (id)
+);
+
+CREATE TABLE IF NOT EXISTS course_skills
+(
+    course_id BINARY(16) NOT NULL,
+    skill_id  BINARY(16) NOT NULL,
+    PRIMARY KEY (course_id, skill_id),
+    FOREIGN KEY (course_id) REFERENCES course (id),
+    FOREIGN KEY (skill_id) REFERENCES skill (id)
 );

@@ -1,35 +1,56 @@
 package com.ulbs.careerstartup.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
+import org.hibernate.annotations.UuidGenerator;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.Objects;
+import java.util.UUID;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
-@Data
 public class Bibliography {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(unique = true, nullable = false)
+    @UuidGenerator(style = UuidGenerator.Style.RANDOM)
+    private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_email", referencedColumnName = "email", nullable = false)
-    private User user;
+    @Column(nullable = false)
+    private String text;
 
+    @Column(nullable = false)
+    private String title;
+
+    @Column(nullable = false)
+    private Timestamp date;
+
+    @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User writer;
+
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "skill_id", referencedColumnName = "id", nullable = false)
     private Skill skill;
 
-    @Column(name = "url")
-    private String url;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Bibliography that = (Bibliography) o;
+        return Objects.equals(id, that.id) && Objects.equals(text, that.text) && Objects.equals(title, that.title) && Objects.equals(date, that.date);
+    }
 
-    @Column(name = "text", nullable = false)
-    private String text;
-
-    @Column(name = "title", nullable = false)
-    private String title;
-
-    @Column(name = "date", nullable = false)
-    private LocalDateTime date;
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, text, title, date);
+    }
 }
