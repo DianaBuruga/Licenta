@@ -49,6 +49,8 @@ public class UserDTO {
     @NotNull
     private UserStatus status;
 
+    private FileDTO profilePhoto;
+
     @NotNull
     private Collection<BibliographyDTO> bibliographiesDTO;
 

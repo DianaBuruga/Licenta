@@ -42,6 +42,8 @@ public class ExperienceDTO {
     @NotNull
     private UserDTO userDTO;
 
+    private FileDTO fileDTO;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

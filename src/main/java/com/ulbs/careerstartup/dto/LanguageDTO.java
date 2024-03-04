@@ -35,6 +35,8 @@ public class LanguageDTO {
     @NotNull
     private LanguageLevel writing;
 
+    private FileDTO fileDTO;
+
     @NotNull
     private UserDTO userDTO;
 

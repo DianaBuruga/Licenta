@@ -4,12 +4,15 @@ import com.ulbs.careerstartup.dto.BibliographyDTO;
 import com.ulbs.careerstartup.entity.Bibliography;
 import com.ulbs.careerstartup.entity.Skill;
 import com.ulbs.careerstartup.entity.User;
-import com.ulbs.careerstartup.mapper.BibliographyMapper;
+import com.ulbs.careerstartup.mapper.Mapper;
 import com.ulbs.careerstartup.repository.BibliographyRepository;
 import com.ulbs.careerstartup.repository.SkillRepository;
 import com.ulbs.careerstartup.repository.UserRepository;
+import com.ulbs.careerstartup.specification.GenericSpecification;
+import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,7 @@ import static com.ulbs.careerstartup.constant.ExceptionMessages.NOT_FOUND_MESSAG
 @Service
 @AllArgsConstructor
 public class BibliographyService {
-    private static final BibliographyMapper bibliographyMapper = BibliographyMapper.INSTANCE;
+    private Mapper mapper;
     private UserRepository userRepository;
     private SkillRepository skillRepository;
     private BibliographyRepository bibliographyRepository;
@@ -39,7 +42,7 @@ public class BibliographyService {
         Skill skill = skillRepository.findById(skillId)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(NOT_FOUND_MESSAGE, "skill", "id", skillId)));
 
-        Bibliography bibliography = bibliographyMapper.bibliographyDTOToBibliography(bibliographyDTO);
+        Bibliography bibliography = mapper.bibliographyDTOToBibliography(bibliographyDTO);
         bibliography.setWriter(user);
         bibliography.setSkill(skill);
         bibliography.setDate(Timestamp.from(Instant.now()));
@@ -47,7 +50,7 @@ public class BibliographyService {
         user.getBibliographies().add(bibliography);
         skill.getBibliographies().add(bibliography);
 
-        return bibliographyMapper.bibliographyToBibliographyDTO(
+        return mapper.bibliographyToBibliographyDTO(
                 bibliographyRepository.save(bibliography));
     }
 
@@ -64,21 +67,34 @@ public class BibliographyService {
         skillRepository.findById(bibliographyDTO.getSkillDTO().getId())
                 .ifPresent(bibliography::setSkill);
 
-        return bibliographyMapper.bibliographyToBibliographyDTO(
+        return mapper.bibliographyToBibliographyDTO(
                 bibliographyRepository.save(bibliography));
     }
 
     public Collection<BibliographyDTO> findAllBibliographies() {
         return bibliographyRepository.findAll()
                 .stream()
-                .map(bibliographyMapper::bibliographyToBibliographyDTO)
+                .map(mapper::bibliographyToBibliographyDTO)
                 .toList();
     }
 
-    public Collection<BibliographyDTO> getBibliographiesBySkillIds(List<UUID> skillIds) {
+    public Collection<BibliographyDTO> findBibliographiesBySkillIds(List<UUID> skillIds) {
         return bibliographyRepository.findBySkillIdIn(skillIds)
                 .stream()
-                .map(bibliographyMapper::bibliographyToBibliographyDTO)
+                .map(mapper::bibliographyToBibliographyDTO)
                 .toList();
     }
+
+    public Collection<BibliographyDTO> findBibliographiesByCriteria(List<SearchCriteria> searchCriteria) {
+        return bibliographyRepository
+                .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
+                .map(mapper::bibliographyToBibliographyDTO)
+                .toList();
+    }
+
+    public void deleteBibliography(BibliographyDTO bibliographyDTO) {
+        bibliographyRepository.delete(mapper.bibliographyDTOToBibliography(bibliographyDTO));
+    }
+
+
 }

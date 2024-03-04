@@ -1,5 +1,11 @@
 package com.ulbs.careerstartup.security;
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.OAuthFlow;
+import io.swagger.v3.oas.annotations.security.OAuthFlows;
+import io.swagger.v3.oas.annotations.security.OAuthScope;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +19,21 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 @AllArgsConstructor
+@OpenAPIDefinition
+@SecurityScheme(
+        name = "oauth2",
+        type = SecuritySchemeType.OAUTH2,
+        flows = @OAuthFlows(
+                authorizationCode = @OAuthFlow(
+                        authorizationUrl = "{authorization-url}",
+                        tokenUrl = "{token-url}",
+                        scopes = {
+                                @OAuthScope(name = "read", description = "read access"),
+                                @OAuthScope(name = "write", description = "write access")
+                        }
+                )
+        )
+)
 public class SecurityConfig {
 
     private OidcWorkspaceUserService oidcWorkspaceUserService;

@@ -2,10 +2,17 @@ package com.ulbs.careerstartup.entity;
 
 import com.ulbs.careerstartup.entity.pk.UserSkillPK;
 import jakarta.persistence.*;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "user_skills")
 public class UserSkills {

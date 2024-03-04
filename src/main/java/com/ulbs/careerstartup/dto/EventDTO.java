@@ -30,6 +30,8 @@ public class EventDTO {
     @NotNull
     private UserDTO creatorDTO;
 
+    private FileDTO fileDTO;
+
     @NotNull
     private Collection<UserDTO> subscribersDTO;
 
