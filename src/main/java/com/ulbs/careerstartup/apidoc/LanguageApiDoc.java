@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -28,7 +27,7 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<LanguageDTO>> findAllLanguages();
+    Collection<LanguageDTO> findAllLanguages();
 
     @Operation(summary = "Find language by id", tags = {"Language"},
             responses = {
@@ -41,7 +40,7 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<LanguageDTO> findById(@Parameter(description = "Id of the language that will be received", required = true) @PathVariable UUID id);
+    LanguageDTO findLanguageById(@Parameter(description = "Id of the language that will be received", required = true) @PathVariable UUID id);
 
     @Operation(summary = "Find language by criteria", tags = {"Language"},
             responses = {
@@ -54,7 +53,7 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<LanguageDTO>> findLanguagesByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestBody List<SearchCriteria> criteria);
+    Collection<LanguageDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestBody List<SearchCriteria> criteria);
 
     @Operation(summary = "Save language", tags = {"Language"},
             responses = {
@@ -67,7 +66,7 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<LanguageDTO> saveLanguage(@Parameter(description = "Language that will be saved", required = true) @RequestBody LanguageDTO languageDTO);
+    LanguageDTO saveLanguage(@Parameter(description = "Language that will be saved", required = true) @RequestBody LanguageDTO languageDTO);
 
     @Operation(summary = "Update language", tags = {"Language"},
             responses = {
@@ -80,7 +79,7 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<LanguageDTO> updateLanguage(@Parameter(description = "Language that will be updated", required = true) @RequestBody LanguageDTO languageDTO);
+    LanguageDTO updateLanguage(@Parameter(description = "Language that will be updated", required = true) @RequestBody LanguageDTO languageDTO);
 
     @Operation(summary = "Delete language", tags = {"Language"},
             responses = {
@@ -93,5 +92,5 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deleteLanguage(@Parameter(description = "Id of the language that will be deleted", required = true) @RequestBody LanguageDTO languageDTO);
+    void deleteLanguage(@Parameter(description = "Id of the language that will be deleted", required = true) @RequestBody LanguageDTO languageDTO);
 }

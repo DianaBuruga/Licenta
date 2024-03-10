@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +28,7 @@ public interface SkillApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<SkillDTO>> findAllSkills();
+    Collection<SkillDTO> findAllSkills();
 
     @Operation(summary = "Find skill by id", tags = {"Skill"},
             responses = {
@@ -42,7 +41,7 @@ public interface SkillApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<SkillDTO> findById(@Parameter(description = "Id of the skill that will be received", required = true) @PathVariable UUID id);
+    SkillDTO findSkillById(@Parameter(description = "Id of the skill that will be received", required = true) @PathVariable UUID id);
 
     @Operation(summary = "Find skill by criteria", tags = {"Skill"},
             responses = {
@@ -55,7 +54,7 @@ public interface SkillApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<SkillDTO>> findSkillsByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
+    Collection<SkillDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
 
     @Operation(summary = "Save skill", tags = {"Skill"},
             responses = {
@@ -68,7 +67,7 @@ public interface SkillApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<SkillDTO> saveSkill(@Parameter(description = "Skill that will be saved", required = true) @RequestBody SkillDTO skillDTO);
+    SkillDTO saveSkill(@Parameter(description = "Skill that will be saved", required = true) @RequestBody SkillDTO skillDTO);
 
     @Operation(summary = "Update skill", tags = {"Skill"},
             responses = {
@@ -81,7 +80,7 @@ public interface SkillApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<SkillDTO> updateSkill(@Parameter(description = "Skill that will be updated", required = true) @RequestBody SkillDTO skillDTO);
+    SkillDTO updateSkill(@Parameter(description = "Skill that will be updated", required = true) @RequestBody SkillDTO skillDTO);
 
     @Operation(summary = "Delete skill", tags = {"Skill"},
             responses = {
@@ -94,5 +93,5 @@ public interface SkillApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deleteSkill(@Parameter(description = "Skill that will be deleted", required = true) @RequestBody SkillDTO skillDTO);
+    void deleteSkill(@Parameter(description = "Skill that will be deleted", required = true) @RequestBody SkillDTO skillDTO);
 }

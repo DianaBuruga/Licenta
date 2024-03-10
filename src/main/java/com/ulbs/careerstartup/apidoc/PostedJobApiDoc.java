@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -28,7 +27,7 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<PostedJobDTO>> findAllPostedJobs();
+    Collection<PostedJobDTO> findAllPostedJobs();
 
     @Operation(summary = "Find posted job by id", tags = {"PostedJob"},
             responses = {
@@ -41,7 +40,7 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<PostedJobDTO> findById(@Parameter(description = "Id of the posted job that will be received", required = true) @PathVariable UUID id);
+    PostedJobDTO findPostedJobById(@Parameter(description = "Id of the posted job that will be received", required = true) @PathVariable UUID id);
 
     @Operation(summary = "Find posted job by criteria", tags = {"PostedJob"},
             responses = {
@@ -54,7 +53,7 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<PostedJobDTO>> findPostedJobsByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
+    Collection<PostedJobDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
 
     @Operation(summary = "Save posted job", tags = {"PostedJob"},
             responses = {
@@ -67,7 +66,7 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<PostedJobDTO> savePostedJob(@Parameter(description = "Posted job that will be saved", required = true) @RequestBody PostedJobDTO postedJobDTO);
+    PostedJobDTO savePostedJob(@Parameter(description = "Posted job that will be saved", required = true) @RequestBody PostedJobDTO postedJobDTO);
 
     @Operation(summary = "Update posted job", tags = {"PostedJob"},
             responses = {
@@ -80,7 +79,7 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<PostedJobDTO> updatePostedJob(@Parameter(description = "Posted job that will be updated", required = true) @RequestBody PostedJobDTO postedJobDTO);
+    PostedJobDTO updatePostedJob(@Parameter(description = "Posted job that will be updated", required = true) @RequestBody PostedJobDTO postedJobDTO);
 
     @Operation(summary = "Delete posted job", tags = {"PostedJob"},
             responses = {
@@ -93,5 +92,5 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deletePostedJob(@Parameter(description = "Posted job that will be deleted", required = true) @RequestBody PostedJobDTO postedJobDTO);
+    void deletePostedJob(@Parameter(description = "Posted job that will be deleted", required = true) @RequestBody PostedJobDTO postedJobDTO);
 }

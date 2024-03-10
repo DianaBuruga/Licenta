@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +28,7 @@ public interface ReviewApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<ReviewDTO>> findAllReviews();
+    Collection<ReviewDTO> findAllReviews();
 
     @Operation(summary = "Find review by id", tags = {"Review"},
             responses = {
@@ -42,7 +41,7 @@ public interface ReviewApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<ReviewDTO> findById(@Parameter(description = "Id of the review that will be received", required = true) @PathVariable UUID id);
+    ReviewDTO findReviewById(@Parameter(description = "Id of the review that will be received", required = true) @PathVariable UUID id);
 
     @Operation(summary = "Find review by criteria", tags = {"Review"},
             responses = {
@@ -55,7 +54,7 @@ public interface ReviewApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<ReviewDTO>> findReviewsByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
+    Collection<ReviewDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
 
     @Operation(summary = "Save review", tags = {"Review"},
             responses = {
@@ -68,7 +67,7 @@ public interface ReviewApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<ReviewDTO> saveReview(@Parameter(description = "Review that will be saved", required = true) @RequestBody ReviewDTO reviewDTO);
+    ReviewDTO saveReview(@Parameter(description = "Review that will be saved", required = true) @RequestBody ReviewDTO reviewDTO);
 
     @Operation(summary = "Update review", tags = {"Review"},
             responses = {
@@ -81,7 +80,7 @@ public interface ReviewApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<ReviewDTO> updateReview(@Parameter(description = "Review that will be updated", required = true) @RequestBody ReviewDTO reviewDTO);
+    ReviewDTO updateReview(@Parameter(description = "Review that will be updated", required = true) @RequestBody ReviewDTO reviewDTO);
 
     @Operation(summary = "Delete review", tags = {"Review"},
             responses = {
@@ -94,5 +93,5 @@ public interface ReviewApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deleteReview(@Parameter(description = "Review that will be deleted", required = true) @RequestBody ReviewDTO reviewDTO);
+    void deleteReview(@Parameter(description = "Review that will be deleted", required = true) @RequestBody ReviewDTO reviewDTO);
 }

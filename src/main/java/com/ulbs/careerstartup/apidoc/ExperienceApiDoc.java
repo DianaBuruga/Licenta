@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +28,7 @@ public interface ExperienceApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<ExperienceDTO>> findAllExperiences();
+    Collection<ExperienceDTO> findAllExperiences();
 
     @Operation(summary = "Find experience by id", tags = {"Experience"},
             responses = {
@@ -42,7 +41,7 @@ public interface ExperienceApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<ExperienceDTO> findById(@Parameter(description = "Id of the experience that will be received", required = true) @PathVariable UUID id);
+    ExperienceDTO findExperienceById(@Parameter(description = "Id of the experience that will be received", required = true) @PathVariable UUID id);
 
     @Operation(summary = "Find experience by criteria", tags = {"Experience"},
             responses = {
@@ -55,7 +54,7 @@ public interface ExperienceApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<ExperienceDTO>> findExperiencesByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
+    Collection<ExperienceDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
 
     @Operation(summary = "Save experience", tags = {"Experience"},
             responses = {
@@ -68,7 +67,7 @@ public interface ExperienceApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<ExperienceDTO> saveExperience(@Parameter(description = "Experience that will be saved", required = true) @RequestBody ExperienceDTO experienceDTO);
+    ExperienceDTO saveExperience(@Parameter(description = "Experience that will be saved", required = true) @RequestBody ExperienceDTO experienceDTO);
 
     @Operation(summary = "Update experience", tags = {"Experience"},
             responses = {
@@ -81,7 +80,7 @@ public interface ExperienceApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<ExperienceDTO> updateExperience(@Parameter(description = "Experience that will be updated", required = true) @RequestBody ExperienceDTO experienceDTO);
+    ExperienceDTO updateExperience(@Parameter(description = "Experience that will be updated", required = true) @RequestBody ExperienceDTO experienceDTO);
 
     @Operation(summary = "Delete experience", tags = {"Experience"},
             responses = {
@@ -94,5 +93,5 @@ public interface ExperienceApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deleteExperience(@Parameter(description = "Id of the experience that will be deleted", required = true) @RequestBody  ExperienceDTO experienceDTO);
+    void deleteExperience(@Parameter(description = "Id of the experience that will be deleted", required = true) @RequestBody ExperienceDTO experienceDTO);
 }

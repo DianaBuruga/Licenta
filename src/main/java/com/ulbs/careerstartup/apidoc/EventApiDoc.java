@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +28,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<EventDTO>> findAllEvents();
+    Collection<EventDTO> findAllEvents();
 
     @Operation(summary = "Find event by id", tags = {"Event"},
             responses = {
@@ -42,7 +41,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<EventDTO> findById(@Parameter(description = "Id of the event that will be received", required = true) @PathVariable UUID id);
+    EventDTO findEventById(@Parameter(description = "Id of the event that will be received", required = true) @PathVariable UUID id);
 
     @Operation(summary = "Find event by criteria", tags = {"Event"},
             responses = {
@@ -55,7 +54,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<EventDTO>> findEventsByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
+    Collection<EventDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
 
     @Operation(summary = "Save event", tags = {"Event"},
             responses = {
@@ -68,7 +67,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<EventDTO> saveEvent(@Parameter(description = "Event that will be saved", required = true) @RequestBody EventDTO eventDTO);
+    EventDTO saveEvent(@Parameter(description = "Event that will be saved", required = true) @RequestBody EventDTO eventDTO);
 
     @Operation(summary = "Update event", tags = {"Event"},
             responses = {
@@ -81,7 +80,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<EventDTO> updateEvent(@Parameter(description = "Event that will be updated", required = true) @RequestBody EventDTO eventDTO);
+    EventDTO updateEvent(@Parameter(description = "Event that will be updated", required = true) @RequestBody EventDTO eventDTO);
 
     @Operation(summary = "Delete event", tags = {"Event"},
             responses = {
@@ -94,5 +93,5 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deleteEvent(@Parameter(description = "Event that will be updated", required = true) @RequestBody EventDTO eventDTO);
+    void deleteEvent(@Parameter(description = "Event that will be updated", required = true) @RequestBody EventDTO eventDTO);
 }

@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +28,7 @@ public interface FacultyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<FacultyDTO>> findAllFaculties();
+    Collection<FacultyDTO> findAllFaculties();
 
     @Operation(summary = "Find faculty by id", tags = {"Faculty"},
             responses = {
@@ -42,7 +41,7 @@ public interface FacultyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<FacultyDTO> findById(@Parameter(description = "Id of the faculty that will be received", required = true) @PathVariable UUID id);
+    FacultyDTO findFacultyById(@Parameter(description = "Id of the faculty that will be received", required = true) @PathVariable UUID id);
 
     @Operation(summary = "Find faculty by criteria", tags = {"Faculty"},
             responses = {
@@ -55,7 +54,7 @@ public interface FacultyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<FacultyDTO>> findFacultiesByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
+    Collection<FacultyDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
 
     @Operation(summary = "Save faculty", tags = {"Faculty"},
             responses = {
@@ -68,7 +67,7 @@ public interface FacultyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<FacultyDTO> saveFaculty(@Parameter(description = "Faculty that will be saved", required = true) @RequestBody FacultyDTO facultyDTO);
+    FacultyDTO saveFaculty(@Parameter(description = "Faculty that will be saved", required = true) @RequestBody FacultyDTO facultyDTO);
 
     @Operation(summary = "Update faculty", tags = {"Faculty"},
             responses = {
@@ -81,7 +80,7 @@ public interface FacultyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<FacultyDTO> updateFaculty(@Parameter(description = "Faculty that will be updated", required = true) @RequestBody FacultyDTO facultyDTO);
+    FacultyDTO updateFaculty(@Parameter(description = "Faculty that will be updated", required = true) @RequestBody FacultyDTO facultyDTO);
 
     @Operation(summary = "Delete faculty", tags = {"Faculty"},
             responses = {
@@ -94,5 +93,5 @@ public interface FacultyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deleteFaculty(@Parameter(description = "Id of the faculty that will be deleted", required = true) @RequestBody FacultyDTO facultyDTO);
+    void deleteFaculty(@Parameter(description = "Id of the faculty that will be deleted", required = true) @RequestBody FacultyDTO facultyDTO);
 }

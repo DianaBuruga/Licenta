@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +28,7 @@ public interface BibliographyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<BibliographyDTO>> findAllBibliography();
+    Collection<BibliographyDTO> findAllBibliographies();
 
     @Operation(summary = "Find bibliographies by skill ids",tags = {"Bibliography"},
             responses = {
@@ -55,7 +54,7 @@ public interface BibliographyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<BibliographyDTO>> findBibliographiesByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
+    Collection<BibliographyDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
 
     @Operation(summary = "Save bibliography", tags = {"Bibliography"},
             responses = {
@@ -68,7 +67,7 @@ public interface BibliographyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<BibliographyDTO> saveBibliography(@Parameter(description = "Bibliography that will be saved", required = true) @RequestBody BibliographyDTO bibliographyDTO);
+    BibliographyDTO saveBibliography(@Parameter(description = "Bibliography that will be saved", required = true) @RequestBody BibliographyDTO bibliographyDTO);
 
     @Operation(summary = "Update bibliography", tags = {"Bibliography"},
             responses = {
@@ -81,7 +80,7 @@ public interface BibliographyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<BibliographyDTO> updateBibliography(@Parameter(description = "Bibliography that will be updated", required = true) @RequestBody BibliographyDTO bibliographyDTO);
+    BibliographyDTO updateBibliography(@Parameter(description = "Bibliography that will be updated", required = true) @RequestBody BibliographyDTO bibliographyDTO);
 
     @Operation(summary = "Delete bibliography", tags = {"Bibliography"},
             responses = {
@@ -94,5 +93,5 @@ public interface BibliographyApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deleteBibliography(@Parameter(description = "Bibliography that will be deleted", required = true) @RequestBody BibliographyDTO bibliographyDTO);
+    void deleteBibliography(@Parameter(description = "Bibliography that will be deleted", required = true) @RequestBody BibliographyDTO bibliographyDTO);
 }

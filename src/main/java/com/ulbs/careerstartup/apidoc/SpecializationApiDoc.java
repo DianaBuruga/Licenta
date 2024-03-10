@@ -7,7 +7,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,7 +28,7 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<SpecializationDTO>> findAllSpecializations();
+    Collection<SpecializationDTO> findAllSpecializations();
 
     @Operation(summary = "Find specialization by id", tags = {"Specialization"},
             responses = {
@@ -42,7 +41,7 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<SpecializationDTO> findById(@Parameter(description = "Id of the specialization that will be received", required = true) @PathVariable UUID id);
+    SpecializationDTO findSpecializationById(@Parameter(description = "Id of the specialization that will be received", required = true) @PathVariable UUID id);
 
     @Operation(summary = "Find specialization by criteria", tags = {"Specialization"},
             responses = {
@@ -55,7 +54,7 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Collection<SpecializationDTO>> findSpecializationsByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
+    Collection<SpecializationDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @RequestParam List<SearchCriteria> criteria);
 
     @Operation(summary = "Save specialization", tags = {"Specialization"},
             responses = {
@@ -66,7 +65,7 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<SpecializationDTO> saveSpecialization(@Parameter(description = "Specialization that will be saved", required = true) @RequestBody SpecializationDTO specializationDTO);
+    SpecializationDTO saveSpecialization(@Parameter(description = "Specialization that will be saved", required = true) @RequestBody SpecializationDTO specializationDTO);
 
     @Operation(summary = "Delete specialization", tags = {"Specialization"},
             responses = {
@@ -77,7 +76,7 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<Void> deleteSpecialization(@Parameter(description = "Specialization that will be deleted", required = true) @RequestBody SpecializationDTO specializationDTO);
+    void deleteSpecialization(@Parameter(description = "Specialization that will be deleted", required = true) @RequestBody SpecializationDTO specializationDTO);
 
     @Operation(summary = "Update specialization", tags = {"Specialization"},
             responses = {
@@ -88,6 +87,6 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error")
             }
     )
-    ResponseEntity<SpecializationDTO> updateSpecialization(@Parameter(description = "Specialization that will be updated", required = true) @RequestBody SpecializationDTO specializationDTO);
+    SpecializationDTO updateSpecialization(@Parameter(description = "Specialization that will be updated", required = true) @RequestBody SpecializationDTO specializationDTO);
 
 }

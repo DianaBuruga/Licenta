@@ -1,9 +1,9 @@
 package com.ulbs.careerstartup.apidoc;
 
+import com.ulbs.careerstartup.constant.ControllerEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -20,5 +20,5 @@ public interface SearchApiDoc {
                     @ApiResponse(responseCode = "404", description = "Not found"),
                     @ApiResponse(responseCode = "500", description = "Internal server error")
             })
-    ResponseEntity<?> search(@Parameter(description = "Endpoint where to search") @PathVariable String endpoint, @Parameter(description = "List of search criteria", required = true) @RequestParam Map<String, String> criteria);
+    <T> T search(@Parameter(description = "Endpoint where to search") @PathVariable ControllerEnum controller, @Parameter(description = "List of search criteria", required = true) @RequestParam Map<String, String> criteria);
 }
