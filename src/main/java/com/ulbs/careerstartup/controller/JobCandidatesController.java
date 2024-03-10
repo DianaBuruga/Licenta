@@ -7,7 +7,6 @@ import com.ulbs.careerstartup.service.JobCandidatesService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,33 +26,32 @@ public class JobCandidatesController implements JobCandidatesApiDoc {
     private JobCandidatesService jobCandidatesService;
 
     @GetMapping
-    public ResponseEntity<Collection<JobCandidatesDTO>> findAllJobCandidates() {
-        return ResponseEntity.ok(jobCandidatesService.findAllJobCandidates());
+    public Collection<JobCandidatesDTO> findAllJobCandidates() {
+        return jobCandidatesService.findAllJobCandidates();
     }
 
     @GetMapping("/{id}/{jobId}")
-    public ResponseEntity<JobCandidatesDTO> findById(@PathVariable UUID jobId, @PathVariable UUID id) {
-        return ResponseEntity.ok(jobCandidatesService.findById(new JobCandidatesPK(jobId, id)));
+    public JobCandidatesDTO findJobById(@PathVariable UUID jobId, @PathVariable UUID id) {
+        return jobCandidatesService.findJobById(new JobCandidatesPK(jobId, id));
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<JobCandidatesDTO>> findJobCandidatesByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(jobCandidatesService.findJobCandidatesByCriteria(criteria));
+    public Collection<JobCandidatesDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return jobCandidatesService.findJobCandidatesByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<JobCandidatesDTO> saveJobCandidates(@RequestBody JobCandidatesDTO jobCandidatesDTO) {
-        return ResponseEntity.ok(jobCandidatesService.saveJobCandidates(jobCandidatesDTO));
+    public JobCandidatesDTO saveJobCandidates(@RequestBody JobCandidatesDTO jobCandidatesDTO) {
+        return jobCandidatesService.saveJobCandidates(jobCandidatesDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<JobCandidatesDTO> updateJobCandidates(@RequestBody JobCandidatesDTO jobCandidatesDTO) {
-        return ResponseEntity.ok(jobCandidatesService.updateJobCandidates(jobCandidatesDTO));
+    public JobCandidatesDTO updateJobCandidates(@RequestBody JobCandidatesDTO jobCandidatesDTO) {
+        return jobCandidatesService.updateJobCandidates(jobCandidatesDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteJobCandidates(@RequestBody JobCandidatesDTO jobCandidatesDTO) {
+    public void deleteJobCandidates(@RequestBody JobCandidatesDTO jobCandidatesDTO) {
         jobCandidatesService.deleteJobCandidates(jobCandidatesDTO);
-        return ResponseEntity.noContent().build();
     }
 }

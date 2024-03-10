@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.JobHistoryService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,40 +17,39 @@ import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/jobshistory")
+@RequestMapping("/jobs/history")
 @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "JobHistory", description = "The JobHistory API")
 public class JobHistoryController implements JobHistoryApiDoc {
     private JobHistoryService jobHistoryService;
 
     @GetMapping
-    public ResponseEntity<Collection<JobHistoryDTO>> findAllJobHistories() {
-        return ResponseEntity.ok(jobHistoryService.findAllJobHistories());
+    public Collection<JobHistoryDTO> findAllJobHistories() {
+        return jobHistoryService.findAllJobHistories();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<JobHistoryDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(jobHistoryService.findById(id));
+    public JobHistoryDTO findJobHistoryById(@PathVariable UUID id) {
+        return jobHistoryService.findJobHistoryById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public Collection<JobHistoryDTO> findJobHistoriesByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    public Collection<JobHistoryDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
         return jobHistoryService.findJobHistoriesByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<JobHistoryDTO> saveJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
-        return ResponseEntity.ok(jobHistoryService.saveJobHistory(jobHistoryDTO));
+    public JobHistoryDTO saveJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
+        return jobHistoryService.saveJobHistory(jobHistoryDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<JobHistoryDTO> updateJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
-        return ResponseEntity.ok(jobHistoryService.updateJobHistory(jobHistoryDTO));
+    public JobHistoryDTO updateJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
+        return jobHistoryService.updateJobHistory(jobHistoryDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
+    public void deleteJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
         jobHistoryService.deleteJobHistory(jobHistoryDTO);
-        return ResponseEntity.noContent().build();
     }
 }

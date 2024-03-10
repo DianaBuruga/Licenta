@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.SkillService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,33 +25,32 @@ public class SkillController implements SkillApiDoc {
     private SkillService skillService;
 
     @GetMapping
-    public ResponseEntity<Collection<SkillDTO>> findAllSkills() {
-        return ResponseEntity.ok(skillService.findAllSkills());
+    public Collection<SkillDTO> findAllSkills() {
+        return skillService.findAllSkills();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SkillDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(skillService.findById(id));
+    public SkillDTO findSkillById(@PathVariable UUID id) {
+        return skillService.findSkillById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<SkillDTO>> findSkillsByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(skillService.findSkillsByCriteria(criteria));
+    public Collection<SkillDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return skillService.findSkillsByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<SkillDTO> saveSkill(@RequestBody SkillDTO skillDTO) {
-        return ResponseEntity.ok(skillService.saveSkill(skillDTO));
+    public SkillDTO saveSkill(@RequestBody SkillDTO skillDTO) {
+        return skillService.saveSkill(skillDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<SkillDTO> updateSkill(@RequestBody SkillDTO skillDTO) {
-        return ResponseEntity.ok(skillService.updateSkill(skillDTO));
+    public SkillDTO updateSkill(@RequestBody SkillDTO skillDTO) {
+        return skillService.updateSkill(skillDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteSkill(@RequestBody SkillDTO skillDTO) {
+    public void deleteSkill(@RequestBody SkillDTO skillDTO) {
         skillService.deleteSkill(skillDTO);
-        return ResponseEntity.noContent().build();
     }
 }

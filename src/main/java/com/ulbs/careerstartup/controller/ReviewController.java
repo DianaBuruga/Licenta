@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.ReviewService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,33 +24,32 @@ public class ReviewController implements ReviewApiDoc {
     private ReviewService reviewService;
 
     @GetMapping
-    public ResponseEntity<Collection<ReviewDTO>> findAllReviews() {
-        return ResponseEntity.ok(reviewService.findAllReviews());
+    public Collection<ReviewDTO> findAllReviews() {
+        return reviewService.findAllReviews();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReviewDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(reviewService.findById(id));
+    public ReviewDTO findReviewById(@PathVariable UUID id) {
+        return reviewService.findReviewById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<ReviewDTO>> findReviewsByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(reviewService.findReviewsByCriteria(criteria));
+    public Collection<ReviewDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return reviewService.findReviewsByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<ReviewDTO> saveReview(@RequestBody ReviewDTO reviewDTO) {
-        return ResponseEntity.ok(reviewService.saveReview(reviewDTO));
+    public ReviewDTO saveReview(@RequestBody ReviewDTO reviewDTO) {
+        return reviewService.saveReview(reviewDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<ReviewDTO> updateReview(@RequestBody ReviewDTO reviewDTO) {
-        return ResponseEntity.ok(reviewService.updateReview(reviewDTO));
+    public ReviewDTO updateReview(@RequestBody ReviewDTO reviewDTO) {
+        return reviewService.updateReview(reviewDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteReview(@RequestBody ReviewDTO reviewDTO) {
+    public void deleteReview(@RequestBody ReviewDTO reviewDTO) {
         reviewService.deleteReview(reviewDTO);
-        return ResponseEntity.noContent().build();
     }
 }

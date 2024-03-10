@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.ExperienceService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,33 +24,32 @@ public class ExperienceController implements ExperienceApiDoc {
     private ExperienceService experienceService;
 
     @GetMapping
-    public ResponseEntity<Collection<ExperienceDTO>> findAllExperiences() {
-        return ResponseEntity.ok(experienceService.findAllExperiences());
+    public Collection<ExperienceDTO> findAllExperiences() {
+        return experienceService.findAllExperiences();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ExperienceDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(experienceService.findById(id));
+    public ExperienceDTO findExperienceById(@PathVariable UUID id) {
+        return experienceService.findExperienceById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<ExperienceDTO>> findExperiencesByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(experienceService.findExperiencesByCriteria(criteria));
+    public Collection<ExperienceDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return experienceService.findExperiencesByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<ExperienceDTO> saveExperience(@RequestBody ExperienceDTO experienceDTO) {
-        return ResponseEntity.ok(experienceService.saveExperience(experienceDTO));
+    public ExperienceDTO saveExperience(@RequestBody ExperienceDTO experienceDTO) {
+        return experienceService.saveExperience(experienceDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<ExperienceDTO> updateExperience(@RequestBody ExperienceDTO experienceDTO) {
-        return ResponseEntity.ok(experienceService.updateExperience(experienceDTO));
+    public ExperienceDTO updateExperience(@RequestBody ExperienceDTO experienceDTO) {
+        return experienceService.updateExperience(experienceDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteExperience(@RequestBody ExperienceDTO experienceDTO) {
+    public void deleteExperience(@RequestBody ExperienceDTO experienceDTO) {
         experienceService.deleteExperience(experienceDTO);
-        return ResponseEntity.noContent().build();
     }
 }

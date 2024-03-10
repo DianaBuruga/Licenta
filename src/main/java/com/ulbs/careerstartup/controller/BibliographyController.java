@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.BibliographyService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +25,8 @@ public class BibliographyController implements BibliographyApiDoc {
     private BibliographyService bibliographyService;
 
     @GetMapping
-    public ResponseEntity<Collection<BibliographyDTO>> findAllBibliography() {
-        return ResponseEntity.ok(bibliographyService.findAllBibliographies());
+    public Collection<BibliographyDTO> findAllBibliographies() {
+        return bibliographyService.findAllBibliographies();
     }
 
     @GetMapping("/by-skills/{skillIds}")
@@ -36,25 +35,22 @@ public class BibliographyController implements BibliographyApiDoc {
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<BibliographyDTO>> findBibliographiesByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(bibliographyService.findBibliographiesByCriteria(criteria));
+    public Collection<BibliographyDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return bibliographyService.findBibliographiesByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<BibliographyDTO> saveBibliography(@RequestBody BibliographyDTO bibliographyDTO) {
-        BibliographyDTO savedBibliographyDTO = bibliographyService.saveBibliography(bibliographyDTO);
-        return ResponseEntity.ok(savedBibliographyDTO);
+    public BibliographyDTO saveBibliography(@RequestBody BibliographyDTO bibliographyDTO) {
+        return bibliographyService.saveBibliography(bibliographyDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<BibliographyDTO> updateBibliography(@RequestBody BibliographyDTO bibliographyDTO) {
-        BibliographyDTO updatedBibliographyDTO = bibliographyService.updateBibliography(bibliographyDTO);
-        return ResponseEntity.ok(updatedBibliographyDTO);
+    public BibliographyDTO updateBibliography(@RequestBody BibliographyDTO bibliographyDTO) {
+        return bibliographyService.updateBibliography(bibliographyDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteBibliography(@RequestBody BibliographyDTO bibliographyDTO) {
+    public void deleteBibliography(@RequestBody BibliographyDTO bibliographyDTO) {
         bibliographyService.deleteBibliography(bibliographyDTO);
-        return ResponseEntity.noContent().build();
     }
 }

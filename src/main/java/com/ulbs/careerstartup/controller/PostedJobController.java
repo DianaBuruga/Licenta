@@ -7,7 +7,6 @@ import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,33 +26,32 @@ public class PostedJobController implements PostedJobApiDoc {
     private PostedJobService postedJobService;
 
     @GetMapping
-    public ResponseEntity<Collection<PostedJobDTO>> findAllPostedJobs() {
-        return ResponseEntity.ok(postedJobService.findAllPostedJobs());
+    public Collection<PostedJobDTO> findAllPostedJobs() {
+        return postedJobService.findAllPostedJobs();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<PostedJobDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(postedJobService.findById(id));
+    public PostedJobDTO findPostedJobById(@PathVariable UUID id) {
+        return postedJobService.findPostedJobById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<PostedJobDTO>> findPostedJobsByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(postedJobService.findPostedJobsByCriteria(criteria));
+    public Collection<PostedJobDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return postedJobService.findPostedJobsByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<PostedJobDTO> savePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
-        return ResponseEntity.ok(postedJobService.savePostedJob(postedJobDTO));
+    public PostedJobDTO savePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
+        return postedJobService.savePostedJob(postedJobDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<PostedJobDTO> updatePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
-        return ResponseEntity.ok(postedJobService.updatePostedJob(postedJobDTO));
+    public PostedJobDTO updatePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
+        return postedJobService.updatePostedJob(postedJobDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
+    public void deletePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
         postedJobService.deletePostedJob(postedJobDTO);
-        return ResponseEntity.noContent().build();
     }
 }

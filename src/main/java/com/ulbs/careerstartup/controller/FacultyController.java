@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.FacultyService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,33 +25,32 @@ public class FacultyController implements FacultyApiDoc {
     private FacultyService facultyService;
 
     @GetMapping
-    public ResponseEntity<Collection<FacultyDTO>> findAllFaculties() {
-        return ResponseEntity.ok(facultyService.findAllFaculties());
+    public Collection<FacultyDTO> findAllFaculties() {
+        return facultyService.findAllFaculties();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FacultyDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(facultyService.findById(id));
+    public FacultyDTO findFacultyById(@PathVariable UUID id) {
+        return facultyService.findFacultyById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<FacultyDTO>> findFacultiesByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(facultyService.findFacultiesByCriteria(criteria));
+    public Collection<FacultyDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return facultyService.findFacultiesByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<FacultyDTO> saveFaculty(@RequestBody FacultyDTO facultyDTO) {
-        return ResponseEntity.ok(facultyService.saveFaculty(facultyDTO));
+    public FacultyDTO saveFaculty(@RequestBody FacultyDTO facultyDTO) {
+        return facultyService.saveFaculty(facultyDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<FacultyDTO> updateFaculty(@RequestBody FacultyDTO facultyDTO) {
-        return ResponseEntity.ok(facultyService.updateFaculty(facultyDTO));
+    public FacultyDTO updateFaculty(@RequestBody FacultyDTO facultyDTO) {
+        return facultyService.updateFaculty(facultyDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteFaculty(@RequestBody FacultyDTO facultyDTO) {
+    public void deleteFaculty(@RequestBody FacultyDTO facultyDTO) {
         facultyService.deleteFaculty(facultyDTO);
-        return ResponseEntity.noContent().build();
     }
 }

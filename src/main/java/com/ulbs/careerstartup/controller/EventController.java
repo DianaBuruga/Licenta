@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.EventService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,33 +25,32 @@ public class EventController implements EventApiDoc {
     private EventService eventService;
 
     @GetMapping
-    public ResponseEntity<Collection<EventDTO>> findAllEvents() {
-        return ResponseEntity.ok(eventService.findAllEvents());
+    public Collection<EventDTO> findAllEvents() {
+        return eventService.findAllEvents();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EventDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(eventService.findById(id));
+    public EventDTO findEventById(@PathVariable UUID id) {
+        return eventService.findEventById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<EventDTO>> findEventsByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(eventService.findEventsByCriteria(criteria));
+    public Collection<EventDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return eventService.findEventsByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<EventDTO> saveEvent(@RequestBody EventDTO eventDTO) {
-        return ResponseEntity.ok(eventService.saveEvent(eventDTO));
+    public EventDTO saveEvent(@RequestBody EventDTO eventDTO) {
+        return eventService.saveEvent(eventDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<EventDTO> updateEvent(@RequestBody EventDTO eventDTO) {
-        return ResponseEntity.ok(eventService.updateEvent(eventDTO));
+    public EventDTO updateEvent(@RequestBody EventDTO eventDTO) {
+        return eventService.updateEvent(eventDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteEvent(@RequestBody EventDTO eventDTO) {
+    public void deleteEvent(@RequestBody EventDTO eventDTO) {
         eventService.deleteEvent(eventDTO);
-        return ResponseEntity.noContent().build();
     }
 }

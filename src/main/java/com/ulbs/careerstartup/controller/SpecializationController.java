@@ -7,7 +7,6 @@ import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,33 +26,32 @@ public class SpecializationController implements SpecializationApiDoc {
     private SpecializationService specializationService;
 
     @GetMapping
-    public ResponseEntity<Collection<SpecializationDTO>> findAllSpecializations() {
-        return ResponseEntity.ok(specializationService.findAllSpecializations());
+    public Collection<SpecializationDTO> findAllSpecializations() {
+        return specializationService.findAllSpecializations();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SpecializationDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(specializationService.findById(id));
+    public SpecializationDTO findSpecializationById(@PathVariable UUID id) {
+        return specializationService.findSpecializationById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<SpecializationDTO>> findSpecializationsByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(specializationService.findSpecializationsByCriteria(criteria));
+    public Collection<SpecializationDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return specializationService.findSpecializationsByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<SpecializationDTO> saveSpecialization(@RequestBody SpecializationDTO specializationDTO) {
-        return ResponseEntity.ok(specializationService.saveSpecialization(specializationDTO));
+    public SpecializationDTO saveSpecialization(@RequestBody SpecializationDTO specializationDTO) {
+        return specializationService.saveSpecialization(specializationDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<SpecializationDTO> updateSpecialization(@RequestBody SpecializationDTO specializationDTO) {
-        return ResponseEntity.ok(specializationService.updateSpecialization(specializationDTO));
+    public SpecializationDTO updateSpecialization(@RequestBody SpecializationDTO specializationDTO) {
+        return specializationService.updateSpecialization(specializationDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteSpecialization(@RequestBody SpecializationDTO specializationDTO) {
+    public void deleteSpecialization(@RequestBody SpecializationDTO specializationDTO) {
         specializationService.deleteSpecialization(specializationDTO);
-        return ResponseEntity.noContent().build();
     }
 }

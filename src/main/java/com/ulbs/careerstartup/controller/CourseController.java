@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.CourseService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,33 +25,32 @@ public class CourseController implements CourseApiDoc {
     private CourseService courseService;
 
     @GetMapping
-    public ResponseEntity<Collection<CourseDTO>> findAllCourses() {
-        return ResponseEntity.ok(courseService.findAllCourses());
+    public Collection<CourseDTO> findAllCourses() {
+        return courseService.findAllCourses();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CourseDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(courseService.findById(id));
+    public CourseDTO findCourseById(@PathVariable UUID id) {
+        return courseService.findCourseById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<CourseDTO>> findCoursesByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(courseService.findCoursesByCriteria(criteria));
+    public Collection<CourseDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return courseService.findCoursesByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<CourseDTO> saveCourse(@RequestBody CourseDTO courseDTO) {
-        return ResponseEntity.ok(courseService.saveCourse(courseDTO));
+    public CourseDTO saveCourse(@RequestBody CourseDTO courseDTO) {
+        return courseService.saveCourse(courseDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<CourseDTO> updateCourse(@RequestBody CourseDTO courseDTO) {
-        return ResponseEntity.ok(courseService.updateCourse(courseDTO));
+    public CourseDTO updateCourse(@RequestBody CourseDTO courseDTO) {
+        return courseService.updateCourse(courseDTO);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCourse(@RequestBody CourseDTO courseDTO) {
+    public void deleteCourse(@RequestBody CourseDTO courseDTO) {
         courseService.deleteCourse(courseDTO);
-        return ResponseEntity.noContent().build();
     }
 }

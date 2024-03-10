@@ -6,7 +6,6 @@ import com.ulbs.careerstartup.service.ReferralService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,34 +24,33 @@ public class ReferralController implements ReferralApiDoc {
     private ReferralService referralService;
 
     @GetMapping
-    public ResponseEntity<Collection<ReferralDTO>> findAllReferrals() {
-        return ResponseEntity.ok(referralService.findAllReferrals());
+    public Collection<ReferralDTO> findAllReferrals() {
+        return referralService.findAllReferrals();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ReferralDTO> findById(@PathVariable UUID id) {
-        return ResponseEntity.ok(referralService.findById(id));
+    public ReferralDTO findReferralById(@PathVariable UUID id) {
+        return referralService.findReferralById(id);
     }
 
     @GetMapping(BY_CRITERIA)
-    public ResponseEntity<Collection<ReferralDTO>> findReferralsByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return ResponseEntity.ok(referralService.findReferralsByCriteria(criteria));
+    public Collection<ReferralDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+        return referralService.findReferralsByCriteria(criteria);
     }
 
     @PostMapping
-    public ResponseEntity<ReferralDTO> saveReferral(@RequestBody ReferralDTO referralDTO) {
-        return ResponseEntity.ok(referralService.saveReferral(referralDTO));
+    public ReferralDTO saveReferral(@RequestBody ReferralDTO referralDTO) {
+        return referralService.saveReferral(referralDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<ReferralDTO> updateReferral(@RequestBody ReferralDTO referralDTO) {
-        return ResponseEntity.ok(referralService.updateReferral(referralDTO));
+    public ReferralDTO updateReferral(@RequestBody ReferralDTO referralDTO) {
+        return referralService.updateReferral(referralDTO);
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteReferral(@RequestBody ReferralDTO referralDTO) {
+    public void deleteReferral(@RequestBody ReferralDTO referralDTO) {
         referralService.deleteReferral(referralDTO);
-        return ResponseEntity.noContent().build();
     }
 }
 
