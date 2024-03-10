@@ -4,5 +4,6 @@ public enum ExperienceType {
     COMPETITION,
     PROJECT,
     ACCREDITATION,
-    VOLUNTEERING
+    VOLUNTEERING,
+    INTERNSHIP
 }

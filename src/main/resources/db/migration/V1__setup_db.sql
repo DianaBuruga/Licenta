@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS user
     phone       VARCHAR(10),
     website     VARCHAR(255),
     description TEXT,
-    status      ENUM ('RECRUITING','OPEN_TO_WORK','EMPLOYEE')
+    status      ENUM ('RECRUITING','OPEN_TO_WORK','EMPLOYED','INTERNSHIP')
 );
 
 CREATE TABLE IF NOT EXISTS language
