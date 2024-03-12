@@ -4,7 +4,6 @@ import com.ulbs.careerstartup.constant.LanguageLevel;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 import java.util.UUID;
 
 @Builder
@@ -13,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class LanguageDTO {
 
     private UUID id;
@@ -39,17 +39,4 @@ public class LanguageDTO {
 
     @NotNull
     private UserDTO userDTO;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        LanguageDTO that = (LanguageDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && listening == that.listening && reading == that.reading && speaking == that.speaking && conversation == that.conversation && writing == that.writing && Objects.equals(userDTO, that.userDTO);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, listening, reading, speaking, conversation, writing, userDTO);
-    }
 }

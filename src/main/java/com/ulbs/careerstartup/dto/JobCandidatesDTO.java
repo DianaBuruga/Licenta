@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.sql.Timestamp;
-import java.util.Objects;
 import java.util.UUID;
 
 @Builder
@@ -13,6 +12,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class JobCandidatesDTO {
 
     private UUID candidateId;
@@ -26,17 +26,4 @@ public class JobCandidatesDTO {
 
     @NotNull
     private PostedJobDTO postedJobDTO;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        JobCandidatesDTO that = (JobCandidatesDTO) o;
-        return Objects.equals(candidateId, that.candidateId) && Objects.equals(jobId, that.jobId) && Objects.equals(applicationDate, that.applicationDate) && Objects.equals(userDTO, that.userDTO) && Objects.equals(postedJobDTO, that.postedJobDTO);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(candidateId, jobId, applicationDate, userDTO, postedJobDTO);
-    }
 }

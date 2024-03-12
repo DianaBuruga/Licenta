@@ -3,7 +3,6 @@ package com.ulbs.careerstartup.dto;
 import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 import java.util.UUID;
 
 @Builder
@@ -12,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class ReferralDTO {
 
     private UUID id;
@@ -24,17 +24,4 @@ public class ReferralDTO {
 
     @NotNull
     private UserDTO studentDTO;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ReferralDTO that = (ReferralDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(description, that.description) && Objects.equals(teacherDTO, that.teacherDTO) && Objects.equals(studentDTO, that.studentDTO);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, description, teacherDTO, studentDTO);
-    }
 }

@@ -6,7 +6,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.ValidationMessages.INPUT_TOO_LONG;
@@ -18,6 +17,7 @@ import static com.ulbs.careerstartup.constant.ValidationMessages.INVALID_YEAR_OF
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class FacultyDTO {
 
     private UUID id;
@@ -35,17 +35,4 @@ public class FacultyDTO {
     private Integer yearsOfStudy;
 
     private Collection<SpecializationDTO> specializationsDTO;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        FacultyDTO that = (FacultyDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name) && Objects.equals(address, that.address) && Objects.equals(yearsOfStudy, that.yearsOfStudy) && Objects.equals(specializationsDTO, that.specializationsDTO);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, address, yearsOfStudy, specializationsDTO);
-    }
 }

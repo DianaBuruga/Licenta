@@ -21,6 +21,7 @@ import static com.ulbs.careerstartup.constant.ValidationMessages.INVALID_PHONE;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class UserDTO {
 
     private UUID id;
@@ -46,50 +47,35 @@ public class UserDTO {
     @NotNull
     private String description;
 
-    @NotNull
     private UserStatus status;
 
     private FileDTO profilePhoto;
 
-    @NotNull
     private Collection<BibliographyDTO> bibliographiesDTO;
 
-    @NotNull
     private Collection<EventDTO> createdEventsDTO;
 
-    @NotNull
     private Collection<EventDTO> eventSubscribersDTO;
 
-    @NotNull
     private Collection<ExperienceDTO> experiencesDTO;
 
-    @NotNull
     private Collection<JobCandidatesDTO> jobCandidatesDTO;
 
-    @NotNull
     private Collection<JobHistoryDTO> jobHistoriesDTO;
 
-    @NotNull
     private Collection<LanguageDTO> languagesDTO;
 
-    @NotNull
     private Collection<MessageDTO> sentMessagesDTO;
 
-    @NotNull
     private Collection<MessageDTO> receivedMessagesDTO;
 
-    @NotNull
     private Collection<NotificationDTO> notificationsDTO;
 
-    @NotNull
     private Collection<ReferralDTO> writtenReferralsDTO;
 
-    @NotNull
     private Collection<ReferralDTO> receivedReferralsDTO;
 
-    @NotNull
     private Collection<SpecializationDTO> specializationsDTO;
 
-    @NotNull
     private Collection<UserSkillsDTO> skillsDTO;
 }

@@ -5,7 +5,6 @@ import lombok.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.sql.Timestamp;
-import java.util.Objects;
 import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.ValidationMessages.INPUT_TOO_LONG;
@@ -16,6 +15,7 @@ import static com.ulbs.careerstartup.constant.ValidationMessages.INPUT_TOO_LONG;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class JobHistoryDTO {
 
     private UUID id;
@@ -41,17 +41,4 @@ public class JobHistoryDTO {
 
     @NotNull
     private CompanyDTO companyDTO;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        JobHistoryDTO that = (JobHistoryDTO) o;
-        return Objects.equals(id, that.id) && Objects.equals(position, that.position) && Objects.equals(startDate, that.startDate) && Objects.equals(endDate, that.endDate) && Objects.equals(description, that.description) && Objects.equals(needQualification, that.needQualification) && Objects.equals(userDTO, that.userDTO) && Objects.equals(companyDTO, that.companyDTO);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, position, startDate, endDate, description, needQualification, userDTO, companyDTO);
-    }
 }

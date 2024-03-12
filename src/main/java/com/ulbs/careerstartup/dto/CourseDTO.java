@@ -7,7 +7,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.Objects;
 import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.ValidationMessages.*;
@@ -18,6 +17,7 @@ import static com.ulbs.careerstartup.constant.ValidationMessages.*;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class CourseDTO {
 
     private UUID id;
@@ -41,17 +41,4 @@ public class CourseDTO {
     @Max(value = 2, message = INVALID_SEMESTER)
     @Min(value = 1, message = INVALID_SEMESTER)
     private Integer semester;
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CourseDTO courseDTO = (CourseDTO) o;
-        return Objects.equals(id, courseDTO.id) && Objects.equals(specializationDTO, courseDTO.specializationDTO) && Objects.equals(skillsDTO, courseDTO.skillsDTO) && Objects.equals(name, courseDTO.name) && Objects.equals(year, courseDTO.year) && Objects.equals(semester, courseDTO.semester);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, specializationDTO, skillsDTO, name, year, semester);
-    }
 }

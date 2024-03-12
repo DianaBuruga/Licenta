@@ -11,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode
 public class UserSkillsDTO {
 
     private UUID userId;
