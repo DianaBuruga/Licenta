@@ -1,0 +1,37 @@
+<div class="slider-effectCoverFlow">
+    <h1><b>Recomandari</b></h1>
+    <swiper
+      [effect]="'coverflow'"
+      [grabCursor]="true"
+      [centeredSlides]="true"
+      [slidesPerView]="'auto'"
+      [coverflowEffect]="{
+        rotate: 50,
+        stretch: 0,
+        depth: 100,
+        modifier: 1,
+        slideShadows: true
+      }"
+      [pagination]="true"
+      [navigation]="true"
+      class="mySwiper"
+    >
+    <ng-container *ngFor="let referal of referals">
+        <ng-template swiperSlide>
+            <mat-card>
+                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
+                <mat-card-title style="text-align: center;">{{referal.user.name}}
+                </mat-card-title>
+                <mat-card-subtitle style="text-align: center;">{{referal.user.role}} </mat-card-subtitle>
+                <mat-card-subtitle style="text-align: center;">{{referal.user.email}}</mat-card-subtitle>
+                <mat-card-content>
+                <br>
+                  <p>
+                    {{referal.description}}
+                  </p>
+                </mat-card-content>
+              </mat-card>
+        </ng-template>
+      </ng-container>
+    </swiper>
+  </div>

@@ -1,0 +1,29 @@
+<mat-card class="profile-card">
+    <div class="profile-image">
+      <img src="http://localhost:8081/users/{{profileCardUser.id}}/profilePhoto/view/" alt="Profile image of Ella Grady">
+    </div>
+    <div class="lines-container">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <div class="profile-content">
+      <h1>{{profileCardUser.name}}</h1>
+      <h2>{{profileCardUser.description}}</h2>
+      <h3>Telefon: {{profileCardUser.phone}}</h3>
+      <h3>Email: {{profileCardUser.email}}</h3>
+      <h3>Website: <a href={{profileCardUser.website}}>{{profileCardUser.website}}</a></h3>
+      <h3>Curent status: {{profileCardUser.status}}</h3>
+      <!-- <app-skill-chart title="DIRECTING" value="70"></app-skill-chart>
+      <app-skill-chart title="PHOTOGRAPHY" value="90"></app-skill-chart> -->
+      <div class="profile-actions">
+        <button mat-raised-button color="warn">Download CV</button>
+        <button mat-raised-button color="primary">Check Portfolio</button>
+      </div>
+    </div>
+    <div class="section">
+        <!-- <h1>D<br>E<br>S<br>C<br>R<br>I<br>P<br>T<br>I<br>O<br>N</h1> -->
+        <h1>{{profileCardUser.role}}</h1>
+    </div> 
+  </mat-card>  

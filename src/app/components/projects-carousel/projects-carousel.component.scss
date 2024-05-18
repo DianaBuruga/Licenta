@@ -1,0 +1,94 @@
+.container{
+    overflow: hidden;
+    height: 70vh;
+    text-align: center;
+}
+
+.carousel-container {
+    display: flex;
+    overflow: hidden;
+    position: relative;
+    margin: auto;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px #dce1e1;
+    width: 100%;
+    height: 100%;
+}
+
+.experience-card {
+    flex: 0 0 100%;
+    transition: transform 0.5s ease;
+    width: 100%;
+    position: relative;
+}
+
+.card-content {
+    display: flex;
+    align-items: center;
+    position: relative;
+    justify-content: center;
+    height: 100%;
+}
+
+img {
+    width: 50%;
+    height: auto;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.experience-details {
+    padding: 20px;
+    width: 100%;
+}
+.carousel-button{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: rgb(0, 0, 0); 
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    z-index: 100;
+    border-radius: 50%;
+}
+
+.carousel-button:hover {
+    color: rgba(255, 85, 0, 0.8); 
+}
+
+.carousel-button:first-of-type {
+    left: 0; 
+}
+
+.carousel-button:last-of-type {
+    right: 0; 
+}
+
+.carousel-dots {
+    position: absolute;
+    bottom: 10px; 
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: #ccc;
+    transition: opacity 0.3s ease;
+    opacity: 0.5;
+    display: inline-block;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.dot.active, .dot:hover {
+    opacity: 1;
+    background-color: #333;
+}

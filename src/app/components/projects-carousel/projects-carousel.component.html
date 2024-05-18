@@ -1,0 +1,29 @@
+<div class="container">
+<h1><b>Projects</b></h1>
+<div class="carousel-container">
+    <mat-card *ngFor="let experience of experiences; let i = index" class="experience-card" [style.transform]="'translateX(-' + (currentIndex * 100) + '%)'">
+      <div class="card-content">
+        <img mat-card-image src='' (error)="onImageError($event)" alt="experience image">
+        <div class="experience-details">
+          <mat-card-title>{{ experience.title}}</mat-card-title>
+          <mat-card-subtitle>{{experience.type}}</mat-card-subtitle>
+          <mat-card-content>{{ experience.date}}</mat-card-content>
+          <mat-card-content>{{ experience.description}}</mat-card-content>
+          <a [href]="experience.url">See more details</a>
+        </div>
+      </div>
+    </mat-card>
+    <button mat-icon-button class="carousel-button" (click)="showPrev()">
+      <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+    <button mat-icon-button class="carousel-button" (click)="showNext()">
+      <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+    <div class="carousel-dots">      
+        <span *ngFor="let experience of experiences; let i = index" class="dot" [class.active]="i === currentIndex" (click)="showExperience(i)"></span>
+    </div>
+</div>
+</div>
+
+ 
+  

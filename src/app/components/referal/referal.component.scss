@@ -1,0 +1,53 @@
+@import 'swiper/css';
+@import 'swiper/css/navigation';
+@import 'swiper/css/pagination';
+@import 'swiper/css/effect-coverflow';
+
+.slider-effectCoverFlow {
+  width: 90%;
+  margin: 40px auto;
+  text-align: center;
+  .swiper {
+    width: 100%;
+    padding-top: 50px;
+    padding-bottom: 50px;
+    
+  }
+  .swiper-slide {
+    background-position: center;
+    background-size: cover;
+    width: 40%;
+  }
+
+  .swiper-slide mat-card{
+    display:block;
+    width: 100%;
+  }
+
+  .swiper-button-next, .swiper-button-prev {
+    color: white;
+    background-color: rgb(255, 0, 0);
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+    opacity: 50%;
+  }
+
+  .swiper-pagination-bullet-active {
+    background-color:rgb(255, 0, 0);
+  }
+  
+  .swiper-pagination-bullet {
+    width: 10px;
+    height: 10px;
+  }
+  
+  .swiper-button-next::after, .swiper-button-prev::after {
+    font-size: 15px;
+    font-weight: bold;
+  }
+}
+mat-card img{
+  height: fit-content;
+  width: 100%;
+}

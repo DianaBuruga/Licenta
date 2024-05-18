@@ -1,0 +1,15 @@
+.skill-chart {
+    .skill-title {
+      font-size: 16px; // Adjust as necessary
+      color: #757575; // Adjust title color as necessary
+      margin-bottom: 8px; // Adjust as necessary
+    }
+  
+    mat-progress-bar {
+      margin-bottom: 16px; // Space between each skill bar
+  
+      .mat-progress-bar-fill::after {
+        background-color: #d32f2f; // Color for the progress bar
+      }
+    }
+  }

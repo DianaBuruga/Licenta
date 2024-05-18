@@ -1,0 +1,16 @@
+export { UserService } from './services/user.service';
+export { LanguageService } from './services/language.service';
+export { SpecializationService } from './services/specialization.service';
+export { SkillService } from './services/skill.service';
+export { ReviewService } from './services/review.service';
+export { NotificationService } from './services/notification.service';
+export { JobHistoryService } from './services/job-history.service';
+export { JobCandidatesService } from './services/job-candidates.service';
+export { FacultyService } from './services/faculty.service';
+export { EventService } from './services/event.service';
+export { EmailService } from './services/email.service';
+export { BibliographyService } from './services/bibliography.service';
+export { CourseService } from './services/course.service';
+export { CompanyService } from './services/company.service';
+export { SearchService } from './services/search.service';
+export { AuthenticationControllerService } from './services/authentication-controller.service';
