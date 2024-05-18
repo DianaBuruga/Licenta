@@ -27,13 +27,13 @@ public class EventService {
         return eventRepository.findAll().stream().map(mapper::eventToEventDTO).toList();
     }
 
-    public EventDTO findById(UUID id) {
+    public EventDTO findEventById(UUID id) {
         return eventRepository.findById(id)
                 .map(mapper::eventToEventDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Event with id " + id + " not found"));
     }
 
-    public Collection<EventDTO> findEventsByCriteria(List<SearchCriteria> searchCriteria) {
+    public Collection<EventDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return eventRepository
                 .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
                 .map(mapper::eventToEventDTO)

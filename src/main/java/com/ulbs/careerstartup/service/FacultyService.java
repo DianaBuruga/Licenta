@@ -30,13 +30,13 @@ public class FacultyService {
         return facultyRepository.findAll().stream().map(mapper::facultyToFacultyDTO).toList();
     }
 
-    public FacultyDTO findById(UUID id) {
+    public FacultyDTO findFacultyById(UUID id) {
         return facultyRepository.findById(id)
                 .map(mapper::facultyToFacultyDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Faculty with id " + id + " not found"));
     }
 
-    public Collection<FacultyDTO> findFacultiesByCriteria(List<SearchCriteria> searchCriteria) {
+    public Collection<FacultyDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return facultyRepository
                 .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
                 .map(mapper::facultyToFacultyDTO)
@@ -56,6 +56,6 @@ public class FacultyService {
 
     @Transactional
     public void deleteFaculty(@RequestBody FacultyDTO facultyDTO) {
-       facultyRepository.delete(mapper.facultyDTOToFaculty(facultyDTO));
+        facultyRepository.delete(mapper.facultyDTOToFaculty(facultyDTO));
     }
 }

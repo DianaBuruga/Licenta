@@ -1,8 +1,10 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Builder
@@ -18,12 +20,17 @@ public class UserSkillsDTO {
 
     private UUID skillId;
 
-    @NotNull
+    @NotNull(message = "User is required")
+    @NotEmpty(message = "User is required")
     private UserDTO user;
 
-    @NotNull
+    @NotNull(message = "Skill is required")
+    @NotEmpty(message = "Skill is required")
+    @JsonProperty("skill")
     private SkillDTO skillDTO;
 
-    @NotNull
+    @NotNull(message = "Proficiency is required")
+    @NotEmpty(message = "Proficiency is required")
+    @JsonProperty("proficiency")
     private Integer proficiencyDTO;
 }

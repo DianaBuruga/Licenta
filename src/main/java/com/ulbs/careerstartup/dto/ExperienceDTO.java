@@ -4,8 +4,8 @@ import com.ulbs.careerstartup.constant.ExperienceType;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -22,24 +22,22 @@ public class ExperienceDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Title is required")
     @Size(max = 100, message = INPUT_TOO_LONG)
     private String title;
 
-    @NotNull
+    @NotNull(message = "Description is required")
     private String description;
 
-    @NotNull
-    private Timestamp date;
+    @NotNull(message = "Date is required")
+    private String date;
 
-    @NotNull
-    @URL
+    @URL(message = "Invalid URL")
     private String url;
 
-    @NotNull
+    @NotNull(message = "ExperienceType is required")
     private ExperienceType type;
 
-    @NotNull
     private UserDTO userDTO;
 
     private FileDTO fileDTO;

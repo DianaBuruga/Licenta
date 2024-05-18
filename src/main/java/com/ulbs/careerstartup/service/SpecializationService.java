@@ -30,13 +30,13 @@ public class SpecializationService {
                 .toList();
     }
 
-    public SpecializationDTO findById(UUID id) {
+    public SpecializationDTO findSpecializationById(UUID id) {
         return specializationRepository.findById(id)
                 .map(mapper::specializationToSpecializationDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Specialization with id " + id + " not found"));
     }
 
-    public Collection<SpecializationDTO> findSpecializationsByCriteria(List<SearchCriteria> criteria) {
+    public Collection<SpecializationDTO> findByCriteria(List<SearchCriteria> criteria) {
         return specializationRepository
                 .findAll(new GenericSpecification<>(criteria), PageRequest.of(0, 10))
                 .map(mapper::specializationToSpecializationDTO)

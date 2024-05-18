@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -23,17 +23,17 @@ public class ExperienceService {
     private ExperienceRepository experienceRepository;
     private Mapper mapper;
 
-    public @NotNull Collection <ExperienceDTO> findAllExperiences() {
+    public @NotNull Collection<ExperienceDTO> findAllExperiences() {
         return experienceRepository.findAll().stream().map(mapper::experienceToExperienceDTO).toList();
     }
 
-    public ExperienceDTO findById(UUID id) {
+    public ExperienceDTO findExperienceById(UUID id) {
         return experienceRepository.findById(id)
                 .map(mapper::experienceToExperienceDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Event with id " + id + " not found"));
     }
 
-    public Collection<ExperienceDTO> findExperiencesByCriteria(List<SearchCriteria> criteria) {
+    public Collection<ExperienceDTO> findByCriteria(List<SearchCriteria> criteria) {
         return experienceRepository
                 .findAll(new GenericSpecification<>(criteria), PageRequest.of(0, 10))
                 .map(mapper::experienceToExperienceDTO)

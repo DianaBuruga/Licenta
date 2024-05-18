@@ -35,7 +35,7 @@ public class Event {
     private User creator;
 
     @ToString.Exclude
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "event_subscribers",
             joinColumns = @JoinColumn(name = "event_id"),

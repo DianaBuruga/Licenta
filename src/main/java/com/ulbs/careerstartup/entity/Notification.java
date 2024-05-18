@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Objects;
 import java.util.UUID;
@@ -24,14 +24,14 @@ public class Notification {
     private UUID id;
 
     @NotNull
-    @Column(name ="notification",nullable = false)
+    @Column(name = "notification", nullable = false)
     private String notificationContent;
 
     @NotNull
     @Column(nullable = false)
     private Timestamp date;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 

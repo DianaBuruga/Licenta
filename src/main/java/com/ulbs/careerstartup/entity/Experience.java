@@ -40,8 +40,7 @@ public class Experience {
     private ExperienceType type;
 
     @ToString.Exclude
-    @ManyToOne(fetch = FetchType.LAZY, optional = false,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 

@@ -24,14 +24,14 @@ public class ReferralService {
         return referralRepository.findAll().stream().map(mapper::referralToReferralDTO).toList();
     }
 
-    public ReferralDTO findById(UUID id) {
+    public ReferralDTO findReferralById(UUID id) {
         return referralRepository
                 .findById(id)
                 .map(mapper::referralToReferralDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Referral with id " + id + NOT_FOUND));
     }
 
-    public Collection<ReferralDTO> findReferralsByCriteria(List<SearchCriteria> searchCriteria) {
+    public Collection<ReferralDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return referralRepository
                 .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
                 .map(mapper::referralToReferralDTO)

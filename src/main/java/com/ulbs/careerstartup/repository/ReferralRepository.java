@@ -8,6 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface ReferralRepository extends JpaRepository<Referral, UUID> , JpaSpecificationExecutor<Referral>
-{
+public interface ReferralRepository extends JpaRepository<Referral, UUID>, JpaSpecificationExecutor<Referral> {
 }

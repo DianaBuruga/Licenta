@@ -1,14 +1,16 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ulbs.careerstartup.constant.Constants;
 import com.ulbs.careerstartup.constant.Role;
 import com.ulbs.careerstartup.constant.UserStatus;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -26,56 +28,76 @@ public class UserDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Email is required")
+    @NotEmpty(message = "Email is required")
     @Email(message = INVALID_EMAIL)
     private String email;
 
-    @NotNull
+    @NotNull(message = "Role is required")
+    @NotEmpty(message = "Role is required")
     private Role role;
 
-    @NotNull
+    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Name is required")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Phone is required")
+    @NotEmpty(message = "Phone is required")
     @Pattern(regexp = Constants.ROMANIAN_PHONE_REGEX, message = INVALID_PHONE)
     private String phone;
 
-    @NotNull
-    @URL
+    @NotNull(message = "Website is required")
+    @NotEmpty(message = "Website is required")
+    @URL(message = "Invalid URL")
     private String website;
 
-    @NotNull
+    @NotNull(message = "Description is required")
+    @NotEmpty(message = "Description is required")
     private String description;
 
     private UserStatus status;
 
     private FileDTO profilePhoto;
 
+    @JsonProperty("bibliographies")
     private Collection<BibliographyDTO> bibliographiesDTO;
 
-    private Collection<EventDTO> createdEventsDTO;
+//    @JsonProperty("createdEvents")
+//    private Collection<EventDTO> createdEventsDTO;
+//
+//    @JsonProperty("eventSubscribers")
+//    private Collection<EventDTO> eventSubscribersDTO;
 
-    private Collection<EventDTO> eventSubscribersDTO;
-
+    @JsonProperty("experiences")
     private Collection<ExperienceDTO> experiencesDTO;
+//
+//    @JsonProperty("jobCandidates")
+//    private Collection<JobCandidatesDTO> jobCandidatesDTO;
 
-    private Collection<JobCandidatesDTO> jobCandidatesDTO;
-
+    @JsonProperty("postedJobs")
     private Collection<JobHistoryDTO> jobHistoriesDTO;
 
+    @JsonProperty("languages")
     private Collection<LanguageDTO> languagesDTO;
+//
+//    @JsonProperty("sentMessages")
+//    private Collection<MessageDTO> sentMessagesDTO;
+//
+//    @JsonProperty("receivedMessages")
+//    private Collection<MessageDTO> receivedMessagesDTO;
+//
+//    @JsonProperty("notifications")
+//    private Collection<NotificationDTO> notificationsDTO;
+//
+//    @JsonProperty("writtenReferrals")
+//    private Collection<ReferralDTO> writtenReferralsDTO;
 
-    private Collection<MessageDTO> sentMessagesDTO;
-
-    private Collection<MessageDTO> receivedMessagesDTO;
-
-    private Collection<NotificationDTO> notificationsDTO;
-
-    private Collection<ReferralDTO> writtenReferralsDTO;
-
+    @JsonProperty("receivedReferrals")
     private Collection<ReferralDTO> receivedReferralsDTO;
 
+    @JsonProperty("specializations")
     private Collection<SpecializationDTO> specializationsDTO;
 
+    @JsonProperty("skills")
     private Collection<UserSkillsDTO> skillsDTO;
 }

@@ -15,6 +15,8 @@ public class AuthenticationFailureHandler extends SimpleUrlAuthenticationFailure
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException {
         SecurityContextHolder.clearContext();
-        getRedirectStrategy().sendRedirect(request, response, "/");
+        response.getWriter().write(exception.getMessage());
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        getRedirectStrategy().sendRedirect(request, response, "http://localhost:4200/v1/callback");
     }
 }

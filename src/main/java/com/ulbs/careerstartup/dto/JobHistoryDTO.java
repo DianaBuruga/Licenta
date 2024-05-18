@@ -1,9 +1,11 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -20,25 +22,34 @@ public class JobHistoryDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Position is required")
+    @NotEmpty(message = "Position is required")
     @Size(max = 100, message = INPUT_TOO_LONG)
     private String position;
 
-    @NotNull
-    private Timestamp startDate;
+    @NotNull(message = "Start date is required")
+    @NotEmpty(message = "Start date is required")
+    private String startDate;
 
-    @NotNull
-    private Timestamp endDate;
+    @NotNull(message = "End date is required")
+    @NotEmpty(message = "End date is required")
+    private String endDate;
 
-    @NotNull
+    @NotNull(message = "Description is required")
+    @NotEmpty(message = "Description is required")
     private String description;
 
-    @NotNull
+    @NotNull(message = "Need qualification is required")
+    @NotEmpty(message = "Need qualification is required")
     private Boolean needQualification;
 
-    @NotNull
+    @NotNull(message = "User is required")
+    @NotEmpty(message = "User is required")
+    @JsonProperty("user")
     private UserDTO userDTO;
 
-    @NotNull
+    @NotNull(message = "Company is required")
+    @NotEmpty(message = "Company is required")
+    @JsonProperty("company")
     private CompanyDTO companyDTO;
 }

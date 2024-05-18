@@ -99,11 +99,11 @@ CREATE TABLE IF NOT EXISTS event
 
 CREATE TABLE IF NOT EXISTS experience
 (
-    id          BINARY(16)                                                      NOT NULL PRIMARY KEY,
-    user_id     BINARY(16)                                                      NOT NULL,
-    title       VARCHAR(100)                                                    NOT NULL,
-    description TEXT                                                            NOT NULL,
-    date        DATETIME                                                        NOT NULL,
+    id          BINARY(16)                                                                    NOT NULL PRIMARY KEY,
+    user_id     BINARY(16)                                                                    NOT NULL,
+    title       VARCHAR(100)                                                                  NOT NULL,
+    description TEXT                                                                          NOT NULL,
+    date        DATETIME                                                                      NOT NULL,
     url         VARCHAR(255),
     type        ENUM ('COMPETITION','PROJECT', 'ACCREDITATION', 'VOLUNTEERING', 'INTERNSHIP') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (id)
@@ -194,7 +194,8 @@ CREATE TABLE IF NOT EXISTS specialization
     faculty_id    BINARY(16) NOT NULL,
     started_date  DATETIME   NOT NULL,
     finished_date DATETIME   NOT NULL,
-    degree        VARCHAR(4) NOT NULL,
+    name         VARCHAR(100) NOT NULL,
+    degree         ENUM ('BACHELOR','MASTER','PHD','POSTDOC','NONE') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (id),
     FOREIGN KEY (faculty_id) REFERENCES faculty (id)
 );

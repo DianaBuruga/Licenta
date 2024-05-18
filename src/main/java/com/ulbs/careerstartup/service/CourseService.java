@@ -26,13 +26,13 @@ public class CourseService {
         return courseRepository.findAll().stream().map(mapper::courseToCourseDTO).toList();
     }
 
-    public CourseDTO findById(UUID id) {
+    public CourseDTO findCourseById(UUID id) {
         return courseRepository.findById(id)
                 .map(mapper::courseToCourseDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Course with id " + id + " not found"));
     }
 
-    public Collection<CourseDTO> findCoursesByCriteria(List<SearchCriteria> searchCriteria) {
+    public Collection<CourseDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return courseRepository
                 .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
                 .map(mapper::courseToCourseDTO)

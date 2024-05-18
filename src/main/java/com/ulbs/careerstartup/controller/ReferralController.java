@@ -35,7 +35,7 @@ public class ReferralController implements ReferralApiDoc {
 
     @GetMapping(BY_CRITERIA)
     public Collection<ReferralDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return referralService.findReferralsByCriteria(criteria);
+        return referralService.findByCriteria(criteria);
     }
 
     @PostMapping

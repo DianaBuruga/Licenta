@@ -2,34 +2,53 @@ package com.ulbs.careerstartup.controller;
 
 import com.ulbs.careerstartup.apidoc.UserApiDoc;
 import com.ulbs.careerstartup.constant.FileType;
-import com.ulbs.careerstartup.dto.*;
+import com.ulbs.careerstartup.dto.FileDTO;
+import com.ulbs.careerstartup.dto.UserDTO;
 import com.ulbs.careerstartup.entity.pk.FilePK;
 import com.ulbs.careerstartup.service.FileService;
 import com.ulbs.careerstartup.service.UserService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
+import com.ulbs.careerstartup.util.UserPdfExporter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.apache.commons.lang3.NotImplementedException;
+import org.apache.tika.metadata.Metadata;
+import org.apache.tika.mime.MimeTypes;
+import org.apache.tika.parser.AutoDetectParser;
+import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.Constants.*;
+import static org.springframework.http.HttpHeaders.*;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
+//@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
+//@CrossOrigin(origins = "*", allowedHeaders = "*")
+//@CrossOrigin(origins = "http://localhost:4200",
+//        allowedHeaders = { ORIGIN, CONTENT_TYPE, ACCEPT, AUTHORIZATION, ACCESS_CONTROL_ALLOW_ORIGIN},
+//    methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS, RequestMethod.PATCH },
+//        maxAge = 3600
+//)
 @Tag(name = "User", description = "The User API")
 public class UserController implements UserApiDoc {
 
@@ -37,52 +56,46 @@ public class UserController implements UserApiDoc {
     private UserService userService;
     private FileService fileService;
 
+    @GetMapping(value="/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO getAuthenticatedUser() {
+       // String email = SecurityContextHolder.getContext().getAuthentication().getName();
+        return userService.findByEmail("robert.marinescu@yahoo.com");
+    }
+
     @GetMapping
     public Collection<UserDTO> findAllUsers() {
         return userService.findAllUsers();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO findUserById(@PathVariable UUID id) {
         return userService.findById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
+    @GetMapping(value = BY_CRITERIA, produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<UserDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return userService.findUsersByCriteria(criteria);
+        return userService.findByCriteria(criteria);
     }
 
-    @PostMapping
-    public UserDTO saveUser(@RequestBody UserDTO userDTO, @RequestBody MultipartFile multipartFile) throws IOException {
-        UserDTO savedUserDTO = userService.saveUser(userDTO);
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO saveUser(@RequestBody UserDTO userDTO) {
+        return userService.saveUser(userDTO);
+    }
 
+    @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO updateUser(@RequestBody UserDTO userDTO) {
+        return userService.updateUser(userDTO);
+    }
+
+    @PostMapping(value = "/profile-photo")
+    public void saveProfilePhoto(@RequestParam UUID id, @RequestParam MultipartFile multipartFile) throws IOException {
         FilePK filePK = FilePK.builder()
-                .tableId(savedUserDTO.getId())
+                .tableId(id)
                 .tableName(TABLE_NAME).build();
-
-        FileDTO fileDTO = fileService.uploadOrFindFile(multipartFile, filePK, FileType.PROFILE_PHOTO);
-
-        savedUserDTO.setProfilePhoto(fileDTO);
-
-        return savedUserDTO;
+        fileService.uploadFile(FileType.PROFILE_PHOTO, filePK, multipartFile);
     }
 
-    @PatchMapping
-    public UserDTO updateUser(@RequestBody UserDTO userDTO, @RequestBody MultipartFile multipartFile) throws IOException {
-        UserDTO updatedUserDTO = userService.updateUser(userDTO);
-
-        FilePK filePK = FilePK.builder()
-                .tableId(updatedUserDTO.getId())
-                .tableName(TABLE_NAME).build();
-
-        FileDTO fileDTO = fileService.uploadOrFindFile(multipartFile, filePK, FileType.PROFILE_PHOTO);
-
-        updatedUserDTO.setProfilePhoto(fileDTO);
-
-        return updatedUserDTO;
-    }
-
-    @GetMapping("/{id}/file/download/")
+    @GetMapping(value = "/id/{id}/profilePhoto/download/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource> downloadFileById(@PathVariable UUID id) throws FileNotFoundException {
         FilePK filePK = FilePK.builder()
                 .tableId(id)
@@ -95,7 +108,7 @@ public class UserController implements UserApiDoc {
                 .body(new ByteArrayResource(fileDTO.getContent()));
     }
 
-    @GetMapping("/{id}/file/view/")
+    @GetMapping(value = "/{id}/profilePhoto/view/", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource> viewFileById(@PathVariable UUID id) throws FileNotFoundException {
         FilePK filePK = FilePK.builder()
                 .tableId(id)
@@ -104,82 +117,41 @@ public class UserController implements UserApiDoc {
         FileDTO fileDTO = fileService.findFileById(filePK);
 
         return ResponseEntity.ok()
+                .contentType(detectMimeType(fileDTO.getContent(), fileDTO.getName()))
                 .header(HttpHeaders.CONTENT_DISPOSITION, INLINE_FILENAME + fileDTO.getName())
                 .body(new ByteArrayResource(fileDTO.getContent()));
     }
 
-    @DeleteMapping("/{email}")
+    public static MediaType detectMimeType(byte[] data, String filename) {
+        try {
+            InputStream is = new ByteArrayInputStream(data);
+            AutoDetectParser parser = new AutoDetectParser();
+            BodyContentHandler handler = new BodyContentHandler();
+            Metadata metadata = new Metadata();
+            metadata.set(Metadata.RESOURCE_NAME_KEY, filename);
+            parser.parse(is, handler, metadata);
+            return MediaType.parseMediaType(metadata.get(Metadata.CONTENT_TYPE));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return MediaType.APPLICATION_OCTET_STREAM;
+    }
+
+    @GetMapping(value = "/CV/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Resource> exportUserPdf(@PathVariable UUID id) throws IOException {
+        UserPdfExporter userPdfExporter = new UserPdfExporter();
+        UserDTO userDTO = userService.findById(id);
+        userPdfExporter.generateCv(userDTO);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping(value = "/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public void deleteUser(@RequestBody UserDTO userDTO) {
         userService.deleteUser(userDTO);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO findUserByEmail(@PathVariable String email) {
         return userService.findByEmail(email);
-    }
-
-    @GetMapping("/{email}/languages")
-    public Collection<LanguageDTO> findUserLanguagesByEmail(@PathVariable String email) {
-        return userService.findUserLanguages(email);
-    }
-
-    @GetMapping("/{email}/specializations")
-    public Collection<SpecializationDTO> findUserSpecializationsByEmail(@PathVariable String email) {
-        return userService.findUserSpecialization(email);
-    }
-
-    @GetMapping("/{email}/skills")
-    public Collection<SpecializationDTO> findUserSkillsByEmail(@PathVariable String email) {
-        return userService.findUserSkills(email);
-    }
-
-    @GetMapping("/{email}/events-created")
-    public Collection<EventDTO> findUserCreatedEventsByEmail(@PathVariable String email) {
-        return userService.findUserEventCreated(email);
-    }
-
-    @GetMapping("/{email}/subscribed-events")
-    public Collection<EventDTO> findUserEventsSubscribedByEmail(@PathVariable String email) {
-        return userService.findUserEventSubscribed();
-    }
-
-    @GetMapping("/{email}/bibliography")
-    public Collection<BibliographyDTO> findUserBibliographyByEmail(@PathVariable String email) {
-        return userService.findUserBibliography(email);
-    }
-
-    @GetMapping("/{email}/jobs-candidate")
-    public Collection<JobCandidatesDTO> findUserJobsCandidateByEmail(@PathVariable String email) {
-        return userService.findUserJobsCandidate(email);
-    }
-
-    @GetMapping("/{email}/jobs-history")
-    public Collection<JobHistoryDTO> findUserJobsHistoryByEmail(@PathVariable String email) {
-        return userService.findUserJobsHistory(email);
-    }
-
-    @GetMapping("/{email}/notifications")
-    public Collection<NotificationDTO> findUserNotificationsByEmail(@PathVariable String email) {
-        return userService.findUserNotifications();
-    }
-
-    @GetMapping("/{email}/sent-messages")
-    public Collection<MessageDTO> findUserSentMessagesByEmail(@PathVariable String email) {
-        return userService.findUserSentMessages();
-    }
-
-    @GetMapping("/{email}/received-messages")
-    public Collection<MessageDTO> findUserReceivedMessagesByEmail(@PathVariable String email) {
-        return userService.findUserReceivedMessages();
-    }
-
-    @GetMapping("/{email}/written-referrals")
-    public Collection<ReferralDTO> findUserWrittenReferralsByEmail(@PathVariable String email) {
-        return userService.findUserWrittenReferrals(email);
-    }
-
-    @GetMapping("/{email}/received-referrals")
-    public Collection<ReferralDTO> findUserReceivedReferralsByEmail(@PathVariable String email) {
-        return userService.findUserReceivedReferrals(email);
     }
 }

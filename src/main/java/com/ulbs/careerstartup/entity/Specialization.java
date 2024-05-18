@@ -1,10 +1,11 @@
 package com.ulbs.careerstartup.entity;
 
+import com.ulbs.careerstartup.constant.Degree;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
@@ -32,13 +33,18 @@ public class Specialization {
     @Column(name = "finished_date", nullable = false)
     private Timestamp finishedDate;
 
-    private String degree;
+    @NotNull
+    private String name;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private Degree degree;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "specialization")
     private Collection<Course> courses;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 

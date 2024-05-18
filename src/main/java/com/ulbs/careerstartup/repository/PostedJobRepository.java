@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 import java.util.UUID;
 
 @Repository
-public interface PostedJobRepository extends JpaRepository<PostedJob, UUID> , JpaSpecificationExecutor<PostedJob> {
+public interface PostedJobRepository extends JpaRepository<PostedJob, UUID>, JpaSpecificationExecutor<PostedJob> {
 }

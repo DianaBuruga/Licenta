@@ -1,43 +1,60 @@
 package com.ulbs.careerstartup.service;
 
+import com.ulbs.careerstartup.constant.ServiceEnum;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
+import lombok.SneakyThrows;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static com.ulbs.careerstartup.constant.Constants.FIND_BY_CRITERIA;
+
 @Service
 @AllArgsConstructor
 public class SearchService {
-    private RestTemplate restTemplate;
-    private static HttpServletRequest request;
 
-    public List<SearchCriteria> search(String entity, Map<String, String> params) {
-        List<SearchCriteria> criteria = parseCriteria(params);
-        String url = request.getRequestURL().toString() + entity + "/";
-        ParameterizedTypeReference<List<SearchCriteria>> responseType = new ParameterizedTypeReference<>() {
-        };
-        return restTemplate.exchange(url, HttpMethod.POST, new HttpEntity<>(criteria), responseType).getBody();
+    private static final String CRITERIA_REGEX = "(?=[><])|(?<=[><])";
+    private static final int CRITERIA_PARTS = 3;
+    private final ApplicationContext context;
+
+
+    public <T> T search(String endpoint, Map<String, String> criteria) {
+        return callMethodByName(ServiceEnum.getByValue(endpoint).toString(), parseCriteria(criteria));
     }
 
-    private List<SearchCriteria> parseCriteria(Map<String, String> params) {
-        List<SearchCriteria> criteria = new ArrayList<>();
-        params.forEach((key, value) -> {
-            String operation = "=";
-            if (value.startsWith(">") || value.startsWith("<")) {
-                operation = value.substring(0, 1);
-                value = value.substring(1);
+    private List<SearchCriteria> parseCriteria(Map<String, String> criteriaMap) {
+        List<SearchCriteria> criteriaList = new ArrayList<>();
+
+        for (Map.Entry<String, String> entry : criteriaMap.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+
+            if ((key.contains(">") || key.contains("<")) && value.isEmpty()) {
+                String[] parts = key.split(CRITERIA_REGEX, 3);
+                if (parts.length == CRITERIA_PARTS) {
+                    String field = parts[0];
+                    String operator = parts[1];
+                    String criterionValue = parts[2];
+                    criteriaList.add(new SearchCriteria(field, operator, criterionValue));
+                }
+            } else if(!value.isEmpty()) {
+                criteriaList.add(new SearchCriteria(key, "=", value));
             }
-            criteria.add(new SearchCriteria(key, operation, value));
-        });
-        return criteria;
+        }
+
+        return criteriaList;
     }
 
+    @SneakyThrows
+    @SuppressWarnings("unchecked")
+    public <T> T callMethodByName(String className, List<SearchCriteria> criteria) {
+        Object serviceBean = context.getBean(Class.forName(className));
+        Method method = serviceBean.getClass().getMethod(FIND_BY_CRITERIA, List.class);
+        return (T) method.invoke(serviceBean, criteria);
+    }
 }

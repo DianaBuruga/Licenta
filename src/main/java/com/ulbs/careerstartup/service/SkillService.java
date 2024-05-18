@@ -31,13 +31,13 @@ public class SkillService {
                 .toList();
     }
 
-    public SkillDTO findById(UUID id) {
+    public SkillDTO findSkillById(UUID id) {
         return skillRepository.findById(id)
                 .map(mapper::skillToSkillDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Skill with id " + id + " not found"));
     }
 
-    public Collection<SkillDTO> findSkillsByCriteria(List<SearchCriteria> criteria) {
+    public Collection<SkillDTO> findByCriteria(List<SearchCriteria> criteria) {
         return skillRepository
                 .findAll(new GenericSpecification<>(criteria), PageRequest.of(0, 10))
                 .map(mapper::skillToSkillDTO)

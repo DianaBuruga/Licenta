@@ -3,20 +3,30 @@ package com.ulbs.careerstartup.mapper;
 
 import com.ulbs.careerstartup.dto.FileDTO;
 import com.ulbs.careerstartup.entity.File;
+import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.util.Objects;
 
 @Mapper(componentModel = "spring")
 public interface FileMapper {
-
-    FileMapper INSTANCE = Mappers.getMapper(FileMapper.class);
 
     @Mapping(source = "id.tableId", target = "tableId")
     @Mapping(source = "id.tableName", target = "tableName")
     FileDTO fileToFileDTO(File file);
 
-    @Mapping(target = "id.tableId", source = "tableId")
-    @Mapping(target = "id.tableName", source = "tableName")
+    @InheritInverseConfiguration(name = "fileToFileDTO")
     File fileDTOToFile(FileDTO fileDTO);
-}*/
+
+    default File multipartFileToFile(MultipartFile multipartFile) throws IOException {
+        return File.builder()
+                .name(StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename())))
+                .content(multipartFile.getBytes())
+                .build();
+    }
+}
+*/

@@ -1,9 +1,11 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ulbs.careerstartup.constant.ReviewType;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Builder
@@ -17,18 +19,24 @@ public class ReviewDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Position is required")
+    @NotEmpty(message = "Position is required")
     private String position;
 
-    @NotNull
+    @NotNull(message = "Description is required")
+    @NotEmpty(message = "Description is required")
     private String description;
 
-    @NotNull
+    @NotNull(message = "Type is required")
+    @NotEmpty(message = "Type is required")
     private ReviewType type;
 
-    @NotNull
+    @NotNull(message = "Rating is required")
+    @NotEmpty(message = "Rating is required")
     private Integer rating;
 
-    @NotNull
+    @NotNull(message = "Company is required")
+    @NotEmpty(message = "Company is required")
+    @JsonProperty("company")
     private CompanyDTO companyDTO;
 }

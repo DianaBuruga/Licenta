@@ -22,7 +22,7 @@ public class Message {
     @Column(unique = true, nullable = false)
     private UUID id;
 
-    @Column(name = "message",nullable = false)
+    @Column(name = "message", nullable = false)
     private String messageContent;
 
     @Column(name = "send_date", nullable = false)
@@ -31,11 +31,11 @@ public class Message {
     @Column(nullable = false)
     private Boolean seen;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "sender_id", referencedColumnName = "id", nullable = false)
     private User sender;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "receiver_id", referencedColumnName = "id", nullable = false)
     private User receiver;
 

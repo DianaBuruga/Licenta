@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Builder
@@ -20,25 +21,59 @@ public class GenericSpecification<T> implements Specification<T> {
     @Override
     public Predicate toPredicate(Root<T> root, CriteriaQuery<?> query, CriteriaBuilder builder) {
         List<Predicate> predicates = new ArrayList<>();
+
         for (SearchCriteria criteria : criteriaList) {
             switch (criteria.getOperation()) {
-                case ">":
-                    predicates.add(builder.greaterThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString()));
-                    break;
-                case "<":
-                    predicates.add(builder.lessThanOrEqualTo(root.get(criteria.getKey()), criteria.getValue().toString()));
-                    break;
-                case "=":
-                    if (criteria.getValue() instanceof String) {
-                        predicates.add(builder.like(root.get(criteria.getKey()), "%" + criteria.getValue().toString() + "%"));
-                    } else {
-                        predicates.add(builder.equal(root.get(criteria.getKey()), criteria.getValue()));
-                    }
-                    break;
-                default:
-                    break;
+                case ">" -> predicates.add(handleGreaterThanForDifferentDataTypes(criteria, builder, root));
+                case "<" -> predicates.add(handleLessThanForDifferentDataTypes(criteria, builder, root));
+                case "=" -> predicates.add(handleEqualsForDifferentDataTypes(criteria, builder, root));
+                default -> throw new IllegalArgumentException("Invalid operation: " + criteria.getOperation());
             }
         }
+
         return builder.and(predicates.toArray(new Predicate[0]));
     }
+
+    private Predicate handleEqualsForDifferentDataTypes(SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
+        String value = criteria.getValue().toString();
+        Predicate predicate;
+
+        try {
+            predicate = builder.equal(root.get(criteria.getKey()), UUID.fromString(value));
+        } catch (IllegalArgumentException e) {
+            try {
+                predicate = builder.equal(root.get(criteria.getKey()), Long.parseLong(value));
+            } catch (IllegalArgumentException ex) {
+                predicate = builder.like(root.get(criteria.getKey()), "%" + value + "%");
+            }
+        }
+        return predicate;
+    }
+
+    private Predicate handleGreaterThanForDifferentDataTypes(SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
+        String value = criteria.getValue().toString();
+        Predicate predicate;
+
+        try {
+            predicate = builder.greaterThanOrEqualTo(root.get(criteria.getKey()), Long.parseLong(value));
+        } catch (IllegalArgumentException e) {
+            predicate = builder.like(root.get(criteria.getKey()), "%" + value + "%");
+        }
+
+        return predicate;
+    }
+
+    private Predicate handleLessThanForDifferentDataTypes(SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
+        String value = criteria.getValue().toString();
+        Predicate predicate;
+
+        try {
+            predicate = builder.lessThanOrEqualTo(root.get(criteria.getKey()), Long.parseLong(value));
+        } catch (IllegalArgumentException e) {
+            predicate = builder.like(root.get(criteria.getKey()), "%" + value + "%");
+        }
+
+        return predicate;
+    }
+
 }

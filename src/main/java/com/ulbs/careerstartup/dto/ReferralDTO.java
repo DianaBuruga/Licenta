@@ -1,8 +1,10 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Builder
@@ -16,12 +18,17 @@ public class ReferralDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Description is required")
+    @NotEmpty(message = "Description is required")
     private String description;
 
-    @NotNull
+    @NotNull(message = "Teacher is required")
+    @NotEmpty(message = "Teacher is required")
+    @JsonProperty("teacher")
     private UserDTO teacherDTO;
 
-    @NotNull
+    @NotNull(message = "Student is required")
+    @NotEmpty(message = "Student is required")
+    @JsonProperty("student")
     private UserDTO studentDTO;
 }

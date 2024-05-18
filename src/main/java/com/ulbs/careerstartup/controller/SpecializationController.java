@@ -37,7 +37,7 @@ public class SpecializationController implements SpecializationApiDoc {
 
     @GetMapping(BY_CRITERIA)
     public Collection<SpecializationDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return specializationService.findSpecializationsByCriteria(criteria);
+        return specializationService.findByCriteria(criteria);
     }
 
     @PostMapping

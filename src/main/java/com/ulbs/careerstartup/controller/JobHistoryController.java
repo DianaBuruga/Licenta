@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.MalformedURLException;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -18,8 +19,9 @@ import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/jobs/history")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
+//@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "JobHistory", description = "The JobHistory API")
+@CrossOrigin(origins = "http://localhost:4200")
 public class JobHistoryController implements JobHistoryApiDoc {
     private JobHistoryService jobHistoryService;
 
@@ -35,11 +37,11 @@ public class JobHistoryController implements JobHistoryApiDoc {
 
     @GetMapping(BY_CRITERIA)
     public Collection<JobHistoryDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return jobHistoryService.findJobHistoriesByCriteria(criteria);
+        return jobHistoryService.findByCriteria(criteria);
     }
 
     @PostMapping
-    public JobHistoryDTO saveJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
+    public JobHistoryDTO saveJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) throws MalformedURLException {
         return jobHistoryService.saveJobHistory(jobHistoryDTO);
     }
 

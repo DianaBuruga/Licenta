@@ -6,9 +6,6 @@ import java.time.ZoneId;
 
 public class Constants {
 
-    private Constants() {
-    }
-
     public static final String ROMANIAN_PHONE_REGEX = "^(\\+40|0040)?(7[0-8]\\d{7})$";
     public static final String ULBSIBIU_SUFFIX = "@ulbsibiu.ro";
     public static final String GMAIL_SUFFIX = "@gmail.";
@@ -17,4 +14,9 @@ public class Constants {
     public static final String INLINE_FILENAME = "inline; filename=";
     public static final String BY_CRITERIA = "/by-criteria/";
     public static final String NOT_FOUND = " not found";
+    public static final String FIND_BY_CRITERIA = "findByCriteria";
+    public static final String DESCRIPTION = "description";
+    public static final String NAME = " name";
+    private Constants() {
+    }
 }

@@ -1,0 +1,82 @@
+{
+  "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "email": "robert.marinescu@yahoo.com",
+  "role": "STUDENT",
+  "name": "Robert Marinescu",
+  "phone": "0712345678",
+  "website": "https://github.com/robertmarinescu",
+  "description": "Student la Facultatea de Inginerie, ULBS, Sibiu, Specializarea Calculatoare",
+  "status": "EMPLOYED",
+  "experiences": [
+    {
+      "title": "Intern Developer Software",
+      "description": "Internship la Visma Romania, lucrând la proiecte de dezvoltare software.",
+      "date": "2022-06-01T00:00:00Z",
+      "url": "https://www.vismasoftware.com",
+      "type": "INTERNSHIP"
+    },
+    {
+      "title": "Junior Developer Software",
+      "description": "Proiect de dezvoltare software la Continental, lucrând la implementarea unei soluții IoT.",
+      "date": "2023-03-15T00:00:00Z",
+      "url": "https://www.continental-corporation.com",
+      "type": "PROJECT"
+    }
+  ],
+  "jobHistories": [
+    {
+      "position": "Inginer Software",
+      "startDate": "2023-06-01T00:00:00Z",
+      "description": "Angajat la Visma Romania, lucrând la dezvoltarea unui sistem de management al resurselor umane.",
+      "needQualification": true,
+      "company": {
+        "name": "Visma Romania",
+        "address": "Sibiu, România",
+        "website": "https://www.vismasoftware.com"
+      }
+    },
+    {
+      "position": "Inginer Software",
+      "startDate": "2022-03-15T00:00:00Z",
+      "endDate": "2023-05-31T00:00:00Z",
+      "description": "Angajat la Continental, lucrând la dezvoltarea sistemelor de asistență pentru șoferi.",
+      "needQualification": true,
+      "company": {
+        "name": "Continental",
+        "address": "Sibiu, România",
+        "website": "https://www.continental-corporation.com"
+      }
+    }
+  ],
+  "languages": [
+    {
+      "name": "Engleză",
+      "listening": "B2",
+      "reading": "C1",
+      "speaking": "B2",
+      "conversation": "B2",
+      "writing": "B2"
+    },
+    {
+      "name": "Franceză",
+      "listening": "A2",
+      "reading": "B1",
+      "speaking": "A2",
+      "conversation": "A2",
+      "writing": "A2"
+    }
+  ],
+  "specializations": [
+    {
+      "startedDate": "2020-09-01T00:00:00Z",
+      "finishedDate": "2024-07-01T00:00:00Z",
+      "name": "Calculatoare",
+      "degree": "BACHELOR",
+      "faculty": {
+        "name": "Facultatea de Inginerie",
+        "address": "Str. Emil Cioran nr. 4, Sibiu",
+        "yearsOfStudy": 4
+      }
+    }
+  ]
+}

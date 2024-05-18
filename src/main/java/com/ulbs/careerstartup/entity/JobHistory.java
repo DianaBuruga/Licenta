@@ -38,7 +38,7 @@ public class JobHistory {
     @Column(name = "need_qualification", nullable = false)
     private Boolean needQualification;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     private User user;
 

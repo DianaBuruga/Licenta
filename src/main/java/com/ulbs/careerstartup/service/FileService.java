@@ -30,9 +30,6 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class FileService {
-    private FileRepository fileRepository;
-    private Mapper mapper;
-
     private final List<String> allowedFileExtensions = Arrays.asList(
             "jpg", "jpeg", "png", "gif",
             "doc", "docx",
@@ -42,6 +39,8 @@ public class FileService {
             "txt",
             "odt", "ods", "odp"
     );
+    private FileRepository fileRepository;
+    private Mapper mapper;
 
     public FileDTO findFileById(FilePK id) throws FileNotFoundException {
         File file = fileRepository.findById(id)
@@ -49,34 +48,14 @@ public class FileService {
         return mapper.fileToFileDTO(file);
     }
 
-    public FileDTO findByIdOrNull(FilePK filePK) {
-        FileDTO fileDTO;
-        try {
-            fileDTO = findFileById(filePK);
-        } catch (FileNotFoundException e) {
-            fileDTO = null;
-        }
-        return fileDTO;
-    }
-
-    public Collection<FileDTO> findFilesByCriteria(List<SearchCriteria> searchCriteria) {
+    public Collection<FileDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return fileRepository
                 .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
                 .map(mapper::fileToFileDTO)
                 .toList();
     }
 
-    public FileDTO uploadOrFindFile(MultipartFile multipartFile, FilePK filePK, FileType fileType) throws IOException {
-        FileDTO fileDTO;
-        if (multipartFile != null) {
-            fileDTO = uploadFile(fileType, filePK, multipartFile);
-        } else {
-            fileDTO = findByIdOrNull(filePK);
-        }
-        return fileDTO;
-    }
-
-    public FileDTO uploadFile(FileType fileType, FilePK filePK, MultipartFile multipartFile) throws IOException {
+    public void uploadFile(FileType fileType, FilePK filePK, MultipartFile multipartFile) throws IOException {
         File file = mapper.multipartFileToFile(multipartFile);
         String extension = StringUtils.getFilenameExtension(file.getName());
         if (!allowedFileExtensions.contains(extension)) {
@@ -84,8 +63,7 @@ public class FileService {
         }
         file.setType(fileType);
         file.setId(filePK);
-        file = fileRepository.save(file);
-        return mapper.fileToFileDTO(file);
+        fileRepository.save(file);
     }
 
     public FileDTO updateFile(File file, MultipartFile multipartFile) throws IOException {

@@ -30,13 +30,13 @@ public class LanguageService {
                 .toList();
     }
 
-    public LanguageDTO findById(UUID id) {
+    public LanguageDTO findLanguageById(UUID id) {
         return languageRepository.findById(id)
                 .map(mapper::languageToLanguageDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Language with id " + id + " not found"));
     }
 
-    public Collection<LanguageDTO> findLanguagesByCriteria(List<SearchCriteria> criteria) {
+    public Collection<LanguageDTO> findByCriteria(List<SearchCriteria> criteria) {
         return languageRepository
                 .findAll(new GenericSpecification<>(criteria), PageRequest.of(0, 10))
                 .map(mapper::languageToLanguageDTO)

@@ -29,11 +29,11 @@ public class PostedJobService {
         return postedJobRepository.findAll().stream().map(mapper::postedJobToPostedJobDTO).toList();
     }
 
-    public PostedJobDTO findById(UUID id) {
+    public PostedJobDTO findPostedJobById(UUID id) {
         return postedJobRepository.findById(id).map(mapper::postedJobToPostedJobDTO).orElseThrow(() -> new EntityNotFoundException("PostedJob with id " + id + NOT_FOUND));
     }
 
-    public Collection<PostedJobDTO> findPostedJobsByCriteria(List<SearchCriteria> searchCriteria) {
+    public Collection<PostedJobDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return postedJobRepository.findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10)).map(mapper::postedJobToPostedJobDTO).toList();
     }
 

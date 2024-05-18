@@ -30,13 +30,13 @@ public class NotificationService {
                 .toList();
     }
 
-    public NotificationDTO findById(UUID id) {
+    public NotificationDTO findNotificationById(UUID id) {
         return notificationRepository.findById(id)
                 .map(mapper::notificationToNotificationDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Notification with id " + id + " not found"));
     }
 
-    public Collection<NotificationDTO> findNotificationsByCriteria(List<SearchCriteria> criteria) {
+    public Collection<NotificationDTO> findByCriteria(List<SearchCriteria> criteria) {
         return notificationRepository
                 .findAll(new GenericSpecification<>(criteria), PageRequest.of(0, 10))
                 .map(mapper::notificationToNotificationDTO)

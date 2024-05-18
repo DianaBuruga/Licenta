@@ -18,8 +18,9 @@ import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/companies")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
+//@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "Company", description = "The Company API")
+@CrossOrigin(origins = "http://localhost:4200")
 public class CompanyController implements CompanyApiDoc {
 
     private CompanyService companyService;
@@ -36,9 +37,13 @@ public class CompanyController implements CompanyApiDoc {
 
     @GetMapping(BY_CRITERIA)
     public Collection<CompanyDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return companyService.findCompaniesByCriteria(criteria);
+        return companyService.findByCriteria(criteria);
     }
 
+    @GetMapping("{id}/icon")
+    public String getCompanyIcon(@PathVariable UUID id) {
+        return companyService.getFaviconUrl(id);
+    }
     @PostMapping
     public CompanyDTO saveCompany(@RequestBody CompanyDTO companyDTO) {
         return companyService.saveCompany(companyDTO);

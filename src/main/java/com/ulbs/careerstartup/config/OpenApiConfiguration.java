@@ -1,4 +1,4 @@
-package com.ulbs.careerstartup.rest;
+package com.ulbs.careerstartup.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

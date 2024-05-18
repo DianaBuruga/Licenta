@@ -25,8 +25,7 @@ public class JobCandidates {
 
     @ToString.Exclude
     @MapsId("candidateId")
-    @ManyToOne(fetch = FetchType.LAZY, optional = false,
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "candidate_id", referencedColumnName = "id", nullable = false)
     private User user;
 

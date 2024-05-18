@@ -85,7 +85,7 @@ public class BibliographyService {
                 .toList();
     }
 
-    public Collection<BibliographyDTO> findBibliographiesByCriteria(List<SearchCriteria> searchCriteria) {
+    public Collection<BibliographyDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return bibliographyRepository
                 .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
                 .map(mapper::bibliographyToBibliographyDTO)

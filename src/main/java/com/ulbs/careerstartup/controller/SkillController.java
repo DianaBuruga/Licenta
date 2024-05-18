@@ -36,7 +36,7 @@ public class SkillController implements SkillApiDoc {
 
     @GetMapping(BY_CRITERIA)
     public Collection<SkillDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return skillService.findSkillsByCriteria(criteria);
+        return skillService.findByCriteria(criteria);
     }
 
     @PostMapping

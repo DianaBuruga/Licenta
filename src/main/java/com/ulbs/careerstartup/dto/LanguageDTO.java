@@ -1,9 +1,11 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ulbs.careerstartup.constant.LanguageLevel;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Builder
@@ -17,26 +19,35 @@ public class LanguageDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Name is required")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Listening level is required")
+    @NotEmpty(message = "Listening level is required")
     private LanguageLevel listening;
 
-    @NotNull
+    @NotNull(message = "Reading level is required")
+    @NotEmpty(message = "Reading level is required")
     private LanguageLevel reading;
 
-    @NotNull
+    @NotNull(message = "Speaking level is required")
+    @NotEmpty(message = "Speaking level is required")
     private LanguageLevel speaking;
 
-    @NotNull
+    @NotNull(message = "Conversation level is required")
+    @NotEmpty(message = "Conversation level is required")
     private LanguageLevel conversation;
 
-    @NotNull
+    @NotNull(message = "Writing level is required")
+    @NotEmpty(message = "Writing level is required")
     private LanguageLevel writing;
 
+    @JsonProperty("file")
     private FileDTO fileDTO;
 
-    @NotNull
+    @NotNull(message = "User is required")
+    @NotEmpty(message = "User is required")
+    @JsonProperty("user")
     private UserDTO userDTO;
 }

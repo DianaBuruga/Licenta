@@ -35,7 +35,7 @@ public class NotificationController {
 
     @GetMapping(BY_CRITERIA)
     public Collection<NotificationDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return notificationService.findNotificationsByCriteria(criteria);
+        return notificationService.findByCriteria(criteria);
     }
 
     @PostMapping

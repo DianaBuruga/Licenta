@@ -31,7 +31,7 @@ public class ReviewService {
                 .toList();
     }
 
-    public ReviewDTO findById(UUID id) {
+    public ReviewDTO findReviewById(UUID id) {
         return reviewRepository.findById(id)
                 .map(mapper::reviewToReviewDTO)
                 .orElseThrow(() -> new EntityNotFoundException("Review with id " + id + " not found"));
@@ -49,7 +49,7 @@ public class ReviewService {
         reviewRepository.delete(mapper.reviewDTOToReview(reviewDTO));
     }
 
-    public Collection<ReviewDTO> findReviewsByCriteria(List<SearchCriteria> criteria) {
+    public Collection<ReviewDTO> findByCriteria(List<SearchCriteria> criteria) {
         return reviewRepository
                 .findAll(new GenericSpecification<>(criteria), PageRequest.of(0, 10))
                 .map(mapper::reviewToReviewDTO)

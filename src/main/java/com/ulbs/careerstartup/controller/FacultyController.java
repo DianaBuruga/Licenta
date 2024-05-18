@@ -36,7 +36,7 @@ public class FacultyController implements FacultyApiDoc {
 
     @GetMapping(BY_CRITERIA)
     public Collection<FacultyDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return facultyService.findFacultiesByCriteria(criteria);
+        return facultyService.findByCriteria(criteria);
     }
 
     @PostMapping

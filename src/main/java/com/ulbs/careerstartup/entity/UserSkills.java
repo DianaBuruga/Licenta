@@ -4,7 +4,7 @@ import com.ulbs.careerstartup.entity.pk.UserSkillPK;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Objects;
 
 @Builder
@@ -20,7 +20,7 @@ public class UserSkills {
     @EmbeddedId
     private UserSkillPK id;
 
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @MapsId("userId")
     @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
     @NotNull

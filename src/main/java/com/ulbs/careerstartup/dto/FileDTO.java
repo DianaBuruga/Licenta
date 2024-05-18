@@ -1,9 +1,10 @@
 package com.ulbs.careerstartup.dto;
 
 import com.ulbs.careerstartup.constant.FileType;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 @Builder
@@ -18,15 +19,19 @@ public class FileDTO {
     @NotNull
     private UUID tableId;
 
-    @NotNull
+    @NotNull(message = "Table name is required")
+    @NotEmpty(message = "Table name is required")
     private String tableName;
 
-    @NotNull
+    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Name is required")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Content is required")
+    @NotEmpty(message = "Content is required")
     private byte[] content;
 
-    @NotNull
+    @NotNull(message = "Type is required")
+    @NotEmpty(message = "Type is required")
     private FileType type;
 }

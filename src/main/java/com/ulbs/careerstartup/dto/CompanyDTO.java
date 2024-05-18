@@ -1,9 +1,11 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -17,22 +19,33 @@ public class CompanyDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Name is required")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Description is required")
+    @NotEmpty(message = "Description is required")
     private String address;
 
-    @NotNull
-    @URL
+    @NotNull(message = "Website is required")
+    @NotEmpty(message = "Website is required")
+    @URL(message = "Invalid website")
     private String website;
 
-    @NotNull
+    private String logoUrl;
+
+    @NotNull(message = "Job histories are required")
+    @NotEmpty(message = "Job histories are required")
+    @JsonProperty("jobHistories")
     private Collection<JobHistoryDTO> jobHistoriesDTO;
 
-    @NotNull
+    @NotNull(message = "Posted jobs are required")
+    @NotEmpty(message = "Posted jobs are required")
+    @JsonProperty("postedJobs")
     private Collection<PostedJobDTO> postedJobsDTO;
 
-    @NotNull
+    @NotNull(message = "Reviews are required")
+    @NotEmpty(message = "Reviews are required")
+    @JsonProperty("reviews")
     private Collection<ReviewDTO> reviewsDTO;
 }

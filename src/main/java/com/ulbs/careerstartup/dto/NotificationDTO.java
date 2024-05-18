@@ -1,8 +1,10 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -17,12 +19,16 @@ public class NotificationDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Notification content is required")
+    @NotEmpty(message = "Notification content is required")
     private String notificationContent;
 
-    @NotNull
-    private Timestamp date;
+    @NotNull(message = "Date is required")
+    @NotEmpty(message = "Date is required")
+    private String date;
 
-    @NotNull
+    @NotNull(message = "Seen is required")
+    @NotEmpty(message = "Seen is required")
+    @JsonProperty("user")
     private UserDTO userDTO;
 }

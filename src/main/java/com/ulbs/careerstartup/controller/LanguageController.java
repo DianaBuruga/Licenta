@@ -17,7 +17,7 @@ import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping("/languages")
+@RequestMapping("users/languages")
 @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "Language", description = "The Language API")
 public class LanguageController implements LanguageApiDoc {
@@ -35,7 +35,7 @@ public class LanguageController implements LanguageApiDoc {
 
     @GetMapping(BY_CRITERIA)
     public Collection<LanguageDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return languageService.findLanguagesByCriteria(criteria);
+        return languageService.findByCriteria(criteria);
     }
 
     @PostMapping

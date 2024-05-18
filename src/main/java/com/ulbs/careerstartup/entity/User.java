@@ -8,9 +8,9 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 import org.hibernate.validator.constraints.URL;
 
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
@@ -55,59 +55,73 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
-    @OneToMany(mappedBy = "writer")
+    @OneToMany(mappedBy = "writer",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Bibliography> bibliographies;
 
-    @OneToMany(mappedBy = "creator")
+    @OneToMany(mappedBy = "creator",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Event> events;
 
-    @ManyToMany(mappedBy = "subscribers")
+    @ManyToMany(mappedBy = "subscribers",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @ToString.Exclude
     private Collection<Event> eventSubscribers;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Experience> experiences;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<JobCandidates> jobCandidates;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<JobHistory> jobHistories;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Language> languages;
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Message> sentMessages;
 
-    @OneToMany(mappedBy = "receiver")
+    @OneToMany(mappedBy = "receiver",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Message> receivedMessages;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Notification> notifications;
 
-    @OneToMany(mappedBy = "teacher")
+    @OneToMany(mappedBy = "teacher",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Referral> writtenReferrals;
 
-    @OneToMany(mappedBy = "student")
+    @OneToMany(mappedBy = "student",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Referral> receivedReferrals;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<Specialization> specializations;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     @ToString.Exclude
     private Collection<UserSkills> skills;
 

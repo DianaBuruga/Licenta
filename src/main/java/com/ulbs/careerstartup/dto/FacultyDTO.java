@@ -1,10 +1,12 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import java.util.Collection;
 import java.util.UUID;
 
@@ -22,17 +24,21 @@ public class FacultyDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Name is required")
+    @NotEmpty(message = "Name is required")
     @Size(max = 100, message = INPUT_TOO_LONG)
     private String name;
 
-    @NotNull
+    @NotNull(message = "Address is required")
+    @NotEmpty(message = "Address is required")
     @Size(max = 100, message = INPUT_TOO_LONG)
     private String address;
 
-    @NotNull
+    @NotNull(message = "Years of study are required")
+    @NotEmpty(message = "Years of study are required")
     @Max(value = 6, message = INVALID_YEAR_OF_STUDY)
     private Integer yearsOfStudy;
 
+    @JsonProperty("specializations")
     private Collection<SpecializationDTO> specializationsDTO;
 }

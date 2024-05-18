@@ -1,8 +1,10 @@
 package com.ulbs.careerstartup.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.sql.Timestamp;
 import java.util.UUID;
 
@@ -17,18 +19,26 @@ public class MessageDTO {
 
     private UUID id;
 
-    @NotNull
+    @NotNull(message = "Message content is required")
+    @NotEmpty(message = "Message content is required")
+    @JsonProperty("messageContent")
     private String messageContent;
 
-    @NotNull
-    private Timestamp sendDate;
+    @NotNull(message = "Send date is required")
+    @NotEmpty(message = "Send date is required")
+    private String sendDate;
 
-    @NotNull
+    @NotNull(message = "Seen is required")
+    @NotEmpty(message = "Seen is required")
     private Boolean seen;
 
-    @NotNull
+    @NotNull(message = "Sender is required")
+    @NotEmpty(message = "Sender is required")
+    @JsonProperty("sender")
     private UserDTO senderDTO;
 
-    @NotNull
+    @NotNull(message = "Receiver is required")
+    @NotEmpty(message = "Receiver is required")
+    @JsonProperty("receiver")
     private UserDTO receiverDTO;
 }
