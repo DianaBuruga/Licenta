@@ -6,7 +6,7 @@ import com.ulbs.careerstartup.service.ExperienceService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
@@ -15,10 +15,12 @@ import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
+@RestController
 @AllArgsConstructor
 @RequestMapping("/experiences")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
+//@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "Experience", description = "The Experience API")
+@Validated
 public class ExperienceController implements ExperienceApiDoc {
 
     private ExperienceService experienceService;
@@ -48,8 +50,8 @@ public class ExperienceController implements ExperienceApiDoc {
         return experienceService.updateExperience(experienceDTO);
     }
 
-    @DeleteMapping
-    public void deleteExperience(@RequestBody ExperienceDTO experienceDTO) {
-        experienceService.deleteExperience(experienceDTO);
+    @DeleteMapping("/{id}")
+    public void deleteExperience(@PathVariable UUID id) {
+        experienceService.deleteExperience(id);
     }
 }

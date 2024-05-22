@@ -1,6 +1,8 @@
 package com.ulbs.careerstartup.service;
 
 import com.ulbs.careerstartup.dto.ExperienceDTO;
+import com.ulbs.careerstartup.entity.Experience;
+import com.ulbs.careerstartup.entity.User;
 import com.ulbs.careerstartup.mapper.Mapper;
 import com.ulbs.careerstartup.repository.ExperienceRepository;
 import com.ulbs.careerstartup.specification.GenericSpecification;
@@ -12,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import jakarta.validation.constraints.NotNull;
+
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -41,14 +44,20 @@ public class ExperienceService {
     }
 
     public ExperienceDTO saveExperience(ExperienceDTO experienceDTO) {
-        return mapper.experienceToExperienceDTO(experienceRepository.save(mapper.experienceDTOToExperience(experienceDTO)));
+        User user = mapper.userDTOToUser(experienceDTO.getUserDTO());
+        Experience experience = mapper.experienceDTOToExperience(experienceDTO);
+        experience.setUser(user);
+        return mapper.experienceToExperienceDTO(experienceRepository.save(experience));
     }
 
     public ExperienceDTO updateExperience(ExperienceDTO experienceDTO) {
-        return mapper.experienceToExperienceDTO(experienceRepository.save(mapper.experienceDTOToExperience(experienceDTO)));
+        User user = mapper.userDTOToUser(experienceDTO.getUserDTO());
+        Experience experience = mapper.experienceDTOToExperience(experienceDTO);
+        experience.setUser(user);
+        return mapper.experienceToExperienceDTO(experienceRepository.save(experience));
     }
 
-    public void deleteExperience(ExperienceDTO experienceDTO) {
-        experienceRepository.delete(mapper.experienceDTOToExperience(experienceDTO));
+    public void deleteExperience(UUID id) {
+        experienceRepository.deleteById(id);
     }
 }
