@@ -2,19 +2,15 @@ package com.ulbs.careerstartup.mapper;
 
 import com.ulbs.careerstartup.dto.*;
 import com.ulbs.careerstartup.entity.*;
-import com.ulbs.careerstartup.service.CompanyService;
 import com.ulbs.careerstartup.util.CompanyUtil;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.Instant;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
@@ -24,6 +20,7 @@ import java.util.Objects;
 public interface Mapper {
 
     Mapper INSTANCE = Mappers.getMapper(Mapper.class);
+
     //@Mapping(source = "writer", target = "writerDTO")
     @Mapping(target = "writerDTO", ignore = true)
     @Mapping(source = "skill", target = "skillDTO")
@@ -168,11 +165,11 @@ public interface Mapper {
     @Mapping(source = "finishedDate", target = "finishedDate", qualifiedByName = "stringToTimestamp")
     Specialization specializationDTOToSpecialization(SpecializationDTO specializationDTO);
 
-   // @Mapping(target = "createdEventsDTO", ignore = true)
+    // @Mapping(target = "createdEventsDTO", ignore = true)
     @Mapping(target = "bibliographiesDTO", source = "bibliographies")
     @Mapping(target = "experiencesDTO", source = "experiences")
     @Mapping(target = "languagesDTO", source = "languages")
-   // @Mapping(target = "notificationsDTO", source = "notifications")
+    // @Mapping(target = "notificationsDTO", source = "notifications")
     @Mapping(target = "receivedReferralsDTO", source = "receivedReferrals")
     @Mapping(target = "specializationsDTO", source = "specializations")
     @Mapping(target = "skillsDTO", source = "skills")
@@ -195,6 +192,7 @@ public interface Mapper {
     default void afterCompanyDtoMapping(@MappingTarget CompanyDTO companyDTO) {
         companyDTO.setLogoUrl(new CompanyUtil().getFaviconUrl(companyDTO.getWebsite()));
     }
+
     @AfterMapping
     default void afterUserMapping(@MappingTarget User user) {
         if (Objects.nonNull(user.getBibliographies())) {
@@ -273,17 +271,15 @@ public interface Mapper {
         if (timestamp == null) {
             return null;
         }
-        String dateTimeStr = timestamp.toInstant().atZone(ZoneId.of("Europe/Bucharest")).format(DateTimeFormatter.ISO_INSTANT);
 
-        return dateTimeStr;
+        return timestamp.toInstant().atZone(ZoneId.of("Europe/Bucharest")).format(DateTimeFormatter.ISO_INSTANT);
     }
 
     @Named("stringToTimestamp")
     default Timestamp mapStringToTimestamp(String dateTimeStr) {
-        if (dateTimeStr == null)  {
+        if (dateTimeStr == null) {
             return null;
-        } else if(dateTimeStr.equals("") )
-        {
+        } else if (dateTimeStr.equals("")) {
             return null;
         }
 

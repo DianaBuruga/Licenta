@@ -69,10 +69,10 @@ public class SecurityConfig {
                         })
                 )
                 .oauth2Login(oauth2 -> oauth2
-                                .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-                                        .oidcUserService(oidcWorkspaceUserService)
-                                )
-                                .failureHandler(authenticationFailureHandler)
+                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
+                                .oidcUserService(oidcWorkspaceUserService)
+                        )
+                        .failureHandler(authenticationFailureHandler)
 
                 )
                 .anonymous(AbstractHttpConfigurer::disable);
