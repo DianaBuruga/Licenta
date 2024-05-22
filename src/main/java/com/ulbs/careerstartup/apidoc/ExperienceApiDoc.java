@@ -5,9 +5,11 @@ import com.ulbs.careerstartup.exception.ErrorResponse;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +26,7 @@ public interface ExperienceApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ExperienceDTO.class))),
+                                    array = @ArraySchema(schema = @Schema(implementation = ExperienceDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -41,6 +43,7 @@ public interface ExperienceApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     Collection<ExperienceDTO> findAllExperiences();
 
@@ -65,6 +68,7 @@ public interface ExperienceApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     ExperienceDTO findExperienceById(@Parameter(description = "Id of the experience that will be received", required = true) @Valid @PathVariable UUID id);
 
@@ -72,7 +76,7 @@ public interface ExperienceApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ExperienceDTO.class))),
+                                    array = @ArraySchema(schema = @Schema(implementation = ExperienceDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -89,6 +93,7 @@ public interface ExperienceApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     Collection<ExperienceDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
 
@@ -113,6 +118,7 @@ public interface ExperienceApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     ExperienceDTO saveExperience(@Parameter(description = "Experience that will be saved", required = true) @Valid @RequestBody ExperienceDTO experienceDTO);
 
@@ -137,6 +143,7 @@ public interface ExperienceApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     ExperienceDTO updateExperience(@Parameter(description = "Experience that will be updated", required = true) @Valid @RequestBody ExperienceDTO experienceDTO);
 
@@ -159,6 +166,7 @@ public interface ExperienceApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
-    void deleteExperience(@Parameter(description = "Id of the experience that will be deleted", required = true) @Valid @RequestBody ExperienceDTO experienceDTO);
+    void deleteExperience(@Parameter(description = "Id of the experience that will be deleted", required = true) @Valid @PathVariable UUID id);
 }

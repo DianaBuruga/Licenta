@@ -5,9 +5,11 @@ import com.ulbs.careerstartup.exception.ErrorResponse;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +25,7 @@ public interface LanguageApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = LanguageDTO.class))),
+                                   array = @ArraySchema(schema = @Schema(implementation = LanguageDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -39,7 +41,8 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     Collection<LanguageDTO> findAllLanguages();
 
@@ -63,7 +66,8 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     LanguageDTO findLanguageById(@Parameter(description = "Id of the language that will be received", required = true) @Valid @PathVariable UUID id);
 
@@ -71,7 +75,7 @@ public interface LanguageApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = LanguageDTO.class))),
+                                   array = @ArraySchema(schema = @Schema(implementation = LanguageDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -87,7 +91,8 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     Collection<LanguageDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestBody List<SearchCriteria> criteria);
 
@@ -111,7 +116,8 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     LanguageDTO saveLanguage(@Parameter(description = "Language that will be saved", required = true) @Valid @RequestBody LanguageDTO languageDTO);
 
@@ -135,7 +141,8 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     LanguageDTO updateLanguage(@Parameter(description = "Language that will be updated", required = true) @Valid @RequestBody LanguageDTO languageDTO);
 
@@ -157,7 +164,8 @@ public interface LanguageApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     void deleteLanguage(@Parameter(description = "Id of the language that will be deleted", required = true) @Valid @RequestBody LanguageDTO languageDTO);
 }

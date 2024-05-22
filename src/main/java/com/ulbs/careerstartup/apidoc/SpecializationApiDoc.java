@@ -5,9 +5,11 @@ import com.ulbs.careerstartup.exception.ErrorResponse;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +26,7 @@ public interface SpecializationApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = SpecializationDTO.class))),
+                                    array = @ArraySchema(schema = @Schema(implementation = SpecializationDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -40,7 +42,8 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     Collection<SpecializationDTO> findAllSpecializations();
 
@@ -64,7 +67,8 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     SpecializationDTO findSpecializationById(@Parameter(description = "Id of the specialization that will be received", required = true) @Valid @PathVariable UUID id);
 
@@ -72,7 +76,7 @@ public interface SpecializationApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = SpecializationDTO.class))),
+                                    array = @ArraySchema(schema = @Schema(implementation = SpecializationDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -88,7 +92,8 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     Collection<SpecializationDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
 
@@ -112,7 +117,8 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     SpecializationDTO saveSpecialization(@Parameter(description = "Specialization that will be saved", required = true) @Valid @RequestBody SpecializationDTO specializationDTO);
 
@@ -134,7 +140,8 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     void deleteSpecialization(@Parameter(description = "Specialization that will be deleted", required = true) @Valid @RequestBody SpecializationDTO specializationDTO);
 
@@ -158,7 +165,8 @@ public interface SpecializationApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     SpecializationDTO updateSpecialization(@Parameter(description = "Specialization that will be updated", required = true) @Valid @RequestBody SpecializationDTO specializationDTO);
 

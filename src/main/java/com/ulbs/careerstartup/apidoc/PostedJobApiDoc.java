@@ -5,9 +5,11 @@ import com.ulbs.careerstartup.exception.ErrorResponse;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,7 +25,7 @@ public interface PostedJobApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = PostedJobDTO.class))),
+                                   array = @ArraySchema(schema = @Schema(implementation = PostedJobDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -63,7 +65,8 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     PostedJobDTO findPostedJobById(@Parameter(description = "Id of the posted job that will be received", required = true) @Valid @PathVariable UUID id);
 
@@ -71,7 +74,7 @@ public interface PostedJobApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = PostedJobDTO.class))),
+                                   array = @ArraySchema(schema = @Schema(implementation = PostedJobDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -87,7 +90,8 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     Collection<PostedJobDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
 
@@ -111,7 +115,8 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     PostedJobDTO savePostedJob(@Parameter(description = "Posted job that will be saved", required = true) @Valid @RequestBody PostedJobDTO postedJobDTO);
 
@@ -135,7 +140,8 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     PostedJobDTO updatePostedJob(@Parameter(description = "Posted job that will be updated", required = true) @Valid @RequestBody PostedJobDTO postedJobDTO);
 
@@ -157,7 +163,8 @@ public interface PostedJobApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     void deletePostedJob(@Parameter(description = "Posted job that will be deleted", required = true) @Valid @RequestBody PostedJobDTO postedJobDTO);
 }

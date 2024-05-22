@@ -5,9 +5,11 @@ import com.ulbs.careerstartup.exception.ErrorResponse;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +33,7 @@ public interface UserApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = UserDTO.class))),
+                                    array = @ArraySchema(schema = @Schema(implementation = UserDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -46,7 +49,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     Collection<UserDTO> findAllUsers();
 
@@ -70,7 +74,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     UserDTO findUserById(@Parameter(description = "Id of the user that will be received", required = true) @Valid @PathVariable UUID id);
 
@@ -94,9 +99,10 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
-    UserDTO getAuthenticatedUser();
+    UserDTO getAuthenticatedUser(@AuthenticationPrincipal OidcUser oidcUser, Principal principal);
 
     @Operation(summary = "Find user by criteria", tags = {"User"},
             responses = {
@@ -117,7 +123,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     Collection<UserDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestBody List<SearchCriteria> criteria);
 
@@ -141,7 +148,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     UserDTO saveUser(@Parameter(description = "User that will be saved", required = true) @Valid @RequestBody UserDTO userDTO);
 
@@ -165,7 +173,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     UserDTO updateUser(@Parameter(description = "User that will be updated", required = true) @Valid @RequestBody UserDTO userDTO);
 
@@ -189,7 +198,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     void saveProfilePhoto(@Parameter(description = "User id") @Valid @RequestParam UUID id, @Parameter(description = "Profile photo") @Valid @RequestParam MultipartFile multipartFile) throws IOException;
 
@@ -213,7 +223,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     UserDTO findUserByEmail(@Parameter(description = "Email of the user that will be received", required = true) @Valid @PathVariable String email);
 
@@ -235,7 +246,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     void deleteUser(@Parameter(description = "User that will be deleted", required = true) @Valid @RequestBody UserDTO userDTO);
 
@@ -259,7 +271,8 @@ public interface UserApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     ResponseEntity<Resource> exportUserPdf(@Valid @PathVariable UUID id) throws IOException;
 }

@@ -5,9 +5,11 @@ import com.ulbs.careerstartup.exception.ErrorResponse;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +26,7 @@ public interface JobCandidatesApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = JobCandidatesDTO.class))),
+                                   array = @ArraySchema(schema = @Schema(implementation = JobCandidatesDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -72,7 +74,7 @@ public interface JobCandidatesApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = JobCandidatesDTO.class))),
+                                   array = @ArraySchema(schema = @Schema(implementation = JobCandidatesDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -89,6 +91,7 @@ public interface JobCandidatesApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     Collection<JobCandidatesDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
 
@@ -113,6 +116,7 @@ public interface JobCandidatesApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     JobCandidatesDTO saveJobCandidates(@Parameter(description = "Job candidate that will be saved", required = true) @Valid @RequestBody JobCandidatesDTO jobCandidatesDTO);
 
@@ -137,6 +141,7 @@ public interface JobCandidatesApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     JobCandidatesDTO updateJobCandidates(@Parameter(description = "Job candidate that will be updated", required = true) @Valid @RequestBody JobCandidatesDTO jobCandidatesDTO);
 
@@ -159,6 +164,7 @@ public interface JobCandidatesApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     void deleteJobCandidates(@Parameter(description = "Job candidate that will be deleted", required = true) @Valid @RequestBody JobCandidatesDTO jobCandidatesDTO);
 }
