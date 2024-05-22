@@ -6,7 +6,7 @@ import com.ulbs.careerstartup.service.JobHistoryService;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
@@ -22,6 +22,7 @@ import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 //@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "JobHistory", description = "The JobHistory API")
 @CrossOrigin(origins = "http://localhost:4200")
+@Validated
 public class JobHistoryController implements JobHistoryApiDoc {
     private JobHistoryService jobHistoryService;
 
@@ -46,12 +47,12 @@ public class JobHistoryController implements JobHistoryApiDoc {
     }
 
     @PatchMapping
-    public JobHistoryDTO updateJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
+    public JobHistoryDTO updateJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) throws MalformedURLException {
         return jobHistoryService.updateJobHistory(jobHistoryDTO);
     }
 
-    @DeleteMapping
-    public void deleteJobHistory(@RequestBody JobHistoryDTO jobHistoryDTO) {
-        jobHistoryService.deleteJobHistory(jobHistoryDTO);
+    @DeleteMapping("/{id}")
+    public void deleteJobHistory(@PathVariable UUID id) {
+        jobHistoryService.deleteJobHistory(id);
     }
 }
