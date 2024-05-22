@@ -5,9 +5,11 @@ import com.ulbs.careerstartup.exception.ErrorResponse;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,7 +26,7 @@ public interface EventApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = EventDTO.class))),
+                                    array = @ArraySchema(schema = @Schema(implementation = EventDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -40,7 +42,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },security = @SecurityRequirement(name = "oauth2")
     )
     Collection<EventDTO> findAllEvents();
 
@@ -64,7 +66,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },security = @SecurityRequirement(name = "oauth2")
     )
     EventDTO findEventById(@Parameter(description = "Id of the event that will be received", required = true) @Valid @PathVariable UUID id);
 
@@ -72,7 +74,7 @@ public interface EventApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = EventDTO.class))),
+                                    array = @ArraySchema(schema = @Schema(implementation = EventDTO.class)))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -89,6 +91,7 @@ public interface EventApiDoc {
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
+            ,security = @SecurityRequirement(name = "oauth2")
     )
     Collection<EventDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
 
@@ -112,7 +115,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },security = @SecurityRequirement(name = "oauth2")
     )
     EventDTO saveEvent(@Parameter(description = "Event that will be saved", required = true) @Valid @RequestBody EventDTO eventDTO);
 
@@ -136,7 +139,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },security = @SecurityRequirement(name = "oauth2")
     )
     EventDTO updateEvent(@Parameter(description = "Event that will be updated", required = true) @Valid @RequestBody EventDTO eventDTO);
 
@@ -158,7 +161,7 @@ public interface EventApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },security = @SecurityRequirement(name = "oauth2")
     )
     void deleteEvent(@Parameter(description = "Event that will be updated", required = true) @Valid @RequestBody EventDTO eventDTO);
 }
