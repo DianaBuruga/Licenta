@@ -12,7 +12,6 @@ import com.ulbs.careerstartup.util.UserPdfExporter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.mime.MimeTypes;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.core.io.ByteArrayResource;
@@ -20,9 +19,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,13 +28,14 @@ import java.io.ByteArrayInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.Constants.*;
-import static org.springframework.http.HttpHeaders.*;
+import static org.apache.tika.metadata.TikaMetadataKeys.RESOURCE_NAME_KEY;
+import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
 @RestController
 @AllArgsConstructor
@@ -57,9 +55,8 @@ public class UserController implements UserApiDoc {
     private FileService fileService;
 
     @GetMapping(value="/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO getAuthenticatedUser() {
-       // String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userService.findByEmail("robert.marinescu@yahoo.com");
+    public UserDTO getAuthenticatedUser(@AuthenticationPrincipal OidcUser oidcUser, Principal principal) {
+        return userService.findByEmail(oidcUser.getEmail());
     }
 
     @GetMapping
@@ -128,9 +125,9 @@ public class UserController implements UserApiDoc {
             AutoDetectParser parser = new AutoDetectParser();
             BodyContentHandler handler = new BodyContentHandler();
             Metadata metadata = new Metadata();
-            metadata.set(Metadata.RESOURCE_NAME_KEY, filename);
+            metadata.set(RESOURCE_NAME_KEY, filename);
             parser.parse(is, handler, metadata);
-            return MediaType.parseMediaType(metadata.get(Metadata.CONTENT_TYPE));
+            return MediaType.parseMediaType(metadata.get(CONTENT_TYPE));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -138,7 +135,7 @@ public class UserController implements UserApiDoc {
     }
 
     @GetMapping(value = "/CV/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Resource> exportUserPdf(@PathVariable UUID id) throws IOException {
+    public ResponseEntity<Resource> exportUserPdf(@PathVariable UUID id) {
         UserPdfExporter userPdfExporter = new UserPdfExporter();
         UserDTO userDTO = userService.findById(id);
         userPdfExporter.generateCv(userDTO);
