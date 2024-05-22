@@ -1,6 +1,10 @@
 <div class="container">
     <br>
-    <h1><b>Acreditari</b></h1>
+    <h1><b>Acreditari</b>
+    <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyAcreditation)">
+    <mat-icon>add</mat-icon>
+      </button>
+    </h1>
 <div fxLayout="row" fxLayoutWrap="wrap" fxLayoutAlign="space-around center">
     <div fxFlex="25" *ngFor="let acreditare of acreditari" class="card-container" fxFlex.gt-sm="40" fxFlex.gt-xs="50" fxFlex="100">
         <mat-card class="custom-border-card">
@@ -15,6 +19,14 @@
             <mat-card-actions>
                 <a mat-button [href]="acreditare.url" target="_blank">Afla mai mult</a>
             </mat-card-actions>
+            <p>
+                <button mat-icon-button class="custom-icon-button" (click)="openDialog(acreditare)">
+                    <mat-icon>update</mat-icon>
+                </button>
+                <button mat-icon-button class="custom-icon-button" (click)="deleteAcreditare(acreditare.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </p>
         </mat-card>
     </div>
 </div>
