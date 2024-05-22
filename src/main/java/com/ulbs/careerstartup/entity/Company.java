@@ -33,17 +33,17 @@ public class Company {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "company",
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     private Collection<JobHistory> jobHistories;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "company",
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     private Collection<PostedJob> postedJobs;
 
     @ToString.Exclude
     @OneToMany(mappedBy = "company",
-            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
     private Collection<Review> reviews;
 
     @Override
