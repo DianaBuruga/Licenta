@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteReview } from '../fn/review/delete-review';
-import { DeleteReview$Params } from '../fn/review/delete-review';
-import { findAllReviews } from '../fn/review/find-all-reviews';
-import { FindAllReviews$Params } from '../fn/review/find-all-reviews';
-import { findByCriteria4 } from '../fn/review/find-by-criteria-4';
-import { FindByCriteria4$Params } from '../fn/review/find-by-criteria-4';
-import { findReviewById } from '../fn/review/find-review-by-id';
-import { FindReviewById$Params } from '../fn/review/find-review-by-id';
-import { ReviewDto } from '../models/review-dto';
-import { saveReview } from '../fn/review/save-review';
-import { SaveReview$Params } from '../fn/review/save-review';
-import { updateReview } from '../fn/review/update-review';
-import { UpdateReview$Params } from '../fn/review/update-review';
+import {deleteReview, DeleteReview$Params} from '../fn/review/delete-review';
+import {findAllReviews, FindAllReviews$Params} from '../fn/review/find-all-reviews';
+import {findByCriteria5, FindByCriteria5$Params} from '../fn/review/find-by-criteria-5';
+import {findReviewById, FindReviewById$Params} from '../fn/review/find-review-by-id';
+import {ReviewDto} from '../models/review-dto';
+import {saveReview, SaveReview$Params} from '../fn/review/save-review';
+import {updateReview, UpdateReview$Params} from '../fn/review/update-review';
 
 
 /**
  * The Review API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class ReviewService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -46,7 +40,7 @@ export class ReviewService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllReviews$Response(params?: FindAllReviews$Params, context?: HttpContext): Observable<StrictHttpResponse<ReviewDto>> {
+  findAllReviews$Response(params?: FindAllReviews$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReviewDto>>> {
     return findAllReviews(this.http, this.rootUrl, params, context);
   }
 
@@ -60,9 +54,9 @@ export class ReviewService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllReviews(params?: FindAllReviews$Params, context?: HttpContext): Observable<ReviewDto> {
+  findAllReviews(params?: FindAllReviews$Params, context?: HttpContext): Observable<Array<ReviewDto>> {
     return this.findAllReviews$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ReviewDto>): ReviewDto => r.body)
+      map((r: StrictHttpResponse<Array<ReviewDto>>): Array<ReviewDto> => r.body)
     );
   }
 
@@ -198,8 +192,8 @@ export class ReviewService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria4()` */
-  static readonly FindByCriteria4Path = '/reviews/by-criteria/';
+  /** Path part for operation `findByCriteria5()` */
+  static readonly FindByCriteria5Path = '/reviews/by-criteria/';
 
   /**
    * Find review by criteria.
@@ -207,12 +201,12 @@ export class ReviewService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria4()` instead.
+   * To access only the response body, use `findByCriteria5()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria4$Response(params: FindByCriteria4$Params, context?: HttpContext): Observable<StrictHttpResponse<ReviewDto>> {
-    return findByCriteria4(this.http, this.rootUrl, params, context);
+  findByCriteria5$Response(params: FindByCriteria5$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReviewDto>>> {
+    return findByCriteria5(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -221,13 +215,13 @@ export class ReviewService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria4$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria5$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria4(params: FindByCriteria4$Params, context?: HttpContext): Observable<ReviewDto> {
-    return this.findByCriteria4$Response(params, context).pipe(
-      map((r: StrictHttpResponse<ReviewDto>): ReviewDto => r.body)
+  findByCriteria5(params: FindByCriteria5$Params, context?: HttpContext): Observable<Array<ReviewDto>> {
+    return this.findByCriteria5$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ReviewDto>>): Array<ReviewDto> => r.body)
     );
   }
 

@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { CourseDto } from '../models/course-dto';
-import { deleteCourse } from '../fn/course/delete-course';
-import { DeleteCourse$Params } from '../fn/course/delete-course';
-import { findAllCourses } from '../fn/course/find-all-courses';
-import { FindAllCourses$Params } from '../fn/course/find-all-courses';
-import { findByCriteria10 } from '../fn/course/find-by-criteria-10';
-import { FindByCriteria10$Params } from '../fn/course/find-by-criteria-10';
-import { findCourseById } from '../fn/course/find-course-by-id';
-import { FindCourseById$Params } from '../fn/course/find-course-by-id';
-import { saveCourse } from '../fn/course/save-course';
-import { SaveCourse$Params } from '../fn/course/save-course';
-import { updateCourse } from '../fn/course/update-course';
-import { UpdateCourse$Params } from '../fn/course/update-course';
+import {CourseDto} from '../models/course-dto';
+import {deleteCourse, DeleteCourse$Params} from '../fn/course/delete-course';
+import {findAllCourses, FindAllCourses$Params} from '../fn/course/find-all-courses';
+import {findByCriteria12, FindByCriteria12$Params} from '../fn/course/find-by-criteria-12';
+import {findCourseById, FindCourseById$Params} from '../fn/course/find-course-by-id';
+import {saveCourse, SaveCourse$Params} from '../fn/course/save-course';
+import {updateCourse, UpdateCourse$Params} from '../fn/course/update-course';
 
 
 /**
  * The Course API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class CourseService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -46,7 +40,7 @@ export class CourseService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllCourses$Response(params?: FindAllCourses$Params, context?: HttpContext): Observable<StrictHttpResponse<CourseDto>> {
+  findAllCourses$Response(params?: FindAllCourses$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CourseDto>>> {
     return findAllCourses(this.http, this.rootUrl, params, context);
   }
 
@@ -60,9 +54,9 @@ export class CourseService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllCourses(params?: FindAllCourses$Params, context?: HttpContext): Observable<CourseDto> {
+  findAllCourses(params?: FindAllCourses$Params, context?: HttpContext): Observable<Array<CourseDto>> {
     return this.findAllCourses$Response(params, context).pipe(
-      map((r: StrictHttpResponse<CourseDto>): CourseDto => r.body)
+      map((r: StrictHttpResponse<Array<CourseDto>>): Array<CourseDto> => r.body)
     );
   }
 
@@ -198,8 +192,8 @@ export class CourseService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria10()` */
-  static readonly FindByCriteria10Path = '/courses/by-criteria/';
+  /** Path part for operation `findByCriteria12()` */
+  static readonly FindByCriteria12Path = '/courses/by-criteria/';
 
   /**
    * Find course by criteria.
@@ -207,12 +201,12 @@ export class CourseService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria10()` instead.
+   * To access only the response body, use `findByCriteria12()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria10$Response(params: FindByCriteria10$Params, context?: HttpContext): Observable<StrictHttpResponse<CourseDto>> {
-    return findByCriteria10(this.http, this.rootUrl, params, context);
+  findByCriteria12$Response(params: FindByCriteria12$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CourseDto>>> {
+    return findByCriteria12(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -221,13 +215,13 @@ export class CourseService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria10$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria12$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria10(params: FindByCriteria10$Params, context?: HttpContext): Observable<CourseDto> {
-    return this.findByCriteria10$Response(params, context).pipe(
-      map((r: StrictHttpResponse<CourseDto>): CourseDto => r.body)
+  findByCriteria12(params: FindByCriteria12$Params, context?: HttpContext): Observable<Array<CourseDto>> {
+    return this.findByCriteria12$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<CourseDto>>): Array<CourseDto> => r.body)
     );
   }
 

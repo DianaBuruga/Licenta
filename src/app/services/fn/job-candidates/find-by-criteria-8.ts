@@ -7,13 +7,20 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { JobCandidatesDto } from '../../models/job-candidates-dto';
+import { SearchCriteria } from '../../models/search-criteria';
 
-export interface FindAllJobCandidates$Params {
+export interface FindByCriteria8$Params {
+
+/**
+ * List of search criteria
+ */
+  criteria: Array<SearchCriteria>;
 }
 
-export function findAllJobCandidates(http: HttpClient, rootUrl: string, params?: FindAllJobCandidates$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
-  const rb = new RequestBuilder(rootUrl, findAllJobCandidates.PATH, 'get');
+export function findByCriteria8(http: HttpClient, rootUrl: string, params: FindByCriteria8$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria8.PATH, 'get');
   if (params) {
+    rb.query('criteria', params.criteria, {});
   }
 
   return http.request(
@@ -26,4 +33,4 @@ export function findAllJobCandidates(http: HttpClient, rootUrl: string, params?:
   );
 }
 
-findAllJobCandidates.PATH = '/jobCandidates';
+findByCriteria8.PATH = '/jobCandidates/by-criteria/';

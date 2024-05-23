@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteNotification } from '../fn/notification/delete-notification';
-import { DeleteNotification$Params } from '../fn/notification/delete-notification';
-import { findAllNotifications } from '../fn/notification/find-all-notifications';
-import { FindAllNotifications$Params } from '../fn/notification/find-all-notifications';
-import { findByCriteria5 } from '../fn/notification/find-by-criteria-5';
-import { FindByCriteria5$Params } from '../fn/notification/find-by-criteria-5';
-import { findNotificationById } from '../fn/notification/find-notification-by-id';
-import { FindNotificationById$Params } from '../fn/notification/find-notification-by-id';
-import { NotificationDto } from '../models/notification-dto';
-import { saveNotification } from '../fn/notification/save-notification';
-import { SaveNotification$Params } from '../fn/notification/save-notification';
-import { updateNotification } from '../fn/notification/update-notification';
-import { UpdateNotification$Params } from '../fn/notification/update-notification';
+import {deleteNotification, DeleteNotification$Params} from '../fn/notification/delete-notification';
+import {findAllNotifications, FindAllNotifications$Params} from '../fn/notification/find-all-notifications';
+import {findByCriteria6, FindByCriteria6$Params} from '../fn/notification/find-by-criteria-6';
+import {findNotificationById, FindNotificationById$Params} from '../fn/notification/find-notification-by-id';
+import {NotificationDto} from '../models/notification-dto';
+import {saveNotification, SaveNotification$Params} from '../fn/notification/save-notification';
+import {updateNotification, UpdateNotification$Params} from '../fn/notification/update-notification';
 
 
 /**
  * The Notification API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class NotificationService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -158,27 +152,27 @@ export class NotificationService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria5()` */
-  static readonly FindByCriteria5Path = '/notifications/by-criteria/';
+  /** Path part for operation `findByCriteria6()` */
+  static readonly FindByCriteria6Path = '/notifications/by-criteria/';
 
   /**
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria5()` instead.
+   * To access only the response body, use `findByCriteria6()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria5$Response(params: FindByCriteria5$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationDto>>> {
-    return findByCriteria5(this.http, this.rootUrl, params, context);
+  findByCriteria6$Response(params: FindByCriteria6$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationDto>>> {
+    return findByCriteria6(this.http, this.rootUrl, params, context);
   }
 
   /**
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria5$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria6$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria5(params: FindByCriteria5$Params, context?: HttpContext): Observable<Array<NotificationDto>> {
-    return this.findByCriteria5$Response(params, context).pipe(
+  findByCriteria6(params: FindByCriteria6$Params, context?: HttpContext): Observable<Array<NotificationDto>> {
+    return this.findByCriteria6$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<NotificationDto>>): Array<NotificationDto> => r.body)
     );
   }

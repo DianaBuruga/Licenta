@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteSkill } from '../fn/skill/delete-skill';
-import { DeleteSkill$Params } from '../fn/skill/delete-skill';
-import { findAllSkills } from '../fn/skill/find-all-skills';
-import { FindAllSkills$Params } from '../fn/skill/find-all-skills';
-import { findByCriteria3 } from '../fn/skill/find-by-criteria-3';
-import { FindByCriteria3$Params } from '../fn/skill/find-by-criteria-3';
-import { findSkillById } from '../fn/skill/find-skill-by-id';
-import { FindSkillById$Params } from '../fn/skill/find-skill-by-id';
-import { saveSkill } from '../fn/skill/save-skill';
-import { SaveSkill$Params } from '../fn/skill/save-skill';
-import { SkillDto } from '../models/skill-dto';
-import { updateSkill } from '../fn/skill/update-skill';
-import { UpdateSkill$Params } from '../fn/skill/update-skill';
+import {deleteSkill, DeleteSkill$Params} from '../fn/skill/delete-skill';
+import {findAllSkills, FindAllSkills$Params} from '../fn/skill/find-all-skills';
+import {findByCriteria4, FindByCriteria4$Params} from '../fn/skill/find-by-criteria-4';
+import {findSkillById, FindSkillById$Params} from '../fn/skill/find-skill-by-id';
+import {saveSkill, SaveSkill$Params} from '../fn/skill/save-skill';
+import {SkillDto} from '../models/skill-dto';
+import {updateSkill, UpdateSkill$Params} from '../fn/skill/update-skill';
 
 
 /**
  * The Skill API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class SkillService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -46,7 +40,7 @@ export class SkillService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllSkills$Response(params?: FindAllSkills$Params, context?: HttpContext): Observable<StrictHttpResponse<SkillDto>> {
+  findAllSkills$Response(params?: FindAllSkills$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SkillDto>>> {
     return findAllSkills(this.http, this.rootUrl, params, context);
   }
 
@@ -60,9 +54,9 @@ export class SkillService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllSkills(params?: FindAllSkills$Params, context?: HttpContext): Observable<SkillDto> {
+  findAllSkills(params?: FindAllSkills$Params, context?: HttpContext): Observable<Array<SkillDto>> {
     return this.findAllSkills$Response(params, context).pipe(
-      map((r: StrictHttpResponse<SkillDto>): SkillDto => r.body)
+      map((r: StrictHttpResponse<Array<SkillDto>>): Array<SkillDto> => r.body)
     );
   }
 
@@ -198,8 +192,8 @@ export class SkillService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria3()` */
-  static readonly FindByCriteria3Path = '/skills/by-criteria/';
+  /** Path part for operation `findByCriteria4()` */
+  static readonly FindByCriteria4Path = '/skills/by-criteria/';
 
   /**
    * Find skill by criteria.
@@ -207,12 +201,12 @@ export class SkillService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria3()` instead.
+   * To access only the response body, use `findByCriteria4()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria3$Response(params: FindByCriteria3$Params, context?: HttpContext): Observable<StrictHttpResponse<SkillDto>> {
-    return findByCriteria3(this.http, this.rootUrl, params, context);
+  findByCriteria4$Response(params: FindByCriteria4$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SkillDto>>> {
+    return findByCriteria4(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -221,13 +215,13 @@ export class SkillService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria3$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria4$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria3(params: FindByCriteria3$Params, context?: HttpContext): Observable<SkillDto> {
-    return this.findByCriteria3$Response(params, context).pipe(
-      map((r: StrictHttpResponse<SkillDto>): SkillDto => r.body)
+  findByCriteria4(params: FindByCriteria4$Params, context?: HttpContext): Observable<Array<SkillDto>> {
+    return this.findByCriteria4$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<SkillDto>>): Array<SkillDto> => r.body)
     );
   }
 

@@ -6,19 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { LanguageDto } from '../../models/language-dto';
 import { SearchCriteria } from '../../models/search-criteria';
+import { UserSkillsDto } from '../../models/user-skills-dto';
 
-export interface FindByCriteria$Params {
-
-/**
- * List of search criteria
- */
+export interface FindByCriteria2$Params {
   criteria: Array<SearchCriteria>;
 }
 
-export function findByCriteria(http: HttpClient, rootUrl: string, params: FindByCriteria$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<LanguageDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria.PATH, 'get');
+export function findByCriteria2(http: HttpClient, rootUrl: string, params: FindByCriteria2$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserSkillsDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria2.PATH, 'get');
   if (params) {
     rb.query('criteria', params.criteria, {});
   }
@@ -28,9 +24,9 @@ export function findByCriteria(http: HttpClient, rootUrl: string, params: FindBy
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<LanguageDto>>;
+      return r as StrictHttpResponse<Array<UserSkillsDto>>;
     })
   );
 }
 
-findByCriteria.PATH = '/users/languages/by-criteria/';
+findByCriteria2.PATH = '/userSkills/by-criteria/';

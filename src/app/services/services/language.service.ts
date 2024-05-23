@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteLanguage } from '../fn/language/delete-language';
-import { DeleteLanguage$Params } from '../fn/language/delete-language';
-import { findAllLanguages } from '../fn/language/find-all-languages';
-import { FindAllLanguages$Params } from '../fn/language/find-all-languages';
-import { findByCriteria } from '../fn/language/find-by-criteria';
-import { FindByCriteria$Params } from '../fn/language/find-by-criteria';
-import { findLanguageById } from '../fn/language/find-language-by-id';
-import { FindLanguageById$Params } from '../fn/language/find-language-by-id';
-import { LanguageDto } from '../models/language-dto';
-import { saveLanguage } from '../fn/language/save-language';
-import { SaveLanguage$Params } from '../fn/language/save-language';
-import { updateLanguage } from '../fn/language/update-language';
-import { UpdateLanguage$Params } from '../fn/language/update-language';
+import {deleteLanguage, DeleteLanguage$Params} from '../fn/language/delete-language';
+import {findAllLanguages, FindAllLanguages$Params} from '../fn/language/find-all-languages';
+import {findByCriteria, FindByCriteria$Params} from '../fn/language/find-by-criteria';
+import {findLanguageById, FindLanguageById$Params} from '../fn/language/find-language-by-id';
+import {LanguageDto} from '../models/language-dto';
+import {saveLanguage, SaveLanguage$Params} from '../fn/language/save-language';
+import {updateLanguage, UpdateLanguage$Params} from '../fn/language/update-language';
 
 
 /**
  * The Language API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class LanguageService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -46,7 +40,7 @@ export class LanguageService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllLanguages$Response(params?: FindAllLanguages$Params, context?: HttpContext): Observable<StrictHttpResponse<LanguageDto>> {
+  findAllLanguages$Response(params?: FindAllLanguages$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<LanguageDto>>> {
     return findAllLanguages(this.http, this.rootUrl, params, context);
   }
 
@@ -60,9 +54,9 @@ export class LanguageService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllLanguages(params?: FindAllLanguages$Params, context?: HttpContext): Observable<LanguageDto> {
+  findAllLanguages(params?: FindAllLanguages$Params, context?: HttpContext): Observable<Array<LanguageDto>> {
     return this.findAllLanguages$Response(params, context).pipe(
-      map((r: StrictHttpResponse<LanguageDto>): LanguageDto => r.body)
+      map((r: StrictHttpResponse<Array<LanguageDto>>): Array<LanguageDto> => r.body)
     );
   }
 
@@ -211,7 +205,7 @@ export class LanguageService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria$Response(params: FindByCriteria$Params, context?: HttpContext): Observable<StrictHttpResponse<LanguageDto>> {
+  findByCriteria$Response(params: FindByCriteria$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<LanguageDto>>> {
     return findByCriteria(this.http, this.rootUrl, params, context);
   }
 
@@ -225,9 +219,9 @@ export class LanguageService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria(params: FindByCriteria$Params, context?: HttpContext): Observable<LanguageDto> {
+  findByCriteria(params: FindByCriteria$Params, context?: HttpContext): Observable<Array<LanguageDto>> {
     return this.findByCriteria$Response(params, context).pipe(
-      map((r: StrictHttpResponse<LanguageDto>): LanguageDto => r.body)
+      map((r: StrictHttpResponse<Array<LanguageDto>>): Array<LanguageDto> => r.body)
     );
   }
 

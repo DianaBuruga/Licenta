@@ -11,7 +11,7 @@ import { BibliographyDto } from '../../models/bibliography-dto';
 export interface FindAllBibliographies$Params {
 }
 
-export function findAllBibliographies(http: HttpClient, rootUrl: string, params?: FindAllBibliographies$Params, context?: HttpContext): Observable<StrictHttpResponse<BibliographyDto>> {
+export function findAllBibliographies(http: HttpClient, rootUrl: string, params?: FindAllBibliographies$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllBibliographies.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllBibliographies(http: HttpClient, rootUrl: string, params?
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<BibliographyDto>;
+      return r as StrictHttpResponse<Array<BibliographyDto>>;
     })
   );
 }

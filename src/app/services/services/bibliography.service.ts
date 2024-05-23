@@ -1,39 +1,31 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { BibliographyDto } from '../models/bibliography-dto';
-import { deleteBibliography } from '../fn/bibliography/delete-bibliography';
-import { DeleteBibliography$Params } from '../fn/bibliography/delete-bibliography';
-import { EmailRequest } from '../models/email-request';
-import { findAllBibliographies } from '../fn/bibliography/find-all-bibliographies';
-import { FindAllBibliographies$Params } from '../fn/bibliography/find-all-bibliographies';
-import { findBibliographiesBySkillIds } from '../fn/bibliography/find-bibliographies-by-skill-ids';
-import { FindBibliographiesBySkillIds$Params } from '../fn/bibliography/find-bibliographies-by-skill-ids';
-import { findByCriteria12 } from '../fn/bibliography/find-by-criteria-12';
-import { FindByCriteria12$Params } from '../fn/bibliography/find-by-criteria-12';
-import { HtmlEmailRequest } from '../models/html-email-request';
-import { saveBibliography } from '../fn/bibliography/save-bibliography';
-import { SaveBibliography$Params } from '../fn/bibliography/save-bibliography';
-import { sendEmail } from '../fn/email/send-email';
-import { SendEmail$Params } from '../fn/email/send-email';
-import { sendHtmlEmail } from '../fn/email/send-html-email';
-import { SendHtmlEmail$Params } from '../fn/email/send-html-email';
-import { updateBibliography } from '../fn/bibliography/update-bibliography';
-import { UpdateBibliography$Params } from '../fn/bibliography/update-bibliography';
+import {BibliographyDto} from '../models/bibliography-dto';
+import {deleteBibliography, DeleteBibliography$Params} from '../fn/bibliography/delete-bibliography';
+import {EmailRequest} from '../models/email-request';
+import {findAllBibliographies, FindAllBibliographies$Params} from '../fn/bibliography/find-all-bibliographies';
+import {findBibliographiesBySkillIds, FindBibliographiesBySkillIds$Params} from '../fn/bibliography/find-bibliographies-by-skill-ids';
+import {findByCriteria14, FindByCriteria14$Params} from '../fn/bibliography/find-by-criteria-14';
+import {HtmlEmailRequest} from '../models/html-email-request';
+import {saveBibliography, SaveBibliography$Params} from '../fn/bibliography/save-bibliography';
+import {sendEmail, SendEmail$Params} from '../fn/email/send-email';
+import {sendHtmlEmail, SendHtmlEmail$Params} from '../fn/email/send-html-email';
+import {updateBibliography, UpdateBibliography$Params} from '../fn/bibliography/update-bibliography';
 
 
 /**
  * The Bibliography API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class BibliographyService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -118,7 +110,7 @@ export class BibliographyService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllBibliographies$Response(params?: FindAllBibliographies$Params, context?: HttpContext): Observable<StrictHttpResponse<BibliographyDto>> {
+  findAllBibliographies$Response(params?: FindAllBibliographies$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
     return findAllBibliographies(this.http, this.rootUrl, params, context);
   }
 
@@ -132,9 +124,9 @@ export class BibliographyService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllBibliographies(params?: FindAllBibliographies$Params, context?: HttpContext): Observable<BibliographyDto> {
+  findAllBibliographies(params?: FindAllBibliographies$Params, context?: HttpContext): Observable<Array<BibliographyDto>> {
     return this.findAllBibliographies$Response(params, context).pipe(
-      map((r: StrictHttpResponse<BibliographyDto>): BibliographyDto => r.body)
+      map((r: StrictHttpResponse<Array<BibliographyDto>>): Array<BibliographyDto> => r.body)
     );
   }
 
@@ -217,7 +209,7 @@ export class BibliographyService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findBibliographiesBySkillIds$Response(params: FindBibliographiesBySkillIds$Params, context?: HttpContext): Observable<StrictHttpResponse<BibliographyDto>> {
+  findBibliographiesBySkillIds$Response(params: FindBibliographiesBySkillIds$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
     return findBibliographiesBySkillIds(this.http, this.rootUrl, params, context);
   }
 
@@ -231,14 +223,14 @@ export class BibliographyService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findBibliographiesBySkillIds(params: FindBibliographiesBySkillIds$Params, context?: HttpContext): Observable<BibliographyDto> {
+  findBibliographiesBySkillIds(params: FindBibliographiesBySkillIds$Params, context?: HttpContext): Observable<Array<BibliographyDto>> {
     return this.findBibliographiesBySkillIds$Response(params, context).pipe(
-      map((r: StrictHttpResponse<BibliographyDto>): BibliographyDto => r.body)
+      map((r: StrictHttpResponse<Array<BibliographyDto>>): Array<BibliographyDto> => r.body)
     );
   }
 
-  /** Path part for operation `findByCriteria12()` */
-  static readonly FindByCriteria12Path = '/bibliographies/by-criteria/';
+  /** Path part for operation `findByCriteria14()` */
+  static readonly FindByCriteria14Path = '/bibliographies/by-criteria/';
 
   /**
    * Find bibliographies by criteria.
@@ -246,12 +238,12 @@ export class BibliographyService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria12()` instead.
+   * To access only the response body, use `findByCriteria14()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria12$Response(params: FindByCriteria12$Params, context?: HttpContext): Observable<StrictHttpResponse<BibliographyDto>> {
-    return findByCriteria12(this.http, this.rootUrl, params, context);
+  findByCriteria14$Response(params: FindByCriteria14$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
+    return findByCriteria14(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -260,13 +252,13 @@ export class BibliographyService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria12$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria14$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria12(params: FindByCriteria12$Params, context?: HttpContext): Observable<BibliographyDto> {
-    return this.findByCriteria12$Response(params, context).pipe(
-      map((r: StrictHttpResponse<BibliographyDto>): BibliographyDto => r.body)
+  findByCriteria14(params: FindByCriteria14$Params, context?: HttpContext): Observable<Array<BibliographyDto>> {
+    return this.findByCriteria14$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<BibliographyDto>>): Array<BibliographyDto> => r.body)
     );
   }
 

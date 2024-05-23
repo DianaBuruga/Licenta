@@ -6,14 +6,20 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { UserDto } from '../../models/user-dto';
+import { ExperienceDto } from '../../models/experience-dto';
 
-export interface FindAllUsers$Params {
+export interface FindExperienceById$Params {
+
+/**
+ * Id of the experience that will be received
+ */
+  id: string;
 }
 
-export function findAllUsers(http: HttpClient, rootUrl: string, params?: FindAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserDto>>> {
-  const rb = new RequestBuilder(rootUrl, findAllUsers.PATH, 'get');
+export function findExperienceById(http: HttpClient, rootUrl: string, params: FindExperienceById$Params, context?: HttpContext): Observable<StrictHttpResponse<ExperienceDto>> {
+  const rb = new RequestBuilder(rootUrl, findExperienceById.PATH, 'get');
   if (params) {
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -21,9 +27,9 @@ export function findAllUsers(http: HttpClient, rootUrl: string, params?: FindAll
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<UserDto>>;
+      return r as StrictHttpResponse<ExperienceDto>;
     })
   );
 }
 
-findAllUsers.PATH = '/users';
+findExperienceById.PATH = '/experiences/{id}';

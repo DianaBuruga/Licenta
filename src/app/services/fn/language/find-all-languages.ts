@@ -11,7 +11,7 @@ import { LanguageDto } from '../../models/language-dto';
 export interface FindAllLanguages$Params {
 }
 
-export function findAllLanguages(http: HttpClient, rootUrl: string, params?: FindAllLanguages$Params, context?: HttpContext): Observable<StrictHttpResponse<LanguageDto>> {
+export function findAllLanguages(http: HttpClient, rootUrl: string, params?: FindAllLanguages$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<LanguageDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllLanguages.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllLanguages(http: HttpClient, rootUrl: string, params?: Fin
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<LanguageDto>;
+      return r as StrictHttpResponse<Array<LanguageDto>>;
     })
   );
 }

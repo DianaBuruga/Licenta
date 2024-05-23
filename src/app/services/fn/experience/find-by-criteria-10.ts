@@ -6,10 +6,10 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { FacultyDto } from '../../models/faculty-dto';
+import { ExperienceDto } from '../../models/experience-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
-export interface FindByCriteria8$Params {
+export interface FindByCriteria10$Params {
 
 /**
  * List of search criteria
@@ -17,8 +17,8 @@ export interface FindByCriteria8$Params {
   criteria: Array<SearchCriteria>;
 }
 
-export function findByCriteria8(http: HttpClient, rootUrl: string, params: FindByCriteria8$Params, context?: HttpContext): Observable<StrictHttpResponse<FacultyDto>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria8.PATH, 'get');
+export function findByCriteria10(http: HttpClient, rootUrl: string, params: FindByCriteria10$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExperienceDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria10.PATH, 'get');
   if (params) {
     rb.query('criteria', params.criteria, {});
   }
@@ -28,9 +28,9 @@ export function findByCriteria8(http: HttpClient, rootUrl: string, params: FindB
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<FacultyDto>;
+      return r as StrictHttpResponse<Array<ExperienceDto>>;
     })
   );
 }
 
-findByCriteria8.PATH = '/faculties/by-criteria/';
+findByCriteria10.PATH = '/experiences/by-criteria/';

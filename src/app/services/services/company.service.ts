@@ -1,35 +1,28 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { CompanyDto } from '../models/company-dto';
-import { deleteCompany } from '../fn/company/delete-company';
-import { DeleteCompany$Params } from '../fn/company/delete-company';
-import { findAllCompanies } from '../fn/company/find-all-companies';
-import { FindAllCompanies$Params } from '../fn/company/find-all-companies';
-import { findByCriteria11 } from '../fn/company/find-by-criteria-11';
-import { FindByCriteria11$Params } from '../fn/company/find-by-criteria-11';
-import { findCompanyById } from '../fn/company/find-company-by-id';
-import { FindCompanyById$Params } from '../fn/company/find-company-by-id';
-import { getCompanyIcon } from '../fn/company/get-company-icon';
-import { GetCompanyIcon$Params } from '../fn/company/get-company-icon';
-import { saveCompany } from '../fn/company/save-company';
-import { SaveCompany$Params } from '../fn/company/save-company';
-import { updateCompany } from '../fn/company/update-company';
-import { UpdateCompany$Params } from '../fn/company/update-company';
+import {CompanyDto} from '../models/company-dto';
+import {deleteCompany, DeleteCompany$Params} from '../fn/company/delete-company';
+import {findAllCompanies, FindAllCompanies$Params} from '../fn/company/find-all-companies';
+import {findByCriteria13, FindByCriteria13$Params} from '../fn/company/find-by-criteria-13';
+import {findCompanyById, FindCompanyById$Params} from '../fn/company/find-company-by-id';
+import {getCompanyIcon, GetCompanyIcon$Params} from '../fn/company/get-company-icon';
+import {saveCompany, SaveCompany$Params} from '../fn/company/save-company';
+import {updateCompany, UpdateCompany$Params} from '../fn/company/update-company';
 
 
 /**
  * The Company API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class CompanyService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -48,7 +41,7 @@ export class CompanyService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllCompanies$Response(params?: FindAllCompanies$Params, context?: HttpContext): Observable<StrictHttpResponse<CompanyDto>> {
+  findAllCompanies$Response(params?: FindAllCompanies$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CompanyDto>>> {
     return findAllCompanies(this.http, this.rootUrl, params, context);
   }
 
@@ -62,9 +55,9 @@ export class CompanyService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllCompanies(params?: FindAllCompanies$Params, context?: HttpContext): Observable<CompanyDto> {
+  findAllCompanies(params?: FindAllCompanies$Params, context?: HttpContext): Observable<Array<CompanyDto>> {
     return this.findAllCompanies$Response(params, context).pipe(
-      map((r: StrictHttpResponse<CompanyDto>): CompanyDto => r.body)
+      map((r: StrictHttpResponse<Array<CompanyDto>>): Array<CompanyDto> => r.body)
     );
   }
 
@@ -233,8 +226,8 @@ export class CompanyService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria11()` */
-  static readonly FindByCriteria11Path = '/companies/by-criteria/';
+  /** Path part for operation `findByCriteria13()` */
+  static readonly FindByCriteria13Path = '/companies/by-criteria/';
 
   /**
    * Find companies by criteria.
@@ -242,12 +235,12 @@ export class CompanyService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria11()` instead.
+   * To access only the response body, use `findByCriteria13()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria11$Response(params: FindByCriteria11$Params, context?: HttpContext): Observable<StrictHttpResponse<CompanyDto>> {
-    return findByCriteria11(this.http, this.rootUrl, params, context);
+  findByCriteria13$Response(params: FindByCriteria13$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CompanyDto>>> {
+    return findByCriteria13(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -256,13 +249,13 @@ export class CompanyService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria11$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria13$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria11(params: FindByCriteria11$Params, context?: HttpContext): Observable<CompanyDto> {
-    return this.findByCriteria11$Response(params, context).pipe(
-      map((r: StrictHttpResponse<CompanyDto>): CompanyDto => r.body)
+  findByCriteria13(params: FindByCriteria13$Params, context?: HttpContext): Observable<Array<CompanyDto>> {
+    return this.findByCriteria13$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<CompanyDto>>): Array<CompanyDto> => r.body)
     );
   }
 

@@ -11,7 +11,7 @@ import { CourseDto } from '../../models/course-dto';
 export interface FindAllCourses$Params {
 }
 
-export function findAllCourses(http: HttpClient, rootUrl: string, params?: FindAllCourses$Params, context?: HttpContext): Observable<StrictHttpResponse<CourseDto>> {
+export function findAllCourses(http: HttpClient, rootUrl: string, params?: FindAllCourses$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CourseDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllCourses.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllCourses(http: HttpClient, rootUrl: string, params?: FindA
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<CourseDto>;
+      return r as StrictHttpResponse<Array<CourseDto>>;
     })
   );
 }

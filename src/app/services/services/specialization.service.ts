@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteSpecialization } from '../fn/specialization/delete-specialization';
-import { DeleteSpecialization$Params } from '../fn/specialization/delete-specialization';
-import { findAllSpecializations } from '../fn/specialization/find-all-specializations';
-import { FindAllSpecializations$Params } from '../fn/specialization/find-all-specializations';
-import { findByCriteria2 } from '../fn/specialization/find-by-criteria-2';
-import { FindByCriteria2$Params } from '../fn/specialization/find-by-criteria-2';
-import { findSpecializationById } from '../fn/specialization/find-specialization-by-id';
-import { FindSpecializationById$Params } from '../fn/specialization/find-specialization-by-id';
-import { saveSpecialization } from '../fn/specialization/save-specialization';
-import { SaveSpecialization$Params } from '../fn/specialization/save-specialization';
-import { SpecializationDto } from '../models/specialization-dto';
-import { updateSpecialization } from '../fn/specialization/update-specialization';
-import { UpdateSpecialization$Params } from '../fn/specialization/update-specialization';
+import {deleteSpecialization, DeleteSpecialization$Params} from '../fn/specialization/delete-specialization';
+import {findAllSpecializations, FindAllSpecializations$Params} from '../fn/specialization/find-all-specializations';
+import {findByCriteria3, FindByCriteria3$Params} from '../fn/specialization/find-by-criteria-3';
+import {findSpecializationById, FindSpecializationById$Params} from '../fn/specialization/find-specialization-by-id';
+import {saveSpecialization, SaveSpecialization$Params} from '../fn/specialization/save-specialization';
+import {SpecializationDto} from '../models/specialization-dto';
+import {updateSpecialization, UpdateSpecialization$Params} from '../fn/specialization/update-specialization';
 
 
 /**
  * The Specialization API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class SpecializationService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -46,7 +40,7 @@ export class SpecializationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllSpecializations$Response(params?: FindAllSpecializations$Params, context?: HttpContext): Observable<StrictHttpResponse<SpecializationDto>> {
+  findAllSpecializations$Response(params?: FindAllSpecializations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SpecializationDto>>> {
     return findAllSpecializations(this.http, this.rootUrl, params, context);
   }
 
@@ -60,9 +54,9 @@ export class SpecializationService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllSpecializations(params?: FindAllSpecializations$Params, context?: HttpContext): Observable<SpecializationDto> {
+  findAllSpecializations(params?: FindAllSpecializations$Params, context?: HttpContext): Observable<Array<SpecializationDto>> {
     return this.findAllSpecializations$Response(params, context).pipe(
-      map((r: StrictHttpResponse<SpecializationDto>): SpecializationDto => r.body)
+      map((r: StrictHttpResponse<Array<SpecializationDto>>): Array<SpecializationDto> => r.body)
     );
   }
 
@@ -198,8 +192,8 @@ export class SpecializationService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria2()` */
-  static readonly FindByCriteria2Path = '/specializations/by-criteria/';
+  /** Path part for operation `findByCriteria3()` */
+  static readonly FindByCriteria3Path = '/specializations/by-criteria/';
 
   /**
    * Find specialization by criteria.
@@ -207,12 +201,12 @@ export class SpecializationService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria2()` instead.
+   * To access only the response body, use `findByCriteria3()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria2$Response(params: FindByCriteria2$Params, context?: HttpContext): Observable<StrictHttpResponse<SpecializationDto>> {
-    return findByCriteria2(this.http, this.rootUrl, params, context);
+  findByCriteria3$Response(params: FindByCriteria3$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SpecializationDto>>> {
+    return findByCriteria3(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -221,13 +215,13 @@ export class SpecializationService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria2$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria3$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria2(params: FindByCriteria2$Params, context?: HttpContext): Observable<SpecializationDto> {
-    return this.findByCriteria2$Response(params, context).pipe(
-      map((r: StrictHttpResponse<SpecializationDto>): SpecializationDto => r.body)
+  findByCriteria3(params: FindByCriteria3$Params, context?: HttpContext): Observable<Array<SpecializationDto>> {
+    return this.findByCriteria3$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<SpecializationDto>>): Array<SpecializationDto> => r.body)
     );
   }
 

@@ -1,45 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteUser } from '../fn/user/delete-user';
-import { DeleteUser$Params } from '../fn/user/delete-user';
-import { downloadFileById } from '../fn/user/download-file-by-id';
-import { DownloadFileById$Params } from '../fn/user/download-file-by-id';
-import { exportUserPdf } from '../fn/user/export-user-pdf';
-import { ExportUserPdf$Params } from '../fn/user/export-user-pdf';
-import { findAllUsers } from '../fn/user/find-all-users';
-import { FindAllUsers$Params } from '../fn/user/find-all-users';
-import { findByCriteria1 } from '../fn/user/find-by-criteria-1';
-import { FindByCriteria1$Params } from '../fn/user/find-by-criteria-1';
-import { findUserByEmail } from '../fn/user/find-user-by-email';
-import { FindUserByEmail$Params } from '../fn/user/find-user-by-email';
-import { findUserById } from '../fn/user/find-user-by-id';
-import { FindUserById$Params } from '../fn/user/find-user-by-id';
-import { getAuthenticatedUser } from '../fn/user/get-authenticated-user';
-import { GetAuthenticatedUser$Params } from '../fn/user/get-authenticated-user';
-import { saveProfilePhoto } from '../fn/user/save-profile-photo';
-import { SaveProfilePhoto$Params } from '../fn/user/save-profile-photo';
-import { saveUser } from '../fn/user/save-user';
-import { SaveUser$Params } from '../fn/user/save-user';
-import { updateUser } from '../fn/user/update-user';
-import { UpdateUser$Params } from '../fn/user/update-user';
-import { UserDto } from '../models/user-dto';
-import { viewFileById } from '../fn/user/view-file-by-id';
-import { ViewFileById$Params } from '../fn/user/view-file-by-id';
+import {deleteUser, DeleteUser$Params} from '../fn/user/delete-user';
+import {downloadFileById, DownloadFileById$Params} from '../fn/user/download-file-by-id';
+import {exportUserPdf, ExportUserPdf$Params} from '../fn/user/export-user-pdf';
+import {findAllUsers, FindAllUsers$Params} from '../fn/user/find-all-users';
+import {findByCriteria1, FindByCriteria1$Params} from '../fn/user/find-by-criteria-1';
+import {findUserByEmail, FindUserByEmail$Params} from '../fn/user/find-user-by-email';
+import {findUserById, FindUserById$Params} from '../fn/user/find-user-by-id';
+import {getAuthenticatedUser, GetAuthenticatedUser$Params} from '../fn/user/get-authenticated-user';
+import {saveProfilePhoto, SaveProfilePhoto$Params} from '../fn/user/save-profile-photo';
+import {saveUser, SaveUser$Params} from '../fn/user/save-user';
+import {updateUser, UpdateUser$Params} from '../fn/user/update-user';
+import {UserDto} from '../models/user-dto';
+import {viewFileById, ViewFileById$Params} from '../fn/user/view-file-by-id';
 
 
 /**
  * The User API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class UserService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -58,7 +46,7 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllUsers$Response(params?: FindAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
+  findAllUsers$Response(params?: FindAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserDto>>> {
     return findAllUsers(this.http, this.rootUrl, params, context);
   }
 
@@ -72,9 +60,9 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllUsers(params?: FindAllUsers$Params, context?: HttpContext): Observable<UserDto> {
+  findAllUsers(params?: FindAllUsers$Params, context?: HttpContext): Observable<Array<UserDto>> {
     return this.findAllUsers$Response(params, context).pipe(
-      map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
+      map((r: StrictHttpResponse<Array<UserDto>>): Array<UserDto> => r.body)
     );
   }
 

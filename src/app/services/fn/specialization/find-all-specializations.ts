@@ -11,7 +11,7 @@ import { SpecializationDto } from '../../models/specialization-dto';
 export interface FindAllSpecializations$Params {
 }
 
-export function findAllSpecializations(http: HttpClient, rootUrl: string, params?: FindAllSpecializations$Params, context?: HttpContext): Observable<StrictHttpResponse<SpecializationDto>> {
+export function findAllSpecializations(http: HttpClient, rootUrl: string, params?: FindAllSpecializations$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SpecializationDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllSpecializations.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllSpecializations(http: HttpClient, rootUrl: string, params
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<SpecializationDto>;
+      return r as StrictHttpResponse<Array<SpecializationDto>>;
     })
   );
 }

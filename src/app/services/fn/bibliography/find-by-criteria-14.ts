@@ -6,10 +6,10 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { BibliographyDto } from '../../models/bibliography-dto';
 import { SearchCriteria } from '../../models/search-criteria';
-import { SpecializationDto } from '../../models/specialization-dto';
 
-export interface FindByCriteria2$Params {
+export interface FindByCriteria14$Params {
 
 /**
  * List of search criteria
@@ -17,8 +17,8 @@ export interface FindByCriteria2$Params {
   criteria: Array<SearchCriteria>;
 }
 
-export function findByCriteria2(http: HttpClient, rootUrl: string, params: FindByCriteria2$Params, context?: HttpContext): Observable<StrictHttpResponse<SpecializationDto>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria2.PATH, 'get');
+export function findByCriteria14(http: HttpClient, rootUrl: string, params: FindByCriteria14$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria14.PATH, 'get');
   if (params) {
     rb.query('criteria', params.criteria, {});
   }
@@ -28,9 +28,9 @@ export function findByCriteria2(http: HttpClient, rootUrl: string, params: FindB
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<SpecializationDto>;
+      return r as StrictHttpResponse<Array<BibliographyDto>>;
     })
   );
 }
 
-findByCriteria2.PATH = '/specializations/by-criteria/';
+findByCriteria14.PATH = '/bibliographies/by-criteria/';

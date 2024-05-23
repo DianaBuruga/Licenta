@@ -11,7 +11,7 @@ import { FacultyDto } from '../../models/faculty-dto';
 export interface FindAllFaculties$Params {
 }
 
-export function findAllFaculties(http: HttpClient, rootUrl: string, params?: FindAllFaculties$Params, context?: HttpContext): Observable<StrictHttpResponse<FacultyDto>> {
+export function findAllFaculties(http: HttpClient, rootUrl: string, params?: FindAllFaculties$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FacultyDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllFaculties.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllFaculties(http: HttpClient, rootUrl: string, params?: Fin
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<FacultyDto>;
+      return r as StrictHttpResponse<Array<FacultyDto>>;
     })
   );
 }

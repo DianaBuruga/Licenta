@@ -16,7 +16,7 @@ export interface FindBibliographiesBySkillIds$Params {
   skillIds: Array<string>;
 }
 
-export function findBibliographiesBySkillIds(http: HttpClient, rootUrl: string, params: FindBibliographiesBySkillIds$Params, context?: HttpContext): Observable<StrictHttpResponse<BibliographyDto>> {
+export function findBibliographiesBySkillIds(http: HttpClient, rootUrl: string, params: FindBibliographiesBySkillIds$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
   const rb = new RequestBuilder(rootUrl, findBibliographiesBySkillIds.PATH, 'get');
   if (params) {
     rb.path('skillIds', params.skillIds, {});
@@ -27,7 +27,7 @@ export function findBibliographiesBySkillIds(http: HttpClient, rootUrl: string, 
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<BibliographyDto>;
+      return r as StrictHttpResponse<Array<BibliographyDto>>;
     })
   );
 }

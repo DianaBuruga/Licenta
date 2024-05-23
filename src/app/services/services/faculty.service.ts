@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteFaculty } from '../fn/faculty/delete-faculty';
-import { DeleteFaculty$Params } from '../fn/faculty/delete-faculty';
-import { FacultyDto } from '../models/faculty-dto';
-import { findAllFaculties } from '../fn/faculty/find-all-faculties';
-import { FindAllFaculties$Params } from '../fn/faculty/find-all-faculties';
-import { findByCriteria8 } from '../fn/faculty/find-by-criteria-8';
-import { FindByCriteria8$Params } from '../fn/faculty/find-by-criteria-8';
-import { findFacultyById } from '../fn/faculty/find-faculty-by-id';
-import { FindFacultyById$Params } from '../fn/faculty/find-faculty-by-id';
-import { saveFaculty } from '../fn/faculty/save-faculty';
-import { SaveFaculty$Params } from '../fn/faculty/save-faculty';
-import { updateFaculty } from '../fn/faculty/update-faculty';
-import { UpdateFaculty$Params } from '../fn/faculty/update-faculty';
+import {deleteFaculty, DeleteFaculty$Params} from '../fn/faculty/delete-faculty';
+import {FacultyDto} from '../models/faculty-dto';
+import {findAllFaculties, FindAllFaculties$Params} from '../fn/faculty/find-all-faculties';
+import {findByCriteria9, FindByCriteria9$Params} from '../fn/faculty/find-by-criteria-9';
+import {findFacultyById, FindFacultyById$Params} from '../fn/faculty/find-faculty-by-id';
+import {saveFaculty, SaveFaculty$Params} from '../fn/faculty/save-faculty';
+import {updateFaculty, UpdateFaculty$Params} from '../fn/faculty/update-faculty';
 
 
 /**
  * The Faculty API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class FacultyService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -46,7 +40,7 @@ export class FacultyService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllFaculties$Response(params?: FindAllFaculties$Params, context?: HttpContext): Observable<StrictHttpResponse<FacultyDto>> {
+  findAllFaculties$Response(params?: FindAllFaculties$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FacultyDto>>> {
     return findAllFaculties(this.http, this.rootUrl, params, context);
   }
 
@@ -60,9 +54,9 @@ export class FacultyService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllFaculties(params?: FindAllFaculties$Params, context?: HttpContext): Observable<FacultyDto> {
+  findAllFaculties(params?: FindAllFaculties$Params, context?: HttpContext): Observable<Array<FacultyDto>> {
     return this.findAllFaculties$Response(params, context).pipe(
-      map((r: StrictHttpResponse<FacultyDto>): FacultyDto => r.body)
+      map((r: StrictHttpResponse<Array<FacultyDto>>): Array<FacultyDto> => r.body)
     );
   }
 
@@ -198,8 +192,8 @@ export class FacultyService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria8()` */
-  static readonly FindByCriteria8Path = '/faculties/by-criteria/';
+  /** Path part for operation `findByCriteria9()` */
+  static readonly FindByCriteria9Path = '/faculties/by-criteria/';
 
   /**
    * Find faculty by criteria.
@@ -207,12 +201,12 @@ export class FacultyService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria8()` instead.
+   * To access only the response body, use `findByCriteria9()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria8$Response(params: FindByCriteria8$Params, context?: HttpContext): Observable<StrictHttpResponse<FacultyDto>> {
-    return findByCriteria8(this.http, this.rootUrl, params, context);
+  findByCriteria9$Response(params: FindByCriteria9$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FacultyDto>>> {
+    return findByCriteria9(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -221,13 +215,13 @@ export class FacultyService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria8$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria9$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria8(params: FindByCriteria8$Params, context?: HttpContext): Observable<FacultyDto> {
-    return this.findByCriteria8$Response(params, context).pipe(
-      map((r: StrictHttpResponse<FacultyDto>): FacultyDto => r.body)
+  findByCriteria9(params: FindByCriteria9$Params, context?: HttpContext): Observable<Array<FacultyDto>> {
+    return this.findByCriteria9$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<FacultyDto>>): Array<FacultyDto> => r.body)
     );
   }
 

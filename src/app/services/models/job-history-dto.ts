@@ -5,7 +5,7 @@ import { UserDto } from '../models/user-dto';
 export interface JobHistoryDto {
   company: CompanyDto;
   description: string;
-  endDate: string;
+  endDate?: string;
   id?: string;
   needQualification: boolean;
   position: string;

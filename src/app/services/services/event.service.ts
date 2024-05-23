@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteEvent } from '../fn/event/delete-event';
-import { DeleteEvent$Params } from '../fn/event/delete-event';
-import { EventDto } from '../models/event-dto';
-import { findAllEvents } from '../fn/event/find-all-events';
-import { FindAllEvents$Params } from '../fn/event/find-all-events';
-import { findByCriteria9 } from '../fn/event/find-by-criteria-9';
-import { FindByCriteria9$Params } from '../fn/event/find-by-criteria-9';
-import { findEventById } from '../fn/event/find-event-by-id';
-import { FindEventById$Params } from '../fn/event/find-event-by-id';
-import { saveEvent } from '../fn/event/save-event';
-import { SaveEvent$Params } from '../fn/event/save-event';
-import { updateEvent } from '../fn/event/update-event';
-import { UpdateEvent$Params } from '../fn/event/update-event';
+import {deleteEvent, DeleteEvent$Params} from '../fn/event/delete-event';
+import {EventDto} from '../models/event-dto';
+import {findAllEvents, FindAllEvents$Params} from '../fn/event/find-all-events';
+import {findByCriteria11, FindByCriteria11$Params} from '../fn/event/find-by-criteria-11';
+import {findEventById, FindEventById$Params} from '../fn/event/find-event-by-id';
+import {saveEvent, SaveEvent$Params} from '../fn/event/save-event';
+import {updateEvent, UpdateEvent$Params} from '../fn/event/update-event';
 
 
 /**
  * The Event API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class EventService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -46,7 +40,7 @@ export class EventService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllEvents$Response(params?: FindAllEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<EventDto>> {
+  findAllEvents$Response(params?: FindAllEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EventDto>>> {
     return findAllEvents(this.http, this.rootUrl, params, context);
   }
 
@@ -60,9 +54,9 @@ export class EventService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllEvents(params?: FindAllEvents$Params, context?: HttpContext): Observable<EventDto> {
+  findAllEvents(params?: FindAllEvents$Params, context?: HttpContext): Observable<Array<EventDto>> {
     return this.findAllEvents$Response(params, context).pipe(
-      map((r: StrictHttpResponse<EventDto>): EventDto => r.body)
+      map((r: StrictHttpResponse<Array<EventDto>>): Array<EventDto> => r.body)
     );
   }
 
@@ -198,8 +192,8 @@ export class EventService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria9()` */
-  static readonly FindByCriteria9Path = '/events/by-criteria/';
+  /** Path part for operation `findByCriteria11()` */
+  static readonly FindByCriteria11Path = '/events/by-criteria/';
 
   /**
    * Find event by criteria.
@@ -207,12 +201,12 @@ export class EventService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria9()` instead.
+   * To access only the response body, use `findByCriteria11()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria9$Response(params: FindByCriteria9$Params, context?: HttpContext): Observable<StrictHttpResponse<EventDto>> {
-    return findByCriteria9(this.http, this.rootUrl, params, context);
+  findByCriteria11$Response(params: FindByCriteria11$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EventDto>>> {
+    return findByCriteria11(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -221,13 +215,13 @@ export class EventService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria9$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria11$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria9(params: FindByCriteria9$Params, context?: HttpContext): Observable<EventDto> {
-    return this.findByCriteria9$Response(params, context).pipe(
-      map((r: StrictHttpResponse<EventDto>): EventDto => r.body)
+  findByCriteria11(params: FindByCriteria11$Params, context?: HttpContext): Observable<Array<EventDto>> {
+    return this.findByCriteria11$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<EventDto>>): Array<EventDto> => r.body)
     );
   }
 

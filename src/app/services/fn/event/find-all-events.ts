@@ -11,7 +11,7 @@ import { EventDto } from '../../models/event-dto';
 export interface FindAllEvents$Params {
 }
 
-export function findAllEvents(http: HttpClient, rootUrl: string, params?: FindAllEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<EventDto>> {
+export function findAllEvents(http: HttpClient, rootUrl: string, params?: FindAllEvents$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EventDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllEvents.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllEvents(http: HttpClient, rootUrl: string, params?: FindAl
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<EventDto>;
+      return r as StrictHttpResponse<Array<EventDto>>;
     })
   );
 }

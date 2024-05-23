@@ -6,14 +6,16 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { UserDto } from '../../models/user-dto';
+import { UserSkillsDto } from '../../models/user-skills-dto';
 
-export interface FindAllUsers$Params {
+export interface UpdateUserSkill$Params {
+      body: UserSkillsDto
 }
 
-export function findAllUsers(http: HttpClient, rootUrl: string, params?: FindAllUsers$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserDto>>> {
-  const rb = new RequestBuilder(rootUrl, findAllUsers.PATH, 'get');
+export function updateUserSkill(http: HttpClient, rootUrl: string, params: UpdateUserSkill$Params, context?: HttpContext): Observable<StrictHttpResponse<UserSkillsDto>> {
+  const rb = new RequestBuilder(rootUrl, updateUserSkill.PATH, 'patch');
   if (params) {
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -21,9 +23,9 @@ export function findAllUsers(http: HttpClient, rootUrl: string, params?: FindAll
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<UserDto>>;
+      return r as StrictHttpResponse<UserSkillsDto>;
     })
   );
 }
 
-findAllUsers.PATH = '/users';
+updateUserSkill.PATH = '/userSkills/';

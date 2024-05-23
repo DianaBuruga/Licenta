@@ -11,7 +11,7 @@ import { CompanyDto } from '../../models/company-dto';
 export interface FindAllCompanies$Params {
 }
 
-export function findAllCompanies(http: HttpClient, rootUrl: string, params?: FindAllCompanies$Params, context?: HttpContext): Observable<StrictHttpResponse<CompanyDto>> {
+export function findAllCompanies(http: HttpClient, rootUrl: string, params?: FindAllCompanies$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CompanyDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllCompanies.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllCompanies(http: HttpClient, rootUrl: string, params?: Fin
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<CompanyDto>;
+      return r as StrictHttpResponse<Array<CompanyDto>>;
     })
   );
 }

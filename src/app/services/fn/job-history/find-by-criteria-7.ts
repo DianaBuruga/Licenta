@@ -6,19 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { EventDto } from '../../models/event-dto';
+import { JobHistoryDto } from '../../models/job-history-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
-export interface FindByCriteria9$Params {
-
-/**
- * List of search criteria
- */
+export interface FindByCriteria7$Params {
   criteria: Array<SearchCriteria>;
 }
 
-export function findByCriteria9(http: HttpClient, rootUrl: string, params: FindByCriteria9$Params, context?: HttpContext): Observable<StrictHttpResponse<EventDto>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria9.PATH, 'get');
+export function findByCriteria7(http: HttpClient, rootUrl: string, params: FindByCriteria7$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobHistoryDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria7.PATH, 'get');
   if (params) {
     rb.query('criteria', params.criteria, {});
   }
@@ -28,9 +24,9 @@ export function findByCriteria9(http: HttpClient, rootUrl: string, params: FindB
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<EventDto>;
+      return r as StrictHttpResponse<Array<JobHistoryDto>>;
     })
   );
 }
 
-findByCriteria9.PATH = '/events/by-criteria/';
+findByCriteria7.PATH = '/jobs/history/by-criteria/';

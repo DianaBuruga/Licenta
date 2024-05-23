@@ -11,7 +11,7 @@ import { SkillDto } from '../../models/skill-dto';
 export interface FindAllSkills$Params {
 }
 
-export function findAllSkills(http: HttpClient, rootUrl: string, params?: FindAllSkills$Params, context?: HttpContext): Observable<StrictHttpResponse<SkillDto>> {
+export function findAllSkills(http: HttpClient, rootUrl: string, params?: FindAllSkills$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SkillDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllSkills.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllSkills(http: HttpClient, rootUrl: string, params?: FindAl
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<SkillDto>;
+      return r as StrictHttpResponse<Array<SkillDto>>;
     })
   );
 }

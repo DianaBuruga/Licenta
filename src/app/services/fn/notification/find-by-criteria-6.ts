@@ -6,31 +6,27 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { BibliographyDto } from '../../models/bibliography-dto';
+import { NotificationDto } from '../../models/notification-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
-export interface FindByCriteria12$Params {
-
-/**
- * List of search criteria
- */
+export interface FindByCriteria6$Params {
   criteria: Array<SearchCriteria>;
 }
 
-export function findByCriteria12(http: HttpClient, rootUrl: string, params: FindByCriteria12$Params, context?: HttpContext): Observable<StrictHttpResponse<BibliographyDto>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria12.PATH, 'get');
+export function findByCriteria6(http: HttpClient, rootUrl: string, params: FindByCriteria6$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria6.PATH, 'get');
   if (params) {
     rb.query('criteria', params.criteria, {});
   }
 
   return http.request(
-    rb.build({ responseType: 'json', accept: 'application/json', context })
+    rb.build({ responseType: 'blob', accept: '*/*', context })
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<BibliographyDto>;
+      return r as StrictHttpResponse<Array<NotificationDto>>;
     })
   );
 }
 
-findByCriteria12.PATH = '/bibliographies/by-criteria/';
+findByCriteria6.PATH = '/notifications/by-criteria/';

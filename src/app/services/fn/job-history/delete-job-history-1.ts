@@ -6,16 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { JobHistoryDto } from '../../models/job-history-dto';
 
-export interface DeleteJobHistory$Params {
-      body: JobHistoryDto
+export interface DeleteJobHistory1$Params {
+  id: string;
 }
 
-export function deleteJobHistory(http: HttpClient, rootUrl: string, params: DeleteJobHistory$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, deleteJobHistory.PATH, 'delete');
+export function deleteJobHistory1(http: HttpClient, rootUrl: string, params: DeleteJobHistory1$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, deleteJobHistory1.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -28,4 +27,4 @@ export function deleteJobHistory(http: HttpClient, rootUrl: string, params: Dele
   );
 }
 
-deleteJobHistory.PATH = '/jobs/history';
+deleteJobHistory1.PATH = '/jobs/history/{id}';

@@ -11,7 +11,7 @@ import { ReviewDto } from '../../models/review-dto';
 export interface FindAllReviews$Params {
 }
 
-export function findAllReviews(http: HttpClient, rootUrl: string, params?: FindAllReviews$Params, context?: HttpContext): Observable<StrictHttpResponse<ReviewDto>> {
+export function findAllReviews(http: HttpClient, rootUrl: string, params?: FindAllReviews$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReviewDto>>> {
   const rb = new RequestBuilder(rootUrl, findAllReviews.PATH, 'get');
   if (params) {
   }
@@ -21,7 +21,7 @@ export function findAllReviews(http: HttpClient, rootUrl: string, params?: FindA
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<ReviewDto>;
+      return r as StrictHttpResponse<Array<ReviewDto>>;
     })
   );
 }

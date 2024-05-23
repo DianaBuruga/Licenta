@@ -1,33 +1,27 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteJobCandidates } from '../fn/job-candidates/delete-job-candidates';
-import { DeleteJobCandidates$Params } from '../fn/job-candidates/delete-job-candidates';
-import { findAllJobCandidates } from '../fn/job-candidates/find-all-job-candidates';
-import { FindAllJobCandidates$Params } from '../fn/job-candidates/find-all-job-candidates';
-import { findByCriteria7 } from '../fn/job-candidates/find-by-criteria-7';
-import { FindByCriteria7$Params } from '../fn/job-candidates/find-by-criteria-7';
-import { findJobById } from '../fn/job-candidates/find-job-by-id';
-import { FindJobById$Params } from '../fn/job-candidates/find-job-by-id';
-import { JobCandidatesDto } from '../models/job-candidates-dto';
-import { saveJobCandidates } from '../fn/job-candidates/save-job-candidates';
-import { SaveJobCandidates$Params } from '../fn/job-candidates/save-job-candidates';
-import { updateJobCandidates } from '../fn/job-candidates/update-job-candidates';
-import { UpdateJobCandidates$Params } from '../fn/job-candidates/update-job-candidates';
+import {deleteJobCandidates, DeleteJobCandidates$Params} from '../fn/job-candidates/delete-job-candidates';
+import {findAllJobCandidates, FindAllJobCandidates$Params} from '../fn/job-candidates/find-all-job-candidates';
+import {findByCriteria8, FindByCriteria8$Params} from '../fn/job-candidates/find-by-criteria-8';
+import {findJobById, FindJobById$Params} from '../fn/job-candidates/find-job-by-id';
+import {JobCandidatesDto} from '../models/job-candidates-dto';
+import {saveJobCandidates, SaveJobCandidates$Params} from '../fn/job-candidates/save-job-candidates';
+import {updateJobCandidates, UpdateJobCandidates$Params} from '../fn/job-candidates/update-job-candidates';
 
 
 /**
  * The JobCandidates API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class JobCandidatesService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -46,7 +40,7 @@ export class JobCandidatesService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllJobCandidates$Response(params?: FindAllJobCandidates$Params, context?: HttpContext): Observable<StrictHttpResponse<JobCandidatesDto>> {
+  findAllJobCandidates$Response(params?: FindAllJobCandidates$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
     return findAllJobCandidates(this.http, this.rootUrl, params, context);
   }
 
@@ -60,9 +54,9 @@ export class JobCandidatesService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  findAllJobCandidates(params?: FindAllJobCandidates$Params, context?: HttpContext): Observable<JobCandidatesDto> {
+  findAllJobCandidates(params?: FindAllJobCandidates$Params, context?: HttpContext): Observable<Array<JobCandidatesDto>> {
     return this.findAllJobCandidates$Response(params, context).pipe(
-      map((r: StrictHttpResponse<JobCandidatesDto>): JobCandidatesDto => r.body)
+      map((r: StrictHttpResponse<Array<JobCandidatesDto>>): Array<JobCandidatesDto> => r.body)
     );
   }
 
@@ -198,8 +192,8 @@ export class JobCandidatesService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria7()` */
-  static readonly FindByCriteria7Path = '/jobCandidates/by-criteria/';
+  /** Path part for operation `findByCriteria8()` */
+  static readonly FindByCriteria8Path = '/jobCandidates/by-criteria/';
 
   /**
    * Find job candidate by criteria.
@@ -207,12 +201,12 @@ export class JobCandidatesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria7()` instead.
+   * To access only the response body, use `findByCriteria8()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria7$Response(params: FindByCriteria7$Params, context?: HttpContext): Observable<StrictHttpResponse<JobCandidatesDto>> {
-    return findByCriteria7(this.http, this.rootUrl, params, context);
+  findByCriteria8$Response(params: FindByCriteria8$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
+    return findByCriteria8(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -221,13 +215,13 @@ export class JobCandidatesService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria7$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria8$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  findByCriteria7(params: FindByCriteria7$Params, context?: HttpContext): Observable<JobCandidatesDto> {
-    return this.findByCriteria7$Response(params, context).pipe(
-      map((r: StrictHttpResponse<JobCandidatesDto>): JobCandidatesDto => r.body)
+  findByCriteria8(params: FindByCriteria8$Params, context?: HttpContext): Observable<Array<JobCandidatesDto>> {
+    return this.findByCriteria8$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<JobCandidatesDto>>): Array<JobCandidatesDto> => r.body)
     );
   }
 
