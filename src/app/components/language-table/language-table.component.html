@@ -1,5 +1,8 @@
 <div style="text-align: center;">
-    <h1><b>Language</b></h1>
+    <h1><b>Language</b>
+      <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyLanguage)">
+      <mat-icon>add</mat-icon>
+    </button></h1>
     <br>
     <table mat-table [dataSource]="languageData" class="mat-elevation-z8">
       <ng-container matColumnDef="language">
@@ -25,6 +28,17 @@
       <ng-container matColumnDef="writing">
         <th mat-header-cell *matHeaderCellDef  [style.font-size]="fontSize" [style.background-color]="color" [style.color]="textColor"> Writing </th>
         <td mat-cell *matCellDef="let element" [style.font-size]="fontSize"> {{element.writing}} </td>
+      </ng-container>
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef  [style.font-size]="fontSize" [style.background-color]="color" [style.color]="textColor"> </th>
+        <td mat-cell *matCellDef="let element" [style.font-size]="fontSize">
+          <button mat-icon-button class="custom-icon-button" (click)="openDialog(element)">
+            <mat-icon>update</mat-icon>
+          </button>
+          <button mat-icon-button class="custom-icon-button" (click)="deleteLanguage(element.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
       </ng-container>
       <tr mat-header-row *matHeaderRowDef="displayedColumns" [style.font-size]="fontSize" [style.background-color]="color" [style.color]="textColor"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { environment } from '../../../enviroment/enviroment';
-import { AuthService } from '../../services/auth/auth.service';
+import { AuthenticationControllerService } from '../../services/services/authentication-controller.service';
 
 @Component({
   selector: 'app-login',
@@ -15,13 +14,17 @@ import { AuthService } from '../../services/auth/auth.service';
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  private authService: AuthService = inject(AuthService);
+  private authService: AuthenticationControllerService = inject(AuthenticationControllerService);
 
-  gray: String = 'gray';
-  white: String = 'white';
+  gray: string = 'gray';
+  white: string = 'white';
 
   authenticateWithGoogle(): void {
-    window.location.href = 'http://localhost:8081/oauth2/authorization/google';
+    //window.location.href = 'http://localhost:8081/oauth2/authorization/google';
     //this.authService.login();
+    // this.authService.login().subscribe((response) => {
+    //   console.log('Login response:', response);
+    // });
+    window.location.href ="http://localhost:8081/oauth2/authorization/google";
   }
 }

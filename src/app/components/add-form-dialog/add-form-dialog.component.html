@@ -30,8 +30,9 @@
       <mat-label>Choose a company</mat-label>
       <input type="text" matInput formControlName="company" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-          {{ option }}
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+          <img src = {{option.logoUrl}} style="width: 15px;">
+          {{option.name}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>

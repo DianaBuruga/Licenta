@@ -11,9 +11,9 @@ export interface CompanyDto {
   address: string;
   id?: string;
   jobHistories: Array<JobHistoryDto>;
+  logoUrl?: string;
   name: string;
   postedJobs: Array<PostedJobDto>;
   reviews: Array<ReviewDto>;
   website: string;
-  logoUrl: string;
 }

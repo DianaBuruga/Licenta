@@ -1,13 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { MatCard } from '@angular/material/card';
-import { MatCardContent } from '@angular/material/card';
-import { MatCardTitle } from '@angular/material/card';
-import { CommonModule } from '@angular/common';
-import { NgFor } from '@angular/common';
+import {MatCard, MatCardTitle, MatCardContent} from '@angular/material/card';
+import {CommonModule, NgFor} from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { AddFormDialogComponent } from '../add-form-dialog/add-form-dialog.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { JobHistoryDto, UserDto } from '../../services/models';
+import { JobHistoryDto, UserDto} from '../../services/models';
+import { JobHistoryService } from '../../services/services';
 
 interface Experience {
   year: string;
@@ -33,31 +31,54 @@ interface Experience {
 export class ExperienceComponent implements OnInit{
   @Input() userExperiences: UserDto | undefined;
   experiences: JobHistoryDto[] | undefined;
+  emptyJobHistory: JobHistoryDto = {} as JobHistoryDto;
   ngOnInit(): void {
     this.experiences = this.userExperiences?.postedJobs;
     console.log('Experiences', this.experiences);
+    this.emptyJobHistory = {
+      id: '',
+      position: '',
+      description: '',
+      startDate: '',
+      endDate: '',
+      needQualification: false,
+      company: {
+        name: '',
+        website: '',
+        address: '',
+        jobHistories: [],
+        postedJobs: [],
+        reviews: []
+      },
+      user: this.userExperiences as UserDto
+    };
   }
-  constructor(public dialog: MatDialog) {}
-  openDialog(): void {
+
+  constructor(public dialog: MatDialog, private jobHistoryService: JobHistoryService) {}
+  openDialog(jobHistory: JobHistoryDto): void {
     const dialogRef = this.dialog.open(AddFormDialogComponent, {
       width: '50%',
-      data: {user: this.userExperiences}
+      data: {user: this.userExperiences, job: jobHistory}
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialog was closed');
     });
   }
-  // experiences: Experience[] = [
-  //   {
-  //     year: '2019',
-  //     title: 'FRONTED DEVELOPMENT',
-  //     description: 'Maecenas finibus nec sem ut imperdiet...',
-  //   },
-  //   {
-  //     year: '2014',
-  //     title: 'GRAPHIC DESIGN',
-  //     description: 'Maecenas finibus nec sem ut imperdiet...',
-  //   }
-  // ];
+    deleteJobExperience(id: string | undefined): void {
+      console.log('Deleting Job History', id);
+
+      if(id !== undefined) {
+        const params = { id: id };
+        this.jobHistoryService.deleteJobHistory1(params).subscribe({
+          next: () => {
+            console.log('Job history deleted successfully');
+          },
+          error: (error) => {
+            console.error('Error deleting job history', error);
+          },
+        });
+      }
+    }
+
 }

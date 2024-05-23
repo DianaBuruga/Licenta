@@ -1,5 +1,7 @@
 <div class="slider-effectCoverFlow">
-    <h1><b>Recomandari</b></h1>
+    <h1><b>Recomandari</b><button mat-icon-button class="custom-icon-button" (click)="openDialog(referals)">
+      <mat-icon>add</mat-icon>
+    </button></h1>
     <swiper
       [effect]="'coverflow'"
       [grabCursor]="true"
@@ -30,6 +32,11 @@
                     {{referal.description}}
                   </p>
                 </mat-card-content>
+                <mat-card-actions>
+                <button mat-icon-button class="custom-icon-button" (click)="deleteAcreditare(referal.id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+                </mat-card-actions>
               </mat-card>
         </ng-template>
       </ng-container>

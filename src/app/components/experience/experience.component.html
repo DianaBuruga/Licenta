@@ -1,6 +1,6 @@
 <div class="container">
   <br>
-<h1><b>Experience</b><button mat-icon-button class="custom-icon-button" (click)="openDialog()">
+<h1><b>Experience</b><button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyJobHistory)">
   <mat-icon>add</mat-icon>
 </button></h1>
 <br>
@@ -22,10 +22,10 @@
             <br>
             <span>{{ experience.description }}</span>
             <br>
-            <button mat-icon-button class="custom-icon-button" (click)="openDialog()">
+            <button mat-icon-button class="custom-icon-button" (click)="openDialog(experience)">
               <mat-icon>update</mat-icon>
             </button>
-            <button mat-icon-button class="custom-icon-button" (click)="openDialog()">
+            <button mat-icon-button class="custom-icon-button" (click)="deleteJobExperience(experience.id)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>

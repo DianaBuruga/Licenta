@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgFor } from '@angular/common';
+import { Component, Input, OnInit } from '@angular/core';
+import {CommonModule, NgFor} from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
-import { ExperienceDto } from '../../services/models';
-
+import { ExperienceDto, UserDto } from '../../services/models';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { ExperienceService } from '../../services/services';
+import { ProjectsFormDialogComponent } from '../projects-form-dialog/projects-form-dialog.component';
 interface Experience {
   title: string;
   description: string;
@@ -21,34 +22,30 @@ interface Experience {
     MatCardModule,
     CommonModule,
     NgFor,
-    MatIcon
+    MatIcon,
+    MatDialogModule
 ],
   templateUrl: './projects-carousel.component.html',
   styleUrl: './projects-carousel.component.scss'
 })
-export class ProjectsCarouselComponent{
-  @Input() experiences: ExperienceDto[] | undefined;
+export class ProjectsCarouselComponent implements OnInit{
+  @Input() userExperiences: UserDto | undefined;
+  experiences: ExperienceDto[] | undefined;
+  emptyExperience: ExperienceDto = {} as ExperienceDto;
+  constructor(public dialog: MatDialog, private experienceService: ExperienceService) {}
   ngOnInit(): void {
-    console.log('Experiences', this.experiences);
+    console.log('Projects', this.experiences);
+    this.experiences = this.userExperiences?.experiences;
+    this.emptyExperience = {
+      id: '',
+      title: '',
+      description: '',
+      date: '',
+      url: '',
+      type: 'PROJECT',
+      userDTO: this.userExperiences as UserDto
+    };
   }
-  // experiences: Experience[] = [
-  //   {
-  //     title: 'Proiect 1',
-  //     description: 'Description of product 1',
-  //     date: '18-04-2024',
-  //     url:'https://github.com/',
-  //     type: 'COMPETITON',
-  //     image: 'path/to/image1.jpg'
-  //   },
-  //   {
-  //     title: 'Product 1',
-  //     description: 'Description of product 1',
-  //     date: 'path/to/image1.jpg',
-  //     url:'',
-  //     type: 'COMPETITON',
-  //     image: ''
-  //   },
-  // ];
   currentIndex = 0;
 
   showNext(): void {
@@ -74,4 +71,29 @@ export class ProjectsCarouselComponent{
 onImageError(event: any) {
   event.target.style.display = 'none';
 }
+openDialog(experience: ExperienceDto): void {
+  const dialogRef = this.dialog.open(ProjectsFormDialogComponent, {
+    width: '50%',
+    data: {user: this.userExperiences, newExperience: experience}
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Dialog was closed');
+  });
+}
+  deleteJobExperience(id: string | undefined): void {
+    console.log('Deleting Job History', id);
+
+    if(id !== undefined) {
+      const params = { id: id };
+      this.experienceService.deleteExperience(params).subscribe({
+        next: () => {
+          console.log('Experience deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting experience', error);
+        },
+      });
+    }
+  }
 }

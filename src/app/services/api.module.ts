@@ -6,6 +6,7 @@ import { ApiConfiguration, ApiConfigurationParams } from './api-configuration';
 
 import { UserService } from './services/user.service';
 import { LanguageService } from './services/language.service';
+import { UserSkillService } from './services/user-skill.service';
 import { SpecializationService } from './services/specialization.service';
 import { SkillService } from './services/skill.service';
 import { ReviewService } from './services/review.service';
@@ -13,6 +14,7 @@ import { NotificationService } from './services/notification.service';
 import { JobHistoryService } from './services/job-history.service';
 import { JobCandidatesService } from './services/job-candidates.service';
 import { FacultyService } from './services/faculty.service';
+import { ExperienceService } from './services/experience.service';
 import { EventService } from './services/event.service';
 import { EmailService } from './services/email.service';
 import { BibliographyService } from './services/bibliography.service';
@@ -31,6 +33,7 @@ import { AuthenticationControllerService } from './services/authentication-contr
   providers: [
     UserService,
     LanguageService,
+    UserSkillService,
     SpecializationService,
     SkillService,
     ReviewService,
@@ -38,6 +41,7 @@ import { AuthenticationControllerService } from './services/authentication-contr
     JobHistoryService,
     JobCandidatesService,
     FacultyService,
+    ExperienceService,
     EventService,
     EmailService,
     BibliographyService,

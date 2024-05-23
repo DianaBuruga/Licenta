@@ -11,4 +11,18 @@
   .faded-stroke {
     opacity: 0.5;
   }
-  
+  button.custom-icon-button {
+  background-color: transparent; 
+  color: #ff2929;              
+  //border-radius: 50%;        
+  width: 48px;               
+  height: 48px; 
+  border: 0px;            
+  //box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); 
+  //transition: background-color 0.3s; 
+
+button.custom-icon-button:hover {
+  //background-color: #f9ff53; 
+  color: rgb(66, 4, 101)!important;
+}
+}
