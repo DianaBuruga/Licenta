@@ -56,7 +56,7 @@ public class UserController implements UserApiDoc {
 
     @GetMapping(value="/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO getAuthenticatedUser(@AuthenticationPrincipal OidcUser oidcUser, Principal principal) {
-        return userService.findByEmail(oidcUser.getEmail());
+        return userService.findByEmail("robert.marinescu@yahoo.com");
     }
 
     @GetMapping

@@ -8,6 +8,7 @@ import com.ulbs.careerstartup.repository.UserSkillsRepository;
 import com.ulbs.careerstartup.specification.GenericSpecification;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@AllArgsConstructor
 public class UserSkillService {
     private UserSkillsRepository userSkillsRepository;
     private Mapper mapper;
@@ -22,6 +24,7 @@ public class UserSkillService {
     @Transactional
     public UserSkillsDTO saveUserSkill(UserSkillsDTO userSkillsDTO) {
         UserSkills userSkills = mapper.userSkillsDTOToUserSkills(userSkillsDTO);
+        userSkills.setUser(mapper.userDTOToUser(userSkillsDTO.getUserDTO()));
         userSkills = userSkillsRepository.save(userSkills);
         return mapper.userSkillsToUserSkillsDTO(userSkills);
     }
@@ -35,6 +38,7 @@ public class UserSkillService {
     @Transactional
     public UserSkillsDTO updateUserSkill(UserSkillsDTO userSkillsDTO) {
         UserSkills userSkills = mapper.userSkillsDTOToUserSkills(userSkillsDTO);
+        userSkills.setUser(mapper.userDTOToUser(userSkillsDTO.getUserDTO()));
         userSkills = userSkillsRepository.save(userSkills);
         return mapper.userSkillsToUserSkillsDTO(userSkills);
     }

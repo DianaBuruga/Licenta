@@ -21,16 +21,13 @@ public class UserSkillsDTO {
     private UUID skillId;
 
     @NotNull(message = "User is required")
-    @NotEmpty(message = "User is required")
-    private UserDTO user;
+    private UserDTO userDTO;
 
     @NotNull(message = "Skill is required")
-    @NotEmpty(message = "Skill is required")
     @JsonProperty("skill")
     private SkillDTO skillDTO;
 
     @NotNull(message = "Proficiency is required")
-    @NotEmpty(message = "Proficiency is required")
     @JsonProperty("proficiency")
-    private Integer proficiencyDTO;
+    private Integer proficiency;
 }

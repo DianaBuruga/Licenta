@@ -240,6 +240,9 @@ public interface Mapper {
         if (Objects.nonNull(user.getReceivedReferrals())) {
             user.getReceivedReferrals().forEach(referral -> referral.setStudent(user));
         }
+        if(Objects.nonNull(user.getSkills())){
+            user.getSkills().forEach(userSkills -> userSkills.setUser(user));
+        }
     }
 
     @Mapping(source = "id.tableId", target = "tableId")

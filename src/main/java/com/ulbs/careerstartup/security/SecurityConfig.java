@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/oauth2/authorization/google-login", "/", "/auth/google", "/swagger-ui.html", "/error**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                       // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -93,6 +93,7 @@ public class SecurityConfig {
                 AUTHORIZATION,
                 ACCESS_CONTROL_ALLOW_ORIGIN
         ));
+        configuration.setExposedHeaders(Collections.singletonList(ACCESS_CONTROL_ALLOW_ORIGIN));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

@@ -41,7 +41,7 @@ public class UserSkillController implements UserSkillApiDoc {
     }
 
     @DeleteMapping("/{userId}/{skillId}")
-    public void deleteJobHistory(@PathVariable UUID userId, @PathVariable UUID skillId) {
+    public void deleteUserSkill(@PathVariable UUID userId, @PathVariable UUID skillId) {
         userSkillService.deleteUserSkill(userId,skillId);
     }
 }

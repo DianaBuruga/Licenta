@@ -118,6 +118,6 @@ public interface UserSkillApiDoc {
             },
             security = @SecurityRequirement(name = "oauth2")
     )
-    void deleteJobHistory(@Parameter(description = "UserId", required = true) @Valid @PathVariable UUID userId,
+    void deleteUserSkill(@Parameter(description = "UserId", required = true) @Valid @PathVariable UUID userId,
                           @Parameter(description = "SkillId", required = true) @Valid @PathVariable UUID skillId);
 }
