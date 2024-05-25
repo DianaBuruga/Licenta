@@ -17,7 +17,7 @@
       <mat-slider min="0" max="100" step="1" color="accent" discrete [displayWith]="formatLabel">
         <input matSliderThumb formControlName="proficiency" matSlider>
     </mat-slider>
-        <!-- <div class="progress-bar" [style.width.%]="form.get('proficiency')?.value" [style.background-color]="color"></div> -->
+    <input type="hidden" formControlName="userSkills">
     <div mat-dialog-actions>
       <button mat-button (click)="closeDialog()">Cancel</button>
       <button mat-button color="primary" [disabled]="!form.valid">Add</button>

@@ -35,6 +35,7 @@ export class SkillCircularProgressbarComponent {
   };
   }
   constructor(public dialog: MatDialog, private userSkillService: UserSkillService) {}
+  
   openDialog(userSkillDto: UserSkillsDto): void {
     const dialogRef = this.dialog.open(UserSkillsFormDialogComponent, {
       width: '50%',
@@ -42,6 +43,17 @@ export class SkillCircularProgressbarComponent {
     });
   
     dialogRef.afterClosed().subscribe(result => {
+      console.log('Result',result);
+      if(result && this.user)
+        {
+          if(this.user.skills === undefined){
+            this.user.skills = [];
+          }
+          this.user.skills.push(result.userSkills);
+          this.userSkills = this.user.skills;
+          console.log('User Skills', this.userSkills);
+          this.userSkills?.forEach(element => {this.colorMap.set(element.skill, this.getRandomColor());});
+        }
       console.log('Dialog was closed');
     });
   }
@@ -52,14 +64,20 @@ deleteSkill(userSkill: UserSkillsDto) {
     const params = { userId: this.user.id, skillId: userSkill.skill.id };
     this.userSkillService.deleteUserSkill(params).subscribe({
       next: () => {
+        let index = this.user?.skills?.indexOf(userSkill);
+        if (index !== undefined && index !== -1) {
+          this.user?.skills?.splice(index, 1);
+        }
+        (index = this.userSkills?.indexOf(userSkill)) !== undefined && this.userSkills?.splice(index, 1);
+        this.colorMap.delete(userSkill.skill);
         console.log('User skill deleted successfully');
       },
       error: (error) => {
         console.error('Error deleting user skill', error);
       },
-    });
+    })  ;
   }
-  }
+}
 
   getRandomColor() {
     return `hsl(${Math.random() * 360}, 100%, 50%)`;

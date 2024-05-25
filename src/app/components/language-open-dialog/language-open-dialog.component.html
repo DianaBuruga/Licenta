@@ -1,0 +1,76 @@
+<h1 mat-dialog-title>Add New Language</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Language</mat-label>
+      <input type="text" matInput formControlName="language" [matAutocomplete]="autoLanguage">
+      <mat-autocomplete #autoLanguage="matAutocomplete">
+        <mat-option *ngFor="let option of filteredLanguageOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="form.get('language')?.errors?.['required']">Language is required</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Conversation</mat-label>
+      <input type="text" matInput formControlName="conversation" [matAutocomplete]="autoConversation">
+      <mat-autocomplete #autoConversation="matAutocomplete">
+        <mat-option *ngFor="let option of filteredConvesationOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="form.get('conversation')?.errors?.['required']">Conversation level is required</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Listening</mat-label>
+      <input type="text" matInput formControlName="listening" [matAutocomplete]="autoListening">
+      <mat-autocomplete #autoListening="matAutocomplete">
+        <mat-option *ngFor="let option of filteredListeningOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="form.get('listening')?.errors?.['required']">Listening level is required</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Reading</mat-label>
+      <input type="text" matInput formControlName="reading" [matAutocomplete]="autoReading">
+      <mat-autocomplete #autoReading="matAutocomplete">
+        <mat-option *ngFor="let option of filteredReadingOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="form.get('reading')?.errors?.['required']">Reading level is required</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Speaking</mat-label>
+      <input type="text" matInput formControlName="speaking" [matAutocomplete]="autoSpeaking">
+      <mat-autocomplete #autoSpeaking="matAutocomplete">
+        <mat-option *ngFor="let option of filteredSpeakingOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="form.get('speaking')?.errors?.['required']">Speaking level is required</mat-error>
+    </mat-form-field>
+    
+    <mat-form-field appearance="fill">
+      <mat-label>Writing</mat-label>
+      <input type="text" matInput formControlName="writing" [matAutocomplete]="autoWriting">
+      <mat-autocomplete #autoWriting="matAutocomplete">
+        <mat-option *ngFor="let option of filteredWritingOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="form.get('writing')?.errors?.['required']">Writing level is required</mat-error>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Cancel</button>
+      <button mat-button color="primary" [disabled]="!form.valid">Add</button>
+    </div>
+  </form>
+</div>

@@ -1,16 +1,10 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {MatTableModule} from '@angular/material/table';
-import {LanguageDto} from '../../services/models';
+import {LanguageDto, UserDto} from '../../services/models';
 import {MatIcon} from '@angular/material/icon';
-
-interface LanguageProficiency {
-  language: string;
-  conversational: string;
-  listening: string;
-  reading: string;
-  speaking: string;
-  writing: string;
-}
+import { LanguageOpenDialogComponent } from '../language-open-dialog/language-open-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { LanguageService } from '../../services/services';
 
 @Component({
   selector: 'app-language-table',
@@ -20,30 +14,63 @@ interface LanguageProficiency {
   styleUrl: './language-table.component.scss'
 })
 export class LanguageTableComponent implements OnInit {
-  deleteLanguage(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
-
-  emptyLanguage: any;
-
-  openDialog(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
-
-  languageData: LanguageProficiency[] = [];
+  @Input() user: UserDto | undefined;
+  languageData: LanguageDto[] = [];
+  emptyLanguage: LanguageDto = {} as LanguageDto;
 
   ngOnInit(): void {
-    this.languageData = this.languages?.map(dto => ({
-      language: dto.name,
-      conversational: dto.conversation,
-      listening: dto.listening,
-      reading: dto.reading,
-      speaking: dto.speaking,
-      writing: dto.writing
-    })) ?? [];
+    this.languageData = this.user?.languages??[];
+    console.log('Languages', this.languageData);
   }
 
-  @Input() languages: LanguageDto[] | undefined;
+  deleteLanguage(language: LanguageDto) {
+    console.log('Deleting language', language.id); 
+  if (language.id !== undefined && language.id !== undefined) {
+    const params = { id: language.id};
+    this.languageService.deleteLanguage(params).subscribe({
+      next: () => {
+        let index = this.user?.languages?.indexOf(language);
+        if (index !== undefined && index !== -1) {
+          this.user?.languages?.splice(index, 1);
+        }
+        if(this.user){
+        if(this.user?.languages === undefined){
+            this.user.languages = [];
+          }
+        this.languageData = [...this.user.languages];
+        }
+        console.log('Language deleted successfully');
+      },
+      error: (error) => {
+        console.error('Error deleting language', error);
+      },
+    })  ;
+  }
+  }
+  constructor(public dialog: MatDialog, private languageService: LanguageService) {}
+  openDialog(language: LanguageDto) {
+    const dialogRef = this.dialog.open(LanguageOpenDialogComponent, {
+      width: '50%',
+      data: {user: this.user, language: language}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Result', result);
+      if(result && this.user)
+        {
+          console.log('am ajuns aici');
+          if(this.user.languages === undefined){
+            this.user.languages = [];
+          }
+          result.languageEntity.user= this.user;
+          this.user.languages.push(result.languageEntity);
+          this.languageData = [...this.user.languages];
+          console.log('Languages', this.languageData);
+        }
+      console.log('Dialog was closed');
+    });
+  }
+
   color: string = '#E74535';
   textColor: string = '#FFFFFF';
   fontSize: string = '16px';

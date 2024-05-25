@@ -99,39 +99,6 @@ export class LanguageService extends BaseService {
     );
   }
 
-  /** Path part for operation `deleteLanguage()` */
-  static readonly DeleteLanguagePath = '/users/languages';
-
-  /**
-   * Delete language.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteLanguage()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteLanguage$Response(params: DeleteLanguage$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return deleteLanguage(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Delete language.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `deleteLanguage$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteLanguage(params: DeleteLanguage$Params, context?: HttpContext): Observable<void> {
-    return this.deleteLanguage$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
   /** Path part for operation `updateLanguage()` */
   static readonly UpdateLanguagePath = '/users/languages';
 
@@ -195,6 +162,39 @@ export class LanguageService extends BaseService {
   findLanguageById(params: FindLanguageById$Params, context?: HttpContext): Observable<LanguageDto> {
     return this.findLanguageById$Response(params, context).pipe(
       map((r: StrictHttpResponse<LanguageDto>): LanguageDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteLanguage()` */
+  static readonly DeleteLanguagePath = '/users/languages/{id}';
+
+  /**
+   * Delete language.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteLanguage()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteLanguage$Response(params: DeleteLanguage$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteLanguage(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Delete language.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteLanguage$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteLanguage(params: DeleteLanguage$Params, context?: HttpContext): Observable<void> {
+    return this.deleteLanguage$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

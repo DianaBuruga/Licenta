@@ -6,16 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { LanguageDto } from '../../models/language-dto';
 
 export interface DeleteLanguage$Params {
-      body: LanguageDto
+
+/**
+ * Id of the language that will be deleted
+ */
+  id: string;
 }
 
 export function deleteLanguage(http: HttpClient, rootUrl: string, params: DeleteLanguage$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, deleteLanguage.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -28,4 +31,4 @@ export function deleteLanguage(http: HttpClient, rootUrl: string, params: Delete
   );
 }
 
-deleteLanguage.PATH = '/users/languages';
+deleteLanguage.PATH = '/users/languages/{id}';

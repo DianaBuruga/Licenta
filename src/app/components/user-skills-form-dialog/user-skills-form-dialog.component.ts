@@ -42,6 +42,7 @@ export class UserSkillsFormDialogComponent implements OnInit {
     this.form = fb.group({
       skill: [data.userSkill.skill.name, [Validators.required]],
       proficiency: [data.userSkill.proficiency | 0, [Validators.required, Validators.min(0), Validators.max(100)]],
+      userSkills: [data.userSkill.userDTO]
     });
   }
 
@@ -95,6 +96,7 @@ export class UserSkillsFormDialogComponent implements OnInit {
         this.userSkillService.saveUserSkill(params).subscribe({
           next: (response: any) => {
             console.log('UserSkill added successfully', response);
+            this.form.get('userSkills')?.setValue(response);
             this.dialogRef.close(this.form.value);
           },
           error: (error: any) => {
@@ -105,6 +107,7 @@ export class UserSkillsFormDialogComponent implements OnInit {
         this.userSkillService.updateUserSkill(params).subscribe({
           next: (response: any) => {
             console.log('UserSkill updated successfully', response);
+            this.form.get('userSkills')?.setValue(response);
             this.dialogRef.close(this.form.value);
           },
           error: (error: any) => {
