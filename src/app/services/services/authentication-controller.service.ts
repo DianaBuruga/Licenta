@@ -1,32 +1,48 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {home, Home$Params} from '../fn/authentication-controller/home';
-import {home1, Home1$Params} from '../fn/authentication-controller/home-1';
-import {home2, Home2$Params} from '../fn/authentication-controller/home-2';
-import {home3, Home3$Params} from '../fn/authentication-controller/home-3';
-import {home4, Home4$Params} from '../fn/authentication-controller/home-4';
-import {home5, Home5$Params} from '../fn/authentication-controller/home-5';
-import {home6, Home6$Params} from '../fn/authentication-controller/home-6';
-import {isAuthenticated, IsAuthenticated$Params} from '../fn/authentication-controller/is-authenticated';
-import {isAuthenticated1, IsAuthenticated1$Params} from '../fn/authentication-controller/is-authenticated-1';
-import {isAuthenticated2, IsAuthenticated2$Params} from '../fn/authentication-controller/is-authenticated-2';
-import {isAuthenticated3, IsAuthenticated3$Params} from '../fn/authentication-controller/is-authenticated-3';
-import {isAuthenticated4, IsAuthenticated4$Params} from '../fn/authentication-controller/is-authenticated-4';
-import {isAuthenticated5, IsAuthenticated5$Params} from '../fn/authentication-controller/is-authenticated-5';
-import {isAuthenticated6, IsAuthenticated6$Params} from '../fn/authentication-controller/is-authenticated-6';
-import {login, Login$Params} from '../fn/authentication-controller/login';
-import {welcome1, Welcome1$Params} from '../fn/authentication-controller/welcome-1';
+import { home } from '../fn/authentication-controller/home';
+import { Home$Params } from '../fn/authentication-controller/home';
+import { home1 } from '../fn/authentication-controller/home-1';
+import { Home1$Params } from '../fn/authentication-controller/home-1';
+import { home2 } from '../fn/authentication-controller/home-2';
+import { Home2$Params } from '../fn/authentication-controller/home-2';
+import { home3 } from '../fn/authentication-controller/home-3';
+import { Home3$Params } from '../fn/authentication-controller/home-3';
+import { home4 } from '../fn/authentication-controller/home-4';
+import { Home4$Params } from '../fn/authentication-controller/home-4';
+import { home5 } from '../fn/authentication-controller/home-5';
+import { Home5$Params } from '../fn/authentication-controller/home-5';
+import { home6 } from '../fn/authentication-controller/home-6';
+import { Home6$Params } from '../fn/authentication-controller/home-6';
+import { isAuthenticated } from '../fn/authentication-controller/is-authenticated';
+import { IsAuthenticated$Params } from '../fn/authentication-controller/is-authenticated';
+import { isAuthenticated1 } from '../fn/authentication-controller/is-authenticated-1';
+import { IsAuthenticated1$Params } from '../fn/authentication-controller/is-authenticated-1';
+import { isAuthenticated2 } from '../fn/authentication-controller/is-authenticated-2';
+import { IsAuthenticated2$Params } from '../fn/authentication-controller/is-authenticated-2';
+import { isAuthenticated3 } from '../fn/authentication-controller/is-authenticated-3';
+import { IsAuthenticated3$Params } from '../fn/authentication-controller/is-authenticated-3';
+import { isAuthenticated4 } from '../fn/authentication-controller/is-authenticated-4';
+import { IsAuthenticated4$Params } from '../fn/authentication-controller/is-authenticated-4';
+import { isAuthenticated5 } from '../fn/authentication-controller/is-authenticated-5';
+import { IsAuthenticated5$Params } from '../fn/authentication-controller/is-authenticated-5';
+import { isAuthenticated6 } from '../fn/authentication-controller/is-authenticated-6';
+import { IsAuthenticated6$Params } from '../fn/authentication-controller/is-authenticated-6';
+import { login } from '../fn/authentication-controller/login';
+import { Login$Params } from '../fn/authentication-controller/login';
+import { welcome1 } from '../fn/authentication-controller/welcome-1';
+import { Welcome1$Params } from '../fn/authentication-controller/welcome-1';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthenticationControllerService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

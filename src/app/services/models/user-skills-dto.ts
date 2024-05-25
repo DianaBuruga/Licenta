@@ -6,6 +6,6 @@ export interface UserSkillsDto {
   proficiency: number;
   skill: SkillDto;
   skillId?: string;
-  user: UserDto;
+  userDTO: UserDto;
   userId?: string;
 }

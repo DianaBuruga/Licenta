@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteSpecialization, DeleteSpecialization$Params} from '../fn/specialization/delete-specialization';
-import {findAllSpecializations, FindAllSpecializations$Params} from '../fn/specialization/find-all-specializations';
-import {findByCriteria3, FindByCriteria3$Params} from '../fn/specialization/find-by-criteria-3';
-import {findSpecializationById, FindSpecializationById$Params} from '../fn/specialization/find-specialization-by-id';
-import {saveSpecialization, SaveSpecialization$Params} from '../fn/specialization/save-specialization';
-import {SpecializationDto} from '../models/specialization-dto';
-import {updateSpecialization, UpdateSpecialization$Params} from '../fn/specialization/update-specialization';
+import { deleteSpecialization } from '../fn/specialization/delete-specialization';
+import { DeleteSpecialization$Params } from '../fn/specialization/delete-specialization';
+import { findAllSpecializations } from '../fn/specialization/find-all-specializations';
+import { FindAllSpecializations$Params } from '../fn/specialization/find-all-specializations';
+import { findByCriteria3 } from '../fn/specialization/find-by-criteria-3';
+import { FindByCriteria3$Params } from '../fn/specialization/find-by-criteria-3';
+import { findSpecializationById } from '../fn/specialization/find-specialization-by-id';
+import { FindSpecializationById$Params } from '../fn/specialization/find-specialization-by-id';
+import { saveSpecialization } from '../fn/specialization/save-specialization';
+import { SaveSpecialization$Params } from '../fn/specialization/save-specialization';
+import { SpecializationDto } from '../models/specialization-dto';
+import { updateSpecialization } from '../fn/specialization/update-specialization';
+import { UpdateSpecialization$Params } from '../fn/specialization/update-specialization';
 
 
 /**
  * The Specialization API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class SpecializationService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

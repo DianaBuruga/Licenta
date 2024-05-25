@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteFaculty, DeleteFaculty$Params} from '../fn/faculty/delete-faculty';
-import {FacultyDto} from '../models/faculty-dto';
-import {findAllFaculties, FindAllFaculties$Params} from '../fn/faculty/find-all-faculties';
-import {findByCriteria9, FindByCriteria9$Params} from '../fn/faculty/find-by-criteria-9';
-import {findFacultyById, FindFacultyById$Params} from '../fn/faculty/find-faculty-by-id';
-import {saveFaculty, SaveFaculty$Params} from '../fn/faculty/save-faculty';
-import {updateFaculty, UpdateFaculty$Params} from '../fn/faculty/update-faculty';
+import { deleteFaculty } from '../fn/faculty/delete-faculty';
+import { DeleteFaculty$Params } from '../fn/faculty/delete-faculty';
+import { FacultyDto } from '../models/faculty-dto';
+import { findAllFaculties } from '../fn/faculty/find-all-faculties';
+import { FindAllFaculties$Params } from '../fn/faculty/find-all-faculties';
+import { findByCriteria9 } from '../fn/faculty/find-by-criteria-9';
+import { FindByCriteria9$Params } from '../fn/faculty/find-by-criteria-9';
+import { findFacultyById } from '../fn/faculty/find-faculty-by-id';
+import { FindFacultyById$Params } from '../fn/faculty/find-faculty-by-id';
+import { saveFaculty } from '../fn/faculty/save-faculty';
+import { SaveFaculty$Params } from '../fn/faculty/save-faculty';
+import { updateFaculty } from '../fn/faculty/update-faculty';
+import { UpdateFaculty$Params } from '../fn/faculty/update-faculty';
 
 
 /**
  * The Faculty API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class FacultyService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

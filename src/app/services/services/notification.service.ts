@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteNotification, DeleteNotification$Params} from '../fn/notification/delete-notification';
-import {findAllNotifications, FindAllNotifications$Params} from '../fn/notification/find-all-notifications';
-import {findByCriteria6, FindByCriteria6$Params} from '../fn/notification/find-by-criteria-6';
-import {findNotificationById, FindNotificationById$Params} from '../fn/notification/find-notification-by-id';
-import {NotificationDto} from '../models/notification-dto';
-import {saveNotification, SaveNotification$Params} from '../fn/notification/save-notification';
-import {updateNotification, UpdateNotification$Params} from '../fn/notification/update-notification';
+import { deleteNotification } from '../fn/notification/delete-notification';
+import { DeleteNotification$Params } from '../fn/notification/delete-notification';
+import { findAllNotifications } from '../fn/notification/find-all-notifications';
+import { FindAllNotifications$Params } from '../fn/notification/find-all-notifications';
+import { findByCriteria6 } from '../fn/notification/find-by-criteria-6';
+import { FindByCriteria6$Params } from '../fn/notification/find-by-criteria-6';
+import { findNotificationById } from '../fn/notification/find-notification-by-id';
+import { FindNotificationById$Params } from '../fn/notification/find-notification-by-id';
+import { NotificationDto } from '../models/notification-dto';
+import { saveNotification } from '../fn/notification/save-notification';
+import { SaveNotification$Params } from '../fn/notification/save-notification';
+import { updateNotification } from '../fn/notification/update-notification';
+import { UpdateNotification$Params } from '../fn/notification/update-notification';
 
 
 /**
  * The Notification API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class NotificationService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

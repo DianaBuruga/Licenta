@@ -1,0 +1,26 @@
+<h1 mat-dialog-title>Add New Skill</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
+    <mat-form-field appearance="fill">
+      <mat-label>Skill</mat-label>
+      <input type="text" matInput formControlName="skill" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+          {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="form.get('skill')?.errors?.['required']">Skill name is required</mat-error>
+    </mat-form-field>
+
+      <mat-label>Proficiency:  {{ form.get('proficiency')?.value }}%</mat-label>
+      <br>
+      <mat-slider min="0" max="100" step="1" color="accent" discrete [displayWith]="formatLabel">
+        <input matSliderThumb formControlName="proficiency" matSlider>
+    </mat-slider>
+        <!-- <div class="progress-bar" [style.width.%]="form.get('proficiency')?.value" [style.background-color]="color"></div> -->
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Cancel</button>
+      <button mat-button color="primary" [disabled]="!form.valid">Add</button>
+    </div>
+  </form>
+</div>

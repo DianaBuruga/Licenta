@@ -4,11 +4,8 @@ import { NgFor } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { SkillDto, UserDto, UserSkillsDto } from '../../services/models';
 import { MatDialog } from '@angular/material/dialog';
-interface Skill {
-  name: string;
-  percentage: number;
-  color: string;
-}
+import { UserSkillService } from '../../services/services';
+import { UserSkillsFormDialogComponent } from '../user-skills-form-dialog/user-skills-form-dialog.component';
 
 @Component({
   selector: 'app-skill-circular-progressbar',
@@ -21,54 +18,48 @@ export class SkillCircularProgressbarComponent {
   @Input() user: UserDto | undefined;
   userSkills: UserSkillsDto[] | undefined;
   emptyUserSkill: UserSkillsDto = {} as UserSkillsDto;
+  colorMap: Map<SkillDto, string> = new Map();
   ngOnInit(): void {
     this.userSkills = this.user?.skills;
-    console.log('UserSkill', this.userSkills);
-    this.userSkills = [] as UserSkillsDto[];
+    this.userSkills?.forEach(element => {this.colorMap.set(element.skill, this.getRandomColor());});
+    console.log('UserSkill in skill circular', this.userSkills);
+    this.emptyUserSkill = {
+      proficiency: 0,
+      skill: {
+        bibliographies: [],
+        courses: [],
+        name: '',
+        userSkills: []
+      },
+      userDTO: this.user as UserDto
+  };
+  }
+  constructor(public dialog: MatDialog, private userSkillService: UserSkillService) {}
+  openDialog(userSkillDto: UserSkillsDto): void {
+    const dialogRef = this.dialog.open(UserSkillsFormDialogComponent, {
+      width: '50%',
+      data: {user: this.user, userSkill: userSkillDto}
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog was closed');
+    });
   }
   
-  // constructor(public dialog: MatDialog, private userSkillService: user) {}
-  // openDialog(jobHistory: JobHistoryDto): void {
-  //   const dialogRef = this.dialog.open(AddFormDialogComponent, {
-  //     width: '50%',
-  //     data: {user: this.userExperiences, job: jobHistory}
-  //   });
-  
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('Dialog was closed');
-  //   });
-  // }
-  //   deleteJobExperience(id: string | undefined): void {
-  //     console.log('Deleting Job History', id); 
-      
-  //     if(id !== undefined) {
-  //       const params = { id: id };
-  //       this.jobHistoryService.deleteJobHistory(params).subscribe({
-  //         next: () => {
-  //           console.log('Job history deleted successfully');
-  //         },
-  //         error: (error) => {
-  //           console.error('Error deleting job history', error);
-  //         },
-  //       });
-  //     }
-  //   }
-deleteSkill(_t9: Skill) {
-throw new Error('Method not implemented.');
-}
-emptySkill: any;
-
-openDialog(arg0: any) {
-throw new Error('Method not implemented.');
-}
-  skills: Skill[] = [
-    { name: 'HTML', percentage: 90 },
-    { name: 'CSS', percentage: 85 },
-    { name: 'JavaScript', percentage: 75 },
-  ].map(skill => ({
-    ...skill,
-    color: this.getRandomColor()
-  }));
+deleteSkill(userSkill: UserSkillsDto) {
+  console.log('Deleting User Skill', userSkill.skill.id); 
+  if (userSkill.skill.id !== undefined && this.user?.id !== undefined) {
+    const params = { userId: this.user.id, skillId: userSkill.skill.id };
+    this.userSkillService.deleteUserSkill(params).subscribe({
+      next: () => {
+        console.log('User skill deleted successfully');
+      },
+      error: (error) => {
+        console.error('Error deleting user skill', error);
+      },
+    });
+  }
+  }
 
   getRandomColor() {
     return `hsl(${Math.random() * 360}, 100%, 50%)`;

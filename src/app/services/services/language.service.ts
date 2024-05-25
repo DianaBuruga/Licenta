@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteLanguage, DeleteLanguage$Params} from '../fn/language/delete-language';
-import {findAllLanguages, FindAllLanguages$Params} from '../fn/language/find-all-languages';
-import {findByCriteria, FindByCriteria$Params} from '../fn/language/find-by-criteria';
-import {findLanguageById, FindLanguageById$Params} from '../fn/language/find-language-by-id';
-import {LanguageDto} from '../models/language-dto';
-import {saveLanguage, SaveLanguage$Params} from '../fn/language/save-language';
-import {updateLanguage, UpdateLanguage$Params} from '../fn/language/update-language';
+import { deleteLanguage } from '../fn/language/delete-language';
+import { DeleteLanguage$Params } from '../fn/language/delete-language';
+import { findAllLanguages } from '../fn/language/find-all-languages';
+import { FindAllLanguages$Params } from '../fn/language/find-all-languages';
+import { findByCriteria } from '../fn/language/find-by-criteria';
+import { FindByCriteria$Params } from '../fn/language/find-by-criteria';
+import { findLanguageById } from '../fn/language/find-language-by-id';
+import { FindLanguageById$Params } from '../fn/language/find-language-by-id';
+import { LanguageDto } from '../models/language-dto';
+import { saveLanguage } from '../fn/language/save-language';
+import { SaveLanguage$Params } from '../fn/language/save-language';
+import { updateLanguage } from '../fn/language/update-language';
+import { UpdateLanguage$Params } from '../fn/language/update-language';
 
 
 /**
  * The Language API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class LanguageService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

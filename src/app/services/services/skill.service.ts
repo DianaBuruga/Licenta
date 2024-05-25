@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteSkill, DeleteSkill$Params} from '../fn/skill/delete-skill';
-import {findAllSkills, FindAllSkills$Params} from '../fn/skill/find-all-skills';
-import {findByCriteria4, FindByCriteria4$Params} from '../fn/skill/find-by-criteria-4';
-import {findSkillById, FindSkillById$Params} from '../fn/skill/find-skill-by-id';
-import {saveSkill, SaveSkill$Params} from '../fn/skill/save-skill';
-import {SkillDto} from '../models/skill-dto';
-import {updateSkill, UpdateSkill$Params} from '../fn/skill/update-skill';
+import { deleteSkill } from '../fn/skill/delete-skill';
+import { DeleteSkill$Params } from '../fn/skill/delete-skill';
+import { findAllSkills } from '../fn/skill/find-all-skills';
+import { FindAllSkills$Params } from '../fn/skill/find-all-skills';
+import { findByCriteria4 } from '../fn/skill/find-by-criteria-4';
+import { FindByCriteria4$Params } from '../fn/skill/find-by-criteria-4';
+import { findSkillById } from '../fn/skill/find-skill-by-id';
+import { FindSkillById$Params } from '../fn/skill/find-skill-by-id';
+import { saveSkill } from '../fn/skill/save-skill';
+import { SaveSkill$Params } from '../fn/skill/save-skill';
+import { SkillDto } from '../models/skill-dto';
+import { updateSkill } from '../fn/skill/update-skill';
+import { UpdateSkill$Params } from '../fn/skill/update-skill';
 
 
 /**
  * The Skill API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class SkillService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

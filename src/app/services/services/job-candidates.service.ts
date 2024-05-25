@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteJobCandidates, DeleteJobCandidates$Params} from '../fn/job-candidates/delete-job-candidates';
-import {findAllJobCandidates, FindAllJobCandidates$Params} from '../fn/job-candidates/find-all-job-candidates';
-import {findByCriteria8, FindByCriteria8$Params} from '../fn/job-candidates/find-by-criteria-8';
-import {findJobById, FindJobById$Params} from '../fn/job-candidates/find-job-by-id';
-import {JobCandidatesDto} from '../models/job-candidates-dto';
-import {saveJobCandidates, SaveJobCandidates$Params} from '../fn/job-candidates/save-job-candidates';
-import {updateJobCandidates, UpdateJobCandidates$Params} from '../fn/job-candidates/update-job-candidates';
+import { deleteJobCandidates } from '../fn/job-candidates/delete-job-candidates';
+import { DeleteJobCandidates$Params } from '../fn/job-candidates/delete-job-candidates';
+import { findAllJobCandidates } from '../fn/job-candidates/find-all-job-candidates';
+import { FindAllJobCandidates$Params } from '../fn/job-candidates/find-all-job-candidates';
+import { findByCriteria8 } from '../fn/job-candidates/find-by-criteria-8';
+import { FindByCriteria8$Params } from '../fn/job-candidates/find-by-criteria-8';
+import { findJobById } from '../fn/job-candidates/find-job-by-id';
+import { FindJobById$Params } from '../fn/job-candidates/find-job-by-id';
+import { JobCandidatesDto } from '../models/job-candidates-dto';
+import { saveJobCandidates } from '../fn/job-candidates/save-job-candidates';
+import { SaveJobCandidates$Params } from '../fn/job-candidates/save-job-candidates';
+import { updateJobCandidates } from '../fn/job-candidates/update-job-candidates';
+import { UpdateJobCandidates$Params } from '../fn/job-candidates/update-job-candidates';
 
 
 /**
  * The JobCandidates API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class JobCandidatesService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

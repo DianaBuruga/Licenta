@@ -1,8 +1,7 @@
-import {Component, Inject, OnInit, inject} from '@angular/core';
+import {Component, Inject, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
-import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatDialogModule} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
@@ -22,22 +21,9 @@ import {companyNameValidator} from './companyNameValidator';
   providers: [provideNativeDateAdapter()],
   templateUrl: './add-form-dialog.component.html',
   styleUrl: './add-form-dialog.component.scss',
-  imports: [
-    MatDialogModule,
-    MatButtonModule,
-    MatInputModule,
-    MatFormFieldModule,
-    ReactiveFormsModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatDialogModule,
-    MatRadioModule,
-    MatAutocompleteModule,
-    CommonModule
-  ]
+  imports: [MatDialogModule, MatButtonModule, MatInputModule, MatFormFieldModule, ReactiveFormsModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule, MatRadioModule, MatAutocompleteModule, CommonModule]
 })
 export class AddFormDialogComponent implements OnInit {
-  //constructor(public dialogRef: MatDialogRef<AddFormDialogComponent>) {};
   form: FormGroup;
 
   selectedCompany: CompanyDto | null = null;
@@ -55,15 +41,12 @@ export class AddFormDialogComponent implements OnInit {
       position: [data.job.position, [Validators.required]],
       description: [data.job.description, [Validators.required]],
       dateRange: fb.group({
-        start: [data.job.startDate, [Validators.required]],
-        end: [data.job.endDate]
+        start: [data.job.startDate, [Validators.required]], end: [data.job.endDate]
       }),
       needsQualification: fb.group({
         booleanValue: [data.job.needQualification]
       }),
       company: [data.job.company.name, Validators.required],
-      // companyName: [''],
-      // address: [''],
       website: [data.job.company.website],
     });
   }
@@ -73,10 +56,7 @@ export class AddFormDialogComponent implements OnInit {
       this.companyMap = new Map(companies.map(company => [company.name, company]));
       this.form.get('website')?.setValidators([Validators.required, companyNameValidator(this.companyMap)]);
       this.options = companies;
-      this.filteredOptions = this.form.get('company')!.valueChanges.pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+      this.filteredOptions = this.form.get('company')!.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
       console.log('Companies list', this.options);
     });
     this.form.get('company')!.valueChanges.subscribe(value => {
@@ -114,8 +94,7 @@ export class AddFormDialogComponent implements OnInit {
           next: (response: any) => {
             console.log('Job added successfully', response);
             this.dialogRef.close(this.form.value);
-          },
-          error: (error: any) => {
+          }, error: (error: any) => {
             console.error('Error adding job', error);
           }
         }));
@@ -124,8 +103,7 @@ export class AddFormDialogComponent implements OnInit {
           next: (response: any) => {
             console.log('Job updated successfully', response);
             this.dialogRef.close(this.form.value);
-          },
-          error: (error: any) => {
+          }, error: (error: any) => {
             console.error('Error updating job', error);
           }
         }));
@@ -152,12 +130,10 @@ export class AddFormDialogComponent implements OnInit {
 
 
   private getCompanyList(): Observable<CompanyDto[]> {
-    return this.companyService.findAllCompanies().pipe(
-      map(companies => {
-        console.log('Companies', companies);
-        return companies;
-      })
-    );
+    return this.companyService.findAllCompanies().pipe(map(companies => {
+      console.log('Companies', companies);
+      return companies;
+    }));
   }
 
 }

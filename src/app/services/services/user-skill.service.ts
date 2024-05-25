@@ -1,25 +1,29 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteJobHistory, DeleteJobHistory$Params} from '../fn/user-skill/delete-job-history';
-import {findByCriteria2, FindByCriteria2$Params} from '../fn/user-skill/find-by-criteria-2';
-import {saveUserSkill, SaveUserSkill$Params} from '../fn/user-skill/save-user-skill';
-import {updateUserSkill, UpdateUserSkill$Params} from '../fn/user-skill/update-user-skill';
-import {UserSkillsDto} from '../models/user-skills-dto';
+import { deleteUserSkill } from '../fn/user-skill/delete-user-skill';
+import { DeleteUserSkill$Params } from '../fn/user-skill/delete-user-skill';
+import { findByCriteria2 } from '../fn/user-skill/find-by-criteria-2';
+import { FindByCriteria2$Params } from '../fn/user-skill/find-by-criteria-2';
+import { saveUserSkill } from '../fn/user-skill/save-user-skill';
+import { SaveUserSkill$Params } from '../fn/user-skill/save-user-skill';
+import { updateUserSkill } from '../fn/user-skill/update-user-skill';
+import { UpdateUserSkill$Params } from '../fn/user-skill/update-user-skill';
+import { UserSkillsDto } from '../models/user-skills-dto';
 
 
 /**
  * The UserSkill API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class UserSkillService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -124,8 +128,8 @@ export class UserSkillService extends BaseService {
     );
   }
 
-  /** Path part for operation `deleteJobHistory()` */
-  static readonly DeleteJobHistoryPath = '/userSkills/{userId}/{skillId}';
+  /** Path part for operation `deleteUserSkill()` */
+  static readonly DeleteUserSkillPath = '/userSkills/{userId}/{skillId}';
 
   /**
    * Delete UserSkill.
@@ -133,12 +137,12 @@ export class UserSkillService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteJobHistory()` instead.
+   * To access only the response body, use `deleteUserSkill()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteJobHistory$Response(params: DeleteJobHistory$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return deleteJobHistory(this.http, this.rootUrl, params, context);
+  deleteUserSkill$Response(params: DeleteUserSkill$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteUserSkill(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -147,12 +151,12 @@ export class UserSkillService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `deleteJobHistory$Response()` instead.
+   * To access the full response (for headers, for example), `deleteUserSkill$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  deleteJobHistory(params: DeleteJobHistory$Params, context?: HttpContext): Observable<void> {
-    return this.deleteJobHistory$Response(params, context).pipe(
+  deleteUserSkill(params: DeleteUserSkill$Params, context?: HttpContext): Observable<void> {
+    return this.deleteUserSkill$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
   }

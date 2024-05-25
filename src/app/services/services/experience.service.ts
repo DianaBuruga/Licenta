@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteExperience, DeleteExperience$Params} from '../fn/experience/delete-experience';
-import {ExperienceDto} from '../models/experience-dto';
-import {findAllExperiences, FindAllExperiences$Params} from '../fn/experience/find-all-experiences';
-import {findByCriteria10, FindByCriteria10$Params} from '../fn/experience/find-by-criteria-10';
-import {findExperienceById, FindExperienceById$Params} from '../fn/experience/find-experience-by-id';
-import {saveExperience, SaveExperience$Params} from '../fn/experience/save-experience';
-import {updateExperience, UpdateExperience$Params} from '../fn/experience/update-experience';
+import { deleteExperience } from '../fn/experience/delete-experience';
+import { DeleteExperience$Params } from '../fn/experience/delete-experience';
+import { ExperienceDto } from '../models/experience-dto';
+import { findAllExperiences } from '../fn/experience/find-all-experiences';
+import { FindAllExperiences$Params } from '../fn/experience/find-all-experiences';
+import { findByCriteria10 } from '../fn/experience/find-by-criteria-10';
+import { FindByCriteria10$Params } from '../fn/experience/find-by-criteria-10';
+import { findExperienceById } from '../fn/experience/find-experience-by-id';
+import { FindExperienceById$Params } from '../fn/experience/find-experience-by-id';
+import { saveExperience } from '../fn/experience/save-experience';
+import { SaveExperience$Params } from '../fn/experience/save-experience';
+import { updateExperience } from '../fn/experience/update-experience';
+import { UpdateExperience$Params } from '../fn/experience/update-experience';
 
 
 /**
  * The Experience API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ExperienceService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

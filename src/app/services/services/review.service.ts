@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteReview, DeleteReview$Params} from '../fn/review/delete-review';
-import {findAllReviews, FindAllReviews$Params} from '../fn/review/find-all-reviews';
-import {findByCriteria5, FindByCriteria5$Params} from '../fn/review/find-by-criteria-5';
-import {findReviewById, FindReviewById$Params} from '../fn/review/find-review-by-id';
-import {ReviewDto} from '../models/review-dto';
-import {saveReview, SaveReview$Params} from '../fn/review/save-review';
-import {updateReview, UpdateReview$Params} from '../fn/review/update-review';
+import { deleteReview } from '../fn/review/delete-review';
+import { DeleteReview$Params } from '../fn/review/delete-review';
+import { findAllReviews } from '../fn/review/find-all-reviews';
+import { FindAllReviews$Params } from '../fn/review/find-all-reviews';
+import { findByCriteria5 } from '../fn/review/find-by-criteria-5';
+import { FindByCriteria5$Params } from '../fn/review/find-by-criteria-5';
+import { findReviewById } from '../fn/review/find-review-by-id';
+import { FindReviewById$Params } from '../fn/review/find-review-by-id';
+import { ReviewDto } from '../models/review-dto';
+import { saveReview } from '../fn/review/save-review';
+import { SaveReview$Params } from '../fn/review/save-review';
+import { updateReview } from '../fn/review/update-review';
+import { UpdateReview$Params } from '../fn/review/update-review';
 
 
 /**
  * The Review API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class ReviewService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

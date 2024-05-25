@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {CourseDto} from '../models/course-dto';
-import {deleteCourse, DeleteCourse$Params} from '../fn/course/delete-course';
-import {findAllCourses, FindAllCourses$Params} from '../fn/course/find-all-courses';
-import {findByCriteria12, FindByCriteria12$Params} from '../fn/course/find-by-criteria-12';
-import {findCourseById, FindCourseById$Params} from '../fn/course/find-course-by-id';
-import {saveCourse, SaveCourse$Params} from '../fn/course/save-course';
-import {updateCourse, UpdateCourse$Params} from '../fn/course/update-course';
+import { CourseDto } from '../models/course-dto';
+import { deleteCourse } from '../fn/course/delete-course';
+import { DeleteCourse$Params } from '../fn/course/delete-course';
+import { findAllCourses } from '../fn/course/find-all-courses';
+import { FindAllCourses$Params } from '../fn/course/find-all-courses';
+import { findByCriteria12 } from '../fn/course/find-by-criteria-12';
+import { FindByCriteria12$Params } from '../fn/course/find-by-criteria-12';
+import { findCourseById } from '../fn/course/find-course-by-id';
+import { FindCourseById$Params } from '../fn/course/find-course-by-id';
+import { saveCourse } from '../fn/course/save-course';
+import { SaveCourse$Params } from '../fn/course/save-course';
+import { updateCourse } from '../fn/course/update-course';
+import { UpdateCourse$Params } from '../fn/course/update-course';
 
 
 /**
  * The Course API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class CourseService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

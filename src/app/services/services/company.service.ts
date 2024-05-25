@@ -1,28 +1,35 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {CompanyDto} from '../models/company-dto';
-import {deleteCompany, DeleteCompany$Params} from '../fn/company/delete-company';
-import {findAllCompanies, FindAllCompanies$Params} from '../fn/company/find-all-companies';
-import {findByCriteria13, FindByCriteria13$Params} from '../fn/company/find-by-criteria-13';
-import {findCompanyById, FindCompanyById$Params} from '../fn/company/find-company-by-id';
-import {getCompanyIcon, GetCompanyIcon$Params} from '../fn/company/get-company-icon';
-import {saveCompany, SaveCompany$Params} from '../fn/company/save-company';
-import {updateCompany, UpdateCompany$Params} from '../fn/company/update-company';
+import { CompanyDto } from '../models/company-dto';
+import { deleteCompany } from '../fn/company/delete-company';
+import { DeleteCompany$Params } from '../fn/company/delete-company';
+import { findAllCompanies } from '../fn/company/find-all-companies';
+import { FindAllCompanies$Params } from '../fn/company/find-all-companies';
+import { findByCriteria13 } from '../fn/company/find-by-criteria-13';
+import { FindByCriteria13$Params } from '../fn/company/find-by-criteria-13';
+import { findCompanyById } from '../fn/company/find-company-by-id';
+import { FindCompanyById$Params } from '../fn/company/find-company-by-id';
+import { getCompanyIcon } from '../fn/company/get-company-icon';
+import { GetCompanyIcon$Params } from '../fn/company/get-company-icon';
+import { saveCompany } from '../fn/company/save-company';
+import { SaveCompany$Params } from '../fn/company/save-company';
+import { updateCompany } from '../fn/company/update-company';
+import { UpdateCompany$Params } from '../fn/company/update-company';
 
 
 /**
  * The Company API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class CompanyService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

@@ -7,14 +7,24 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 
-export interface DeleteJobHistory1$Params {
-  id: string;
+export interface DeleteUserSkill$Params {
+
+/**
+ * UserId
+ */
+  userId: string;
+
+/**
+ * SkillId
+ */
+  skillId: string;
 }
 
-export function deleteJobHistory1(http: HttpClient, rootUrl: string, params: DeleteJobHistory1$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-  const rb = new RequestBuilder(rootUrl, deleteJobHistory1.PATH, 'delete');
+export function deleteUserSkill(http: HttpClient, rootUrl: string, params: DeleteUserSkill$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  const rb = new RequestBuilder(rootUrl, deleteUserSkill.PATH, 'delete');
   if (params) {
-    rb.path('id', params.id, {});
+    rb.path('userId', params.userId, {});
+    rb.path('skillId', params.skillId, {});
   }
 
   return http.request(
@@ -27,4 +37,4 @@ export function deleteJobHistory1(http: HttpClient, rootUrl: string, params: Del
   );
 }
 
-deleteJobHistory1.PATH = '/jobs/history/{id}';
+deleteUserSkill.PATH = '/userSkills/{userId}/{skillId}';

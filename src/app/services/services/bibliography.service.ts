@@ -1,31 +1,39 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {BibliographyDto} from '../models/bibliography-dto';
-import {deleteBibliography, DeleteBibliography$Params} from '../fn/bibliography/delete-bibliography';
-import {EmailRequest} from '../models/email-request';
-import {findAllBibliographies, FindAllBibliographies$Params} from '../fn/bibliography/find-all-bibliographies';
-import {findBibliographiesBySkillIds, FindBibliographiesBySkillIds$Params} from '../fn/bibliography/find-bibliographies-by-skill-ids';
-import {findByCriteria14, FindByCriteria14$Params} from '../fn/bibliography/find-by-criteria-14';
-import {HtmlEmailRequest} from '../models/html-email-request';
-import {saveBibliography, SaveBibliography$Params} from '../fn/bibliography/save-bibliography';
-import {sendEmail, SendEmail$Params} from '../fn/email/send-email';
-import {sendHtmlEmail, SendHtmlEmail$Params} from '../fn/email/send-html-email';
-import {updateBibliography, UpdateBibliography$Params} from '../fn/bibliography/update-bibliography';
+import { BibliographyDto } from '../models/bibliography-dto';
+import { deleteBibliography } from '../fn/bibliography/delete-bibliography';
+import { DeleteBibliography$Params } from '../fn/bibliography/delete-bibliography';
+import { EmailRequest } from '../models/email-request';
+import { findAllBibliographies } from '../fn/bibliography/find-all-bibliographies';
+import { FindAllBibliographies$Params } from '../fn/bibliography/find-all-bibliographies';
+import { findBibliographiesBySkillIds } from '../fn/bibliography/find-bibliographies-by-skill-ids';
+import { FindBibliographiesBySkillIds$Params } from '../fn/bibliography/find-bibliographies-by-skill-ids';
+import { findByCriteria14 } from '../fn/bibliography/find-by-criteria-14';
+import { FindByCriteria14$Params } from '../fn/bibliography/find-by-criteria-14';
+import { HtmlEmailRequest } from '../models/html-email-request';
+import { saveBibliography } from '../fn/bibliography/save-bibliography';
+import { SaveBibliography$Params } from '../fn/bibliography/save-bibliography';
+import { sendEmail } from '../fn/email/send-email';
+import { SendEmail$Params } from '../fn/email/send-email';
+import { sendHtmlEmail } from '../fn/email/send-html-email';
+import { SendHtmlEmail$Params } from '../fn/email/send-html-email';
+import { updateBibliography } from '../fn/bibliography/update-bibliography';
+import { UpdateBibliography$Params } from '../fn/bibliography/update-bibliography';
 
 
 /**
  * The Bibliography API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class BibliographyService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

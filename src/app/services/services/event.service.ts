@@ -1,27 +1,33 @@
 /* tslint:disable */
 /* eslint-disable */
-import {HttpClient, HttpContext} from '@angular/common/http';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
+import { HttpClient, HttpContext } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import {BaseService} from '../base-service';
-import {ApiConfiguration} from '../api-configuration';
-import {StrictHttpResponse} from '../strict-http-response';
+import { BaseService } from '../base-service';
+import { ApiConfiguration } from '../api-configuration';
+import { StrictHttpResponse } from '../strict-http-response';
 
-import {deleteEvent, DeleteEvent$Params} from '../fn/event/delete-event';
-import {EventDto} from '../models/event-dto';
-import {findAllEvents, FindAllEvents$Params} from '../fn/event/find-all-events';
-import {findByCriteria11, FindByCriteria11$Params} from '../fn/event/find-by-criteria-11';
-import {findEventById, FindEventById$Params} from '../fn/event/find-event-by-id';
-import {saveEvent, SaveEvent$Params} from '../fn/event/save-event';
-import {updateEvent, UpdateEvent$Params} from '../fn/event/update-event';
+import { deleteEvent } from '../fn/event/delete-event';
+import { DeleteEvent$Params } from '../fn/event/delete-event';
+import { EventDto } from '../models/event-dto';
+import { findAllEvents } from '../fn/event/find-all-events';
+import { FindAllEvents$Params } from '../fn/event/find-all-events';
+import { findByCriteria11 } from '../fn/event/find-by-criteria-11';
+import { FindByCriteria11$Params } from '../fn/event/find-by-criteria-11';
+import { findEventById } from '../fn/event/find-event-by-id';
+import { FindEventById$Params } from '../fn/event/find-event-by-id';
+import { saveEvent } from '../fn/event/save-event';
+import { SaveEvent$Params } from '../fn/event/save-event';
+import { updateEvent } from '../fn/event/update-event';
+import { UpdateEvent$Params } from '../fn/event/update-event';
 
 
 /**
  * The Event API
  */
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class EventService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);

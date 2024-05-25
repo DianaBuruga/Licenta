@@ -7,12 +7,6 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { JobHistoryDto, UserDto} from '../../services/models';
 import { JobHistoryService } from '../../services/services';
 
-interface Experience {
-  year: string;
-  title: string;
-  description: string;
-}
-
 @Component({
   selector: 'app-experience',
   standalone: true,
@@ -70,7 +64,7 @@ export class ExperienceComponent implements OnInit{
 
       if(id !== undefined) {
         const params = { id: id };
-        this.jobHistoryService.deleteJobHistory1(params).subscribe({
+        this.jobHistoryService.deleteJobHistory(params).subscribe({
           next: () => {
             console.log('Job history deleted successfully');
           },
