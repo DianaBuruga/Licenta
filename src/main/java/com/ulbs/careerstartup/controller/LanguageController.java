@@ -48,8 +48,8 @@ public class LanguageController implements LanguageApiDoc {
         return languageService.updateLanguage(languageDTO);
     }
 
-    @DeleteMapping
-    public void deleteLanguage(@RequestBody LanguageDTO languageDTO) {
-        languageService.deleteLanguage(languageDTO);
+    @DeleteMapping("/{id}")
+    public void deleteLanguage(@PathVariable UUID id) {
+        languageService.deleteLanguage(id);
     }
 }

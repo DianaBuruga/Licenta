@@ -24,30 +24,24 @@ public class LanguageDTO {
     private String name;
 
     @NotNull(message = "Listening level is required")
-    @NotEmpty(message = "Listening level is required")
     private LanguageLevel listening;
 
     @NotNull(message = "Reading level is required")
-    @NotEmpty(message = "Reading level is required")
     private LanguageLevel reading;
 
     @NotNull(message = "Speaking level is required")
-    @NotEmpty(message = "Speaking level is required")
     private LanguageLevel speaking;
 
     @NotNull(message = "Conversation level is required")
-    @NotEmpty(message = "Conversation level is required")
     private LanguageLevel conversation;
 
     @NotNull(message = "Writing level is required")
-    @NotEmpty(message = "Writing level is required")
     private LanguageLevel writing;
 
     @JsonProperty("file")
     private FileDTO fileDTO;
 
     @NotNull(message = "User is required")
-    @NotEmpty(message = "User is required")
     @JsonProperty("user")
     private UserDTO userDTO;
 }

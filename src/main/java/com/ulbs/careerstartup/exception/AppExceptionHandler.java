@@ -1,6 +1,7 @@
 package com.ulbs.careerstartup.exception;
 
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.UnexpectedTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class AppExceptionHandler {
         return new ErrorResponse(ex.getMessage(), HttpStatus.NOT_FOUND.value());
     }
 
-    @ExceptionHandler({IOException.class, IllegalArgumentException.class, SingleRequestParamException.class, SQLIntegrityConstraintViolationException.class, DataIntegrityViolationException.class, IllegalStateException.class})
+    @ExceptionHandler({UnexpectedTypeException.class,IOException.class, IllegalArgumentException.class, SingleRequestParamException.class, SQLIntegrityConstraintViolationException.class, DataIntegrityViolationException.class, IllegalStateException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorResponse handleBadRequestExceptions(Exception ex) {
         log.error("Bad request: {}", ex.getMessage());

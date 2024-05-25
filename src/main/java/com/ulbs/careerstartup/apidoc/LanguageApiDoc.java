@@ -167,5 +167,5 @@ public interface LanguageApiDoc {
             },
             security = @SecurityRequirement(name = "oauth2")
     )
-    void deleteLanguage(@Parameter(description = "Id of the language that will be deleted", required = true) @Valid @RequestBody LanguageDTO languageDTO);
+    void deleteLanguage(@Parameter(description = "Id of the language that will be deleted", required = true) @Valid UUID id);
 }

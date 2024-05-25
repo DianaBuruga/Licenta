@@ -1,10 +1,7 @@
 package com.ulbs.careerstartup.specification;
 
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Predicate;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import org.springframework.data.jpa.domain.Specification;
@@ -34,17 +31,31 @@ public class GenericSpecification<T> implements Specification<T> {
         return builder.and(predicates.toArray(new Predicate[0]));
     }
 
-    private Predicate handleEqualsForDifferentDataTypes(SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
+    private Predicate handleEqualsForDifferentDataTypes (SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
+        Predicate predicate;
+        String[] keys = criteria.getKey().split("\\.");
         String value = criteria.getValue().toString();
+
+        if (keys.length > 1) {
+            Join<Object, Object> join = root.join(keys[0]);
+            predicate = buildPredicate(join.get(keys[1]), value, builder);
+        } else {
+            predicate = buildPredicate(root.get(criteria.getKey()), value, builder);
+        }
+
+        return predicate;
+    }
+
+    private Predicate buildPredicate(Path<Object> path, String value, CriteriaBuilder builder) {
         Predicate predicate;
 
         try {
-            predicate = builder.equal(root.get(criteria.getKey()), UUID.fromString(value));
+            predicate = builder.equal(path, UUID.fromString(value));
         } catch (IllegalArgumentException e) {
             try {
-                predicate = builder.equal(root.get(criteria.getKey()), Long.parseLong(value));
+                predicate = builder.equal(path, Long.parseLong(value));
             } catch (IllegalArgumentException ex) {
-                predicate = builder.like(root.get(criteria.getKey()), "%" + value + "%");
+                predicate = builder.like(path.as(String.class), "%" + value + "%");
             }
         }
         return predicate;
