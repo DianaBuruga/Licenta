@@ -7,7 +7,7 @@
     <nav class="main-menu">
       <button mat-button class="menu-item" routerLink="/login" routerLinkActive="active">Home</button>
       <button mat-button class="menu-item" routerLink="/profile" routerLinkActive="active">My profile</button>
-      <button mat-button class="menu-item" routerLink="/projects" routerLinkActive="active">Projects</button>
+      <button mat-button class="menu-item" routerLink="/company" routerLinkActive="active">Company</button>
       <button mat-button class="menu-item" routerLink="/services" routerLinkActive="active">Services</button>
       <button mat-button class="menu-item" routerLink="/contact" routerLinkActive="active">Contact</button>
     </nav>
@@ -24,16 +24,16 @@
 </button>
 <app-search-bar class="right-group"></app-search-bar>
   <mat-menu #mobileMenu class="mobile-menu">
-    <button mat-menu-item routerLink="/home">
+    <button mat-menu-item routerLink="/login" routerLinkActive="active">
     <div class="item">
         <mat-icon>home</mat-icon>
         <span>Home</span>
     </div>
     </button>
-    <button mat-menu-item routerLink="/about">
+    <button mat-menu-item routerLink="/profile" routerLinkActive="active">
         <div class="item">
       <mat-icon>person</mat-icon>
-      <span>About Me</span>
+      <span>Profile</span>
     </div>
     </button>
     <button mat-menu-item routerLink="/projects">
@@ -48,7 +48,7 @@
       <span>Services</span>
     </div>
     </button>
-    <button mat-menu-item routerLink="/contact">
+    <button mat-menu-item routerLink="/company" routerLinkActive="active">Company>
         <div class="item">
       <mat-icon>contacts</mat-icon>
       <span>Contact</span>

@@ -1,8 +1,13 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {CommonModule, NgFor} from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {MatIcon} from '@angular/material/icon';
+import { ExperienceDto, UserDto } from '../../services/models';
+import { AcreditationFormDialogComponent } from '../acreditation-form-dialog/acreditation-form-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ExperienceService } from '../../services/services';
+import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 
 export interface Acreditare {
   id: any;
@@ -22,39 +27,82 @@ export interface Acreditare {
     CommonModule,
     NgFor,
     FlexLayoutModule,
+    FlexLayoutServerModule,
     MatIcon
   ],
   templateUrl: './acreditare-card.component.html',
   styleUrl: './acreditare-card.component.scss'
 })
 export class AcreditareCardComponent {
-  deleteAcreditare(arg0: any) {
-    throw new Error('Method not implemented.');
+
+  onError(event: any) {
+    const defaultImage = 'assets/acreditation.png';
+    event.target.src = defaultImage;
+  }
+  
+  @Input() userExperiences: UserDto | undefined;
+  experiences: ExperienceDto[] | undefined;
+  emptyExperience: ExperienceDto = {} as ExperienceDto;
+  constructor(public dialog: MatDialog, private experienceService: ExperienceService) {}
+  ngOnInit(): void {
+    console.log('ACCREDITATION', this.experiences);
+    this.experiences = this.userExperiences?.experiences?.filter((experience) => experience.type === 'ACCREDITATION');
+    this.emptyExperience = {
+      id: '',
+      title: '',
+      description: '',
+      date: '',
+      url: '',
+      type: 'ACCREDITATION',
+      userDTO: this.userExperiences as UserDto
+    };
   }
 
-  emptyAcreditation: any;
+openDialog(experience: ExperienceDto): void {
+  const dialogRef = this.dialog.open(AcreditationFormDialogComponent, {
+    width: '50%',
+    data: {user: this.userExperiences, newExperience: experience}
+  });
 
-  openDialog(arg0: any) {
-    throw new Error('Method not implemented.');
-  }
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Result', result);
+      if(result.accreditation && this.userExperiences)
+        {
+          console.log('am ajuns aici')
+          const length = this.userExperiences.experiences?.length;
+          if(this.userExperiences.experiences === undefined){
+            this.userExperiences.experiences = [];
+          }
+          this.userExperiences.experiences.push(result.accreditation);
+          this.experiences = [...this.userExperiences?.experiences?.filter((experience) => experience.type === 'ACCREDITATION')];
+          console.log('Projects and Competitions', this.experiences);
+        }
+      console.log('Dialog was closed');
+  });
+}
+  deleteExperience(experience: ExperienceDto): void {
+    console.log('Deleting Job History', experience.id);
 
-  acreditari: Acreditare[] = [{
-    id: '1',
-    title: 'Acreditare 1',
-    description: 'Description of acreditare 1',
-    date: '18-04-2024',
-    url: 'https://github.com/',
-    type: 'ACREDITARE',
-    image: 'path/to/image1.jpg'
-  },
-    {
-      id: '2',
-      title: 'Acreditare 2',
-      description: 'Description of acreditare 2',
-      date: '18-04-2024',
-      url: 'https://github.com/',
-      type: 'ACREDITARE',
-      image: 'path/to/image1.jpg'
+    if(experience.id !== undefined) {
+      const params = { id: experience.id };
+      this.experienceService.deleteExperience(params).subscribe({
+        next: () => {
+          console.log('Experience deleted successfully');
+          let index = this.userExperiences?.experiences?.indexOf(experience);
+          if (index !== undefined && index !== -1) {
+            this.userExperiences?.experiences?.splice(index, 1);
+          }
+          if(this.userExperiences){
+            if(this.userExperiences?.experiences === undefined){
+                this.userExperiences.experiences = [];
+              }
+            this.experiences = [...this.userExperiences.experiences.filter((experience) => experience.type === 'ACCREDITATION')];
+          }
+        },
+        error: (error) => {
+          console.error('Error deleting experience', error);
+        },
+      });
     }
-  ]
+  }
 }

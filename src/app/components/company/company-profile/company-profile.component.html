@@ -1,0 +1,20 @@
+<mat-card class="profile-card">
+    <div class="profile-image">
+      <img src="{{company?.logoUrl}}" alt="{{company?.name}}">
+    </div>
+    <div class="lines-container">
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+        <div class="line"></div>
+    </div>
+    <div class="profile-content">
+      <h1>{{company?.name}}</h1>
+      <h2>Website: {{company?.website}}</h2>
+      <h3>Address: {{company?.address}}</h3>
+      <h3>Rating: <igc-rating [value]='averageScore' min="0" max="5" readonly size="medium" hover-preview></igc-rating> ({{averageScore}}/{{totalReviews}} reviews)</h3> 
+    </div>
+    <div class="section">
+        <h1>COMPANY</h1>
+    </div> 
+</mat-card>  

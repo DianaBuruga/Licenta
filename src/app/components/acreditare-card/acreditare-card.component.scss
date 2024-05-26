@@ -1,67 +1,81 @@
+.container {
+  text-align: center;
+}
+
 .card-container {
-    padding: 10px;
-  }
-  
-  .mat-card {
-    margin: 10px;
-  }
-  @media (max-width: 768px) {
-    .card-container {
+  padding: 10px;
+}
+
+.mat-card {
+  margin: 10px;
+}
+
+@media (max-width: 768px) {
+  .card-container {
       padding: 5px; 
-    }
-  
-    .mat-card {
+  }
+
+  .mat-card {
       margin: 5px;
-    }
   }
-  .card-container mat-card {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-    height: 40vh;
-  }
-  
-  .card-container img {
-    width: 100%; 
-    object-fit: cover; 
-    height: 30%; 
-  }
-  
-  .mat-card-content {
-    overflow-y: auto;
-    flex-grow: 1;
-  }
-  mat-card-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-  
-  mat-card-actions {
-    display: flex;
-    justify-content: center;
-    padding: 8px;
-  }
-  .container{
-    text-align: center;
-  }
-  .custom-border-card {
-    border: 2px solid #E74535; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  button.custom-icon-button {
-    background-color: transparent; 
-    color: #ff2929;              
-    //border-radius: 50%;        
-    width: 48px;               
-    height: 48px; 
-    border: 0px;            
-    //box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); 
-    //transition: background-color 0.3s; 
-  
-  button.custom-icon-button:hover {
-    //background-color: #f9ff53; 
-    color: rgb(66, 4, 101)!important;
-  }
-  }
+}
+
+.card-container {
+  text-align: center;
+  align-items: center;
+  height: 60vh;
+  width: 23%;
+}
+
+.parent{
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 4%;
+  padding-right: 3%;
+}
+
+mat-card {
+  height: 100%;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+}
+mat-card img {
+  width: auto;
+  height: 20vh;
+}
+
+.mat-card-content {
+  overflow-y: auto;
+  flex-grow: 1;
+}
+
+mat-card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+mat-card-actions {
+  margin-top: auto;
+  padding: 8px;
+}
+
+.custom-border-card {
+  float: 1 0 25%;
+  border: 2px solid #E74535; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+button.custom-icon-button {
+  background-color: transparent; 
+  color: #ff2929;
+  width: 48px;               
+  height: 48px; 
+  border: 0;
+}
+
+button.custom-icon-button:hover {
+  color: rgb(13, 0, 255) !important;
+}

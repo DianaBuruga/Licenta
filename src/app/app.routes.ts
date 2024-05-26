@@ -18,5 +18,9 @@ export const routes: Routes = [
 {
     path: 'v1/callback',
     loadComponent: () => import('./pages/callback/callback/callback.component').then(m => m.CallbackComponent)
+},
+{
+    path: 'company',
+    loadComponent: () => import('./pages/company/company.component').then(m => m.CompanyComponent)
 }
 ];

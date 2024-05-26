@@ -1,0 +1,21 @@
+<div class="container">
+    <br>
+    <h1><b>Recruiters</b></h1>
+    <div class="parent">
+        <div *ngFor="let recruiter of recruiters" class="card-container">
+            <mat-card class="custom-border-card">
+                <img mat-card-image src='' alt="Recruiter image">
+                <mat-card-header>
+                    <mat-card-title>{{ recruiter.name }}</mat-card-title>
+                    <mat-card-subtitle>{{ recruiter.email }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ recruiter.description }}</p>
+                </mat-card-content>
+                <mat-card-actions>
+                    <a mat-button [href]="" target="_blank">Afla mai mult</a>
+                </mat-card-actions>
+            </mat-card>
+        </div>
+    </div>
+</div>

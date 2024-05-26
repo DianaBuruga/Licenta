@@ -1,0 +1,16 @@
+<h1 mat-dialog-title >Add New Experience</h1>
+<div mat-dialog-content> 
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
+    <div class="large-input-container">
+    <mat-form-field appearance="fill" class="large-input-field">
+      <mat-label>Refferal</mat-label>
+      <input matInput formControlName="referal">
+      <mat-error *ngIf="form.get('referal')?.errors?.['required']">Referal is required</mat-error>
+    </mat-form-field>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Cancel</button>
+      <button mat-button color="primary" [disabled]="!form.valid">Add</button>
+    </div>
+  </form>
+</div>

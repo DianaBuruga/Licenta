@@ -6,7 +6,7 @@
 <div class="carousel-container">
     <mat-card *ngFor="let experience of experiences; let i = index" class="experience-card" [style.transform]="'translateX(-' + (currentIndex * 100) + '%)'">
       <div class="card-content">
-        <img mat-card-image src='' (error)="onImageError($event)" alt="experience image">
+        <img mat-card-image src='' (error)="onImageError($event,experience.type)" alt="experience image">
         <div class="experience-details">
           <mat-card-title>{{ experience.title}}</mat-card-title>
           <mat-card-subtitle>{{experience.type}}</mat-card-subtitle>
@@ -17,7 +17,7 @@
             <button mat-icon-button class="custom-icon-button" (click)="openDialog(experience)">
               <mat-icon>update</mat-icon>
             </button>
-            <button mat-icon-button class="custom-icon-button" (click)="deleteJobExperience(experience.id)">
+            <button mat-icon-button class="custom-icon-button" (click)="deleteExperience(experience)">
               <mat-icon>delete</mat-icon>
             </button>
           </p>

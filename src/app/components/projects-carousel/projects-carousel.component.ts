@@ -6,6 +6,7 @@ import { ExperienceDto, UserDto } from '../../services/models';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ExperienceService } from '../../services/services';
 import { ProjectsFormDialogComponent } from '../projects-form-dialog/projects-form-dialog.component';
+import e from 'express';
 interface Experience {
   title: string;
   description: string;
@@ -35,7 +36,7 @@ export class ProjectsCarouselComponent implements OnInit{
   constructor(public dialog: MatDialog, private experienceService: ExperienceService) {}
   ngOnInit(): void {
     console.log('Projects', this.experiences);
-    this.experiences = this.userExperiences?.experiences;
+    this.experiences = this.userExperiences?.experiences?.filter((experience) => experience.type != 'ACCREDITATION');
     this.emptyExperience = {
       id: '',
       title: '',
@@ -68,9 +69,7 @@ export class ProjectsCarouselComponent implements OnInit{
   showExperience(index: number) {
     this.currentIndex = index;
 }
-onImageError(event: any) {
-  event.target.style.display = 'none';
-}
+
 openDialog(experience: ExperienceDto): void {
   const dialogRef = this.dialog.open(ProjectsFormDialogComponent, {
     width: '50%',
@@ -78,22 +77,55 @@ openDialog(experience: ExperienceDto): void {
   });
 
   dialogRef.afterClosed().subscribe(result => {
-    console.log('Dialog was closed');
+    console.log('Result',result);
+      if(result && this.userExperiences)
+        {
+          const length = this.userExperiences.experiences?.length;
+          if(this.userExperiences.experiences === undefined){
+            this.userExperiences.experiences = [];
+          }
+          this.userExperiences.experiences.push(result);
+          this.experiences = this.userExperiences?.experiences?.filter((experience) => experience.type != 'ACCREDITATION');
+          console.log('Projects and Competitions', this.experiences);
+        }
+        this.currentIndex = this.experiences?.indexOf(result) ?? 0;
+      console.log('Dialog was closed');
   });
 }
-  deleteJobExperience(id: string | undefined): void {
-    console.log('Deleting Job History', id);
+  deleteExperience(experience: ExperienceDto): void {
+    console.log('Deleting Job History', experience.id);
 
-    if(id !== undefined) {
-      const params = { id: id };
+    if(experience.id !== undefined) {
+      const params = { id: experience.id };
       this.experienceService.deleteExperience(params).subscribe({
         next: () => {
           console.log('Experience deleted successfully');
+          let index = this.userExperiences?.experiences?.indexOf(experience);
+          if (index !== undefined && index !== -1) {
+            this.userExperiences?.experiences?.splice(index, 1);
+          }
+          if(this.userExperiences){
+            if(this.userExperiences?.experiences === undefined){
+                this.userExperiences.experiences = [];
+              }
+            this.experiences = [...this.userExperiences.experiences.filter((experience) => experience.type != 'ACCREDITATION')];  
+            this.showPrev();
+          }
         },
         error: (error) => {
           console.error('Error deleting experience', error);
         },
       });
+    }
+  }
+
+  onImageError(event: any, type: string) {
+    if(type === 'PROJECT'){
+    event.target.src = 'assets/project.jpg';
+    }
+    else
+    {
+      event.target.src = 'assets/competition.jpg';
     }
   }
 }

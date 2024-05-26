@@ -7,7 +7,7 @@
 <div class="timeline">
     <div *ngFor="let experience of experiences" class="timeline-event">
           <div class="timeline-company">
-            <img src="{{experience.company.logoUrl}}" alt="company logo" class="timeline-company-logo" style="width: 48px;">
+            <img src="{{experience.company.logoUrl}}" alt="company logo" onclass="timeline-company-logo" style="width: 48px;">
             <br>
             <span class="timeline-date">  {{experience.company.name}}</span>
           </div>

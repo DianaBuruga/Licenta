@@ -8,14 +8,13 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Observable, map, startWith } from 'rxjs';
 import { ExperienceService } from '../../services/services';
 import { ExperienceDto } from '../../services/models';
 
 @Component({
-  selector: 'app-projects-form-dialog',
+  selector: 'app-acreditation-form-dialog',
   standalone: true,
-  imports: [
+  imports: [ 
     MatDialogModule,
     MatButtonModule,
     MatInputModule,
@@ -25,18 +24,14 @@ import { ExperienceDto } from '../../services/models';
     MatNativeDateModule,
     MatDialogModule,
     MatAutocompleteModule,
-    CommonModule
-  ],
+    CommonModule],
   providers: [provideNativeDateAdapter()],
-  templateUrl: './projects-form-dialog.component.html',
-  styleUrl: './projects-form-dialog.component.scss'
+  templateUrl: './acreditation-form-dialog.component.html',
+  styleUrl: './acreditation-form-dialog.component.scss'
 })
-export class ProjectsFormDialogComponent {
+export class AcreditationFormDialogComponent {
   form: FormGroup;
-
-  options: string[] = ['COMPETITION', 'PROJECT'];
   error: any = null; 
-  filteredOptions: Observable<string[]> = new Observable();
   dialogRef = inject(MatDialogRef);
   constructor(private experienceService: ExperienceService, @Inject(MAT_DIALOG_DATA) public data: any) {
     const fb = new FormBuilder();
@@ -45,13 +40,9 @@ export class ProjectsFormDialogComponent {
       description: [data.newExperience.description, [Validators.required]],
       start: [data.newExperience.date, [Validators.required]],
       website:  [data.newExperience.url, [Validators.required, Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/)]],
-      type: [data.newExperience.type, Validators.required],
-      experience: []
+      type: ['ACCREDITATION', Validators.required],
+      accreditation: []
     });
-    this.filteredOptions = this.form.get('type')!.valueChanges.pipe(
-      startWith(''),
-      map(value => this._filter(value))
-    );
   }
 
   experience: ExperienceDto = {} as ExperienceDto;
@@ -75,9 +66,9 @@ export class ProjectsFormDialogComponent {
         this.experienceService.saveExperience(params).subscribe(({
           next: (response: any) => {
             console.log('Experience added successfully', response);
+            response.user=this.data.user;
+            this.form.get('accreditation')?.setValue(response);
             this.dialogRef.close(this.form.value);
-            response.user = this.data.user;
-            this.form.get('experience')?.setValue(response);
           },
           error: (error: any) => {
             console.error('Error adding experience', error);
@@ -87,9 +78,9 @@ export class ProjectsFormDialogComponent {
         this.experienceService.updateExperience(params).subscribe(({
           next: (response: any) => {
             console.log('Experience updated successfully', response);
+            response.user=this.data.user;
+            this.form.get('accreditation')?.setValue(response);
             this.dialogRef.close(this.form.value);
-            response.user = this.data.user;
-            this.form.get('experience')?.setValue(response);
           },
           error: (error: any) => {
             console.error('Error updating Experience', error);
@@ -102,12 +93,4 @@ export class ProjectsFormDialogComponent {
   closeDialog(): void {
     this.dialogRef.close();
   }
-
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options
-      .filter(option => option.toLowerCase().includes(filterValue))
-      .sort((a,b) => a.localeCompare(b));
-  }
-
 }
