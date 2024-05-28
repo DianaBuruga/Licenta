@@ -15,4 +15,4 @@ export { BibliographyService } from './services/bibliography.service';
 export { CourseService } from './services/course.service';
 export { CompanyService } from './services/company.service';
 export { SearchService } from './services/search.service';
-export { AuthenticationControllerService } from './services/authentication-controller.service';
+export { AuthenticationService } from './services/authentication.service';

@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
-import { FirstComponentComponent } from '../../components/first-component/first-component.component';
-import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
-import { ExperienceComponent } from '../../components/experience/experience.component';
-import { ProjectsCarouselComponent } from '../../components/projects-carousel/projects-carousel.component';
-import { SkillCircularProgressbarComponent } from '../../components/skill-circular-progressbar/skill-circular-progressbar.component';
-import { LanguageTableComponent } from '../../components/language-table/language-table.component';
-import { AcreditareCardComponent } from '../../components/acreditare-card/acreditare-card.component';
-import { ReferalComponent } from '../../components/referal/referal.component';
-import { UserDto } from '../../services/models';
-import { UserService } from '../../services/services/user.service';
-import { OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {FirstComponentComponent} from '../../components/first-component/first-component.component';
+import {ProfileCardComponent} from '../../components/profile-card/profile-card.component';
+import {ExperienceComponent} from '../../components/experience/experience.component';
+import {ProjectsCarouselComponent} from '../../components/projects-carousel/projects-carousel.component';
+import {SkillCircularProgressbarComponent} from '../../components/skill-circular-progressbar/skill-circular-progressbar.component';
+import {LanguageTableComponent} from '../../components/language-table/language-table.component';
+import {AcreditareCardComponent} from '../../components/acreditare-card/acreditare-card.component';
+import {ReferalComponent} from '../../components/referal/referal.component';
+import {UserDto} from '../../services/models';
+import {UserService} from '../../services/services/user.service';
 import { Observer } from 'rxjs';
 import { NgIf } from '@angular/common';
-import { HttpContext } from '@angular/common/http';
+
+import { MyHttpService } from '../../my-http.service';
 
 @Component({
   selector: 'app-profile',
@@ -32,8 +32,8 @@ import { HttpContext } from '@angular/common/http';
   styleUrl: './profile.component.scss'
 })
 export class ProfileComponent implements OnInit {
-  constructor( private userService: UserService) { };
-
+  constructor( private userService: UserService, private http: MyHttpService) { };
+token: string = '';
   ngOnInit(): void {
     this.getCurrentUser();
   }
@@ -54,7 +54,8 @@ export class ProfileComponent implements OnInit {
         console.log('Completed fetching user');
       }
     };
-
     this.userService.getAuthenticatedUser().subscribe(observer);
   }
+
+
 }

@@ -8,7 +8,7 @@ export interface ExperienceDto {
   fileDTO?: FileDto;
   id?: string;
   title: string;
-  type: 'COMPETITION' | 'PROJECT' | 'ACCREDITATION' | 'VOLUNTEERING' | 'INTERNSHIP';
+  type: 'COMPETITION' | 'PROJECT' | 'ACCREDITATION';
   url?: string;
   userDTO?: UserDto;
 }

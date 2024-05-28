@@ -20,5 +20,7 @@ export { ReviewDto } from './models/review-dto';
 export { SearchCriteria } from './models/search-criteria';
 export { SkillDto } from './models/skill-dto';
 export { SpecializationDto } from './models/specialization-dto';
+export { TokenDto } from './models/token-dto';
+export { UrlDto } from './models/url-dto';
 export { UserDto } from './models/user-dto';
 export { UserSkillsDto } from './models/user-skills-dto';

@@ -21,7 +21,7 @@ import { BibliographyService } from './services/bibliography.service';
 import { CourseService } from './services/course.service';
 import { CompanyService } from './services/company.service';
 import { SearchService } from './services/search.service';
-import { AuthenticationControllerService } from './services/authentication-controller.service';
+import { AuthenticationService } from './services/authentication.service';
 
 /**
  * Module that provides all services and configuration.
@@ -48,7 +48,7 @@ import { AuthenticationControllerService } from './services/authentication-contr
     CourseService,
     CompanyService,
     SearchService,
-    AuthenticationControllerService,
+    AuthenticationService,
     ApiConfiguration
   ],
 })

@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { FirstComponentComponent } from "./components/first-component/first-component.component";
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { ProfileCardComponent } from './components/profile-card/profile-card.component';
@@ -9,10 +9,9 @@ import { SkillCircularProgressbarComponent } from './components/skill-circular-p
 import { LanguageTableComponent } from './components/language-table/language-table.component';
 import { AcreditareCardComponent } from './components/acreditare-card/acreditare-card.component';
 import { ReferalComponent } from './components/referal/referal.component';
-import { CommonModule, JsonPipe, NgIf } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
-//import { AuthInterceptor } from './services/auth/auth.interceptor';
-//import { BrowserModule } from '@angular/platform-browser';
+import { JsonPipe } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import { MyHttpService } from './my-http.service';
 
 @Component({
     selector: 'app-root',
@@ -32,14 +31,25 @@ import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common
       ReferalComponent,
       JsonPipe,
       HttpClientModule
-      //BrowserModule//,
-     //AppRoutingModule,
     ]
 })
 export class AppComponent {
-  private http = inject(HttpClient);
+  constructor(private route: ActivatedRoute, private http: MyHttpService) {
+  }
 
-  constructor() {
+  ngOnInit(): void {
+    this.route.queryParams
+      .subscribe(params => {
+        if (params["code"] !== undefined) {
+          this.http.getToken(params["code"]).subscribe(result => {
+            if (result) {
+              localStorage.clear();
+              localStorage.setItem('token', result);
+            }
+          });
+        }
+      }
+    );
   }
 
   title = 'Diana application';
