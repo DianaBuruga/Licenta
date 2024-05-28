@@ -10,12 +10,15 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -45,17 +48,20 @@ import static org.springframework.http.HttpHeaders.*;
 )
 public class SecurityConfig {
 
-    private OidcWorkspaceUserService oidcWorkspaceUserService;
-
-    private AuthenticationFailureHandler authenticationFailureHandler;
+    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final GoogleOpaqueTokenIntrospector googleOpaqueTokenIntrospector;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
+                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+                .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/oauth2/authorization/google-login", "/", "/auth/google", "/swagger-ui.html", "/error**").permitAll()
+                        .requestMatchers("/oauth2/authorization/google-login", "/", "/auth/google",
+                                "/swagger-ui.html", "/error**", "users/profilePhoto/**").permitAll()
                        // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
@@ -68,15 +74,7 @@ public class SecurityConfig {
                             response.sendRedirect("/");
                         })
                 )
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint
-                                .oidcUserService(oidcWorkspaceUserService)
-                        )
-                        .failureHandler(authenticationFailureHandler)
-
-                )
-                .anonymous(AbstractHttpConfigurer::disable);
-        //.sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
         return http.build();
     }
 
@@ -91,7 +89,8 @@ public class SecurityConfig {
                 CONTENT_TYPE,
                 ACCEPT,
                 AUTHORIZATION,
-                ACCESS_CONTROL_ALLOW_ORIGIN
+                ACCESS_CONTROL_ALLOW_ORIGIN,
+                CACHE_CONTROL
         ));
         configuration.setExposedHeaders(Collections.singletonList(ACCESS_CONTROL_ALLOW_ORIGIN));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

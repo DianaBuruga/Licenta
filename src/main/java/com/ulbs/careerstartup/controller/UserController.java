@@ -19,8 +19,6 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -54,8 +52,23 @@ public class UserController implements UserApiDoc {
     private UserService userService;
     private FileService fileService;
 
-    @GetMapping(value="/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
-    public UserDTO getAuthenticatedUser(@AuthenticationPrincipal OidcUser oidcUser, Principal principal) {
+    public static MediaType detectMimeType(byte[] data, String filename) {
+        try {
+            InputStream is = new ByteArrayInputStream(data);
+            AutoDetectParser parser = new AutoDetectParser();
+            BodyContentHandler handler = new BodyContentHandler();
+            Metadata metadata = new Metadata();
+            metadata.set(RESOURCE_NAME_KEY, filename);
+            parser.parse(is, handler, metadata);
+            return MediaType.parseMediaType(metadata.get(CONTENT_TYPE));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return MediaType.APPLICATION_OCTET_STREAM;
+    }
+
+    @GetMapping(value = "/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserDTO getAuthenticatedUser(Principal principal) {
         return userService.findByEmail("robert.marinescu@yahoo.com");
     }
 
@@ -86,52 +99,26 @@ public class UserController implements UserApiDoc {
 
     @PostMapping(value = "/profile-photo")
     public void saveProfilePhoto(@RequestParam UUID id, @RequestParam MultipartFile multipartFile) throws IOException {
-        FilePK filePK = FilePK.builder()
-                .tableId(id)
-                .tableName(TABLE_NAME).build();
+        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).build();
         fileService.uploadFile(FileType.PROFILE_PHOTO, filePK, multipartFile);
     }
 
-    @GetMapping(value = "/id/{id}/profilePhoto/download/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/profilePhoto/download/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource> downloadFileById(@PathVariable UUID id) throws FileNotFoundException {
-        FilePK filePK = FilePK.builder()
-                .tableId(id)
-                .tableName(TABLE_NAME).build();
+        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).build();
 
         FileDTO fileDTO = fileService.findFileById(filePK);
 
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, ATTACHMENT_FILENAME + fileDTO.getName())
-                .body(new ByteArrayResource(fileDTO.getContent()));
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, ATTACHMENT_FILENAME + fileDTO.getName()).body(new ByteArrayResource(fileDTO.getContent()));
     }
 
-    @GetMapping(value = "/{id}/profilePhoto/view/", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/profilePhoto/view/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Resource> viewFileById(@PathVariable UUID id) throws FileNotFoundException {
-        FilePK filePK = FilePK.builder()
-                .tableId(id)
-                .tableName(TABLE_NAME).build();
+        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).build();
 
         FileDTO fileDTO = fileService.findFileById(filePK);
 
-        return ResponseEntity.ok()
-                .contentType(detectMimeType(fileDTO.getContent(), fileDTO.getName()))
-                .header(HttpHeaders.CONTENT_DISPOSITION, INLINE_FILENAME + fileDTO.getName())
-                .body(new ByteArrayResource(fileDTO.getContent()));
-    }
-
-    public static MediaType detectMimeType(byte[] data, String filename) {
-        try {
-            InputStream is = new ByteArrayInputStream(data);
-            AutoDetectParser parser = new AutoDetectParser();
-            BodyContentHandler handler = new BodyContentHandler();
-            Metadata metadata = new Metadata();
-            metadata.set(RESOURCE_NAME_KEY, filename);
-            parser.parse(is, handler, metadata);
-            return MediaType.parseMediaType(metadata.get(CONTENT_TYPE));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return MediaType.APPLICATION_OCTET_STREAM;
+        return ResponseEntity.ok().contentType(detectMimeType(fileDTO.getContent(), fileDTO.getName())).header(HttpHeaders.CONTENT_DISPOSITION, INLINE_FILENAME + fileDTO.getName()).body(new ByteArrayResource(fileDTO.getContent()));
     }
 
     @GetMapping(value = "/CV/{id}", produces = MediaType.APPLICATION_JSON_VALUE)

@@ -5,7 +5,6 @@ import com.ulbs.careerstartup.entity.*;
 import com.ulbs.careerstartup.util.CompanyUtil;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
-import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -258,14 +257,6 @@ public interface Mapper {
         return File.builder()
                 .name(StringUtils.cleanPath(Objects.requireNonNull(multipartFile.getOriginalFilename())))
                 .content(multipartFile.getBytes())
-                .build();
-    }
-
-    default UserDTO oidcUserToUserDTO(OidcUser oidcUser) {
-        return UserDTO.builder()
-                .name(oidcUser.getFullName())
-                .email(oidcUser.getEmail())
-                .phone(oidcUser.getPhoneNumber())
                 .build();
     }
 
