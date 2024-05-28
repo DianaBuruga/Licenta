@@ -3,10 +3,9 @@ package com.ulbs.careerstartup.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.ulbs.careerstartup.constant.Degree;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
-import jakarta.validation.constraints.NotNull;
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.UUID;
 

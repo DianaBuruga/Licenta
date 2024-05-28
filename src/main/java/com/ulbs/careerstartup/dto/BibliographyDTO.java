@@ -1,12 +1,11 @@
 package com.ulbs.careerstartup.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.*;
-
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.sql.Timestamp;
+import lombok.*;
+
 import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.ValidationMessages.INPUT_TOO_LONG;
