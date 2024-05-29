@@ -22,13 +22,15 @@ public class ReferralDTO {
     @NotEmpty(message = "Description is required")
     private String description;
 
+    @NotNull(message = "Title is required")
+    @NotEmpty(message = "Title is required")
+    private String title;
+
     @NotNull(message = "Teacher is required")
-    @NotEmpty(message = "Teacher is required")
     @JsonProperty("teacher")
     private UserDTO teacherDTO;
 
     @NotNull(message = "Student is required")
-    @NotEmpty(message = "Student is required")
     @JsonProperty("student")
     private UserDTO studentDTO;
 }

@@ -27,6 +27,7 @@ public class UserService {
 
     @Transactional
     public UserDTO findByEmail(String email) {
+       // return UserDTO.builder().name("test").email("test").role(Role.STUDENT).build();
         return userRepository.findByEmail(email)
                 .map(mapper::userToUserDTO)
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));

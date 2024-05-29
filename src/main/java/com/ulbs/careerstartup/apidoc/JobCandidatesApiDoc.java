@@ -93,7 +93,7 @@ public interface JobCandidatesApiDoc {
             }
             ,security = @SecurityRequirement(name = "oauth2")
     )
-    Collection<JobCandidatesDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
+    Collection<JobCandidatesDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestBody List<SearchCriteria> criteria);
 
     @Operation(summary = "Save job candidate", tags = {"JobCandidates"},
             responses = {

@@ -15,9 +15,10 @@ import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
+@RestController
 @AllArgsConstructor
 @RequestMapping("/referrals")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
+//@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "Referral", description = "The Referral API")
 public class ReferralController implements ReferralApiDoc {
 
@@ -33,8 +34,8 @@ public class ReferralController implements ReferralApiDoc {
         return referralService.findReferralById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<ReferralDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<ReferralDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return referralService.findByCriteria(criteria);
     }
 
@@ -48,9 +49,9 @@ public class ReferralController implements ReferralApiDoc {
         return referralService.updateReferral(referralDTO);
     }
 
-    @DeleteMapping
-    public void deleteReferral(@RequestBody ReferralDTO referralDTO) {
-        referralService.deleteReferral(referralDTO);
+    @DeleteMapping("/{id}")
+    public void deleteReferral(@PathVariable UUID id) {
+        referralService.deleteReferral(id);
     }
 }
 

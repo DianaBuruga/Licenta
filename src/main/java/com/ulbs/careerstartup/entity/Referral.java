@@ -21,6 +21,8 @@ public class Referral {
     @Column(unique = true, nullable = false)
     private UUID id;
 
+    private String title;
+
     private String description;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

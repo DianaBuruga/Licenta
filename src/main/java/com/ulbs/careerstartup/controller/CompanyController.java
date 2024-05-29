@@ -34,8 +34,8 @@ public class CompanyController implements CompanyApiDoc {
         return companyService.findAllCompanies();
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<CompanyDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<CompanyDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return companyService.findByCriteria(criteria);
     }
 

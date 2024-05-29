@@ -33,8 +33,8 @@ public class NotificationController {
         return notificationService.findNotificationById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<NotificationDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<NotificationDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return notificationService.findByCriteria(criteria);
     }
 

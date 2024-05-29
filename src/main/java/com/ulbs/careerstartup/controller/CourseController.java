@@ -34,8 +34,8 @@ public class CourseController implements CourseApiDoc {
         return courseService.findCourseById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<CourseDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<CourseDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return courseService.findByCriteria(criteria);
     }
 

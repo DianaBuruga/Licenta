@@ -33,8 +33,8 @@ public class ReviewController implements ReviewApiDoc {
         return reviewService.findReviewById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<ReviewDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<ReviewDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return reviewService.findByCriteria(criteria);
     }
 

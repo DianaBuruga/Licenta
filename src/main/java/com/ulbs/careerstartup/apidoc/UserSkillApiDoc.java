@@ -45,7 +45,7 @@ public interface UserSkillApiDoc {
             },
             security = @SecurityRequirement(name = "oauth2")
     )
-    Collection<UserSkillsDTO> findByCriteria( @RequestParam List<SearchCriteria> criteria);
+    Collection<UserSkillsDTO> findByCriteria( @RequestBody List<SearchCriteria> criteria);
 
     @Operation(summary = "Save user skill", tags = {"UserSkill"},
             responses = {

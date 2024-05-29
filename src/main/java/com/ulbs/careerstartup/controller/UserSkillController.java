@@ -25,8 +25,8 @@ import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 public class UserSkillController implements UserSkillApiDoc {
     private UserSkillService userSkillService;
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<UserSkillsDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<UserSkillsDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return userSkillService.findByCriteria(criteria);
     }
 

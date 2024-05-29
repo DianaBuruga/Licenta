@@ -34,8 +34,8 @@ public class BibliographyController implements BibliographyApiDoc {
         return bibliographyService.findBibliographiesBySkillIds(skillIds);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<BibliographyDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<BibliographyDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return bibliographyService.findByCriteria(criteria);
     }
 

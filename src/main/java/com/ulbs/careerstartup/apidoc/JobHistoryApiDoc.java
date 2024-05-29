@@ -93,7 +93,7 @@ public interface JobHistoryApiDoc {
             }
             ,security = @SecurityRequirement(name = "oauth2")
     )
-    Collection<JobHistoryDTO> findByCriteria(@RequestParam @Valid List<SearchCriteria> criteria);
+    Collection<JobHistoryDTO> findByCriteria(@RequestBody @Valid List<SearchCriteria> criteria);
 
     @Operation(summary = "Save job history", tags = {"JobHistory"},
             responses = {

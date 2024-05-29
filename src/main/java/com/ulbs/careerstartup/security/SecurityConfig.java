@@ -60,10 +60,8 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/oauth2/authorization/google-login", "/", "/auth/google",
-                                "/swagger-ui.html", "/error**", "users/profilePhoto/**").permitAll()
-                       // .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers("/**").permitAll()
+                        .requestMatchers("/oauth2/authorization/google-login", "/",  "/auth/**",
+                                "/swagger-ui/**", "/v3/api-docs/**", "/error/**", "users/profilePhoto/**", "jobs/history/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .logout(logout -> logout

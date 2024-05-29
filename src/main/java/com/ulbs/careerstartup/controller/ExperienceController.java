@@ -35,8 +35,8 @@ public class ExperienceController implements ExperienceApiDoc {
         return experienceService.findExperienceById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<ExperienceDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<ExperienceDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return experienceService.findByCriteria(criteria);
     }
 

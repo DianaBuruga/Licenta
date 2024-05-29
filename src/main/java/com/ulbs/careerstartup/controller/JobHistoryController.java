@@ -10,9 +10,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.MalformedURLException;
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
@@ -36,8 +34,8 @@ public class JobHistoryController implements JobHistoryApiDoc {
         return jobHistoryService.findJobHistoryById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<JobHistoryDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<JobHistoryDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return jobHistoryService.findByCriteria(criteria);
     }
 

@@ -17,6 +17,7 @@ public enum ServiceEnum {
     REVIEW("reviews"),
     SKILL("skills"),
     SPECIALIZATION("specializations"),
+    USER_SKILL("userSkills"),
     USER("users");
 
     private String value;

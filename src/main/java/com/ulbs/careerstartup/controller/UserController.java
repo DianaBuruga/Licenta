@@ -82,7 +82,7 @@ public class UserController implements UserApiDoc {
         return userService.findById(id);
     }
 
-    @GetMapping(value = BY_CRITERIA, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = BY_CRITERIA, produces = MediaType.APPLICATION_JSON_VALUE)
     public Collection<UserDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
         return userService.findByCriteria(criteria);
     }

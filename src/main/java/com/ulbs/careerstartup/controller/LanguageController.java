@@ -33,8 +33,8 @@ public class LanguageController implements LanguageApiDoc {
         return languageService.findLanguageById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<LanguageDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<LanguageDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return languageService.findByCriteria(criteria);
     }
 

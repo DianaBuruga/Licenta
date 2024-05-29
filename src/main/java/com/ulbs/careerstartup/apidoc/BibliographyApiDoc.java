@@ -92,7 +92,7 @@ public interface BibliographyApiDoc {
                                     schema = @Schema(implementation = ErrorResponse.class))})
             },security = @SecurityRequirement(name = "oauth2")
     )
-    Collection<BibliographyDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
+    Collection<BibliographyDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestBody List<SearchCriteria> criteria);
 
     @Operation(summary = "Save bibliography", tags = {"Bibliography"},
             responses = {

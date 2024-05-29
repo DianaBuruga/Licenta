@@ -42,7 +42,8 @@ public interface ReferralApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     Collection<ReferralDTO> findAllReferrals();
 
@@ -66,7 +67,8 @@ public interface ReferralApiDoc {
                     @ApiResponse(responseCode = "500", description = "Internal Server Error",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))})
-            }
+            },
+            security = @SecurityRequirement(name = "oauth2")
     )
     ReferralDTO findReferralById(@Parameter(description = "Id of the referral that will be received", required = true) @Valid @PathVariable UUID id);
 
@@ -93,7 +95,7 @@ public interface ReferralApiDoc {
             },
             security = @SecurityRequirement(name = "oauth2")
     )
-    Collection<ReferralDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
+    Collection<ReferralDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestBody List<SearchCriteria> criteria);
 
     @Operation(summary = "Save referral", tags = {"Referral"},
             responses = {
@@ -166,5 +168,5 @@ public interface ReferralApiDoc {
             },
             security = @SecurityRequirement(name = "oauth2")
     )
-    void deleteReferral(@Parameter(description = "Referral that will be deleted", required = true) @Valid @RequestBody ReferralDTO referralDTO);
+    void deleteReferral(@Parameter(description = "Referral that will be deleted", required = true) @Valid @PathVariable UUID id);
 }

@@ -165,14 +165,14 @@ public interface Mapper {
     Specialization specializationDTOToSpecialization(SpecializationDTO specializationDTO);
 
     // @Mapping(target = "createdEventsDTO", ignore = true)
-    @Mapping(target = "bibliographiesDTO", source = "bibliographies")
-    @Mapping(target = "experiencesDTO", source = "experiences")
-    @Mapping(target = "languagesDTO", source = "languages")
-    // @Mapping(target = "notificationsDTO", source = "notifications")
-    @Mapping(target = "receivedReferralsDTO", source = "receivedReferrals")
-    @Mapping(target = "specializationsDTO", source = "specializations")
-    @Mapping(target = "skillsDTO", source = "skills")
-    @Mapping(target = "jobHistoriesDTO", source = "jobHistories")
+//    @Mapping(target = "bibliographiesDTO", source = "bibliographies")
+//    @Mapping(target = "experiencesDTO", source = "experiences")
+//    @Mapping(target = "languagesDTO", source = "languages")
+//    // @Mapping(target = "notificationsDTO", source = "notifications")
+//    @Mapping(target = "receivedReferralsDTO", source = "receivedReferrals")
+//    @Mapping(target = "specializationsDTO", source = "specializations")
+//    @Mapping(target = "skillsDTO", source = "skills")
+//    @Mapping(target = "jobHistoriesDTO", source = "jobHistories")
     //@Mapping(target = "jobCandidatesDTO", source = "jobCandidates")
     UserDTO userToUserDTO(User user);
 
@@ -278,5 +278,19 @@ public interface Mapper {
         }
 
         return Timestamp.from(ZonedDateTime.parse(dateTimeStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant());
+    }
+
+    default ReferralDTO referralWithUsersToReferralDTO(Referral referral) {
+        ReferralDTO referralDTO = referralToReferralDTO(referral);
+        referralDTO.setStudentDTO(userToUserDTO(referral.getStudent()));
+        referralDTO.setTeacherDTO(userToUserDTO(referral.getTeacher()));
+        return referralDTO;
+    }
+
+    default Referral referralDTOWithUsersToReferral(ReferralDTO referralDTO) {
+        Referral referral = referralDTOToReferral(referralDTO);
+        referral.setTeacher(userDTOToUser(referralDTO.getTeacherDTO()));
+        referral.setStudent(userDTOToUser(referralDTO.getStudentDTO()));
+        return referral;
     }
 }

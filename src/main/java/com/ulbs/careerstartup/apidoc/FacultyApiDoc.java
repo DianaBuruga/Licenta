@@ -93,7 +93,7 @@ public interface FacultyApiDoc {
             }
             ,security = @SecurityRequirement(name = "oauth2")
     )
-    Collection<FacultyDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestParam List<SearchCriteria> criteria);
+    Collection<FacultyDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestBody List<SearchCriteria> criteria);
 
     @Operation(summary = "Save faculty", tags = {"Faculty"},
             responses = {

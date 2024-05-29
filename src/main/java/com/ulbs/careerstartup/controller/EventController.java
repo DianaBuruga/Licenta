@@ -34,8 +34,8 @@ public class EventController implements EventApiDoc {
         return eventService.findEventById(id);
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<EventDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<EventDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return eventService.findByCriteria(criteria);
     }
 

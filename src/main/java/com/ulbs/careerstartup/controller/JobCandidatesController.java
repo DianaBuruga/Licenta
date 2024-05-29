@@ -35,8 +35,8 @@ public class JobCandidatesController implements JobCandidatesApiDoc {
         return jobCandidatesService.findJobById(new JobCandidatesPK(jobId, id));
     }
 
-    @GetMapping(BY_CRITERIA)
-    public Collection<JobCandidatesDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
+    @PostMapping(BY_CRITERIA)
+    public Collection<JobCandidatesDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
         return jobCandidatesService.findJobCandidatesByCriteria(criteria);
     }
 
