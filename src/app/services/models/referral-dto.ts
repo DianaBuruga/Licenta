@@ -6,4 +6,5 @@ export interface ReferralDto {
   id?: string;
   student: UserDto;
   teacher: UserDto;
+  title: string;
 }

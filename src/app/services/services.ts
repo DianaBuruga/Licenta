@@ -4,6 +4,7 @@ export { UserSkillService } from './services/user-skill.service';
 export { SpecializationService } from './services/specialization.service';
 export { SkillService } from './services/skill.service';
 export { ReviewService } from './services/review.service';
+export { ReferralService } from './services/referral.service';
 export { NotificationService } from './services/notification.service';
 export { JobHistoryService } from './services/job-history.service';
 export { JobCandidatesService } from './services/job-candidates.service';

@@ -5,7 +5,7 @@
 </button></h1>
 <br>
 <div class="timeline">
-    <div *ngFor="let experience of experiences" class="timeline-event">
+    <div *ngFor="let experience of userExperiences?.postedJobs" class="timeline-event">
           <div class="timeline-company">
             <img src="{{experience.company.logoUrl}}" alt="company logo" onclass="timeline-company-logo" style="width: 48px;">
             <br>

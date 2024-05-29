@@ -10,17 +10,13 @@ import { ReviewDto } from '../../models/review-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
 export interface FindByCriteria5$Params {
-
-/**
- * List of search criteria
- */
-  criteria: Array<SearchCriteria>;
+      body: Array<SearchCriteria>
 }
 
 export function findByCriteria5(http: HttpClient, rootUrl: string, params: FindByCriteria5$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReviewDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria5.PATH, 'get');
+  const rb = new RequestBuilder(rootUrl, findByCriteria5.PATH, 'post');
   if (params) {
-    rb.query('criteria', params.criteria, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(

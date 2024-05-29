@@ -10,6 +10,7 @@ import { UserSkillService } from './services/user-skill.service';
 import { SpecializationService } from './services/specialization.service';
 import { SkillService } from './services/skill.service';
 import { ReviewService } from './services/review.service';
+import { ReferralService } from './services/referral.service';
 import { NotificationService } from './services/notification.service';
 import { JobHistoryService } from './services/job-history.service';
 import { JobCandidatesService } from './services/job-candidates.service';
@@ -37,6 +38,7 @@ import { AuthenticationService } from './services/authentication.service';
     SpecializationService,
     SkillService,
     ReviewService,
+    ReferralService,
     NotificationService,
     JobHistoryService,
     JobCandidatesService,

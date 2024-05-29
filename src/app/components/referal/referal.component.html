@@ -1,5 +1,5 @@
 <div class="slider-effectCoverFlow">
-    <h1><b>Recomandari</b><button mat-icon-button class="custom-icon-button" (click)="openDialog(referals)">
+    <h1><b>Recomandari</b><button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyReferral)">
       <mat-icon>add</mat-icon>
     </button></h1>
     <swiper
@@ -18,22 +18,24 @@
       [navigation]="true"
       class="mySwiper"
     >
-    <ng-container *ngFor="let referal of referals">
+    <ng-container *ngFor="let referral of referrals">
         <ng-template swiperSlide>
             <mat-card>
-                <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu">
-                <mat-card-title style="text-align: center;">{{referal.teacher.name}}
+                <img mat-card-image src="http://localhost:8081/users/profilePhoto/view/{{referral.teacher.id}}" alt="Photo of a Shiba Inu">
+                <mat-card-title style="text-align: center;">{{referral.teacher.name}}
                 </mat-card-title>
-                <mat-card-subtitle style="text-align: center;">{{referal.teacher.role}} </mat-card-subtitle>
-                <mat-card-subtitle style="text-align: center;">{{referal.teacher.email}}</mat-card-subtitle>
+                <mat-card-subtitle style="text-align: center;">{{referral.teacher.role}} </mat-card-subtitle>
+                <mat-card-subtitle style="text-align: center;">{{referral.teacher.email}}</mat-card-subtitle>
+                <hr/>
+                <p><mat-card-title style="text-align: center;">{{referral.title}}</mat-card-title></p>
                 <mat-card-content>
                 <br>
                   <p>
-                    {{referal.description}}
+                    {{referral.description}}
                   </p>
                 </mat-card-content>
                 <mat-card-actions>
-                <button mat-icon-button class="custom-icon-button" (click)="deleteAcreditare(referal.id)">
+                <button mat-icon-button class="custom-icon-button" (click)="deleteReferral(referral)">
                     <mat-icon>delete</mat-icon>
                 </button>
                 </mat-card-actions>

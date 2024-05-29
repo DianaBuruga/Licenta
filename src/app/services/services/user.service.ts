@@ -177,28 +177,36 @@ export class UserService extends BaseService {
     );
   }
 
-  /** Path part for operation `viewFileById()` */
-  static readonly ViewFileByIdPath = '/users/{id}/profilePhoto/view/';
+  /** Path part for operation `findByCriteria1()` */
+  static readonly FindByCriteria1Path = '/users/by-criteria/';
 
   /**
+   * Find user by criteria.
+   *
+   *
+   *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `viewFileById()` instead.
+   * To access only the response body, use `findByCriteria1()` instead.
    *
    * This method doesn't expect any request body.
    */
-  viewFileById$Response(params: ViewFileById$Params, context?: HttpContext): Observable<StrictHttpResponse<Blob>> {
-    return viewFileById(this.http, this.rootUrl, params, context);
+  findByCriteria1$Response(params: FindByCriteria1$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
+    return findByCriteria1(this.http, this.rootUrl, params, context);
   }
 
   /**
+   * Find user by criteria.
+   *
+   *
+   *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `viewFileById$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria1$Response()` instead.
    *
    * This method doesn't expect any request body.
    */
-  viewFileById(params: ViewFileById$Params, context?: HttpContext): Observable<Blob> {
-    return this.viewFileById$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Blob>): Blob => r.body)
+  findByCriteria1(params: FindByCriteria1$Params, context?: HttpContext): Observable<UserDto> {
+    return this.findByCriteria1$Response(params, context).pipe(
+      map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
     );
   }
 
@@ -235,6 +243,56 @@ export class UserService extends BaseService {
     );
   }
 
+  /** Path part for operation `viewFileById()` */
+  static readonly ViewFileByIdPath = '/users/profilePhoto/view/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `viewFileById()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  viewFileById$Response(params: ViewFileById$Params, context?: HttpContext): Observable<StrictHttpResponse<Blob>> {
+    return viewFileById(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `viewFileById$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  viewFileById(params: ViewFileById$Params, context?: HttpContext): Observable<Blob> {
+    return this.viewFileById$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Blob>): Blob => r.body)
+    );
+  }
+
+  /** Path part for operation `downloadFileById()` */
+  static readonly DownloadFileByIdPath = '/users/profilePhoto/download/id/{id}';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `downloadFileById()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  downloadFileById$Response(params: DownloadFileById$Params, context?: HttpContext): Observable<StrictHttpResponse<Blob>> {
+    return downloadFileById(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `downloadFileById$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  downloadFileById(params: DownloadFileById$Params, context?: HttpContext): Observable<Blob> {
+    return this.downloadFileById$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Blob>): Blob => r.body)
+    );
+  }
+
   /** Path part for operation `findUserById()` */
   static readonly FindUserByIdPath = '/users/id/{id}';
 
@@ -268,31 +326,6 @@ export class UserService extends BaseService {
     );
   }
 
-  /** Path part for operation `downloadFileById()` */
-  static readonly DownloadFileByIdPath = '/users/id/{id}/profilePhoto/download/';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `downloadFileById()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  downloadFileById$Response(params: DownloadFileById$Params, context?: HttpContext): Observable<StrictHttpResponse<Blob>> {
-    return downloadFileById(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `downloadFileById$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  downloadFileById(params: DownloadFileById$Params, context?: HttpContext): Observable<Blob> {
-    return this.downloadFileById$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Blob>): Blob => r.body)
-    );
-  }
-
   /** Path part for operation `findUserByEmail()` */
   static readonly FindUserByEmailPath = '/users/email/{email}';
 
@@ -322,39 +355,6 @@ export class UserService extends BaseService {
    */
   findUserByEmail(params: FindUserByEmail$Params, context?: HttpContext): Observable<UserDto> {
     return this.findUserByEmail$Response(params, context).pipe(
-      map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria1()` */
-  static readonly FindByCriteria1Path = '/users/by-criteria/';
-
-  /**
-   * Find user by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria1$Response(params: FindByCriteria1$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
-    return findByCriteria1(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find user by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria1(params: FindByCriteria1$Params, context?: HttpContext): Observable<UserDto> {
-    return this.findByCriteria1$Response(params, context).pipe(
       map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
     );
   }

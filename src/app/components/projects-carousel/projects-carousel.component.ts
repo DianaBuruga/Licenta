@@ -29,25 +29,28 @@ interface Experience {
   templateUrl: './projects-carousel.component.html',
   styleUrl: './projects-carousel.component.scss'
 })
-export class ProjectsCarouselComponent implements OnInit{
+export class ProjectsCarouselComponent{
   @Input() userExperiences: UserDto | undefined;
-  experiences: ExperienceDto[] | undefined;
-  emptyExperience: ExperienceDto = {} as ExperienceDto;
-  constructor(public dialog: MatDialog, private experienceService: ExperienceService) {}
-  ngOnInit(): void {
-    console.log('Projects', this.experiences);
-    this.experiences = this.userExperiences?.experiences?.filter((experience) => experience.type != 'ACCREDITATION');
-    this.emptyExperience = {
-      id: '',
-      title: '',
-      description: '',
-      date: '',
-      url: '',
-      type: 'PROJECT',
-      userDTO: this.userExperiences as UserDto
-    };
-  }
   currentIndex = 0;
+
+  get experiences(): ExperienceDto[] {
+    return this.userExperiences?.experiences?.filter((experience) => experience.type != 'ACCREDITATION') ?? [];
+  };
+
+  get emptyExperience(): ExperienceDto {
+    return {
+    id: '',
+    title: '',
+    description: '',
+    date: '',
+    url: '',
+    type: 'PROJECT',
+    userDTO: this.userExperiences
+  } as ExperienceDto;
+  };
+
+  constructor(public dialog: MatDialog, private experienceService: ExperienceService) {}
+
 
   showNext(): void {
     if(this.experiences === undefined) return;
@@ -85,7 +88,6 @@ openDialog(experience: ExperienceDto): void {
             this.userExperiences.experiences = [];
           }
           this.userExperiences.experiences.push(result);
-          this.experiences = this.userExperiences?.experiences?.filter((experience) => experience.type != 'ACCREDITATION');
           console.log('Projects and Competitions', this.experiences);
         }
         this.currentIndex = this.experiences?.indexOf(result) ?? 0;
@@ -108,7 +110,6 @@ openDialog(experience: ExperienceDto): void {
             if(this.userExperiences?.experiences === undefined){
                 this.userExperiences.experiences = [];
               }
-            this.experiences = [...this.userExperiences.experiences.filter((experience) => experience.type != 'ACCREDITATION')];  
             this.showPrev();
           }
         },

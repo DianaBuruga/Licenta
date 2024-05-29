@@ -1,20 +1,22 @@
-import { Injectable } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject } from '@angular/core';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
-  private isBrowser: boolean;
-
-  constructor() {
-    this.isBrowser = typeof window !== 'undefined';
+  private readonly tokenKey = 'token';
+  constructor(private cookieService: CookieService) {}
+  
+  set token(token: string) {  
+    if (token && token !== "") {
+      this.cookieService.set(this.tokenKey, token);
+    }
   }
 
-    get token(): string | null {
-    if (this.isBrowser) {
-      return localStorage.getItem('token');
-    }
-    return null;
+  get token(): string{
+    return this.cookieService.get(this.tokenKey);
   }
 
   isTokenValid() {

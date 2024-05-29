@@ -13,15 +13,16 @@ import { LanguageService } from '../../services/services';
   templateUrl: './language-table.component.html',
   styleUrl: './language-table.component.scss'
 })
-export class LanguageTableComponent implements OnInit {
+export class LanguageTableComponent {
   @Input() user: UserDto | undefined;
-  languageData: LanguageDto[] = [];
-  emptyLanguage: LanguageDto = {} as LanguageDto;
-
-  ngOnInit(): void {
-    this.languageData = this.user?.languages??[];
-    console.log('Languages', this.languageData);
+  get languageData():LanguageDto[]{
+    return this.user?.languages??[];
   }
+  set languageData(value: LanguageDto[]){
+    this.user!.languages = value;
+  }
+  
+  emptyLanguage: LanguageDto = {} as LanguageDto;
 
   deleteLanguage(language: LanguageDto) {
     console.log('Deleting language', language.id); 

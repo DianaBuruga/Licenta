@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NgFor } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
@@ -16,14 +16,9 @@ import { UserSkillsFormDialogComponent } from '../user-skills-form-dialog/user-s
 })
 export class SkillCircularProgressbarComponent {
   @Input() user: UserDto | undefined;
-  userSkills: UserSkillsDto[] | undefined;
-  emptyUserSkill: UserSkillsDto = {} as UserSkillsDto;
-  colorMap: Map<SkillDto, string> = new Map();
-  ngOnInit(): void {
-    this.userSkills = this.user?.skills;
-    this.userSkills?.forEach(element => {this.colorMap.set(element.skill, this.getRandomColor());});
-    console.log('UserSkill in skill circular', this.userSkills);
-    this.emptyUserSkill = {
+  colors : Map<SkillDto, string> = new Map<SkillDto, string>();
+  get emptyUserSkill(): UserSkillsDto{
+    return  {
       proficiency: 0,
       skill: {
         bibliographies: [],
@@ -32,8 +27,22 @@ export class SkillCircularProgressbarComponent {
         userSkills: []
       },
       userDTO: this.user as UserDto
+  } as UserSkillsDto;
   };
+
+  get userSkills(): UserSkillsDto[]{
+    return this.user?.skills??[];
   }
+
+  get colorMap(): Map<SkillDto, string>{
+    this.userSkills?.forEach(element => {
+      if(!this.colors.has(element.skill)) 
+        this.colors.set(element.skill, this.getRandomColor());
+      }
+    );
+    return this.colors;
+  }
+
   constructor(public dialog: MatDialog, private userSkillService: UserSkillService) {}
   
   openDialog(userSkillDto: UserSkillsDto): void {
@@ -50,9 +59,7 @@ export class SkillCircularProgressbarComponent {
             this.user.skills = [];
           }
           this.user.skills.push(result.userSkills);
-          this.userSkills = this.user.skills;
           console.log('User Skills', this.userSkills);
-          this.userSkills?.forEach(element => {this.colorMap.set(element.skill, this.getRandomColor());});
         }
       console.log('Dialog was closed');
     });
@@ -69,7 +76,7 @@ deleteSkill(userSkill: UserSkillsDto) {
           this.user?.skills?.splice(index, 1);
         }
         (index = this.userSkills?.indexOf(userSkill)) !== undefined && this.userSkills?.splice(index, 1);
-        this.colorMap.delete(userSkill.skill);
+        this.colors.delete(userSkill.skill);
         console.log('User skill deleted successfully');
       },
       error: (error) => {

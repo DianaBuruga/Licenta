@@ -9,18 +9,14 @@ import { RequestBuilder } from '../../request-builder';
 import { ExperienceDto } from '../../models/experience-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
-export interface FindByCriteria10$Params {
-
-/**
- * List of search criteria
- */
-  criteria: Array<SearchCriteria>;
+export interface FindByCriteria11$Params {
+      body: Array<SearchCriteria>
 }
 
-export function findByCriteria10(http: HttpClient, rootUrl: string, params: FindByCriteria10$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExperienceDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria10.PATH, 'get');
+export function findByCriteria11(http: HttpClient, rootUrl: string, params: FindByCriteria11$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExperienceDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria11.PATH, 'post');
   if (params) {
-    rb.query('criteria', params.criteria, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -33,4 +29,4 @@ export function findByCriteria10(http: HttpClient, rootUrl: string, params: Find
   );
 }
 
-findByCriteria10.PATH = '/experiences/by-criteria/';
+findByCriteria11.PATH = '/experiences/by-criteria/';

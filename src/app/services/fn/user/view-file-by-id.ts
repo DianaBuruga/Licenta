@@ -27,4 +27,4 @@ export function viewFileById(http: HttpClient, rootUrl: string, params: ViewFile
   );
 }
 
-viewFileById.PATH = '/users/{id}/profilePhoto/view/';
+viewFileById.PATH = '/users/profilePhoto/view/{id}';

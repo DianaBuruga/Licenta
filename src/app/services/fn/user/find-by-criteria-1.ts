@@ -18,7 +18,7 @@ export interface FindByCriteria1$Params {
 }
 
 export function findByCriteria1(http: HttpClient, rootUrl: string, params: FindByCriteria1$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria1.PATH, 'get');
+  const rb = new RequestBuilder(rootUrl, findByCriteria1.PATH, 'post');
   if (params) {
     rb.query('criteria', params.criteria, {});
   }

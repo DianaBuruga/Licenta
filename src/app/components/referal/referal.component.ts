@@ -5,6 +5,9 @@ import { MatCardModule } from '@angular/material/card';
 import {CommonModule, NgFor} from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
 import { ReferralDto, UserDto } from '../../services/models';
+import { MatDialog } from '@angular/material/dialog';
+import { ReferalOpenDialogComponent } from '../referal-open-dialog/referal-open-dialog.component';
+import { ReferralService } from '../../services/services';
 
 SwiperCore.use([Navigation, Pagination, EffectCoverflow]);
 interface User {
@@ -34,37 +37,72 @@ id: any;
   styleUrl: './referal.component.scss',
   encapsulation: ViewEncapsulation.None
 })
-export class ReferalComponent implements OnInit{
+export class ReferalComponent{
   @Input() user: UserDto | undefined;
-  referals: ReferralDto[] | undefined;
-  emptyReferal: ReferralDto = {} as ReferralDto;
-  ngOnInit(): void {
-    this.referals = this.user?.receivedReferrals;
-    this.emptyReferal = {
-      teacher: {
-        name: '',
-        email: '',
-        role: 'TEACHER',
-        description: '',
-        phone: '',
-        website: ''
-      },
-      student: {
-        name: '',
-        email: '',
-        role: 'STUDENT',
-        description: '',
-        phone: '',
-        website: ''
-      },
-      description: ''
-    };
-  }
-openDialog(arg0: any) {
-throw new Error('Method not implemented.');
+  get referrals(): ReferralDto[]{
+    return this.user?.receivedReferrals??[];
+  };
+ get emptyReferral(): ReferralDto{
+  return {
+    id: '',
+    teacher: {
+      name: '',
+      email: '',
+      role: 'TEACHER',
+      description: '',
+      phone: '',
+      website: ''
+    },
+    student: {
+      name: '',
+      email: '',
+      role: 'STUDENT',
+      description: '',
+      phone: '',
+      website: ''
+    },
+    description: ''
+  } as ReferralDto;
 }
-deleteAcreditare(arg0: any) {
-throw new Error('Method not implemented.');
+
+
+constructor(public dialog: MatDialog, private referalService: ReferralService) {}
+
+openDialog(referral: ReferralDto): void {
+  console.log('Opening dialog', this.user);
+  const dialogRef = this.dialog.open(ReferalOpenDialogComponent, {
+    width: '50%',
+    data: {user: this.user, referral: referral}
+  });
+
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('Result',result);
+    if(result && this.user)
+      {
+        this.user.receivedReferrals?.push(result.referral);
+        console.log('Referral', this.referrals);
+      }
+    console.log('Dialog was closed');
+  });
+}
+
+deleteReferral(referral: ReferralDto) {
+console.log('Deleting Referral', referral.id); 
+if (referral.id !== undefined) {
+  const params = {id: referral.id };
+  this.referalService.deleteReferral(params).subscribe({
+    next: () => {
+      let index = this.user?.receivedReferrals?.indexOf(referral);
+      if (index !== undefined && index !== -1) {
+        this.user?.receivedReferrals?.splice(index, 1);
+      }
+      console.log('Referral deleted successfully');
+    },
+    error: (error) => {
+      console.error('Error deleting referral', error);
+    },
+  })  ;
+}
 }
   // referals: ReferralDto[] = [
   //   {

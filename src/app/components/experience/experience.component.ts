@@ -22,33 +22,31 @@ import { JobHistoryService } from '../../services/services';
   templateUrl: './experience.component.html',
   styleUrl: './experience.component.scss'
 })
-export class ExperienceComponent implements OnInit{
+export class ExperienceComponent {
   @Input() userExperiences: UserDto | undefined;
-  experiences: JobHistoryDto[] | undefined;
-  emptyJobHistory: JobHistoryDto = {} as JobHistoryDto;
-  ngOnInit(): void {
-    this.experiences = this.userExperiences?.postedJobs;
-    console.log('Experiences', this.experiences);
-    this.emptyJobHistory = {
-      id: '',
-      position: '',
-      description: '',
-      startDate: '',
-      endDate: '',
-      needQualification: false,
-      company: {
-        name: '',
-        website: '',
-        address: '',
-        jobHistories: [],
-        postedJobs: [],
-        reviews: []
-      },
-      user: this.userExperiences as UserDto
-    };
+  get emptyJobHistory(): JobHistoryDto{
+    return {
+    id: '',
+    position: '',
+    description: '',
+    startDate: '',
+    endDate: '',
+    needQualification: false,
+    company: {
+      name: '',
+      website: '',
+      address: '',
+      jobHistories: [],
+      postedJobs: [],
+      reviews: []
+    },
+    user: this.userExperiences
+  } as JobHistoryDto;
+  }
+  
+  constructor(public dialog: MatDialog, private jobHistoryService: JobHistoryService) {
   }
 
-  constructor(public dialog: MatDialog, private jobHistoryService: JobHistoryService) {}
   openDialog(jobHistory: JobHistoryDto): void {
     const dialogRef = this.dialog.open(AddFormDialogComponent, {
       width: '50%',

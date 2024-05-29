@@ -13,8 +13,8 @@ import { deleteNotification } from '../fn/notification/delete-notification';
 import { DeleteNotification$Params } from '../fn/notification/delete-notification';
 import { findAllNotifications } from '../fn/notification/find-all-notifications';
 import { FindAllNotifications$Params } from '../fn/notification/find-all-notifications';
-import { findByCriteria6 } from '../fn/notification/find-by-criteria-6';
-import { FindByCriteria6$Params } from '../fn/notification/find-by-criteria-6';
+import { findByCriteria7 } from '../fn/notification/find-by-criteria-7';
+import { FindByCriteria7$Params } from '../fn/notification/find-by-criteria-7';
 import { findNotificationById } from '../fn/notification/find-notification-by-id';
 import { FindNotificationById$Params } from '../fn/notification/find-notification-by-id';
 import { NotificationDto } from '../models/notification-dto';
@@ -133,6 +133,31 @@ export class NotificationService extends BaseService {
     );
   }
 
+  /** Path part for operation `findByCriteria7()` */
+  static readonly FindByCriteria7Path = '/notifications/by-criteria/';
+
+  /**
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByCriteria7()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria7$Response(params: FindByCriteria7$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationDto>>> {
+    return findByCriteria7(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByCriteria7$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria7(params: FindByCriteria7$Params, context?: HttpContext): Observable<Array<NotificationDto>> {
+    return this.findByCriteria7$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<NotificationDto>>): Array<NotificationDto> => r.body)
+    );
+  }
+
   /** Path part for operation `findNotificationById()` */
   static readonly FindNotificationByIdPath = '/notifications/{id}';
 
@@ -155,31 +180,6 @@ export class NotificationService extends BaseService {
   findNotificationById(params: FindNotificationById$Params, context?: HttpContext): Observable<NotificationDto> {
     return this.findNotificationById$Response(params, context).pipe(
       map((r: StrictHttpResponse<NotificationDto>): NotificationDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria6()` */
-  static readonly FindByCriteria6Path = '/notifications/by-criteria/';
-
-  /**
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria6()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria6$Response(params: FindByCriteria6$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationDto>>> {
-    return findByCriteria6(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria6$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria6(params: FindByCriteria6$Params, context?: HttpContext): Observable<Array<NotificationDto>> {
-    return this.findByCriteria6$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<NotificationDto>>): Array<NotificationDto> => r.body)
     );
   }
 

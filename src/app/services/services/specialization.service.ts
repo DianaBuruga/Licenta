@@ -165,6 +165,39 @@ export class SpecializationService extends BaseService {
     );
   }
 
+  /** Path part for operation `findByCriteria3()` */
+  static readonly FindByCriteria3Path = '/specializations/by-criteria/';
+
+  /**
+   * Find specialization by criteria.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByCriteria3()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria3$Response(params: FindByCriteria3$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SpecializationDto>>> {
+    return findByCriteria3(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Find specialization by criteria.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByCriteria3$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria3(params: FindByCriteria3$Params, context?: HttpContext): Observable<Array<SpecializationDto>> {
+    return this.findByCriteria3$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<SpecializationDto>>): Array<SpecializationDto> => r.body)
+    );
+  }
+
   /** Path part for operation `findSpecializationById()` */
   static readonly FindSpecializationByIdPath = '/specializations/{id}';
 
@@ -195,39 +228,6 @@ export class SpecializationService extends BaseService {
   findSpecializationById(params: FindSpecializationById$Params, context?: HttpContext): Observable<SpecializationDto> {
     return this.findSpecializationById$Response(params, context).pipe(
       map((r: StrictHttpResponse<SpecializationDto>): SpecializationDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria3()` */
-  static readonly FindByCriteria3Path = '/specializations/by-criteria/';
-
-  /**
-   * Find specialization by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria3()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria3$Response(params: FindByCriteria3$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SpecializationDto>>> {
-    return findByCriteria3(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find specialization by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria3$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria3(params: FindByCriteria3$Params, context?: HttpContext): Observable<Array<SpecializationDto>> {
-    return this.findByCriteria3$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<SpecializationDto>>): Array<SpecializationDto> => r.body)
     );
   }
 

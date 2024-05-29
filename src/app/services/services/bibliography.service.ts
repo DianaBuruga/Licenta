@@ -17,8 +17,8 @@ import { findAllBibliographies } from '../fn/bibliography/find-all-bibliographie
 import { FindAllBibliographies$Params } from '../fn/bibliography/find-all-bibliographies';
 import { findBibliographiesBySkillIds } from '../fn/bibliography/find-bibliographies-by-skill-ids';
 import { FindBibliographiesBySkillIds$Params } from '../fn/bibliography/find-bibliographies-by-skill-ids';
-import { findByCriteria14 } from '../fn/bibliography/find-by-criteria-14';
-import { FindByCriteria14$Params } from '../fn/bibliography/find-by-criteria-14';
+import { findByCriteria15 } from '../fn/bibliography/find-by-criteria-15';
+import { FindByCriteria15$Params } from '../fn/bibliography/find-by-criteria-15';
 import { HtmlEmailRequest } from '../models/html-email-request';
 import { saveBibliography } from '../fn/bibliography/save-bibliography';
 import { SaveBibliography$Params } from '../fn/bibliography/save-bibliography';
@@ -204,6 +204,39 @@ export class BibliographyService extends BaseService {
     );
   }
 
+  /** Path part for operation `findByCriteria15()` */
+  static readonly FindByCriteria15Path = '/bibliographies/by-criteria/';
+
+  /**
+   * Find bibliographies by criteria.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByCriteria15()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria15$Response(params: FindByCriteria15$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
+    return findByCriteria15(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Find bibliographies by criteria.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByCriteria15$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria15(params: FindByCriteria15$Params, context?: HttpContext): Observable<Array<BibliographyDto>> {
+    return this.findByCriteria15$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<BibliographyDto>>): Array<BibliographyDto> => r.body)
+    );
+  }
+
   /** Path part for operation `findBibliographiesBySkillIds()` */
   static readonly FindBibliographiesBySkillIdsPath = '/bibliographies/by-skills/{skillIds}';
 
@@ -233,39 +266,6 @@ export class BibliographyService extends BaseService {
    */
   findBibliographiesBySkillIds(params: FindBibliographiesBySkillIds$Params, context?: HttpContext): Observable<Array<BibliographyDto>> {
     return this.findBibliographiesBySkillIds$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<BibliographyDto>>): Array<BibliographyDto> => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria14()` */
-  static readonly FindByCriteria14Path = '/bibliographies/by-criteria/';
-
-  /**
-   * Find bibliographies by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria14()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria14$Response(params: FindByCriteria14$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
-    return findByCriteria14(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find bibliographies by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria14$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria14(params: FindByCriteria14$Params, context?: HttpContext): Observable<Array<BibliographyDto>> {
-    return this.findByCriteria14$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<BibliographyDto>>): Array<BibliographyDto> => r.body)
     );
   }

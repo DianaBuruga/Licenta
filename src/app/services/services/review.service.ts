@@ -165,6 +165,39 @@ export class ReviewService extends BaseService {
     );
   }
 
+  /** Path part for operation `findByCriteria5()` */
+  static readonly FindByCriteria5Path = '/reviews/by-criteria/';
+
+  /**
+   * Find review by criteria.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByCriteria5()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria5$Response(params: FindByCriteria5$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReviewDto>>> {
+    return findByCriteria5(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Find review by criteria.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByCriteria5$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria5(params: FindByCriteria5$Params, context?: HttpContext): Observable<Array<ReviewDto>> {
+    return this.findByCriteria5$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<ReviewDto>>): Array<ReviewDto> => r.body)
+    );
+  }
+
   /** Path part for operation `findReviewById()` */
   static readonly FindReviewByIdPath = '/reviews/{id}';
 
@@ -195,39 +228,6 @@ export class ReviewService extends BaseService {
   findReviewById(params: FindReviewById$Params, context?: HttpContext): Observable<ReviewDto> {
     return this.findReviewById$Response(params, context).pipe(
       map((r: StrictHttpResponse<ReviewDto>): ReviewDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria5()` */
-  static readonly FindByCriteria5Path = '/reviews/by-criteria/';
-
-  /**
-   * Find review by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria5()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria5$Response(params: FindByCriteria5$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReviewDto>>> {
-    return findByCriteria5(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find review by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria5$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria5(params: FindByCriteria5$Params, context?: HttpContext): Observable<Array<ReviewDto>> {
-    return this.findByCriteria5$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ReviewDto>>): Array<ReviewDto> => r.body)
     );
   }
 

@@ -9,18 +9,14 @@ import { RequestBuilder } from '../../request-builder';
 import { BibliographyDto } from '../../models/bibliography-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
-export interface FindByCriteria14$Params {
-
-/**
- * List of search criteria
- */
-  criteria: Array<SearchCriteria>;
+export interface FindByCriteria15$Params {
+      body: Array<SearchCriteria>
 }
 
-export function findByCriteria14(http: HttpClient, rootUrl: string, params: FindByCriteria14$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria14.PATH, 'get');
+export function findByCriteria15(http: HttpClient, rootUrl: string, params: FindByCriteria15$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<BibliographyDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria15.PATH, 'post');
   if (params) {
-    rb.query('criteria', params.criteria, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -33,4 +29,4 @@ export function findByCriteria14(http: HttpClient, rootUrl: string, params: Find
   );
 }
 
-findByCriteria14.PATH = '/bibliographies/by-criteria/';
+findByCriteria15.PATH = '/bibliographies/by-criteria/';

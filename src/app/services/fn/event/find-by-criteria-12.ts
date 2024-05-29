@@ -6,15 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
+import { EventDto } from '../../models/event-dto';
 import { SearchCriteria } from '../../models/search-criteria';
-import { SpecializationDto } from '../../models/specialization-dto';
 
-export interface FindByCriteria3$Params {
+export interface FindByCriteria12$Params {
       body: Array<SearchCriteria>
 }
 
-export function findByCriteria3(http: HttpClient, rootUrl: string, params: FindByCriteria3$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SpecializationDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria3.PATH, 'post');
+export function findByCriteria12(http: HttpClient, rootUrl: string, params: FindByCriteria12$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EventDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria12.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -24,9 +24,9 @@ export function findByCriteria3(http: HttpClient, rootUrl: string, params: FindB
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<SpecializationDto>>;
+      return r as StrictHttpResponse<Array<EventDto>>;
     })
   );
 }
 
-findByCriteria3.PATH = '/specializations/by-criteria/';
+findByCriteria12.PATH = '/events/by-criteria/';

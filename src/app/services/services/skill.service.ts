@@ -165,6 +165,39 @@ export class SkillService extends BaseService {
     );
   }
 
+  /** Path part for operation `findByCriteria4()` */
+  static readonly FindByCriteria4Path = '/skills/by-criteria/';
+
+  /**
+   * Find skill by criteria.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByCriteria4()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria4$Response(params: FindByCriteria4$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SkillDto>>> {
+    return findByCriteria4(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Find skill by criteria.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByCriteria4$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria4(params: FindByCriteria4$Params, context?: HttpContext): Observable<Array<SkillDto>> {
+    return this.findByCriteria4$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<SkillDto>>): Array<SkillDto> => r.body)
+    );
+  }
+
   /** Path part for operation `findSkillById()` */
   static readonly FindSkillByIdPath = '/skills/{id}';
 
@@ -195,39 +228,6 @@ export class SkillService extends BaseService {
   findSkillById(params: FindSkillById$Params, context?: HttpContext): Observable<SkillDto> {
     return this.findSkillById$Response(params, context).pipe(
       map((r: StrictHttpResponse<SkillDto>): SkillDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria4()` */
-  static readonly FindByCriteria4Path = '/skills/by-criteria/';
-
-  /**
-   * Find skill by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria4()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria4$Response(params: FindByCriteria4$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SkillDto>>> {
-    return findByCriteria4(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find skill by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria4$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria4(params: FindByCriteria4$Params, context?: HttpContext): Observable<Array<SkillDto>> {
-    return this.findByCriteria4$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<SkillDto>>): Array<SkillDto> => r.body)
     );
   }
 

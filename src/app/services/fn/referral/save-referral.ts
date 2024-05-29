@@ -6,15 +6,14 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { SearchCriteria } from '../../models/search-criteria';
-import { SpecializationDto } from '../../models/specialization-dto';
+import { ReferralDto } from '../../models/referral-dto';
 
-export interface FindByCriteria3$Params {
-      body: Array<SearchCriteria>
+export interface SaveReferral$Params {
+      body: ReferralDto
 }
 
-export function findByCriteria3(http: HttpClient, rootUrl: string, params: FindByCriteria3$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SpecializationDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria3.PATH, 'post');
+export function saveReferral(http: HttpClient, rootUrl: string, params: SaveReferral$Params, context?: HttpContext): Observable<StrictHttpResponse<ReferralDto>> {
+  const rb = new RequestBuilder(rootUrl, saveReferral.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -24,9 +23,9 @@ export function findByCriteria3(http: HttpClient, rootUrl: string, params: FindB
   ).pipe(
     filter((r: any): r is HttpResponse<any> => r instanceof HttpResponse),
     map((r: HttpResponse<any>) => {
-      return r as StrictHttpResponse<Array<SpecializationDto>>;
+      return r as StrictHttpResponse<ReferralDto>;
     })
   );
 }
 
-findByCriteria3.PATH = '/specializations/by-criteria/';
+saveReferral.PATH = '/referrals';

@@ -12,6 +12,7 @@ import { ReferalComponent } from './components/referal/referal.component';
 import { JsonPipe } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { MyHttpService } from './my-http.service';
+import { TokenService } from './services/auth/token.service';
 
 @Component({
     selector: 'app-root',
@@ -34,7 +35,7 @@ import { MyHttpService } from './my-http.service';
     ]
 })
 export class AppComponent {
-  constructor(private route: ActivatedRoute, private http: MyHttpService) {
+  constructor(private route: ActivatedRoute, private http: MyHttpService, private tokenService: TokenService) {
   }
 
   ngOnInit(): void {
@@ -42,9 +43,8 @@ export class AppComponent {
       .subscribe(params => {
         if (params["code"] !== undefined) {
           this.http.getToken(params["code"]).subscribe(result => {
-            if (result) {
-              localStorage.clear();
-              localStorage.setItem('token', result);
+            if (result && result !== "") {
+              this.tokenService.token = result;
             }
           });
         }

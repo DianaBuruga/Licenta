@@ -9,14 +9,14 @@ import { RequestBuilder } from '../../request-builder';
 import { NotificationDto } from '../../models/notification-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
-export interface FindByCriteria6$Params {
-  criteria: Array<SearchCriteria>;
+export interface FindByCriteria7$Params {
+      body: Array<SearchCriteria>
 }
 
-export function findByCriteria6(http: HttpClient, rootUrl: string, params: FindByCriteria6$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria6.PATH, 'get');
+export function findByCriteria7(http: HttpClient, rootUrl: string, params: FindByCriteria7$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<NotificationDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria7.PATH, 'post');
   if (params) {
-    rb.query('criteria', params.criteria, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(
@@ -29,4 +29,4 @@ export function findByCriteria6(http: HttpClient, rootUrl: string, params: FindB
   );
 }
 
-findByCriteria6.PATH = '/notifications/by-criteria/';
+findByCriteria7.PATH = '/notifications/by-criteria/';

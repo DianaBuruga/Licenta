@@ -1,11 +1,11 @@
-<ng-container *ngIf="error == null">
+<ng-container *ngIf="error == null || user == null">
   <app-profile-card [profileCardUser]='user'></app-profile-card>
   <app-experience [userExperiences]='user'></app-experience>
   <app-projects-carousel [userExperiences]='user'></app-projects-carousel>
   <app-skill-circular-progressbar [user]='user'></app-skill-circular-progressbar>
   <app-language-table [user]='user'></app-language-table>
   <app-acreditare-card [userExperiences]='user'></app-acreditare-card>
-  <app-referal></app-referal>
+  <app-referal [user]='user'></app-referal>
 </ng-container>
 <ng-container *ngIf="error != null">
   <p>Error: {{error}}</p>

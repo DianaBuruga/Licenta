@@ -41,13 +41,8 @@ export class AcreditareCardComponent {
   }
   
   @Input() userExperiences: UserDto | undefined;
-  experiences: ExperienceDto[] | undefined;
-  emptyExperience: ExperienceDto = {} as ExperienceDto;
-  constructor(public dialog: MatDialog, private experienceService: ExperienceService) {}
-  ngOnInit(): void {
-    console.log('ACCREDITATION', this.experiences);
-    this.experiences = this.userExperiences?.experiences?.filter((experience) => experience.type === 'ACCREDITATION');
-    this.emptyExperience = {
+  get emptyExperience(): ExperienceDto {
+    return {
       id: '',
       title: '',
       description: '',
@@ -55,8 +50,14 @@ export class AcreditareCardComponent {
       url: '',
       type: 'ACCREDITATION',
       userDTO: this.userExperiences as UserDto
-    };
-  }
+    } as ExperienceDto;
+  } 
+
+  get experiences(): ExperienceDto[] {
+    return this.userExperiences?.experiences?.filter((experience) => experience.type === 'ACCREDITATION') ?? [];
+  };
+
+  constructor(public dialog: MatDialog, private experienceService: ExperienceService) {}
 
 openDialog(experience: ExperienceDto): void {
   const dialogRef = this.dialog.open(AcreditationFormDialogComponent, {
@@ -74,7 +75,6 @@ openDialog(experience: ExperienceDto): void {
             this.userExperiences.experiences = [];
           }
           this.userExperiences.experiences.push(result.accreditation);
-          this.experiences = [...this.userExperiences?.experiences?.filter((experience) => experience.type === 'ACCREDITATION')];
           console.log('Projects and Competitions', this.experiences);
         }
       console.log('Dialog was closed');
@@ -91,12 +91,6 @@ openDialog(experience: ExperienceDto): void {
           let index = this.userExperiences?.experiences?.indexOf(experience);
           if (index !== undefined && index !== -1) {
             this.userExperiences?.experiences?.splice(index, 1);
-          }
-          if(this.userExperiences){
-            if(this.userExperiences?.experiences === undefined){
-                this.userExperiences.experiences = [];
-              }
-            this.experiences = [...this.userExperiences.experiences.filter((experience) => experience.type === 'ACCREDITATION')];
           }
         },
         error: (error) => {

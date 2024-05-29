@@ -10,17 +10,13 @@ import { LanguageDto } from '../../models/language-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
 export interface FindByCriteria$Params {
-
-/**
- * List of search criteria
- */
-  criteria: Array<SearchCriteria>;
+      body: Array<SearchCriteria>
 }
 
 export function findByCriteria(http: HttpClient, rootUrl: string, params: FindByCriteria$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<LanguageDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria.PATH, 'get');
+  const rb = new RequestBuilder(rootUrl, findByCriteria.PATH, 'post');
   if (params) {
-    rb.query('criteria', params.criteria, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(

@@ -10,17 +10,13 @@ import { SearchCriteria } from '../../models/search-criteria';
 import { SkillDto } from '../../models/skill-dto';
 
 export interface FindByCriteria4$Params {
-
-/**
- * List of search criteria
- */
-  criteria: Array<SearchCriteria>;
+      body: Array<SearchCriteria>
 }
 
 export function findByCriteria4(http: HttpClient, rootUrl: string, params: FindByCriteria4$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SkillDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria4.PATH, 'get');
+  const rb = new RequestBuilder(rootUrl, findByCriteria4.PATH, 'post');
   if (params) {
-    rb.query('criteria', params.criteria, {});
+    rb.body(params.body, 'application/json');
   }
 
   return http.request(

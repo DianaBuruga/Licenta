@@ -11,24 +11,20 @@ import { TokenDto } from './services/models';
 export class MyHttpService {
 
   token: string = "";
+  
+  getTokenValue(){
+    return this.token;
+  }
 
   constructor(private http: HttpClient) { }
 
-  get(url: string): any {
-    return this.http.get("http://localhost:8081" + url);
-  }
-
-  getPrivate(url: string): any {
-    return this.http.get("http://localhost:8081" + url, {headers: new HttpHeaders({"Authorization": "Bearer " + this.token})});
-  }
-
-  getToken(code: string): Observable<string | undefined> {
+  getToken(code: string): Observable<string> {
     return this.http.get<TokenDto>("http://localhost:8081/auth/callback?code=" + code, {observe: "response"})
       .pipe(map((response: HttpResponse<TokenDto>) => {
         if (response.status === 200 && response.body !== null) {
-          return response.body.token;
+          return response.body.token as string;
         }
-        return undefined;
+        return "";
       }));
   }
 }

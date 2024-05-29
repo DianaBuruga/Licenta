@@ -132,6 +132,39 @@ export class LanguageService extends BaseService {
     );
   }
 
+  /** Path part for operation `findByCriteria()` */
+  static readonly FindByCriteriaPath = '/users/languages/by-criteria/';
+
+  /**
+   * Find language by criteria.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByCriteria()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria$Response(params: FindByCriteria$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<LanguageDto>>> {
+    return findByCriteria(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Find language by criteria.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByCriteria$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria(params: FindByCriteria$Params, context?: HttpContext): Observable<Array<LanguageDto>> {
+    return this.findByCriteria$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<LanguageDto>>): Array<LanguageDto> => r.body)
+    );
+  }
+
   /** Path part for operation `findLanguageById()` */
   static readonly FindLanguageByIdPath = '/users/languages/{id}';
 
@@ -195,39 +228,6 @@ export class LanguageService extends BaseService {
   deleteLanguage(params: DeleteLanguage$Params, context?: HttpContext): Observable<void> {
     return this.deleteLanguage$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria()` */
-  static readonly FindByCriteriaPath = '/users/languages/by-criteria/';
-
-  /**
-   * Find language by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria$Response(params: FindByCriteria$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<LanguageDto>>> {
-    return findByCriteria(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find language by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria(params: FindByCriteria$Params, context?: HttpContext): Observable<Array<LanguageDto>> {
-    return this.findByCriteria$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<LanguageDto>>): Array<LanguageDto> => r.body)
     );
   }
 

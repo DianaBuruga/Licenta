@@ -14,8 +14,8 @@ import { DeleteEvent$Params } from '../fn/event/delete-event';
 import { EventDto } from '../models/event-dto';
 import { findAllEvents } from '../fn/event/find-all-events';
 import { FindAllEvents$Params } from '../fn/event/find-all-events';
-import { findByCriteria11 } from '../fn/event/find-by-criteria-11';
-import { FindByCriteria11$Params } from '../fn/event/find-by-criteria-11';
+import { findByCriteria12 } from '../fn/event/find-by-criteria-12';
+import { FindByCriteria12$Params } from '../fn/event/find-by-criteria-12';
 import { findEventById } from '../fn/event/find-event-by-id';
 import { FindEventById$Params } from '../fn/event/find-event-by-id';
 import { saveEvent } from '../fn/event/save-event';
@@ -132,6 +132,39 @@ export class EventService extends BaseService {
     );
   }
 
+  /** Path part for operation `findByCriteria12()` */
+  static readonly FindByCriteria12Path = '/events/by-criteria/';
+
+  /**
+   * Find event by criteria.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByCriteria12()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria12$Response(params: FindByCriteria12$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EventDto>>> {
+    return findByCriteria12(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Find event by criteria.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByCriteria12$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria12(params: FindByCriteria12$Params, context?: HttpContext): Observable<Array<EventDto>> {
+    return this.findByCriteria12$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<EventDto>>): Array<EventDto> => r.body)
+    );
+  }
+
   /** Path part for operation `findEventById()` */
   static readonly FindEventByIdPath = '/events/{id}';
 
@@ -195,39 +228,6 @@ export class EventService extends BaseService {
   deleteEvent(params: DeleteEvent$Params, context?: HttpContext): Observable<void> {
     return this.deleteEvent$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria11()` */
-  static readonly FindByCriteria11Path = '/events/by-criteria/';
-
-  /**
-   * Find event by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria11()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria11$Response(params: FindByCriteria11$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<EventDto>>> {
-    return findByCriteria11(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find event by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria11$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria11(params: FindByCriteria11$Params, context?: HttpContext): Observable<Array<EventDto>> {
-    return this.findByCriteria11$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<EventDto>>): Array<EventDto> => r.body)
     );
   }
 

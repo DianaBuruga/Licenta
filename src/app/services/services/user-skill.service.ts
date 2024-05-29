@@ -29,6 +29,39 @@ export class UserSkillService extends BaseService {
     super(config, http);
   }
 
+  /** Path part for operation `findByCriteria2()` */
+  static readonly FindByCriteria2Path = '/userSkills/by-criteria/';
+
+  /**
+   * Find UserSkill by criteria.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `findByCriteria2()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria2$Response(params: FindByCriteria2$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserSkillsDto>>> {
+    return findByCriteria2(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Find UserSkill by criteria.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `findByCriteria2$Response()` instead.
+   *
+   * This method sends `application/json` and handles request body of type `application/json`.
+   */
+  findByCriteria2(params: FindByCriteria2$Params, context?: HttpContext): Observable<Array<UserSkillsDto>> {
+    return this.findByCriteria2$Response(params, context).pipe(
+      map((r: StrictHttpResponse<Array<UserSkillsDto>>): Array<UserSkillsDto> => r.body)
+    );
+  }
+
   /** Path part for operation `saveUserSkill()` */
   static readonly SaveUserSkillPath = '/userSkills/';
 
@@ -92,39 +125,6 @@ export class UserSkillService extends BaseService {
   updateUserSkill(params: UpdateUserSkill$Params, context?: HttpContext): Observable<UserSkillsDto> {
     return this.updateUserSkill$Response(params, context).pipe(
       map((r: StrictHttpResponse<UserSkillsDto>): UserSkillsDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria2()` */
-  static readonly FindByCriteria2Path = '/userSkills/by-criteria/';
-
-  /**
-   * Find UserSkill by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria2()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria2$Response(params: FindByCriteria2$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<UserSkillsDto>>> {
-    return findByCriteria2(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find UserSkill by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria2$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria2(params: FindByCriteria2$Params, context?: HttpContext): Observable<Array<UserSkillsDto>> {
-    return this.findByCriteria2$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<UserSkillsDto>>): Array<UserSkillsDto> => r.body)
     );
   }
 
