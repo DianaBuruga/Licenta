@@ -1,5 +1,5 @@
-<h1 mat-dialog-title >Add New Referal</h1>
-<div mat-dialog-content> 
+<h1 mat-dialog-title>Add New Referal</h1>
+<div mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
     <div class="large-input-container">
       <mat-form-field appearance="fill" class="large-input-field">
@@ -7,11 +7,11 @@
         <input matInput formControlName="title">
         <mat-error *ngIf="form.get('title')?.errors?.['required']">Referral title is required</mat-error>
       </mat-form-field>
-    <mat-form-field appearance="fill" class="large-input-field">
-      <mat-label>Refferal</mat-label>
-      <input matInput formControlName="description">
-      <mat-error *ngIf="form.get('description')?.errors?.['required']">Referral description is required</mat-error>
-    </mat-form-field>
+      <mat-form-field appearance="fill" class="large-input-field">
+        <mat-label>Refferal</mat-label>
+        <input matInput formControlName="description">
+        <mat-error *ngIf="form.get('description')?.errors?.['required']">Referral description is required</mat-error>
+      </mat-form-field>
     </div>
     <div mat-dialog-actions>
       <button mat-button (click)="closeDialog()">Cancel</button>

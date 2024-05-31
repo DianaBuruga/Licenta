@@ -1,5 +1,6 @@
 /* tslint:disable */
 /* eslint-disable */
+export { AverageRating } from './models/average-rating';
 export { BibliographyDto } from './models/bibliography-dto';
 export { CompanyDto } from './models/company-dto';
 export { CourseDto } from './models/course-dto';

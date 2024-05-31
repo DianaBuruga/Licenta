@@ -10,8 +10,8 @@ describe('ProjectsFormDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ProjectsFormDialogComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(ProjectsFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

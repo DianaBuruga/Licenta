@@ -9,12 +9,12 @@ import { RequestBuilder } from '../../request-builder';
 import { JobCandidatesDto } from '../../models/job-candidates-dto';
 import { SearchCriteria } from '../../models/search-criteria';
 
-export interface FindByCriteria9$Params {
+export interface FindByCriteria8$Params {
       body: Array<SearchCriteria>
 }
 
-export function findByCriteria9(http: HttpClient, rootUrl: string, params: FindByCriteria9$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
-  const rb = new RequestBuilder(rootUrl, findByCriteria9.PATH, 'post');
+export function findByCriteria8(http: HttpClient, rootUrl: string, params: FindByCriteria8$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
+  const rb = new RequestBuilder(rootUrl, findByCriteria8.PATH, 'post');
   if (params) {
     rb.body(params.body, 'application/json');
   }
@@ -29,4 +29,4 @@ export function findByCriteria9(http: HttpClient, rootUrl: string, params: FindB
   );
 }
 
-findByCriteria9.PATH = '/jobCandidates/by-criteria/';
+findByCriteria8.PATH = '/jobCandidates/by-criteria/';

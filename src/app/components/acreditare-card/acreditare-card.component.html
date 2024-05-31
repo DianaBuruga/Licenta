@@ -1,10 +1,10 @@
 <div class="container">
-    <br>
     <h1><b>Acreditari</b>
-    <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyExperience)">
-    <mat-icon>add</mat-icon>
-      </button>
+        <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyExperience)">
+            <mat-icon>add</mat-icon>
+        </button>
     </h1>
+    @if(experiences.length!==0){
     <div class="parent">
         <div *ngFor="let acreditare of experiences" class="card-container">
             <mat-card class="custom-border-card">
@@ -30,4 +30,5 @@
             </mat-card>
         </div>
     </div>
+    }
 </div>

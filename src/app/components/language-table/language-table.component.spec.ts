@@ -10,8 +10,8 @@ describe('LanguageTableComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LanguageTableComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(LanguageTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

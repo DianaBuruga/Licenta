@@ -10,8 +10,8 @@ describe('AddFormDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AddFormDialogComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(AddFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

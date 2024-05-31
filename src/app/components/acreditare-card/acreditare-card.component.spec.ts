@@ -10,8 +10,8 @@ describe('AcreditareCardComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AcreditareCardComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(AcreditareCardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

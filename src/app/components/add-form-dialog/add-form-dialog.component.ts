@@ -1,19 +1,19 @@
-import {Component, Inject, inject, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {MatButtonModule} from '@angular/material/button';
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule, provideNativeDateAdapter} from '@angular/material/core';
-import {MatRadioModule} from '@angular/material/radio';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {CommonModule} from '@angular/common';
-import {CompanyService, JobHistoryService} from '../../services/services';
-import {CompanyDto, JobHistoryDto} from '../../services/models';
-import {companyNameValidator} from './companyNameValidator';
+import { Component, Inject, inject, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CommonModule } from '@angular/common';
+import { CompanyService, JobHistoryService } from '../../services/services';
+import { CompanyDto, JobHistoryDto } from '../../services/models';
+import { companyNameValidator } from './companyNameValidator';
 
 @Component({
   selector: 'app-add-form-dialog',
@@ -48,13 +48,14 @@ export class AddFormDialogComponent implements OnInit {
       }),
       company: [data.job.company.name, Validators.required],
       website: [data.job.company.website],
+      jobHistory: []
     });
   }
 
   ngOnInit() {
     this.getCompanyList().subscribe(companies => {
       this.companyMap = new Map(companies.map(company => [company.name, company]));
-      this.form.get('website')?.setValidators([Validators.required, companyNameValidator(this.companyMap)]);
+      this.form.get('company')?.setValidators([Validators.required, companyNameValidator(this.companyMap)]);
       this.options = companies;
       this.filteredOptions = this.form.get('company')!.valueChanges.pipe(startWith(''), map(value => this._filter(value)));
       console.log('Companies list', this.options);
@@ -87,12 +88,14 @@ export class AddFormDialogComponent implements OnInit {
   onSubmit(): void {
     if (this.form.valid) {
       this.initializeJobHistoryDto();
-      const params = {body: this.jobHistoryDto};
+      const params = { body: this.jobHistoryDto };
       console.log('params', params);
       if (this.data.job.id === '' || this.data.job.id === undefined) {
         this.jobHistoryService.saveJobHistory(params).subscribe(({
           next: (response: any) => {
             console.log('Job added successfully', response);
+            response.user = this.data.user;
+            this.form.get('jobHistory')?.setValue(response);
             this.dialogRef.close(this.form.value);
           }, error: (error: any) => {
             console.error('Error adding job', error);
@@ -102,6 +105,8 @@ export class AddFormDialogComponent implements OnInit {
         this.jobHistoryService.updateJobHistory(params).subscribe(({
           next: (response: any) => {
             console.log('Job updated successfully', response);
+            response.user = this.data.user;
+            this.form.get('jobHistory')?.setValue(response);
             this.dialogRef.close(this.form.value);
           }, error: (error: any) => {
             console.error('Error updating job', error);

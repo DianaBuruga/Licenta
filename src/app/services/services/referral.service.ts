@@ -13,8 +13,8 @@ import { deleteReferral } from '../fn/referral/delete-referral';
 import { DeleteReferral$Params } from '../fn/referral/delete-referral';
 import { findAllReferrals } from '../fn/referral/find-all-referrals';
 import { FindAllReferrals$Params } from '../fn/referral/find-all-referrals';
-import { findByCriteria6 } from '../fn/referral/find-by-criteria-6';
-import { FindByCriteria6$Params } from '../fn/referral/find-by-criteria-6';
+import { findByCriteria5 } from '../fn/referral/find-by-criteria-5';
+import { FindByCriteria5$Params } from '../fn/referral/find-by-criteria-5';
 import { findReferralById } from '../fn/referral/find-referral-by-id';
 import { FindReferralById$Params } from '../fn/referral/find-referral-by-id';
 import { ReferralDto } from '../models/referral-dto';
@@ -132,8 +132,8 @@ export class ReferralService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria6()` */
-  static readonly FindByCriteria6Path = '/referrals/by-criteria/';
+  /** Path part for operation `findByCriteria5()` */
+  static readonly FindByCriteria5Path = '/referrals/by-criteria/';
 
   /**
    * Find referral by criteria.
@@ -141,12 +141,12 @@ export class ReferralService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria6()` instead.
+   * To access only the response body, use `findByCriteria5()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria6$Response(params: FindByCriteria6$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReferralDto>>> {
-    return findByCriteria6(this.http, this.rootUrl, params, context);
+  findByCriteria5$Response(params: FindByCriteria5$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReferralDto>>> {
+    return findByCriteria5(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -155,12 +155,12 @@ export class ReferralService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria6$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria5$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria6(params: FindByCriteria6$Params, context?: HttpContext): Observable<Array<ReferralDto>> {
-    return this.findByCriteria6$Response(params, context).pipe(
+  findByCriteria5(params: FindByCriteria5$Params, context?: HttpContext): Observable<Array<ReferralDto>> {
+    return this.findByCriteria5$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ReferralDto>>): Array<ReferralDto> => r.body)
     );
   }

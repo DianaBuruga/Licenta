@@ -1,7 +1,7 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {MatTableModule} from '@angular/material/table';
-import {LanguageDto, UserDto} from '../../services/models';
-import {MatIcon} from '@angular/material/icon';
+import { Component, Input } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { LanguageDto, UserDto } from '../../services/models';
+import { MatIcon } from '@angular/material/icon';
 import { LanguageOpenDialogComponent } from '../language-open-dialog/language-open-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { LanguageService } from '../../services/services';
@@ -15,59 +15,56 @@ import { LanguageService } from '../../services/services';
 })
 export class LanguageTableComponent {
   @Input() user: UserDto | undefined;
-  get languageData():LanguageDto[]{
-    return this.user?.languages??[];
-  }
-  set languageData(value: LanguageDto[]){
-    this.user!.languages = value;
-  }
-  
+  @Input() languages: LanguageDto[] = [];
+
   emptyLanguage: LanguageDto = {} as LanguageDto;
 
+  get languageData() {
+    return this.languages;
+  }
+
   deleteLanguage(language: LanguageDto) {
-    console.log('Deleting language', language.id); 
-  if (language.id !== undefined && language.id !== undefined) {
-    const params = { id: language.id};
-    this.languageService.deleteLanguage(params).subscribe({
-      next: () => {
-        let index = this.user?.languages?.indexOf(language);
-        if (index !== undefined && index !== -1) {
-          this.user?.languages?.splice(index, 1);
-        }
-        if(this.user){
-        if(this.user?.languages === undefined){
-            this.user.languages = [];
+    console.log('Deleting language', language.id);
+    if (language.id !== undefined) {
+      const params = { id: language.id };
+      this.languageService.deleteLanguage(params).subscribe({
+        next: () => {
+          let index = this.languages.indexOf(language);
+          if (index !== undefined && index !== -1) {
+            this.languages.splice(index, 1);
           }
-        this.languageData = [...this.user.languages];
-        }
-        console.log('Language deleted successfully');
-      },
-      error: (error) => {
-        console.error('Error deleting language', error);
-      },
-    })  ;
+          if (this.languages === undefined) {
+            this.languages = [];
+          }
+          this.languages = [...this.languages];
+          console.log('Language deleted successfully');
+        },
+        error: (error) => {
+          console.error('Error deleting language', error);
+        },
+      });
+    }
   }
-  }
-  constructor(public dialog: MatDialog, private languageService: LanguageService) {}
+  constructor(public dialog: MatDialog, private languageService: LanguageService) { }
   openDialog(language: LanguageDto) {
     const dialogRef = this.dialog.open(LanguageOpenDialogComponent, {
       width: '50%',
-      data: {user: this.user, language: language}
+      data: { user: this.user, language: language }
     });
-  
+
     dialogRef.afterClosed().subscribe(result => {
       console.log('Result', result);
-      if(result && this.user)
-        {
-          console.log('am ajuns aici');
-          if(this.user.languages === undefined){
-            this.user.languages = [];
-          }
-          result.languageEntity.user= this.user;
-          this.user.languages.push(result.languageEntity);
-          this.languageData = [...this.user.languages];
-          console.log('Languages', this.languageData);
+      if (result.languageEntity && this.user) {
+        console.log('am ajuns aici');
+        let index = this.languages.indexOf(language);
+        if (index !== -1 && index !== undefined && index !== null) {
+          this.languages[index] = result.languageEntity;
+        } else {
+          this.languages?.push(result.languageEntity);
         }
+        this.languages = [...this.languages];
+        console.log('Languages', this.languages);
+      }
       console.log('Dialog was closed');
     });
   }

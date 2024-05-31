@@ -1,0 +1,23 @@
+<div class="container">
+    <br>
+    <h1><b>Companies - aici va fi optiuni de filtere</b></h1>
+    <div class="parent">
+        <div *ngFor="let company of companies" class="card-container">
+            <mat-card class="custom-border-card">
+                <img src="{{company.logoUrl}}" alt="Profile image">
+                <mat-card-header>
+                    <mat-card-title>{{ company.name }}</mat-card-title>
+                    <mat-card-subtitle>{{ company.website }}</mat-card-subtitle>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>{{ company.address }}</p>
+                </mat-card-content>
+                <igc-rating [value]='rating.get(company.id??"")?.averageRating??0' min="0" max="5" readonly
+                    size="medium" hover-preview></igc-rating>
+                <div class="profile-actions">
+                    <button mat-raised-button color="warn" (click)="navigateWithParam(company.id)">View</button>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+</div>

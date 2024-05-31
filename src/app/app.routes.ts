@@ -19,7 +19,17 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/callback/callback/callback.component').then(m => m.CallbackComponent)
 },
 {
-    path: 'company',
+    path: 'company/:id',
     loadComponent: () => import('./pages/company/company.component').then(m => m.CompanyComponent)
+}
+,
+{
+    path: 'users',
+    loadComponent: () => import('./pages/users/users.component').then(m => m.UsersComponent)
+}
+,
+{
+    path: 'companies',
+    loadComponent: () => import('./pages/companies/companies.component').then(m => m.CompaniesComponent)
 }
 ];

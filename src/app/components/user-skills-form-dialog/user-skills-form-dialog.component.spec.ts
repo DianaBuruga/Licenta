@@ -10,8 +10,8 @@ describe('UserSkillsFormDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [UserSkillsFormDialogComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(UserSkillsFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

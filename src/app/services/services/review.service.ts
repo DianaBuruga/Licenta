@@ -9,14 +9,15 @@ import { BaseService } from '../base-service';
 import { ApiConfiguration } from '../api-configuration';
 import { StrictHttpResponse } from '../strict-http-response';
 
+import { AverageRating } from '../models/average-rating';
 import { deleteReview } from '../fn/review/delete-review';
 import { DeleteReview$Params } from '../fn/review/delete-review';
 import { findAllReviews } from '../fn/review/find-all-reviews';
 import { FindAllReviews$Params } from '../fn/review/find-all-reviews';
-import { findByCriteria5 } from '../fn/review/find-by-criteria-5';
-import { FindByCriteria5$Params } from '../fn/review/find-by-criteria-5';
 import { findReviewById } from '../fn/review/find-review-by-id';
 import { FindReviewById$Params } from '../fn/review/find-review-by-id';
+import { getAverageReviewRating } from '../fn/review/get-average-review-rating';
+import { GetAverageReviewRating$Params } from '../fn/review/get-average-review-rating';
 import { ReviewDto } from '../models/review-dto';
 import { saveReview } from '../fn/review/save-review';
 import { SaveReview$Params } from '../fn/review/save-review';
@@ -165,39 +166,6 @@ export class ReviewService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria5()` */
-  static readonly FindByCriteria5Path = '/reviews/by-criteria/';
-
-  /**
-   * Find review by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria5()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria5$Response(params: FindByCriteria5$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReviewDto>>> {
-    return findByCriteria5(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find review by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria5$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria5(params: FindByCriteria5$Params, context?: HttpContext): Observable<Array<ReviewDto>> {
-    return this.findByCriteria5$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ReviewDto>>): Array<ReviewDto> => r.body)
-    );
-  }
-
   /** Path part for operation `findReviewById()` */
   static readonly FindReviewByIdPath = '/reviews/{id}';
 
@@ -228,6 +196,39 @@ export class ReviewService extends BaseService {
   findReviewById(params: FindReviewById$Params, context?: HttpContext): Observable<ReviewDto> {
     return this.findReviewById$Response(params, context).pipe(
       map((r: StrictHttpResponse<ReviewDto>): ReviewDto => r.body)
+    );
+  }
+
+  /** Path part for operation `getAverageReviewRating()` */
+  static readonly GetAverageReviewRatingPath = '/reviews/average-rating/{companyId}';
+
+  /**
+   * Get Average Review.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `getAverageReviewRating()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAverageReviewRating$Response(params: GetAverageReviewRating$Params, context?: HttpContext): Observable<StrictHttpResponse<AverageRating>> {
+    return getAverageReviewRating(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Get Average Review.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `getAverageReviewRating$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  getAverageReviewRating(params: GetAverageReviewRating$Params, context?: HttpContext): Observable<AverageRating> {
+    return this.getAverageReviewRating$Response(params, context).pipe(
+      map((r: StrictHttpResponse<AverageRating>): AverageRating => r.body)
     );
   }
 

@@ -10,8 +10,8 @@ describe('AcreditationFormDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [AcreditationFormDialogComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(AcreditationFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

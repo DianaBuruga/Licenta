@@ -35,7 +35,7 @@ export class ProjectsFormDialogComponent {
   form: FormGroup;
 
   options: string[] = ['COMPETITION', 'PROJECT'];
-  error: any = null; 
+  error: any = null;
   filteredOptions: Observable<string[]> = new Observable();
   dialogRef = inject(MatDialogRef);
   constructor(private experienceService: ExperienceService, @Inject(MAT_DIALOG_DATA) public data: any) {
@@ -44,7 +44,7 @@ export class ProjectsFormDialogComponent {
       title: [data.newExperience.title, [Validators.required]],
       description: [data.newExperience.description, [Validators.required]],
       start: [data.newExperience.date, [Validators.required]],
-      website:  [data.newExperience.url, [Validators.required, Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/)]],
+      website: [data.newExperience.url, [Validators.required, Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/)]],
       type: [data.newExperience.type, Validators.required],
       experience: []
     });
@@ -64,32 +64,30 @@ export class ProjectsFormDialogComponent {
     this.experience.date = this.form.get('start')?.value;
     this.experience.url = this.form.get('website')?.value;
   }
-  
+
 
   onSubmit(): void {
     if (this.form.valid) {
       this.initializeExperienceDto();
       const params = { body: this.experience };
       console.log('params', params);
-      if(this.data.newExperience.id === '' || this.data.newExperience.id === undefined) {
+      if (this.data.newExperience.id === '' || this.data.newExperience.id === undefined) {
         this.experienceService.saveExperience(params).subscribe(({
           next: (response: any) => {
             console.log('Experience added successfully', response);
-            this.dialogRef.close(this.form.value);
-            response.user = this.data.user;
             this.form.get('experience')?.setValue(response);
+            this.dialogRef.close(this.form.value);
           },
           error: (error: any) => {
             console.error('Error adding experience', error);
           }
         }));
-      }else{
+      } else {
         this.experienceService.updateExperience(params).subscribe(({
           next: (response: any) => {
             console.log('Experience updated successfully', response);
-            this.dialogRef.close(this.form.value);
-            response.user = this.data.user;
             this.form.get('experience')?.setValue(response);
+            this.dialogRef.close(this.form.value);
           },
           error: (error: any) => {
             console.error('Error updating Experience', error);
@@ -107,7 +105,6 @@ export class ProjectsFormDialogComponent {
     const filterValue = value.toLowerCase();
     return this.options
       .filter(option => option.toLowerCase().includes(filterValue))
-      .sort((a,b) => a.localeCompare(b));
+      .sort((a, b) => a.localeCompare(b));
   }
-
 }

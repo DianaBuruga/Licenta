@@ -10,8 +10,8 @@ describe('SkillCircularProgressbarComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SkillCircularProgressbarComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(SkillCircularProgressbarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

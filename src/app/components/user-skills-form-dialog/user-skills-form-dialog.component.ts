@@ -35,7 +35,7 @@ export class UserSkillsFormDialogComponent implements OnInit {
   skillMap: Map<string, SkillDto> = new Map();
   filteredOptions: Observable<SkillDto[]> = new Observable();
   options: SkillDto[] = [];
-  
+
   constructor(private userSkillService: UserSkillService, private skillService: SkillService, @Inject(MAT_DIALOG_DATA) public data: any) {
     console.log('Data', data);
     const fb = new FormBuilder();
@@ -71,7 +71,7 @@ export class UserSkillsFormDialogComponent implements OnInit {
 
   userSkill: UserSkillsDto = {} as UserSkillsDto;
 
-  initializeUserSkill(): void {
+  initializeEntity(): void {
     this.userSkill.userId = this.data.user.id;
     const selectedSkilledName = this.form.get('skill')?.value;
     const newSkill: SkillDto = {
@@ -89,7 +89,7 @@ export class UserSkillsFormDialogComponent implements OnInit {
 
   onSubmit(): void {
     if (this.form.valid) {
-      this.initializeUserSkill();
+      this.initializeEntity();
       const params = { body: this.userSkill };
       console.log('params', params);
       if (this.userSkill.skillId === '' || this.userSkill.skillId === undefined) {
@@ -128,6 +128,6 @@ export class UserSkillsFormDialogComponent implements OnInit {
   }
 
   formatLabel(value: number): string {
-   return value + '%';
+    return value + '%';
   }
 }

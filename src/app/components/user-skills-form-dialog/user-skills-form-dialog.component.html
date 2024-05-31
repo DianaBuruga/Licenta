@@ -12,10 +12,10 @@
       <mat-error *ngIf="form.get('skill')?.errors?.['required']">Skill name is required</mat-error>
     </mat-form-field>
 
-      <mat-label>Proficiency:  {{ form.get('proficiency')?.value }}%</mat-label>
-      <br>
-      <mat-slider min="0" max="100" step="1" color="accent" discrete [displayWith]="formatLabel">
-        <input matSliderThumb formControlName="proficiency" matSlider>
+    <mat-label>Proficiency: {{ form.get('proficiency')?.value }}%</mat-label>
+    <br>
+    <mat-slider min="0" max="100" step="1" color="accent" discrete [displayWith]="formatLabel">
+      <input matSliderThumb formControlName="proficiency" matSlider>
     </mat-slider>
     <input type="hidden" formControlName="userSkills">
     <div mat-dialog-actions>

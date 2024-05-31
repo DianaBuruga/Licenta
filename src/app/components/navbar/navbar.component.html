@@ -1,60 +1,58 @@
 <mat-toolbar color="warn" class="app-toolbar desktop-toolbar">
-    <a href="/" class="navbar-brand">
-        <img src="assets/img/logo-light.svg" alt="Logo" class="logo-light">
-      </a>
-  
-    <!-- Meniu principal pentru desktop -->
-    <nav class="main-menu">
-      <button mat-button class="menu-item" routerLink="/login" routerLinkActive="active">Home</button>
-      <button mat-button class="menu-item" routerLink="/profile" routerLinkActive="active">My profile</button>
-      <button mat-button class="menu-item" routerLink="/company" routerLinkActive="active">Company</button>
-      <button mat-button class="menu-item" routerLink="/services" routerLinkActive="active">Services</button>
-      <button mat-button class="menu-item" routerLink="/contact" routerLinkActive="active">Contact</button>
-    </nav>
+  <a href="/" class="navbar-brand">
+    <img src="assets/img/logo-light.svg" alt="Logo" class="logo-light">
+  </a>
 
-    <div class="search">
-        <app-search-bar></app-search-bar>
-    </div>
-    
-    <button mat-button class="cta-button" routerLink="/login" routerLinkActive="active" >Login</button>
-  </mat-toolbar>
-  <div class = "nav">
+  <!-- Meniu principal pentru desktop -->
+  <nav class="main-menu">
+    <button mat-button class="menu-item" routerLink="/login" routerLinkActive="active">Home</button>
+    <button mat-button class="menu-item" routerLink="/profile" routerLinkActive="active">My profile</button>
+    <button mat-button class="menu-item" routerLink="/company" routerLinkActive="active">Company</button>
+    <button mat-button class="menu-item" routerLink="/users" routerLinkActive="active">Users</button>
+    <button mat-button class="menu-item" routerLink="/companies" routerLinkActive="active">Companies</button>
+  </nav>
+
+  <div class="search">
+    <app-search-bar></app-search-bar>
+  </div>
+
+  <button mat-button class="cta-button" routerLink="/login" routerLinkActive="active">Login</button>
+</mat-toolbar>
+<div class="nav">
   <button mat-icon-button [matMenuTriggerFor]="mobileMenu" class="mobile-menu-trigger warn">
     <mat-icon>menu</mat-icon>
-</button>
-<app-search-bar class="right-group"></app-search-bar>
+  </button>
+  <app-search-bar class="right-group"></app-search-bar>
   <mat-menu #mobileMenu class="mobile-menu">
     <button mat-menu-item routerLink="/login" routerLinkActive="active">
-    <div class="item">
+      <div class="item">
         <mat-icon>home</mat-icon>
         <span>Home</span>
-    </div>
+      </div>
     </button>
     <button mat-menu-item routerLink="/profile" routerLinkActive="active">
-        <div class="item">
-      <mat-icon>person</mat-icon>
-      <span>Profile</span>
-    </div>
+      <div class="item">
+        <mat-icon>person</mat-icon>
+        <span>Profile</span>
+      </div>
     </button>
     <button mat-menu-item routerLink="/projects">
-        <div class="item">
-      <mat-icon>work</mat-icon>
-      <span>Projects</span>
-    </div>
+      <div class="item">
+        <mat-icon>work</mat-icon>
+        <span>Projects</span>
+      </div>
     </button>
     <button mat-menu-item routerLink="/services">
-        <div class="item">
-      <mat-icon>build</mat-icon>
-      <span>Services</span>
-    </div>
+      <div class="item">
+        <mat-icon>build</mat-icon>
+        <span>Services</span>
+      </div>
     </button>
     <button mat-menu-item routerLink="/company" routerLinkActive="active">Company>
-        <div class="item">
-      <mat-icon>contacts</mat-icon>
-      <span>Contact</span>
-    </div>
+      <div class="item">
+        <mat-icon>contacts</mat-icon>
+        <span>Contact</span>
+      </div>
     </button>
-    </mat-menu>
+  </mat-menu>
 </div>
-
-  

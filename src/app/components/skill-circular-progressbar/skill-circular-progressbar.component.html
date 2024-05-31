@@ -1,24 +1,26 @@
 <div style="text-align: center;">
-<h1><b>Skills</b>
-  <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyUserSkill)">
-  <mat-icon>add</mat-icon>
-</button></h1>
+  <h1><b>Skills</b>
+    <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyUserSkill)">
+      <mat-icon>add</mat-icon>
+    </button>
+  </h1>
   <div *ngFor="let skill of userSkills" class="skill">
     <svg width="120" height="120" viewBox="0 0 120 120">
-      <circle cx="60" cy="60" r="45" fill="none" stroke-width="10"/>
+      <circle cx="60" cy="60" r="45" fill="none" stroke-width="10" />
       <circle cx="60" cy="60" r="45" fill="none" stroke-width="10" [attr.stroke]="colorMap.get(skill.skill)"
-              stroke-dasharray="282.74" [attr.stroke-dashoffset]="282.74 * (1 - skill.proficiency / 100)"
-              transform="rotate(-90 60 60)"/>
-      <circle cx="60" cy="60" r="35" fill="none" stroke-width="3" [attr.stroke]="colorMap.get(skill.skill)" class="faded-stroke"/>
+        stroke-dasharray="282.74" [attr.stroke-dashoffset]="282.74 * (1 - skill.proficiency / 100)"
+        transform="rotate(-90 60 60)" />
+      <circle cx="60" cy="60" r="35" fill="none" stroke-width="3" [attr.stroke]="colorMap.get(skill.skill)"
+        class="faded-stroke" />
       <text x="60" y="65" text-anchor="middle" font-size="18" fill="#333">{{ skill.proficiency }}%</text>
     </svg>
     <h3>{{ skill.skill.name }}</h3>
     <p><button mat-icon-button class="custom-icon-button" (click)="openDialog(skill)">
-      <mat-icon>update</mat-icon>
-    </button>
-    <button mat-icon-button class="custom-icon-button" (click)="deleteSkill(skill)">
-      <mat-icon>delete</mat-icon>
-    </button></p>
+        <mat-icon>update</mat-icon>
+      </button>
+      <button mat-icon-button class="custom-icon-button" (click)="deleteSkill(skill)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </p>
   </div>
 </div>
-  

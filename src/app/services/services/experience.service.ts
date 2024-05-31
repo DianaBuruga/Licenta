@@ -14,8 +14,8 @@ import { DeleteExperience$Params } from '../fn/experience/delete-experience';
 import { ExperienceDto } from '../models/experience-dto';
 import { findAllExperiences } from '../fn/experience/find-all-experiences';
 import { FindAllExperiences$Params } from '../fn/experience/find-all-experiences';
-import { findByCriteria11 } from '../fn/experience/find-by-criteria-11';
-import { FindByCriteria11$Params } from '../fn/experience/find-by-criteria-11';
+import { findByCriteria10 } from '../fn/experience/find-by-criteria-10';
+import { FindByCriteria10$Params } from '../fn/experience/find-by-criteria-10';
 import { findExperienceById } from '../fn/experience/find-experience-by-id';
 import { FindExperienceById$Params } from '../fn/experience/find-experience-by-id';
 import { saveExperience } from '../fn/experience/save-experience';
@@ -132,8 +132,8 @@ export class ExperienceService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria11()` */
-  static readonly FindByCriteria11Path = '/experiences/by-criteria/';
+  /** Path part for operation `findByCriteria10()` */
+  static readonly FindByCriteria10Path = '/experiences/by-criteria/';
 
   /**
    * Find experience by criteria.
@@ -141,12 +141,12 @@ export class ExperienceService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria11()` instead.
+   * To access only the response body, use `findByCriteria10()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria11$Response(params: FindByCriteria11$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExperienceDto>>> {
-    return findByCriteria11(this.http, this.rootUrl, params, context);
+  findByCriteria10$Response(params: FindByCriteria10$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ExperienceDto>>> {
+    return findByCriteria10(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -155,12 +155,12 @@ export class ExperienceService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria11$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria10$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria11(params: FindByCriteria11$Params, context?: HttpContext): Observable<Array<ExperienceDto>> {
-    return this.findByCriteria11$Response(params, context).pipe(
+  findByCriteria10(params: FindByCriteria10$Params, context?: HttpContext): Observable<Array<ExperienceDto>> {
+    return this.findByCriteria10$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<ExperienceDto>>): Array<ExperienceDto> => r.body)
     );
   }

@@ -10,8 +10,8 @@ describe('SkillChartComponent', () => {
     await TestBed.configureTestingModule({
       imports: [SkillChartComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(SkillChartComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

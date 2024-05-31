@@ -10,8 +10,8 @@ describe('ProjectsCarouselComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ProjectsCarouselComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(ProjectsCarouselComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

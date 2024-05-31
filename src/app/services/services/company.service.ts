@@ -14,8 +14,8 @@ import { deleteCompany } from '../fn/company/delete-company';
 import { DeleteCompany$Params } from '../fn/company/delete-company';
 import { findAllCompanies } from '../fn/company/find-all-companies';
 import { FindAllCompanies$Params } from '../fn/company/find-all-companies';
-import { findByCriteria14 } from '../fn/company/find-by-criteria-14';
-import { FindByCriteria14$Params } from '../fn/company/find-by-criteria-14';
+import { findByCriteria13 } from '../fn/company/find-by-criteria-13';
+import { FindByCriteria13$Params } from '../fn/company/find-by-criteria-13';
 import { findCompanyById } from '../fn/company/find-company-by-id';
 import { FindCompanyById$Params } from '../fn/company/find-company-by-id';
 import { getCompanyIcon } from '../fn/company/get-company-icon';
@@ -167,8 +167,8 @@ export class CompanyService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria14()` */
-  static readonly FindByCriteria14Path = '/companies/by-criteria/';
+  /** Path part for operation `findByCriteria13()` */
+  static readonly FindByCriteria13Path = '/companies/by-criteria/';
 
   /**
    * Find companies by criteria.
@@ -176,12 +176,12 @@ export class CompanyService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria14()` instead.
+   * To access only the response body, use `findByCriteria13()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria14$Response(params: FindByCriteria14$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CompanyDto>>> {
-    return findByCriteria14(this.http, this.rootUrl, params, context);
+  findByCriteria13$Response(params: FindByCriteria13$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CompanyDto>>> {
+    return findByCriteria13(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -190,12 +190,12 @@ export class CompanyService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria14$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria13$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria14(params: FindByCriteria14$Params, context?: HttpContext): Observable<Array<CompanyDto>> {
-    return this.findByCriteria14$Response(params, context).pipe(
+  findByCriteria13(params: FindByCriteria13$Params, context?: HttpContext): Observable<Array<CompanyDto>> {
+    return this.findByCriteria13$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<CompanyDto>>): Array<CompanyDto> => r.body)
     );
   }

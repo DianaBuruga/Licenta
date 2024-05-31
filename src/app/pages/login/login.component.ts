@@ -18,14 +18,9 @@ export class LoginComponent {
 
   gray: string = 'gray';
   white: string = 'white';
-  url: string = '' ;
-  // get authenticateWithGoogle(): string {
-    //window.location.href = 'http://localhost:8081/oauth2/authorization/google';
-    // this.authService.login();
-    // this.authService.login().subscribe((response) => {
-    //   console.log('Login response:', response);
-    // });
- ngOnInit(): void {
-       this.authService.auth().subscribe((response) => {console.log(response);this.url = response.authURL??'';});
+  url: string = '';
+  
+  ngOnInit(): void {
+    this.authService.auth().subscribe((response) => { console.log(response); this.url = response.authURL ?? ''; });
   }
 }

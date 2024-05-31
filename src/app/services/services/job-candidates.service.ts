@@ -13,8 +13,8 @@ import { deleteJobCandidates } from '../fn/job-candidates/delete-job-candidates'
 import { DeleteJobCandidates$Params } from '../fn/job-candidates/delete-job-candidates';
 import { findAllJobCandidates } from '../fn/job-candidates/find-all-job-candidates';
 import { FindAllJobCandidates$Params } from '../fn/job-candidates/find-all-job-candidates';
-import { findByCriteria9 } from '../fn/job-candidates/find-by-criteria-9';
-import { FindByCriteria9$Params } from '../fn/job-candidates/find-by-criteria-9';
+import { findByCriteria8 } from '../fn/job-candidates/find-by-criteria-8';
+import { FindByCriteria8$Params } from '../fn/job-candidates/find-by-criteria-8';
 import { findJobById } from '../fn/job-candidates/find-job-by-id';
 import { FindJobById$Params } from '../fn/job-candidates/find-job-by-id';
 import { JobCandidatesDto } from '../models/job-candidates-dto';
@@ -165,8 +165,8 @@ export class JobCandidatesService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria9()` */
-  static readonly FindByCriteria9Path = '/jobCandidates/by-criteria/';
+  /** Path part for operation `findByCriteria8()` */
+  static readonly FindByCriteria8Path = '/jobCandidates/by-criteria/';
 
   /**
    * Find job candidate by criteria.
@@ -174,12 +174,12 @@ export class JobCandidatesService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria9()` instead.
+   * To access only the response body, use `findByCriteria8()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria9$Response(params: FindByCriteria9$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
-    return findByCriteria9(this.http, this.rootUrl, params, context);
+  findByCriteria8$Response(params: FindByCriteria8$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
+    return findByCriteria8(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -188,12 +188,12 @@ export class JobCandidatesService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria9$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria8$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria9(params: FindByCriteria9$Params, context?: HttpContext): Observable<Array<JobCandidatesDto>> {
-    return this.findByCriteria9$Response(params, context).pipe(
+  findByCriteria8(params: FindByCriteria8$Params, context?: HttpContext): Observable<Array<JobCandidatesDto>> {
+    return this.findByCriteria8$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<JobCandidatesDto>>): Array<JobCandidatesDto> => r.body)
     );
   }

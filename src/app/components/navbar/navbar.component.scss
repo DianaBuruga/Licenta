@@ -1,111 +1,117 @@
 .app-toolbar {
-    background-color: #f13a2d !important;
-    color: white;
-    padding: 0 2%; // Responsive padding
-  
-    .navbar-brand {
-      display: flex;
-      align-items: center;
-  
-      .logo-light {
-        height: auto;
-        width: 10%; // Responsive logo width
-        max-width: 120px; // Maximum logo width
-        margin-right: 2%; // Responsive margin
-      }
+  background-color: #f13a2d !important;
+  color: white;
+  padding: 0 2%;
+
+  .navbar-brand {
+    display: flex;
+    align-items: center;
+
+    .logo-light {
+      height: auto;
+      width: 10%;
+      max-width: 120px;
+      margin-right: 2%;
     }
-  
-    // Initially display the main menu; hide it on smaller screens
-    .main-menu {
-      display: flex;
-      align-items: center;
-      list-style-type: none;
-      margin: 0 2%; // Responsive margin
-      padding: 0;
-      flex-grow: 1;
-  
-      .menu-item {
-        border-radius: 0px;
-        padding: 1% 2%; // Responsive padding
-        text-decoration: none;
-        color: white;
-        font-size: 1rem;
-        transition: background-color 0.3s;
-  
-        &:hover {
-            // color: #1C1E25;
-            border-bottom: 2px solid white; // Change text color on hover
-        }
-  
-        &.active {
-          border-bottom: 2px solid white; // Active item indicator
-        }
-      }
-    }
-  
-    .search {
-        margin-top: 22px;
-        margin-right: 10px;
-    }
-  
-    .cta-button {
-      background-color: #ff0458; // Your chosen accent color
+  }
+
+  .main-menu {
+    display: flex;
+    align-items: center;
+    list-style-type: none;
+    margin: 0 2%;
+    padding: 0;
+    flex-grow: 1;
+
+    .menu-item {
+      border-radius: 0px;
+      padding: 1% 2%;
+      text-decoration: none;
       color: white;
-      border-radius: 50px; 
-      padding: 1% 2%; 
-      margin-left: auto; 
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
-      white-space: nowrap;
-  
+      font-size: 1rem;
+      transition: background-color 0.3s;
+
       &:hover {
-        background-color: darken(#ff0458, 10%);
+        border-bottom: 2px solid white;
+      }
+
+      &.active {
+        border-bottom: 2px solid white;
       }
     }
+  }
 
-    @media (max-width: 767px) {
-        display: none;
-      }
+  .search {
+    margin-top: 22px;
+    margin-right: 10px;
   }
-  
 
-  .mobile-menu-trigger {
-    display: none; 
-    @media (max-width: 767px) {
-        display: block;
-      }
-  }
-  .mat-icon-button.mobile-menu-trigger {
-    color: white; // Sets the icon color inside the button to white
-  }
-  // Inside your component's specific SCSS file
- .nav{
-    width: 100%;
-    background-color: #f13a2d; // A warm reddish-orange color often used for warning colors
+  .cta-button {
+    background-color: #ff0458;
     color: white;
-    display: flex;
-    justify-content: space-between;
-    align-content: center;
-    @media (max-width: 767px) {
-        height: 56px;
-        padding-top: 5px;
-        padding-bottom: 5px;
-    }
- }
- .right-group {
-    padding-top: 0;
-    display: flex;
-    display: none;
-    margin-right: 5px;
-    @media (max-width: 767px) {
-        display: block;
+    border-radius: 50px;
+    padding: 1% 2%;
+    margin-left: auto;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
+    white-space: nowrap;
+
+    &:hover {
+      background-color: darken(#ff0458, 10%);
     }
   }
- .item{
-    color:#f13a2d;
-    &:hover {
-        border-bottom: 2px solid #f13a2d; // Change text color on hover
-    }
-    mat-icon{
-        color: #f13a2d;
-    }
- }
+
+  @media (max-width: 767px) {
+    display: none;
+  }
+}
+
+
+.mobile-menu-trigger {
+  display: none;
+
+  @media (max-width: 767px) {
+    display: block;
+  }
+}
+
+.mat-icon-button.mobile-menu-trigger {
+  color: white;
+}
+
+.nav {
+  width: 100%;
+  background-color: #f13a2d;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+
+  @media (max-width: 767px) {
+    height: 56px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+  }
+}
+
+.right-group {
+  padding-top: 0;
+  display: flex;
+  display: none;
+  margin-right: 5px;
+
+  @media (max-width: 767px) {
+    display: block;
+  }
+}
+
+.item {
+  color: #f13a2d;
+
+  &:hover {
+    border-bottom: 2px solid #f13a2d;
+  }
+
+  mat-icon {
+    color: #f13a2d;
+  }
+}

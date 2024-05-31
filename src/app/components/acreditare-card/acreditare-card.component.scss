@@ -2,32 +2,29 @@
   text-align: center;
 }
 
-.card-container {
-  padding: 10px;
-}
-
 .mat-card {
   margin: 10px;
 }
 
 @media (max-width: 768px) {
   .card-container {
-      padding: 5px; 
+    padding: 5px;
   }
 
   .mat-card {
-      margin: 5px;
+    margin: 5px;
   }
 }
 
 .card-container {
+  padding: 10px;
   text-align: center;
   align-items: center;
   height: 60vh;
   width: 23%;
 }
 
-.parent{
+.parent {
   display: flex;
   flex-wrap: wrap;
   padding-left: 4%;
@@ -40,6 +37,7 @@ mat-card {
   text-align: center;
   align-items: center;
 }
+
 mat-card img {
   width: auto;
   height: 20vh;
@@ -64,18 +62,25 @@ mat-card-actions {
 
 .custom-border-card {
   float: 1 0 25%;
-  border: 2px solid #E74535; 
+  border: 2px solid #E74535;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 button.custom-icon-button {
-  background-color: transparent; 
+  background-color: transparent;
   color: #ff2929;
-  width: 48px;               
-  height: 48px; 
+  width: 48px;
+  height: 48px;
   border: 0;
 }
 
 button.custom-icon-button:hover {
   color: rgb(13, 0, 255) !important;
+}
+
+@media (max-width: 768px) {
+  mat-card img {
+    width: 100% !important;
+    height: fit-content;
+  }
 }

@@ -1,5 +1,5 @@
-<h1 mat-dialog-title >Add New Job</h1>
-<div mat-dialog-content> 
+<h1 mat-dialog-title>Add New Job</h1>
+<div mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
     <mat-form-field appearance="fill">
       <mat-label>Position</mat-label>
@@ -31,12 +31,13 @@
       <input type="text" matInput formControlName="company" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
-          <img src = {{option.logoUrl}} style="width: 15px;">
+          <img src={{option.logoUrl}} style="width: 15px;" alt="">
           {{option.name}}
         </mat-option>
       </mat-autocomplete>
     </mat-form-field>
-    <button mat-button *ngIf="!showNewOptionInput" (click)="toggleNewOptionInput(false)">My company is not in the list</button>
+    <button mat-button *ngIf="!showNewOptionInput" (click)="toggleNewOptionInput(false)">My company is not in the
+      list</button>
     <div *ngIf="showNewOptionInput">
       <mat-form-field appearance="fill">
         <mat-label>Company Name</mat-label>
@@ -53,7 +54,7 @@
         <input matInput formControlName="website">
         <mat-error *ngIf="form.get('website')?.errors?.['pattern']">Enter a valid URL</mat-error>
         <mat-error *ngIf="form.get('website')?.errors?.['required']">Website is required</mat-error>
-    </mat-form-field>
+      </mat-form-field>
     </div>
     <div mat-dialog-actions>
       <button mat-button (click)="closeDialog()">Cancel</button>

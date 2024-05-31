@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Add New Language</h1>
 <div mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Language</mat-label>
       <input type="text" matInput formControlName="language" [matAutocomplete]="autoLanguage">
@@ -12,7 +12,7 @@
       </mat-autocomplete>
       <mat-error *ngIf="form.get('language')?.errors?.['required']">Language is required</mat-error>
     </mat-form-field>
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Conversation</mat-label>
       <input type="text" matInput formControlName="conversation" [matAutocomplete]="autoConversation">
@@ -23,7 +23,7 @@
       </mat-autocomplete>
       <mat-error *ngIf="form.get('conversation')?.errors?.['required']">Conversation level is required</mat-error>
     </mat-form-field>
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Listening</mat-label>
       <input type="text" matInput formControlName="listening" [matAutocomplete]="autoListening">
@@ -34,7 +34,7 @@
       </mat-autocomplete>
       <mat-error *ngIf="form.get('listening')?.errors?.['required']">Listening level is required</mat-error>
     </mat-form-field>
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Reading</mat-label>
       <input type="text" matInput formControlName="reading" [matAutocomplete]="autoReading">
@@ -45,7 +45,7 @@
       </mat-autocomplete>
       <mat-error *ngIf="form.get('reading')?.errors?.['required']">Reading level is required</mat-error>
     </mat-form-field>
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Speaking</mat-label>
       <input type="text" matInput formControlName="speaking" [matAutocomplete]="autoSpeaking">
@@ -56,7 +56,7 @@
       </mat-autocomplete>
       <mat-error *ngIf="form.get('speaking')?.errors?.['required']">Speaking level is required</mat-error>
     </mat-form-field>
-    
+
     <mat-form-field appearance="fill">
       <mat-label>Writing</mat-label>
       <input type="text" matInput formControlName="writing" [matAutocomplete]="autoWriting">

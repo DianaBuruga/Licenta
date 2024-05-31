@@ -13,8 +13,8 @@ import { deleteJobHistory } from '../fn/job-history/delete-job-history';
 import { DeleteJobHistory$Params } from '../fn/job-history/delete-job-history';
 import { findAllJobHistories } from '../fn/job-history/find-all-job-histories';
 import { FindAllJobHistories$Params } from '../fn/job-history/find-all-job-histories';
-import { findByCriteria8 } from '../fn/job-history/find-by-criteria-8';
-import { FindByCriteria8$Params } from '../fn/job-history/find-by-criteria-8';
+import { findByCriteria7 } from '../fn/job-history/find-by-criteria-7';
+import { FindByCriteria7$Params } from '../fn/job-history/find-by-criteria-7';
 import { findJobHistoryById } from '../fn/job-history/find-job-history-by-id';
 import { FindJobHistoryById$Params } from '../fn/job-history/find-job-history-by-id';
 import { JobHistoryDto } from '../models/job-history-dto';
@@ -132,8 +132,8 @@ export class JobHistoryService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria8()` */
-  static readonly FindByCriteria8Path = '/jobs/history/by-criteria/';
+  /** Path part for operation `findByCriteria7()` */
+  static readonly FindByCriteria7Path = '/jobs/history/by-criteria/';
 
   /**
    * Find job History by criteria.
@@ -141,12 +141,12 @@ export class JobHistoryService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria8()` instead.
+   * To access only the response body, use `findByCriteria7()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria8$Response(params: FindByCriteria8$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobHistoryDto>>> {
-    return findByCriteria8(this.http, this.rootUrl, params, context);
+  findByCriteria7$Response(params: FindByCriteria7$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobHistoryDto>>> {
+    return findByCriteria7(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -155,12 +155,12 @@ export class JobHistoryService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria8$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria7$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria8(params: FindByCriteria8$Params, context?: HttpContext): Observable<Array<JobHistoryDto>> {
-    return this.findByCriteria8$Response(params, context).pipe(
+  findByCriteria7(params: FindByCriteria7$Params, context?: HttpContext): Observable<Array<JobHistoryDto>> {
+    return this.findByCriteria7$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<JobHistoryDto>>): Array<JobHistoryDto> => r.body)
     );
   }

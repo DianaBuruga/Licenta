@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -25,7 +25,7 @@ import { RouterModule } from '@angular/router'; // Necessary for using routerLin
 export class NavbarComponent {
   onFocus(): void {
   }
-  
+
   performSearch(value: string): void {
     console.log('Searching for:', value);
   }

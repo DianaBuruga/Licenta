@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './first-component.component.scss'
 })
 export class FirstComponentComponent {
-name: string ='';
-email:string ='';
-message:string ='';
+  name: string = '';
+  email: string = '';
+  message: string = '';
 }

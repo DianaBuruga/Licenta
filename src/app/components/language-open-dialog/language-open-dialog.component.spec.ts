@@ -10,8 +10,8 @@ describe('LanguageOpenDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [LanguageOpenDialogComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(LanguageOpenDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

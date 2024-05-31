@@ -7,7 +7,7 @@ import { SkillCircularProgressbarComponent } from '../../components/skill-circul
 import { LanguageTableComponent } from '../../components/language-table/language-table.component';
 import { AcreditareCardComponent } from '../../components/acreditare-card/acreditare-card.component';
 import { ReferalComponent } from '../../components/referal/referal.component';
-import { ExperienceDto, JobHistoryDto, LanguageDto, ReferralDto, SearchCriteria, UserDto, UserSkillsDto } from '../../services/models';
+import { ExperienceDto, JobHistoryDto, LanguageDto, ReferralDto, UserDto, UserSkillsDto } from '../../services/models';
 import { UserService } from '../../services/services/user.service';
 import { NgIf } from '@angular/common';
 import { SearchService } from '../../services/services';
@@ -32,14 +32,19 @@ import { SearchService } from '../../services/services';
 export class ProfileComponent implements OnInit {
   user: UserDto = {} as UserDto;
   error: any = null;
+  jobHistories: JobHistoryDto[] = [];
+  experiences: ExperienceDto[] = [];
+  skills: UserSkillsDto[] = [];
+  languages: LanguageDto[] = [];
+  referrals: ReferralDto[] = [];
 
-  constructor(private userService: UserService, private searchService: SearchService) {}
+  constructor(private userService: UserService, private searchService: SearchService) { }
 
   ngOnInit(): void {
     console.log('ProfileComponent initialized');
     this.getCurrentUser();
     this.getJobHistory();
-    
+
   }
 
   private getCurrentUser(): void {
@@ -64,126 +69,126 @@ export class ProfileComponent implements OnInit {
   }
 
   private getJobHistory(): void {
-    if(this.user.id){
+    if (this.user.id) {
       console.log('Userul este:', this.user);
-    const param ={
-      endpoint: "jobHistories",
-      criteria: {
-        "user.id": this.user.id
-      }
-    };
-    this.searchService.search(param).subscribe({
-      next: (jobHistory: JobHistoryDto[]) => {
-        this.user.postedJobs = jobHistory;
-        console.log('User:', this.user);
-      },
-      error: (error: any) => {
-        this.error = error;
-        console.error('Error fetching user:', error);
-      },
-      complete: () => {
-        console.log('Completed fetching user');
-      }
-    });
+      const param = {
+        endpoint: "jobHistories",
+        criteria: {
+          "user.id": this.user.id
+        }
+      };
+      this.searchService.search(param).subscribe({
+        next: (jobHistory: JobHistoryDto[]) => {
+          this.jobHistories = jobHistory;
+          console.log('JobHistories:', this.jobHistories);
+        },
+        error: (error: any) => {
+          this.error = error;
+          console.error('Error fetching user:', error);
+        },
+        complete: () => {
+          console.log('Completed fetching user');
+        }
+      });
+    }
   }
-}
 
-private getExperiences(): void {
-  if(this.user.id){
-    console.log('Userul este:', this.user);
-  const param ={
-    endpoint: "experiences",
-    criteria: {
-      "user.id": this.user.id
+  private getExperiences(): void {
+    if (this.user.id) {
+      console.log('Userul este:', this.user);
+      const param = {
+        endpoint: "experiences",
+        criteria: {
+          "user.id": this.user.id
+        }
+      };
+      this.searchService.search(param).subscribe({
+        next: (experience: ExperienceDto[]) => {
+          this.experiences = experience;
+          console.log('Experiences:', this.experiences);
+        },
+        error: (error: any) => {
+          this.error = error;
+          console.error('Error fetching user:', error);
+        },
+        complete: () => {
+          console.log('Completed fetching user');
+        }
+      });
     }
-  };
-  this.searchService.search(param).subscribe({
-    next: (experience: ExperienceDto[]) => {
-      this.user.experiences = experience;
-      console.log('User:', this.user);
-    },
-    error: (error: any) => {
-      this.error = error;
-      console.error('Error fetching user:', error);
-    },
-    complete: () => {
-      console.log('Completed fetching user');
-    }
-  });
-}
-}
+  }
 
-private getSkill(): void {
-  if(this.user.id){
-    console.log('Userul este:', this.user);
-  const param ={
-    endpoint: "userSkills",
-    criteria: {
-      "user.id": this.user.id
+  private getSkill(): void {
+    if (this.user.id) {
+      console.log('Userul este:', this.user);
+      const param = {
+        endpoint: "userSkills",
+        criteria: {
+          "user.id": this.user.id
+        }
+      };
+      this.searchService.search(param).subscribe({
+        next: (skills: UserSkillsDto[]) => {
+          this.skills = skills;
+          console.log('Skills:', this.skills);
+        },
+        error: (error: any) => {
+          this.error = error;
+          console.error('Error fetching user:', error);
+        },
+        complete: () => {
+          console.log('Completed fetching user');
+        }
+      });
     }
-  };
-  this.searchService.search(param).subscribe({
-    next: (skills: UserSkillsDto[]) => {
-      this.user.skills = skills;
-      console.log('User:', this.user);
-    },
-    error: (error: any) => {
-      this.error = error;
-      console.error('Error fetching user:', error);
-    },
-    complete: () => {
-      console.log('Completed fetching user');
-    }
-  });
-}
-}
+  }
 
-private getLanguages(): void {
-  if(this.user.id){
-    console.log('Userul este:', this.user);
-  const param ={
-    endpoint: "languages",
-    criteria: {
-      "user.id": this.user.id
+  private getLanguages(): void {
+    if (this.user.id) {
+      console.log('Userul este:', this.user);
+      const param = {
+        endpoint: "languages",
+        criteria: {
+          "user.id": this.user.id
+        }
+      };
+      this.searchService.search(param).subscribe({
+        next: (languages: LanguageDto[]) => {
+          this.languages = languages;
+          console.log('Languages:', this.languages);
+        },
+        error: (error: any) => {
+          this.error = error;
+          console.error('Error fetching user:', error);
+        },
+        complete: () => {
+          console.log('Completed fetching user');
+        }
+      });
     }
-  };
-  this.searchService.search(param).subscribe({
-    next: (languages: LanguageDto[]) => {
-      this.user.languages = languages;
-      console.log('User:', this.user);
-    },
-    error: (error: any) => {
-      this.error = error;
-      console.error('Error fetching user:', error);
-    },
-    complete: () => {
-      console.log('Completed fetching user');
+  }
+  private getReferrals(): void {
+    if (this.user.id) {
+      console.log('Userul este:', this.user);
+      const param = {
+        endpoint: "referrals",
+        criteria: {
+          "student.id": this.user.id
+        }
+      };
+      this.searchService.search(param).subscribe({
+        next: (referrals: ReferralDto[]) => {
+          this.referrals = referrals;
+          console.log('User:', this.user);
+        },
+        error: (error: any) => {
+          this.error = error;
+          console.error('Error fetching user:', error);
+        },
+        complete: () => {
+          console.log('Completed fetching user');
+        }
+      });
     }
-  });
-}
-}
-private getReferrals(): void {
-  if(this.user.id){
-    console.log('Userul este:', this.user);
-  const param ={
-    endpoint: "referrals",
-    criteria: {
-      "student.id": this.user.id
-    }
-  };
-  this.searchService.search(param).subscribe({
-    next: (referrals: ReferralDto[]) => {
-      this.user.receivedReferrals = referrals;
-      console.log('User:', this.user);
-    },
-    error: (error: any) => {
-      this.error = error;
-      console.error('Error fetching user:', error);
-    },
-    complete: () => {
-      console.log('Completed fetching user');
-    }
-  });
-}
-}
+  }
 }

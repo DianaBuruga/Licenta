@@ -1,4 +1,4 @@
-.timeline{
+.timeline {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -7,18 +7,18 @@
   padding: 1rem;
 }
 
-.timeline-event{
+.timeline-event {
   display: flex;
   position: relative;
   min-height: 70px;
   width: 100%;
 }
 
-.timeline-event:last-child{
+.timeline-event:last-child {
   min-height: 0;
 }
 
-.timeline-content{
+.timeline-content {
   flex: 1;
   padding: 0 1rem;
   padding-bottom: 50px;
@@ -26,14 +26,14 @@
   text-align: left;
 }
 
-.timeline-point-track-container{
+.timeline-point-track-container {
   flex: 0;
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.timeline-point{
+.timeline-point {
   display: flex;
   align-self: baseline;
   border-radius: 50%;
@@ -43,43 +43,41 @@
   height: 1rem;
 }
 
-.timeline-track{
+.timeline-track {
   flex-grow: 1;
   background-color: #1c1e25e2;
   width: 2px;
 }
 
-.timeline-date{
+.timeline-date {
   font-size: 14px;
   font-style: italic;
   padding-left: 5px;
 }
 
-.container{
+.container {
   margin: 0;
   padding: 0;
   width: 100%;
   text-align: center;
 }
-.timeline-company{
+
+.timeline-company {
   padding-right: 10px;
   width: 48%;
   align-items: right;
   justify-content: right;
   text-align: right;
 }
-button.custom-icon-button {
-  background-color: transparent; 
-  color: #ff2929;              
-  //border-radius: 50%;        
-  width: 48px;               
-  height: 48px; 
-  border: 0px;            
-  //box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16); 
-  //transition: background-color 0.3s; 
 
-button.custom-icon-button:hover {
-  //background-color: #f9ff53; 
-  color: rgb(66, 4, 101)!important;
-}
+button.custom-icon-button {
+  background-color: transparent;
+  color: #ff2929;   
+  width: 48px;
+  height: 48px;
+  border: 0px;
+
+  button.custom-icon-button:hover {
+    color: rgb(66, 4, 101) !important;
+  }
 }

@@ -14,8 +14,8 @@ import { deleteCourse } from '../fn/course/delete-course';
 import { DeleteCourse$Params } from '../fn/course/delete-course';
 import { findAllCourses } from '../fn/course/find-all-courses';
 import { FindAllCourses$Params } from '../fn/course/find-all-courses';
-import { findByCriteria13 } from '../fn/course/find-by-criteria-13';
-import { FindByCriteria13$Params } from '../fn/course/find-by-criteria-13';
+import { findByCriteria12 } from '../fn/course/find-by-criteria-12';
+import { FindByCriteria12$Params } from '../fn/course/find-by-criteria-12';
 import { findCourseById } from '../fn/course/find-course-by-id';
 import { FindCourseById$Params } from '../fn/course/find-course-by-id';
 import { saveCourse } from '../fn/course/save-course';
@@ -132,8 +132,8 @@ export class CourseService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria13()` */
-  static readonly FindByCriteria13Path = '/courses/by-criteria/';
+  /** Path part for operation `findByCriteria12()` */
+  static readonly FindByCriteria12Path = '/courses/by-criteria/';
 
   /**
    * Find course by criteria.
@@ -141,12 +141,12 @@ export class CourseService extends BaseService {
    *
    *
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria13()` instead.
+   * To access only the response body, use `findByCriteria12()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria13$Response(params: FindByCriteria13$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CourseDto>>> {
-    return findByCriteria13(this.http, this.rootUrl, params, context);
+  findByCriteria12$Response(params: FindByCriteria12$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CourseDto>>> {
+    return findByCriteria12(this.http, this.rootUrl, params, context);
   }
 
   /**
@@ -155,12 +155,12 @@ export class CourseService extends BaseService {
    *
    *
    * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria13$Response()` instead.
+   * To access the full response (for headers, for example), `findByCriteria12$Response()` instead.
    *
    * This method sends `application/json` and handles request body of type `application/json`.
    */
-  findByCriteria13(params: FindByCriteria13$Params, context?: HttpContext): Observable<Array<CourseDto>> {
-    return this.findByCriteria13$Response(params, context).pipe(
+  findByCriteria12(params: FindByCriteria12$Params, context?: HttpContext): Observable<Array<CourseDto>> {
+    return this.findByCriteria12$Response(params, context).pipe(
       map((r: StrictHttpResponse<Array<CourseDto>>): Array<CourseDto> => r.body)
     );
   }

@@ -10,8 +10,8 @@ describe('ReferalOpenDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ReferalOpenDialogComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(ReferalOpenDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

@@ -10,8 +10,8 @@ describe('ReferalComponent', () => {
     await TestBed.configureTestingModule({
       imports: [ReferalComponent]
     })
-    .compileComponents();
-    
+      .compileComponents();
+
     fixture = TestBed.createComponent(ReferalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

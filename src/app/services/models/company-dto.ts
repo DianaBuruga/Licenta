@@ -9,11 +9,12 @@ import { ReviewDto } from '../models/review-dto';
  */
 export interface CompanyDto {
   address: string;
+  description?: string;
   id?: string;
-  jobHistories: Array<JobHistoryDto>;
+  jobHistories?: Array<JobHistoryDto>;
   logoUrl?: string;
   name: string;
-  postedJobs: Array<PostedJobDto>;
-  reviews: Array<ReviewDto>;
+  postedJobs?: Array<PostedJobDto>;
+  reviews?: Array<ReviewDto>;
   website: string;
 }

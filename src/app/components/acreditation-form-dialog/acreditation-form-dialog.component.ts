@@ -14,7 +14,7 @@ import { ExperienceDto } from '../../services/models';
 @Component({
   selector: 'app-acreditation-form-dialog',
   standalone: true,
-  imports: [ 
+  imports: [
     MatDialogModule,
     MatButtonModule,
     MatInputModule,
@@ -31,7 +31,7 @@ import { ExperienceDto } from '../../services/models';
 })
 export class AcreditationFormDialogComponent {
   form: FormGroup;
-  error: any = null; 
+  error: any = null;
   dialogRef = inject(MatDialogRef);
   constructor(private experienceService: ExperienceService, @Inject(MAT_DIALOG_DATA) public data: any) {
     const fb = new FormBuilder();
@@ -39,7 +39,7 @@ export class AcreditationFormDialogComponent {
       title: [data.newExperience.title, [Validators.required]],
       description: [data.newExperience.description, [Validators.required]],
       start: [data.newExperience.date, [Validators.required]],
-      website:  [data.newExperience.url, [Validators.required, Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/)]],
+      website: [data.newExperience.url, [Validators.required, Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/)]],
       type: ['ACCREDITATION', Validators.required],
       accreditation: []
     });
@@ -55,18 +55,18 @@ export class AcreditationFormDialogComponent {
     this.experience.date = this.form.get('start')?.value;
     this.experience.url = this.form.get('website')?.value;
   }
-  
+
 
   onSubmit(): void {
     if (this.form.valid) {
       this.initializeExperienceDto();
       const params = { body: this.experience };
       console.log('params', params);
-      if(this.data.newExperience.id === '' || this.data.newExperience.id === undefined) {
+      if (this.data.newExperience.id === '' || this.data.newExperience.id === undefined) {
         this.experienceService.saveExperience(params).subscribe(({
           next: (response: any) => {
             console.log('Experience added successfully', response);
-            response.user=this.data.user;
+            response.user = this.data.user;
             this.form.get('accreditation')?.setValue(response);
             this.dialogRef.close(this.form.value);
           },
@@ -74,11 +74,11 @@ export class AcreditationFormDialogComponent {
             console.error('Error adding experience', error);
           }
         }));
-      }else{
+      } else {
         this.experienceService.updateExperience(params).subscribe(({
           next: (response: any) => {
             console.log('Experience updated successfully', response);
-            response.user=this.data.user;
+            response.user = this.data.user;
             this.form.get('accreditation')?.setValue(response);
             this.dialogRef.close(this.form.value);
           },
