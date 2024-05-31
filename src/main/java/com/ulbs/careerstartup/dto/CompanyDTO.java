@@ -34,18 +34,14 @@ public class CompanyDTO {
 
     private String logoUrl;
 
-    @NotNull(message = "Job histories are required")
-    @NotEmpty(message = "Job histories are required")
+    private String description;
+
     @JsonProperty("jobHistories")
     private Collection<JobHistoryDTO> jobHistoriesDTO;
 
-    @NotNull(message = "Posted jobs are required")
-    @NotEmpty(message = "Posted jobs are required")
     @JsonProperty("postedJobs")
     private Collection<PostedJobDTO> postedJobsDTO;
 
-    @NotNull(message = "Reviews are required")
-    @NotEmpty(message = "Reviews are required")
     @JsonProperty("reviews")
     private Collection<ReviewDTO> reviewsDTO;
 }

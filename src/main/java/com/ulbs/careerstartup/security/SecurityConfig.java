@@ -62,7 +62,8 @@ public class SecurityConfig {
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/oauth2/authorization/google-login", "/",  "/auth/**",
                                 "/swagger-ui/**", "/v3/api-docs/**", "/error/**", "users/profilePhoto/**", "jobs/history/**").permitAll()
-                        .anyRequest().authenticated()
+                       // .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")

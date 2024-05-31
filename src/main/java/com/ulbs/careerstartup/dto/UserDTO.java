@@ -34,7 +34,6 @@ public class UserDTO {
     private String email;
 
     @NotNull(message = "Role is required")
-    @NotEmpty(message = "Role is required")
     private Role role;
 
     @NotNull(message = "Name is required")

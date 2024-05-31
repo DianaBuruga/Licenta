@@ -22,7 +22,6 @@ public class SearchService {
     private static final int CRITERIA_PARTS = 3;
     private final ApplicationContext context;
 
-
     public <T> T search(String endpoint, Map<String, String> criteria) {
         return callMethodByName(ServiceEnum.getByValue(endpoint).toString(), parseCriteria(criteria));
     }

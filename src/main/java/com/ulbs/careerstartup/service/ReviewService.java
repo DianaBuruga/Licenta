@@ -1,5 +1,6 @@
 package com.ulbs.careerstartup.service;
 
+import com.ulbs.careerstartup.dto.AverageRating;
 import com.ulbs.careerstartup.dto.ReviewDTO;
 import com.ulbs.careerstartup.mapper.Mapper;
 import com.ulbs.careerstartup.repository.ReviewRepository;
@@ -47,6 +48,10 @@ public class ReviewService {
 
     public void deleteReview(ReviewDTO reviewDTO) {
         reviewRepository.delete(mapper.reviewDTOToReview(reviewDTO));
+    }
+
+    public AverageRating getAverageReviewRating(UUID companyId) {
+        return reviewRepository.findAverageRatingAndCountByCompanyId(companyId);
     }
 
     public Collection<ReviewDTO> findByCriteria(List<SearchCriteria> criteria) {

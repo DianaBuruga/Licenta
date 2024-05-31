@@ -1,19 +1,16 @@
 package com.ulbs.careerstartup.controller;
 
 import com.ulbs.careerstartup.apidoc.ReviewApiDoc;
+import com.ulbs.careerstartup.dto.AverageRating;
 import com.ulbs.careerstartup.dto.ReviewDTO;
 import com.ulbs.careerstartup.service.ReviewService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
@@ -33,10 +30,6 @@ public class ReviewController implements ReviewApiDoc {
         return reviewService.findReviewById(id);
     }
 
-    @PostMapping(BY_CRITERIA)
-    public Collection<ReviewDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return reviewService.findByCriteria(criteria);
-    }
 
     @PostMapping
     public ReviewDTO saveReview(@RequestBody ReviewDTO reviewDTO) {
@@ -51,5 +44,10 @@ public class ReviewController implements ReviewApiDoc {
     @DeleteMapping
     public void deleteReview(@RequestBody ReviewDTO reviewDTO) {
         reviewService.deleteReview(reviewDTO);
+    }
+
+    @GetMapping("/average-rating/{companyId}")
+    public AverageRating getAverageReviewRating(@PathVariable UUID companyId) {
+        return reviewService.getAverageReviewRating(companyId);
     }
 }

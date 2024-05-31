@@ -1,6 +1,7 @@
 package com.ulbs.careerstartup.service;
 
 import com.ulbs.careerstartup.dto.CompanyDTO;
+import com.ulbs.careerstartup.entity.Company;
 import com.ulbs.careerstartup.mapper.Mapper;
 import com.ulbs.careerstartup.repository.CompanyRepository;
 import com.ulbs.careerstartup.specification.GenericSpecification;
@@ -38,14 +39,18 @@ public class CompanyService {
     }
 
     public CompanyDTO saveCompany(CompanyDTO companyDTO) {
+        companyDTO.setLogoUrl(companyUtil.getFaviconUrl(companyDTO.getWebsite()));
         return mapper.companyToCompanyDTO(companyRepository.save(mapper.companyDTOToCompany(companyDTO)));
     }
 
     public CompanyDTO updateCompany(CompanyDTO companyDTO) {
-        if (companyRepository.existsById(companyDTO.getId()))
-            return mapper.companyToCompanyDTO(companyRepository.save(mapper.companyDTOToCompany(companyDTO)));
-        else
-            throw new EntityNotFoundException("Company with id " + companyDTO.getId() + " not found");
+        Company company = companyRepository.findById(companyDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Company with id " + companyDTO.getId() + " not found"));
+        company.setName(companyDTO.getName());
+        company.setAddress(companyDTO.getAddress());
+        company.setWebsite(companyDTO.getWebsite());
+        company.setDescription(companyDTO.getDescription());
+        return mapper.companyToCompanyDTO(companyRepository.save(company));
     }
 
     public String getFaviconUrl(UUID id) {

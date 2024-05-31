@@ -66,9 +66,8 @@ public class EmailService {
 
             Context context = new Context();
 
-            Map<String, Object> properties = new HashMap<String, Object>();
+            Map<String, Object> properties = new HashMap<>();
             properties.put("name", htmlEmailRequest.getName());
-            //properties.put("offerings", htmlEmailRequest.getOfferings());
 
             context.setVariables(properties);
 

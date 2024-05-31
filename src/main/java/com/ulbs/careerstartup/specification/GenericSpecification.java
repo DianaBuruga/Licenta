@@ -35,10 +35,15 @@ public class GenericSpecification<T> implements Specification<T> {
         Predicate predicate;
         String[] keys = criteria.getKey().split("\\.");
         String value = criteria.getValue().toString();
+        int length = keys.length;
 
-        if (keys.length > 1) {
+        if (length > 1) {
             Join<Object, Object> join = root.join(keys[0]);
-            predicate = buildPredicate(join.get(keys[1]), value, builder);
+
+            for(int i = 1; i < length - 1; i++) {
+                join = join.join(keys[i]);
+            }
+            predicate = buildPredicate(join.get(keys[length - 1]), value, builder);
         } else {
             predicate = buildPredicate(root.get(criteria.getKey()), value, builder);
         }

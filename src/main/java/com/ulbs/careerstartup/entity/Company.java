@@ -31,6 +31,12 @@ public class Company {
     @Column(nullable = false)
     private String website;
 
+    @Column(name = "logo_url")
+    private String logoUrl;
+
+    @Column
+    private String description;
+
     @ToString.Exclude
     @OneToMany(mappedBy = "company",
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)

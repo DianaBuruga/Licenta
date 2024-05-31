@@ -2,7 +2,6 @@ package com.ulbs.careerstartup.mapper;
 
 import com.ulbs.careerstartup.dto.*;
 import com.ulbs.careerstartup.entity.*;
-import com.ulbs.careerstartup.util.CompanyUtil;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.util.StringUtils;
@@ -186,11 +185,6 @@ public interface Mapper {
 
     @InheritInverseConfiguration(name = "userSkillsDTOToUserSkills")
     UserSkillsDTO userSkillsToUserSkillsDTO(UserSkills userSkills);
-
-    @AfterMapping
-    default void afterCompanyDtoMapping(@MappingTarget CompanyDTO companyDTO) {
-        companyDTO.setLogoUrl(new CompanyUtil().getFaviconUrl(companyDTO.getWebsite()));
-    }
 
     @AfterMapping
     default void afterUserMapping(@MappingTarget User user) {

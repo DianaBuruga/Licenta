@@ -25,21 +25,17 @@ public class UserService {
     private UserRepository userRepository;
     private Mapper mapper;
 
-    @Transactional
     public UserDTO findByEmail(String email) {
-       // return UserDTO.builder().name("test").email("test").role(Role.STUDENT).build();
         return userRepository.findByEmail(email)
                 .map(mapper::userToUserDTO)
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + email + " not found"));
     }
 
-    @Transactional
     public UserDTO saveUserAndSetRole(UserDTO userDTO) {
         userDTO.setRole(getRoleByEmail(userDTO.getEmail()));
         return mapper.userToUserDTO(userRepository.save(mapper.userDTOToUser(userDTO)));
     }
 
-    @Transactional
     public @NotNull Collection<UserDTO> findAllUsers() {
         return userRepository.findAll().stream().map(mapper::userToUserDTO).toList();
     }
@@ -49,37 +45,33 @@ public class UserService {
         userRepository.delete(mapper.userDTOToUser(userDTO));
     }
 
-    @Transactional
+
     public UserDTO saveUser(UserDTO userDTO) {
-        User user = mapper.userDTOToUser(userDTO);
-        user = userRepository.save(user);
-        UserDTO userDTO1 = mapper.userToUserDTO(user);
-        return userDTO1;
+        return mapper.userToUserDTO(userRepository.save(mapper.userDTOToUser(userDTO)));
     }
 
-    @Transactional
     public UserDTO updateUser(UserDTO userDTO) {
         User user = userRepository.findByEmail(userDTO.getEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + userDTO.getEmail() + " not found"));
-        userDTO.setId(user.getId());
-
-        return mapper.userToUserDTO(
-                userRepository.save(mapper.userDTOToUser(userDTO)));
+        user.setId(userDTO.getId());
+        user.setName(userDTO.getName());
+        user.setPhone(userDTO.getPhone());
+        user.setWebsite(userDTO.getWebsite());
+        user.setDescription(userDTO.getDescription());
+        user.setStatus(userDTO.getStatus());
+        return mapper.userToUserDTO(userRepository.save(user));
     }
 
-    @Transactional
     private Role getRoleByEmail(String email) {
         return email.endsWith(ULBSIBIU_SUFFIX) ? Role.STUDENT : Role.COMPANY_REPRESENTATIVE;
     }
 
-    @Transactional
     public UserDTO findById(UUID id) {
         return userRepository.findById(id)
                 .map(mapper::userToUserDTO)
                 .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 
-    @Transactional
     public Collection<UserDTO> findByCriteria(List<SearchCriteria> criteria) {
         return userRepository
                 .findAll(new GenericSpecification<>(criteria))
