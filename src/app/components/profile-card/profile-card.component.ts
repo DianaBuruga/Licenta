@@ -2,7 +2,6 @@ import { Component, Input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { SkillChartComponent } from '../skill-chart/skill-chart.component';
-import { BackgroundAnimationComponent } from '../background-animation/background-animation.component';
 import { UserDto } from '../../services/models/user-dto';
 import { OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,7 +18,6 @@ import { MatIconModule } from '@angular/material/icon';
     MatCardModule,
     MatButtonModule,
     SkillChartComponent,
-    BackgroundAnimationComponent,
     MatIconModule
   ],
 })

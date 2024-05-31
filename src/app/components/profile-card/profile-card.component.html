@@ -11,10 +11,12 @@
   <div class="profile-content">
     <h1>{{profileCardUser.name}}</h1>
     <h2>{{profileCardUser.description}}</h2>
+    @if(profileCardUser.phone){
     <h3>Telefon: {{profileCardUser.phone}}</h3>
+    }
     <h3>Email: {{profileCardUser.email}}</h3>
-    <h3>Website: <a href={{profileCardUser.website}}>{{profileCardUser.website}}</a></h3>
     <h3>Curent status: {{profileCardUser.status}}</h3>
+    <h3><a mat-raised-button href={{profileCardUser.website}}>Check more about me here</a></h3>
     <div class="profile-actions">
       <button mat-raised-button color="warn">Download CV</button>
       <button mat-raised-button color="primary" (click)="openDialog(profileCardUser)">Edit</button>

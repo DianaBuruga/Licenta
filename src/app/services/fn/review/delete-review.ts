@@ -6,16 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { ReviewDto } from '../../models/review-dto';
 
 export interface DeleteReview$Params {
-      body: ReviewDto
+
+/**
+ * Review that will be deleted
+ */
+  id: string;
 }
 
 export function deleteReview(http: HttpClient, rootUrl: string, params: DeleteReview$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, deleteReview.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -28,4 +31,4 @@ export function deleteReview(http: HttpClient, rootUrl: string, params: DeleteRe
   );
 }
 
-deleteReview.PATH = '/reviews';
+deleteReview.PATH = '/reviews/{id}';

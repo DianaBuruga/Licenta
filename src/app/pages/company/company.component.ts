@@ -6,13 +6,14 @@ import { CompanyDto } from '../../services/models';
 import { ActivatedRoute } from '@angular/router';
 import { CompanyService } from '../../services/services';
 import { MatCardModule } from '@angular/material/card';
+import { CompanyJobsComponent } from "../../components/company-jobs/company-jobs.component";
 
 @Component({
-  selector: 'app-company',
-  standalone: true,
-  templateUrl: './company.component.html',
-  styleUrl: './company.component.scss',
-  imports: [CompanyProfileComponent, CompanyRecruitersComponent, CompanyReviewsComponent, MatCardModule]
+    selector: 'app-company',
+    standalone: true,
+    templateUrl: './company.component.html',
+    styleUrl: './company.component.scss',
+    imports: [CompanyProfileComponent, CompanyRecruitersComponent, CompanyReviewsComponent, MatCardModule, CompanyJobsComponent]
 })
 export class CompanyComponent implements OnInit {
   id: any;

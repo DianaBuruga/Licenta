@@ -100,39 +100,6 @@ export class ReviewService extends BaseService {
     );
   }
 
-  /** Path part for operation `deleteReview()` */
-  static readonly DeleteReviewPath = '/reviews';
-
-  /**
-   * Delete review.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteReview()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteReview$Response(params: DeleteReview$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return deleteReview(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Delete review.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `deleteReview$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteReview(params: DeleteReview$Params, context?: HttpContext): Observable<void> {
-    return this.deleteReview$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
   /** Path part for operation `updateReview()` */
   static readonly UpdateReviewPath = '/reviews';
 
@@ -196,6 +163,39 @@ export class ReviewService extends BaseService {
   findReviewById(params: FindReviewById$Params, context?: HttpContext): Observable<ReviewDto> {
     return this.findReviewById$Response(params, context).pipe(
       map((r: StrictHttpResponse<ReviewDto>): ReviewDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteReview()` */
+  static readonly DeleteReviewPath = '/reviews/{id}';
+
+  /**
+   * Delete review.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteReview()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteReview$Response(params: DeleteReview$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteReview(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Delete review.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteReview$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteReview(params: DeleteReview$Params, context?: HttpContext): Observable<void> {
+    return this.deleteReview$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
