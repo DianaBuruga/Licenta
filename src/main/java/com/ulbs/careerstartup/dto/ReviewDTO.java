@@ -28,15 +28,12 @@ public class ReviewDTO {
     private String description;
 
     @NotNull(message = "Type is required")
-    @NotEmpty(message = "Type is required")
     private ReviewType type;
 
     @NotNull(message = "Rating is required")
-    @NotEmpty(message = "Rating is required")
     private Integer rating;
 
     @NotNull(message = "Company is required")
-    @NotEmpty(message = "Company is required")
     @JsonProperty("company")
     private CompanyDTO companyDTO;
 }

@@ -163,5 +163,5 @@ public interface ReviewApiDoc {
             },
             security = @SecurityRequirement(name = "oauth2")
     )
-    void deleteReview(@Parameter(description = "Review that will be deleted", required = true) @Valid @RequestBody ReviewDTO reviewDTO);
+    void deleteReview(@Parameter(description = "Review that will be deleted", required = true) @PathVariable UUID id);
 }

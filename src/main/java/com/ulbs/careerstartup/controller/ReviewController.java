@@ -41,9 +41,9 @@ public class ReviewController implements ReviewApiDoc {
         return reviewService.updateReview(reviewDTO);
     }
 
-    @DeleteMapping
-    public void deleteReview(@RequestBody ReviewDTO reviewDTO) {
-        reviewService.deleteReview(reviewDTO);
+    @DeleteMapping("/{id}")
+    public void deleteReview(@PathVariable UUID id) {
+        reviewService.deleteReview(id);
     }
 
     @GetMapping("/average-rating/{companyId}")
