@@ -32,6 +32,10 @@ public class PostedJob {
     private String description;
 
     @NotNull
+    @Column(nullable = false)
+    private String position;
+
+    @NotNull
     @Column(name = "open_until", nullable = false)
     private Timestamp openUntil;
 
@@ -56,6 +60,21 @@ public class PostedJob {
     @ToString.Exclude
     @OneToMany(mappedBy = "postedJob")
     private Collection<JobCandidates> jobCandidatesById;
+
+    @ToString.Exclude
+    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "posted_job_skills",
+            joinColumns = @JoinColumn(name = "posted_job_id"),
+            inverseJoinColumns = @JoinColumn(name = "skill_id")
+    )
+    private Collection<Skill> skills;
+
+    @ToString.Exclude
+    @ManyToOne(fetch = FetchType.LAZY, optional = false,
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "user_id", referencedColumnName = "id", nullable = false)
+    private User user;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY, optional = false,

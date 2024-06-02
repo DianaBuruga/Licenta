@@ -60,8 +60,8 @@ public class CompanyService {
     }
 
     @Transactional
-    public void deleteCompany(CompanyDTO companyDTO) {
-        companyRepository.delete(mapper.companyDTOToCompany(companyDTO));
+    public void deleteCompany(UUID id) {
+        companyRepository.deleteById(id);
     }
 
     public Collection<CompanyDTO> findByCriteria(List<SearchCriteria> searchCriteria) {

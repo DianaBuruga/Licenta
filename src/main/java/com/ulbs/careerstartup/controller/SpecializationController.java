@@ -3,7 +3,6 @@ package com.ulbs.careerstartup.controller;
 import com.ulbs.careerstartup.apidoc.SpecializationApiDoc;
 import com.ulbs.careerstartup.dto.SpecializationDTO;
 import com.ulbs.careerstartup.service.SpecializationService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,10 +10,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @Slf4j
@@ -35,11 +31,6 @@ public class SpecializationController implements SpecializationApiDoc {
         return specializationService.findSpecializationById(id);
     }
 
-    @PostMapping(BY_CRITERIA)
-    public Collection<SpecializationDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return specializationService.findByCriteria(criteria);
-    }
-
     @PostMapping
     public SpecializationDTO saveSpecialization(@RequestBody SpecializationDTO specializationDTO) {
         return specializationService.saveSpecialization(specializationDTO);
@@ -51,7 +42,7 @@ public class SpecializationController implements SpecializationApiDoc {
     }
 
     @DeleteMapping
-    public void deleteSpecialization(@RequestBody SpecializationDTO specializationDTO) {
-        specializationService.deleteSpecialization(specializationDTO);
+    public void deleteSpecialization(@PathVariable UUID id) {
+        specializationService.deleteSpecialization(id);
     }
 }

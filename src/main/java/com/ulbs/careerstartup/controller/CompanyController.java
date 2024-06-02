@@ -3,16 +3,12 @@ package com.ulbs.careerstartup.controller;
 import com.ulbs.careerstartup.apidoc.CompanyApiDoc;
 import com.ulbs.careerstartup.dto.CompanyDTO;
 import com.ulbs.careerstartup.service.CompanyService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
@@ -34,11 +30,6 @@ public class CompanyController implements CompanyApiDoc {
         return companyService.findAllCompanies();
     }
 
-    @PostMapping(BY_CRITERIA)
-    public Collection<CompanyDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return companyService.findByCriteria(criteria);
-    }
-
     @GetMapping("{id}/icon")
     public String getCompanyIcon(@PathVariable UUID id) {
         return companyService.getFaviconUrl(id);
@@ -53,8 +44,8 @@ public class CompanyController implements CompanyApiDoc {
         return companyService.updateCompany(companyDTO);
     }
 
-    @DeleteMapping
-    public void deleteCompany(@RequestBody CompanyDTO companyDTO) {
-        companyService.deleteCompany(companyDTO);
+    @DeleteMapping("/{id}")
+    public void deleteCompany(@PathVariable UUID id) {
+        companyService.deleteCompany(id);
     }
 }

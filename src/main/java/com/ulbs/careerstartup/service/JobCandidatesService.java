@@ -1,9 +1,16 @@
 package com.ulbs.careerstartup.service;
 
+import com.ulbs.careerstartup.api.model.HTMLEmailRequest;
 import com.ulbs.careerstartup.dto.JobCandidatesDTO;
+import com.ulbs.careerstartup.dto.PostedJobDTO;
+import com.ulbs.careerstartup.entity.JobCandidates;
+import com.ulbs.careerstartup.entity.PostedJob;
+import com.ulbs.careerstartup.entity.User;
 import com.ulbs.careerstartup.entity.pk.JobCandidatesPK;
 import com.ulbs.careerstartup.mapper.Mapper;
 import com.ulbs.careerstartup.repository.JobCandidatesRepository;
+import com.ulbs.careerstartup.repository.PostedJobRepository;
+import com.ulbs.careerstartup.repository.UserRepository;
 import com.ulbs.careerstartup.specification.GenericSpecification;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import jakarta.persistence.EntityNotFoundException;
@@ -12,8 +19,12 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 import static com.ulbs.careerstartup.constant.Constants.NOT_FOUND;
 
@@ -21,7 +32,11 @@ import static com.ulbs.careerstartup.constant.Constants.NOT_FOUND;
 @AllArgsConstructor
 public class JobCandidatesService {
 
+    private final PostedJobRepository postedJobRepository;
+    private final UserRepository userRepository;
     private JobCandidatesRepository jobCandidatesRepository;
+
+    private EmailService emailService;
     private Mapper mapper;
 
     public Collection<JobCandidatesDTO> findAllJobCandidates() {
@@ -36,8 +51,20 @@ public class JobCandidatesService {
         return jobCandidatesRepository.findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10)).map(mapper::jobCandidatesToJobCandidatesDTO).toList();
     }
 
-    public JobCandidatesDTO saveJobCandidates(JobCandidatesDTO jobCandidatesDTO) {
-        return mapper.jobCandidatesToJobCandidatesDTO(jobCandidatesRepository.save(mapper.jobCandidatesDTOToJobCandidates(jobCandidatesDTO)));
+    public JobCandidatesDTO saveJobCandidates(PostedJobDTO postedJobDTO, Principal principal) {
+        PostedJob postedJob = postedJobRepository.findById(postedJobDTO.getId())
+                .orElseThrow(() -> new EntityNotFoundException("PostedJob with id " + postedJobDTO.getId() + NOT_FOUND));
+        User user = userRepository.findByEmail("dianaelena.buruga@ulbsibiu.ro")
+                .orElseThrow(() -> new EntityNotFoundException("User with email" + NOT_FOUND));
+        JobCandidates jobCandidates = JobCandidates.builder()
+                .id(new JobCandidatesPK(user.getId(), postedJob.getId()))
+                .postedJob(postedJob)
+                .user(user)
+                .applicationDate(Timestamp.from(Instant.now()))
+                .build();
+        jobCandidates = jobCandidatesRepository.save(jobCandidates);
+        sendConfirmationEmail(user, postedJob);
+        return mapper.jobCandidatesToJobCandidatesDTO(jobCandidates);
     }
 
     public JobCandidatesDTO updateJobCandidates(JobCandidatesDTO jobCandidatesDTO) {
@@ -47,13 +74,8 @@ public class JobCandidatesService {
     }
 
     @Transactional
-    public void deleteJobCandidates(JobCandidatesDTO jobCandidatesDTO) {
-        JobCandidatesPK id = new JobCandidatesPK(jobCandidatesDTO.getCandidateId(), jobCandidatesDTO.getJobId());
-        if (jobCandidatesRepository.existsById(id)) {
-            jobCandidatesRepository.deleteById(id);
-        } else {
-            throw new EntityNotFoundException("JobCandidates with id " + id.getJobId() + NOT_FOUND);
-        }
+    public void deleteJobCandidates(UUID candidateId, UUID jobId) {
+        jobCandidatesRepository.deleteById(new JobCandidatesPK(candidateId, jobId));
     }
 
     public Collection<JobCandidatesDTO> findJobCandidatesByCriteria(List<SearchCriteria> criteria) {
@@ -62,5 +84,13 @@ public class JobCandidatesService {
                 .stream()
                 .map(mapper::jobCandidatesToJobCandidatesDTO)
                 .toList();
+    }
+
+    private void sendConfirmationEmail(User user, PostedJob postedJob) {
+        String message = "Your application for job " + postedJob.getPosition() + " has been received."
+                + System.lineSeparator() + "You will be contacted soon." + System.lineSeparator() + "Thank you for applying.";
+        String subject = "Application for job " + postedJob.getPosition() + "at company" + postedJob.getCompany().getName();
+        HTMLEmailRequest emailRequest = new HTMLEmailRequest(user.getEmail(), subject, user.getName(), message);
+        emailService.htmlSend(emailRequest);
     }
 }

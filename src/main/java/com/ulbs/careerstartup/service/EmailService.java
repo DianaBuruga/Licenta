@@ -19,15 +19,13 @@ import java.util.Map;
 @Slf4j
 public class EmailService {
 
+    private static final String TEMPLATE = "email.html";
     @Autowired(required = false)
     private JavaMailSender javaMailSender;
-
     @Autowired
     private SpringTemplateEngine templateEngine;
-
     @Value("${fromEmail}")
     private String fromEmail;
-
     @Value("${fromName}")
     private String fromName;
 
@@ -53,7 +51,7 @@ public class EmailService {
     @Async
     public void htmlSend(HTMLEmailRequest htmlEmailRequest) {
 
-        log.info("simpleSend toEmail: {} subJect: {} templateName: {}", htmlEmailRequest.getEmail(), htmlEmailRequest.getSubject(), htmlEmailRequest.getTemplateName());
+        log.info("simpleSend toEmail: {} subJect: {}", htmlEmailRequest.toEmail(), htmlEmailRequest.subject());
 
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
@@ -61,17 +59,17 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setFrom(fromEmail, fromName);
-            helper.setTo(htmlEmailRequest.getEmail());
-            helper.setSubject(htmlEmailRequest.getSubject());
+            helper.setTo(htmlEmailRequest.toEmail());
+            helper.setSubject(htmlEmailRequest.subject());
 
             Context context = new Context();
 
             Map<String, Object> properties = new HashMap<>();
-            properties.put("name", htmlEmailRequest.getName());
-
+            properties.put("name", htmlEmailRequest.name());
+            properties.put("message", htmlEmailRequest.message());
             context.setVariables(properties);
 
-            String html = templateEngine.process("emails/" + htmlEmailRequest.getTemplateName(), context);
+            String html = templateEngine.process("emails/" + TEMPLATE, context);
 
 
             helper.setText(html, true);
@@ -81,8 +79,7 @@ public class EmailService {
             javaMailSender.send(message);
             log.info("Email sent successfully");
 
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("Exception: " + e.getMessage());
         }
 

@@ -33,10 +33,12 @@ CREATE TABLE IF NOT EXISTS language
 
 CREATE TABLE IF NOT EXISTS company
 (
-    id      BINARY(16)   NOT NULL PRIMARY KEY,
-    name    VARCHAR(100) NOT NULL,
-    address VARCHAR(255),
-    website VARCHAR(255) NOT NULL
+    id          BINARY(16)   NOT NULL PRIMARY KEY,
+    name        VARCHAR(100) NOT NULL,
+    address     VARCHAR(255),
+    website     VARCHAR(255),
+    logo_url    VARCHAR(800) NOT NULL,
+    description TEXT
 );
 
 CREATE TABLE IF NOT EXISTS job_history
@@ -78,13 +80,16 @@ CREATE TABLE IF NOT EXISTS posted_job
 (
     id          BINARY(16)                 NOT NULL PRIMARY KEY,
     description TEXT                       NOT NULL,
+    position    VARCHAR(255)               NOT NULL,
     open_until  DATETIME,
     posted_date DATETIME                   NOT NULL,
     status      ENUM ('ACTIVE','INACTIVE') NOT NULL,
     location    VARCHAR(100)               NOT NULL,
-    type        ENUM ('REMOTE','ONSITE')   NOT NULL,
+    type        ENUM ('REMOTE','ONSITE','HYBRID')   NOT NULL,
     company_id  BINARY(16)                 NOT NULL,
-    FOREIGN KEY (company_id) REFERENCES company (id)
+    user_id     BINARY(16)                 NOT NULL,
+    FOREIGN KEY (company_id) REFERENCES company (id),
+    FOREIGN KEY (user_id) REFERENCES user (id)
 );
 
 CREATE TABLE IF NOT EXISTS event
@@ -189,13 +194,13 @@ CREATE TABLE IF NOT EXISTS faculty
 
 CREATE TABLE IF NOT EXISTS specialization
 (
-    id            BINARY(16) NOT NULL PRIMARY KEY,
-    user_id       BINARY(16) NOT NULL,
-    faculty_id    BINARY(16) NOT NULL,
-    started_date  DATETIME   NOT NULL,
-    finished_date DATETIME   NOT NULL,
-    name         VARCHAR(100) NOT NULL,
-    degree         ENUM ('BACHELOR','MASTER','PHD','POSTDOC','NONE') NOT NULL,
+    id            BINARY(16)                                        NOT NULL PRIMARY KEY,
+    user_id       BINARY(16)                                        NOT NULL,
+    faculty_id    BINARY(16)                                        NOT NULL,
+    started_date  DATETIME                                          NOT NULL,
+    finished_date DATETIME                                          NOT NULL,
+    name          VARCHAR(100)                                      NOT NULL,
+    degree        ENUM ('BACHELOR','MASTER','PHD','POSTDOC','NONE') NOT NULL,
     FOREIGN KEY (user_id) REFERENCES user (id),
     FOREIGN KEY (faculty_id) REFERENCES faculty (id)
 );
@@ -217,5 +222,14 @@ CREATE TABLE IF NOT EXISTS course_skills
     skill_id  BINARY(16) NOT NULL,
     PRIMARY KEY (course_id, skill_id),
     FOREIGN KEY (course_id) REFERENCES course (id),
+    FOREIGN KEY (skill_id) REFERENCES skill (id)
+);
+
+CREATE TABLE IF NOT EXISTS posted_job_skills
+(
+    posted_job_id BINARY(16) NOT NULL,
+    skill_id      BINARY(16) NOT NULL,
+    PRIMARY KEY (posted_job_id, skill_id),
+    FOREIGN KEY (posted_job_id) REFERENCES posted_job (id),
     FOREIGN KEY (skill_id) REFERENCES skill (id)
 );

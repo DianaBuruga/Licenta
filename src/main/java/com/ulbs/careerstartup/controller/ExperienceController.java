@@ -3,17 +3,13 @@ package com.ulbs.careerstartup.controller;
 import com.ulbs.careerstartup.apidoc.ExperienceApiDoc;
 import com.ulbs.careerstartup.dto.ExperienceDTO;
 import com.ulbs.careerstartup.service.ExperienceService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
@@ -33,11 +29,6 @@ public class ExperienceController implements ExperienceApiDoc {
     @GetMapping("/{id}")
     public ExperienceDTO findExperienceById(@PathVariable UUID id) {
         return experienceService.findExperienceById(id);
-    }
-
-    @PostMapping(BY_CRITERIA)
-    public Collection<ExperienceDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return experienceService.findByCriteria(criteria);
     }
 
     @PostMapping

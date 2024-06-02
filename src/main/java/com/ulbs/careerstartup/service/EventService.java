@@ -51,8 +51,8 @@ public class EventService {
             throw new EntityNotFoundException("Event with id " + eventDTO.getId() + " not found");
     }
 
-    public void deleteEvent(EventDTO eventDTO) {
-        eventRepository.delete(mapper.eventDTOToEvent(eventDTO));
+    public void deleteEvent(UUID id) {
+        eventRepository.deleteById(id);
     }
 
 }

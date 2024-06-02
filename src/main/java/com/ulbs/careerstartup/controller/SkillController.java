@@ -3,17 +3,13 @@ package com.ulbs.careerstartup.controller;
 import com.ulbs.careerstartup.apidoc.SkillApiDoc;
 import com.ulbs.careerstartup.dto.SkillDTO;
 import com.ulbs.careerstartup.service.SkillService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
@@ -34,11 +30,6 @@ public class SkillController implements SkillApiDoc {
         return skillService.findSkillById(id);
     }
 
-    @PostMapping(BY_CRITERIA)
-    public Collection<SkillDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return skillService.findByCriteria(criteria);
-    }
-
     @PostMapping
     public SkillDTO saveSkill(@RequestBody SkillDTO skillDTO) {
         return skillService.saveSkill(skillDTO);
@@ -49,8 +40,8 @@ public class SkillController implements SkillApiDoc {
         return skillService.updateSkill(skillDTO);
     }
 
-    @DeleteMapping
-    public void deleteSkill(@RequestBody SkillDTO skillDTO) {
-        skillService.deleteSkill(skillDTO);
+    @DeleteMapping("/{id}")
+    public void deleteSkill(@PathVariable UUID id) {
+        skillService.deleteSkill(id);
     }
 }

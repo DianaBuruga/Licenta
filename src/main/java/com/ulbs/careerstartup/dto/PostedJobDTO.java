@@ -21,20 +21,20 @@ public class PostedJobDTO {
 
     private UUID id;
 
-    @NotNull(message = "Title is required")
-    @NotEmpty(message = "Title is required")
+    @NotNull(message = "Description is required")
+    @NotEmpty(message = "Description is required")
     private String description;
+
+    @NotNull(message = "Description is required")
+    @NotEmpty(message = "Description is required")
+    private String position;
 
     @NotNull(message = "Open date is required")
     @NotEmpty(message = "Open date is required")
     private String openUntil;
 
-    @NotNull(message = "Posted date is required")
-    @NotEmpty(message = "Posted date is required")
     private String postedDate;
 
-    @NotNull(message = "Status is required")
-    @NotEmpty(message = "Status is required")
     private JobStatus status;
 
     @NotNull(message = "Location is required")
@@ -42,16 +42,17 @@ public class PostedJobDTO {
     private String location;
 
     @NotNull(message = "Type is required")
-    @NotEmpty(message = "Type is required")
     private JobType type;
 
-    @NotNull(message = "Job candidates are required")
-    @NotEmpty(message = "Job candidates are required")
     @JsonProperty("jobCandidates")
     private Collection<JobCandidatesDTO> jobCandidatesDTO;
 
-    @NotNull(message = "Company is required")
-    @NotEmpty(message = "Company is required")
     @JsonProperty("company")
     private CompanyDTO companyDTO;
+
+    @JsonProperty("user")
+    private UserDTO userDTO;
+
+    @JsonProperty("skills")
+    private Collection<SkillDTO> skillsDTO;
 }

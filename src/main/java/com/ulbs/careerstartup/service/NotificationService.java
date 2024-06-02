@@ -51,7 +51,7 @@ public class NotificationService {
         return mapper.notificationToNotificationDTO(notificationRepository.save(mapper.notificationDTOToNotification(notificationDTO)));
     }
 
-    public void deleteNotification(NotificationDTO notificationDTO) {
-        notificationRepository.delete(mapper.notificationDTOToNotification(notificationDTO));
+    public void deleteNotification(UUID id) {
+        notificationRepository.deleteById(id);
     }
 }

@@ -51,7 +51,7 @@ public class CourseService {
     }
 
     @Transactional
-    public void deleteCourse(CourseDTO courseDTO) {
-        courseRepository.delete(mapper.courseDTOToCourse(courseDTO));
+    public void deleteCourse(UUID id) {
+        courseRepository.deleteById(id);
     }
 }

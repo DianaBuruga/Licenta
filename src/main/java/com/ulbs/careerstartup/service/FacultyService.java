@@ -11,7 +11,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collection;
 import java.util.List;
@@ -55,7 +54,7 @@ public class FacultyService {
     }
 
     @Transactional
-    public void deleteFaculty(@RequestBody FacultyDTO facultyDTO) {
-        facultyRepository.delete(mapper.facultyDTOToFaculty(facultyDTO));
+    public void deleteFaculty(UUID id) {
+        facultyRepository.deleteById(id);
     }
 }

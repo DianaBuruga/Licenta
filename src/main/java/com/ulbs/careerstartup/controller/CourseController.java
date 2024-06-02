@@ -3,17 +3,13 @@ package com.ulbs.careerstartup.controller;
 import com.ulbs.careerstartup.apidoc.CourseApiDoc;
 import com.ulbs.careerstartup.dto.CourseDTO;
 import com.ulbs.careerstartup.service.CourseService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
@@ -34,11 +30,6 @@ public class CourseController implements CourseApiDoc {
         return courseService.findCourseById(id);
     }
 
-    @PostMapping(BY_CRITERIA)
-    public Collection<CourseDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return courseService.findByCriteria(criteria);
-    }
-
     @PostMapping
     public CourseDTO saveCourse(@RequestBody CourseDTO courseDTO) {
         return courseService.saveCourse(courseDTO);
@@ -50,7 +41,7 @@ public class CourseController implements CourseApiDoc {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteCourse(@RequestBody CourseDTO courseDTO) {
-        courseService.deleteCourse(courseDTO);
+    public void deleteCourse(@PathVariable UUID id) {
+        courseService.deleteCourse(id);
     }
 }

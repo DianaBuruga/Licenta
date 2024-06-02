@@ -52,7 +52,7 @@ public class SkillService {
         return mapper.skillToSkillDTO(skillRepository.save(mapper.skillDTOToSkill(skillDTO)));
     }
 
-    public void deleteSkill(SkillDTO skillDTO) {
-        skillRepository.delete(mapper.skillDTOToSkill(skillDTO));
+    public void deleteSkill(UUID id) {
+        skillRepository.deleteById(id);
     }
 }

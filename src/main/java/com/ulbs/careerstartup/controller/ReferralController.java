@@ -3,17 +3,12 @@ package com.ulbs.careerstartup.controller;
 import com.ulbs.careerstartup.apidoc.ReferralApiDoc;
 import com.ulbs.careerstartup.dto.ReferralDTO;
 import com.ulbs.careerstartup.service.ReferralService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
@@ -32,11 +27,6 @@ public class ReferralController implements ReferralApiDoc {
     @GetMapping("/{id}")
     public ReferralDTO findReferralById(@PathVariable UUID id) {
         return referralService.findReferralById(id);
-    }
-
-    @PostMapping(BY_CRITERIA)
-    public Collection<ReferralDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return referralService.findByCriteria(criteria);
     }
 
     @PostMapping

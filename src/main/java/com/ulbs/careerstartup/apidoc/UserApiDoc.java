@@ -2,7 +2,6 @@ package com.ulbs.careerstartup.apidoc;
 
 import com.ulbs.careerstartup.dto.UserDTO;
 import com.ulbs.careerstartup.exception.ErrorResponse;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -22,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
 public interface UserApiDoc {
@@ -101,30 +99,6 @@ public interface UserApiDoc {
             security = @SecurityRequirement(name = "oauth2")
     )
     UserDTO getAuthenticatedUser(Principal principal);
-
-    @Operation(summary = "Find user by criteria", tags = {"User"},
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Successful retrieval",
-                            content = @Content(schema = @Schema(implementation = UserDTO.class))),
-                    @ApiResponse(responseCode = "400", description = "Bad Request",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))}),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))}),
-                    @ApiResponse(responseCode = "403", description = "Forbidden",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))}),
-                    @ApiResponse(responseCode = "404", description = "Not Found",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))}),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))})
-            },
-            security = @SecurityRequirement(name = "oauth2")
-    )
-    Collection<UserDTO> findByCriteria(@Parameter(description = "List of search criteria", required = true) @Valid @RequestBody List<SearchCriteria> criteria);
 
     @Operation(summary = "Save user", tags = {"User"},
             responses = {

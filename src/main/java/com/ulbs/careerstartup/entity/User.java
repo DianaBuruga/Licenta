@@ -125,6 +125,10 @@ public class User {
     @ToString.Exclude
     private Collection<UserSkills> skills;
 
+    @OneToMany(mappedBy = "user",
+            cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
+    private Collection<PostedJob> postedJobs;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

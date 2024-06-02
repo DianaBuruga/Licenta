@@ -73,7 +73,6 @@ public interface Mapper {
     Faculty facultyDTOToFaculty(FacultyDTO facultyDTO);
 
     @Mapping(source = "user", target = "userDTO")
-    @Mapping(source = "postedJob", target = "postedJobDTO")
     @Mapping(source = "id.candidateId", target = "candidateId")
     @Mapping(source = "id.jobId", target = "jobId")
     @Mapping(source = "applicationDate", target = "applicationDate", qualifiedByName = "timestampToString")
@@ -122,11 +121,14 @@ public interface Mapper {
     @Mapping(source = "jobCandidatesById", target = "jobCandidatesDTO")
     @Mapping(source = "postedDate", target = "postedDate", qualifiedByName = "timestampToString")
     @Mapping(source = "openUntil", target = "openUntil", qualifiedByName = "timestampToString")
+    @Mapping(source = "user", target = "userDTO")
+    @Mapping(source = "skills", target = "skillsDTO")
     PostedJobDTO postedJobToPostedJobDTO(PostedJob postedJob);
 
     @InheritInverseConfiguration(name = "postedJobToPostedJobDTO")
     @Mapping(source = "postedDate", target = "postedDate", qualifiedByName = "stringToTimestamp")
     @Mapping(source = "openUntil", target = "openUntil", qualifiedByName = "stringToTimestamp")
+    @Mapping(source = "userDTO", target = "user")
     PostedJob postedJobDTOToPostedJob(PostedJobDTO postedJobDTO);
 
     //    @Mapping(source = "teacher", target = "teacherDTO")

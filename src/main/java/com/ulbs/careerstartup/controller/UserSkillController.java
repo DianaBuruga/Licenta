@@ -3,17 +3,12 @@ package com.ulbs.careerstartup.controller;
 import com.ulbs.careerstartup.apidoc.UserSkillApiDoc;
 import com.ulbs.careerstartup.dto.UserSkillsDTO;
 import com.ulbs.careerstartup.service.UserSkillService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 
 @RestController
 @AllArgsConstructor
@@ -24,11 +19,6 @@ import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
 @Validated
 public class UserSkillController implements UserSkillApiDoc {
     private UserSkillService userSkillService;
-
-    @PostMapping(BY_CRITERIA)
-    public Collection<UserSkillsDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return userSkillService.findByCriteria(criteria);
-    }
 
     @PostMapping
     public UserSkillsDTO saveUserSkill(@RequestBody UserSkillsDTO userSkillsDTO) {

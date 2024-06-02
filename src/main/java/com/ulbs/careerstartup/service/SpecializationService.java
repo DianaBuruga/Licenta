@@ -51,7 +51,7 @@ public class SpecializationService {
         return mapper.specializationToSpecializationDTO(specializationRepository.save(mapper.specializationDTOToSpecialization(specializationDTO)));
     }
 
-    public void deleteSpecialization(SpecializationDTO specializationDTO) {
-        specializationRepository.delete(mapper.specializationDTOToSpecialization(specializationDTO));
+    public void deleteSpecialization(UUID id) {
+        specializationRepository.deleteById(id);
     }
 }

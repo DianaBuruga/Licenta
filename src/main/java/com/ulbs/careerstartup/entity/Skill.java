@@ -39,6 +39,10 @@ public class Skill {
     @ToString.Exclude
     private Collection<Course> courses;
 
+    @ManyToMany(mappedBy = "skills")
+    @ToString.Exclude
+    private Collection<PostedJob> postedJobs;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

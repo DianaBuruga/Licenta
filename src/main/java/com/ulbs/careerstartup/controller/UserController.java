@@ -7,7 +7,6 @@ import com.ulbs.careerstartup.dto.UserDTO;
 import com.ulbs.careerstartup.entity.pk.FilePK;
 import com.ulbs.careerstartup.service.FileService;
 import com.ulbs.careerstartup.service.UserService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import com.ulbs.careerstartup.util.UserPdfExporter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -28,10 +27,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
-import static com.ulbs.careerstartup.constant.Constants.*;
+import static com.ulbs.careerstartup.constant.Constants.ATTACHMENT_FILENAME;
+import static com.ulbs.careerstartup.constant.Constants.INLINE_FILENAME;
 import static org.apache.tika.metadata.TikaMetadataKeys.RESOURCE_NAME_KEY;
 import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 
@@ -80,11 +79,6 @@ public class UserController implements UserApiDoc {
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public UserDTO findUserById(@PathVariable UUID id) {
         return userService.findById(id);
-    }
-
-    @PostMapping(value = BY_CRITERIA, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Collection<UserDTO> findByCriteria(@RequestParam List<SearchCriteria> criteria) {
-        return userService.findByCriteria(criteria);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)

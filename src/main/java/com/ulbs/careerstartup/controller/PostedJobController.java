@@ -3,22 +3,20 @@ package com.ulbs.careerstartup.controller;
 import com.ulbs.careerstartup.apidoc.PostedJobApiDoc;
 import com.ulbs.careerstartup.dto.PostedJobDTO;
 import com.ulbs.careerstartup.service.PostedJobService;
-import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
 
-import static com.ulbs.careerstartup.constant.Constants.BY_CRITERIA;
-
+@RestController
 @Slf4j
 @AllArgsConstructor
-@RequestMapping("/messages")
+@RequestMapping("/company/jobs")
 @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "PostedJob", description = "The PostedJob API")
 public class PostedJobController implements PostedJobApiDoc {
@@ -35,14 +33,9 @@ public class PostedJobController implements PostedJobApiDoc {
         return postedJobService.findPostedJobById(id);
     }
 
-    @PostMapping(BY_CRITERIA)
-    public Collection<PostedJobDTO> findByCriteria(@RequestBody List<SearchCriteria> criteria) {
-        return postedJobService.findByCriteria(criteria);
-    }
-
     @PostMapping
-    public PostedJobDTO savePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
-        return postedJobService.savePostedJob(postedJobDTO);
+    public PostedJobDTO savePostedJob(@RequestBody PostedJobDTO postedJobDTO, Principal principal) {
+        return postedJobService.savePostedJob(postedJobDTO, principal);
     }
 
     @PatchMapping
@@ -51,7 +44,7 @@ public class PostedJobController implements PostedJobApiDoc {
     }
 
     @DeleteMapping("/{id}")
-    public void deletePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
-        postedJobService.deletePostedJob(postedJobDTO);
+    public void deletePostedJob(@PathVariable UUID id) {
+        postedJobService.deletePostedJob(id);
     }
 }
