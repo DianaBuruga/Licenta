@@ -13,8 +13,6 @@ import { deleteSkill } from '../fn/skill/delete-skill';
 import { DeleteSkill$Params } from '../fn/skill/delete-skill';
 import { findAllSkills } from '../fn/skill/find-all-skills';
 import { FindAllSkills$Params } from '../fn/skill/find-all-skills';
-import { findByCriteria4 } from '../fn/skill/find-by-criteria-4';
-import { FindByCriteria4$Params } from '../fn/skill/find-by-criteria-4';
 import { findSkillById } from '../fn/skill/find-skill-by-id';
 import { FindSkillById$Params } from '../fn/skill/find-skill-by-id';
 import { saveSkill } from '../fn/skill/save-skill';
@@ -99,39 +97,6 @@ export class SkillService extends BaseService {
     );
   }
 
-  /** Path part for operation `deleteSkill()` */
-  static readonly DeleteSkillPath = '/skills';
-
-  /**
-   * Delete skill.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteSkill()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteSkill$Response(params: DeleteSkill$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return deleteSkill(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Delete skill.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `deleteSkill$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteSkill(params: DeleteSkill$Params, context?: HttpContext): Observable<void> {
-    return this.deleteSkill$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
   /** Path part for operation `updateSkill()` */
   static readonly UpdateSkillPath = '/skills';
 
@@ -165,39 +130,6 @@ export class SkillService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria4()` */
-  static readonly FindByCriteria4Path = '/skills/by-criteria/';
-
-  /**
-   * Find skill by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria4()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria4$Response(params: FindByCriteria4$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SkillDto>>> {
-    return findByCriteria4(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find skill by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria4$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria4(params: FindByCriteria4$Params, context?: HttpContext): Observable<Array<SkillDto>> {
-    return this.findByCriteria4$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<SkillDto>>): Array<SkillDto> => r.body)
-    );
-  }
-
   /** Path part for operation `findSkillById()` */
   static readonly FindSkillByIdPath = '/skills/{id}';
 
@@ -228,6 +160,39 @@ export class SkillService extends BaseService {
   findSkillById(params: FindSkillById$Params, context?: HttpContext): Observable<SkillDto> {
     return this.findSkillById$Response(params, context).pipe(
       map((r: StrictHttpResponse<SkillDto>): SkillDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteSkill()` */
+  static readonly DeleteSkillPath = '/skills/{id}';
+
+  /**
+   * Delete skill.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteSkill()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSkill$Response(params: DeleteSkill$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteSkill(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Delete skill.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteSkill$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteSkill(params: DeleteSkill$Params, context?: HttpContext): Observable<void> {
+    return this.deleteSkill$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

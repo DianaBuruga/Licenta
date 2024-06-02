@@ -17,8 +17,6 @@ import { exportUserPdf } from '../fn/user/export-user-pdf';
 import { ExportUserPdf$Params } from '../fn/user/export-user-pdf';
 import { findAllUsers } from '../fn/user/find-all-users';
 import { FindAllUsers$Params } from '../fn/user/find-all-users';
-import { findByCriteria1 } from '../fn/user/find-by-criteria-1';
-import { FindByCriteria1$Params } from '../fn/user/find-by-criteria-1';
 import { findUserByEmail } from '../fn/user/find-user-by-email';
 import { FindUserByEmail$Params } from '../fn/user/find-user-by-email';
 import { findUserById } from '../fn/user/find-user-by-id';
@@ -173,39 +171,6 @@ export class UserService extends BaseService {
    */
   saveProfilePhoto(params: SaveProfilePhoto$Params, context?: HttpContext): Observable<UserDto> {
     return this.saveProfilePhoto$Response(params, context).pipe(
-      map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria1()` */
-  static readonly FindByCriteria1Path = '/users/by-criteria/';
-
-  /**
-   * Find user by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria1()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria1$Response(params: FindByCriteria1$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
-    return findByCriteria1(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find user by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria1$Response()` instead.
-   *
-   * This method doesn't expect any request body.
-   */
-  findByCriteria1(params: FindByCriteria1$Params, context?: HttpContext): Observable<UserDto> {
-    return this.findByCriteria1$Response(params, context).pipe(
       map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
     );
   }

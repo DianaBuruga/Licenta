@@ -30,6 +30,11 @@ export class CompaniesComponent implements OnInit {
     this.companyService.findAllCompanies().subscribe({
       next: (companies: CompanyDto[]) => {
         this.companies = companies;
+        companies.forEach(element => {
+          if(element.id){
+          this.getCompanyReview(element.id)
+          }
+        });
       },
       error: (error: any) => {
         this.error = error;

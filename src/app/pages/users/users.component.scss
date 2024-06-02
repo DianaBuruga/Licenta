@@ -50,8 +50,8 @@ mat-card {
   align-items: center;
 }
 
-mat-card img {
-  width: 100%;
+.mat-img{
+  max-width: 100% !important;
   height: 30vh !important;
 }
 
@@ -88,4 +88,9 @@ button.custom-icon-button {
 
 button.custom-icon-button:hover {
   color: rgb(13, 0, 255) !important;
+}
+
+.profile-actions {
+  margin-top: auto;
+  padding: 8px;
 }

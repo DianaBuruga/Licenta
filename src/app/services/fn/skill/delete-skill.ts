@@ -6,16 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { SkillDto } from '../../models/skill-dto';
 
 export interface DeleteSkill$Params {
-      body: SkillDto
+
+/**
+ * Skill that will be deleted
+ */
+  id: string;
 }
 
 export function deleteSkill(http: HttpClient, rootUrl: string, params: DeleteSkill$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, deleteSkill.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -28,4 +31,4 @@ export function deleteSkill(http: HttpClient, rootUrl: string, params: DeleteSki
   );
 }
 
-deleteSkill.PATH = '/skills';
+deleteSkill.PATH = '/skills/{id}';

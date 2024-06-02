@@ -14,6 +14,7 @@ export { EventService } from './services/event.service';
 export { EmailService } from './services/email.service';
 export { BibliographyService } from './services/bibliography.service';
 export { CourseService } from './services/course.service';
+export { PostedJobService } from './services/posted-job.service';
 export { CompanyService } from './services/company.service';
 export { SearchService } from './services/search.service';
 export { AuthenticationService } from './services/authentication.service';

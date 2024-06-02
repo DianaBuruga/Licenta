@@ -13,8 +13,6 @@ import { deleteReferral } from '../fn/referral/delete-referral';
 import { DeleteReferral$Params } from '../fn/referral/delete-referral';
 import { findAllReferrals } from '../fn/referral/find-all-referrals';
 import { FindAllReferrals$Params } from '../fn/referral/find-all-referrals';
-import { findByCriteria5 } from '../fn/referral/find-by-criteria-5';
-import { FindByCriteria5$Params } from '../fn/referral/find-by-criteria-5';
 import { findReferralById } from '../fn/referral/find-referral-by-id';
 import { FindReferralById$Params } from '../fn/referral/find-referral-by-id';
 import { ReferralDto } from '../models/referral-dto';
@@ -129,39 +127,6 @@ export class ReferralService extends BaseService {
   updateReferral(params: UpdateReferral$Params, context?: HttpContext): Observable<ReferralDto> {
     return this.updateReferral$Response(params, context).pipe(
       map((r: StrictHttpResponse<ReferralDto>): ReferralDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria5()` */
-  static readonly FindByCriteria5Path = '/referrals/by-criteria/';
-
-  /**
-   * Find referral by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria5()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria5$Response(params: FindByCriteria5$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<ReferralDto>>> {
-    return findByCriteria5(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find referral by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria5$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria5(params: FindByCriteria5$Params, context?: HttpContext): Observable<Array<ReferralDto>> {
-    return this.findByCriteria5$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<ReferralDto>>): Array<ReferralDto> => r.body)
     );
   }
 

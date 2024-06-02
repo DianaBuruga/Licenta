@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FirstComponentComponent } from '../../components/first-component/first-component.component';
-import { ProfileCardComponent } from '../../components/profile-card/profile-card.component';
+import { ProfileCardComponent } from '../../components/user/profile-card/profile-card.component';
 import { ExperienceComponent } from '../../components/experience/experience.component';
-import { ProjectsCarouselComponent } from '../../components/projects-carousel/projects-carousel.component';
-import { SkillCircularProgressbarComponent } from '../../components/skill-circular-progressbar/skill-circular-progressbar.component';
-import { LanguageTableComponent } from '../../components/language-table/language-table.component';
-import { AcreditareCardComponent } from '../../components/acreditare-card/acreditare-card.component';
-import { ReferalComponent } from '../../components/referal/referal.component';
+import { ProjectsCarouselComponent } from '../../components/user/projects-carousel/projects-carousel.component';
+import { SkillCircularProgressbarComponent } from '../../components/user/skill-circular-progressbar/skill-circular-progressbar.component';
+import { LanguageTableComponent } from '../../components/user/language-table/language-table.component';
+import { AcreditareCardComponent } from '../../components/user/acreditare-card/acreditare-card.component';
+import { ReferalComponent } from '../../components/user/referal/referal.component';
 import { ExperienceDto, JobHistoryDto, LanguageDto, ReferralDto, UserDto, UserSkillsDto } from '../../services/models';
 import { UserService } from '../../services/services/user.service';
 import { NgIf } from '@angular/common';

@@ -7,7 +7,8 @@ import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { UserDto } from '../../../services/models';
 import { MatDialog } from '@angular/material/dialog';
 import { SearchService } from '../../../services/services';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-company-recruiters',
@@ -18,7 +19,9 @@ import { ActivatedRoute } from '@angular/router';
     NgFor,
     FlexLayoutModule,
     FlexLayoutServerModule,
-    MatIcon],
+    MatIcon,
+    MatButtonModule
+  ],
   templateUrl: './company-recruiters.component.html',
   styleUrl: './company-recruiters.component.scss'
 })
@@ -26,7 +29,7 @@ export class CompanyRecruitersComponent {
   recruiters: UserDto[] | undefined;
   error: any;
   id: any;
-  constructor(public dialog: MatDialog, private searchService: SearchService, private route: ActivatedRoute) { };
+  constructor(public dialog: MatDialog, private searchService: SearchService, private route: ActivatedRoute, private router: Router) { };
 
   ngOnInit(): void {
     console.log('Company page initialized');
@@ -53,5 +56,11 @@ export class CompanyRecruitersComponent {
         console.log('Completed fetching review');
       }
     });
+  }
+
+  navigateWithParam(id: string | undefined) {
+    if (id) {
+      this.router.navigate(['/user', id]);
+    }
   }
 }

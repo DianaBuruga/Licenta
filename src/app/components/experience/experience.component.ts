@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { MatCard, MatCardTitle, MatCardContent } from '@angular/material/card';
 import { CommonModule, NgFor } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
-import { AddFormDialogComponent } from '../add-form-dialog/add-form-dialog.component';
+import { AddFormDialogComponent } from '../user/add-form-dialog/add-form-dialog.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { JobHistoryDto, UserDto } from '../../services/models';
 import { JobHistoryService } from '../../services/services';
@@ -88,5 +88,4 @@ export class ExperienceComponent {
       });
     }
   }
-
 }

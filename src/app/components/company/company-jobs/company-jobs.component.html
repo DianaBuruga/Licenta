@@ -1,0 +1,26 @@
+<h1 style="text-align: center;">
+    <b>Available positions</b>
+    <button mat-icon-button color="warn" (click)="openDialog(emptyJob)">
+        <mat-icon>add</mat-icon>
+    </button>
+</h1>
+<mat-card *ngFor="let job of jobs; let i = index">
+    <div class="card">
+        <div class="title">
+            <a (click)="navigateWithParam(job.company?.id)">
+            <img mat-card-image src={{job.company?.logoUrl}} alt="Company logo">
+            <mat-card-title>{{ job.company?.name }}</mat-card-title>
+            </a>
+        </div>
+        <div class="content">
+            <mat-card-title>{{ job.position }}</mat-card-title>
+            <mat-card-subtitle>Job type: {{ job.type }}</mat-card-subtitle>
+            <mat-card-subtitle>Location: {{ job.location }}</mat-card-subtitle>
+            <mat-card-subtitle>Posted on: {{ job.postedDate }} </mat-card-subtitle>
+            <mat-card-subtitle>Deadline: {{ job.openUntil }} </mat-card-subtitle>
+            <a mat-raised-button>Check it out here!</a> 
+        </div>
+        <mat-card-actions class="actions">
+      </mat-card-actions>
+    </div>
+</mat-card>

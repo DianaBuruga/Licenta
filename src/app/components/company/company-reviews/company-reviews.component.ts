@@ -3,13 +3,13 @@ import { ReviewDto } from '../../../services/models';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIcon } from '@angular/material/icon';
-import { ReviewService } from '../../../services/services';
+import { ReviewService, SearchService } from '../../../services/services';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule, NgFor } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
-import { ReviewOpenDialogComponent } from '../../review-open-dialog/review-open-dialog.component';
+import { ReviewOpenDialogComponent } from '../review-open-dialog/review-open-dialog.component';
 
 defineComponents(IgcRatingComponent);
 @Component({
@@ -43,14 +43,20 @@ export class CompanyReviewsComponent {
     }
   };
 
-  constructor(public dialog: MatDialog, private reviewService: ReviewService, private route: ActivatedRoute) { };
+  constructor(public dialog: MatDialog, private reviewService: ReviewService, private route: ActivatedRoute, private searchService: SearchService) { };
 
   ngOnInit(): void {
     console.log('Company page initialized');
     this.route.paramMap.subscribe(params => {
       this.id = params.get('id');
     });
-    this.reviewService.findAllReviews().subscribe({
+    const param = {
+      endpoint: 'reviews',
+      criteria: {
+        "company.id": this.id
+      }
+    };
+    this.searchService.search(param).subscribe({
       next: (reviews: ReviewDto[]) => {
         this.reviews = reviews;
         console.log('Reviews:', reviews);
@@ -86,7 +92,7 @@ export class CompanyReviewsComponent {
       console.log('Dialog was closed');
     });
   }
-  
+
   deleteReview(review: ReviewDto): void {
     console.log('Deleting review', review.id);
     if(review.id !== undefined) {

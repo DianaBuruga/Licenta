@@ -14,8 +14,6 @@ import { DeleteFaculty$Params } from '../fn/faculty/delete-faculty';
 import { FacultyDto } from '../models/faculty-dto';
 import { findAllFaculties } from '../fn/faculty/find-all-faculties';
 import { FindAllFaculties$Params } from '../fn/faculty/find-all-faculties';
-import { findByCriteria9 } from '../fn/faculty/find-by-criteria-9';
-import { FindByCriteria9$Params } from '../fn/faculty/find-by-criteria-9';
 import { findFacultyById } from '../fn/faculty/find-faculty-by-id';
 import { FindFacultyById$Params } from '../fn/faculty/find-faculty-by-id';
 import { saveFaculty } from '../fn/faculty/save-faculty';
@@ -99,39 +97,6 @@ export class FacultyService extends BaseService {
     );
   }
 
-  /** Path part for operation `deleteFaculty()` */
-  static readonly DeleteFacultyPath = '/faculties';
-
-  /**
-   * Delete faculty.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteFaculty()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteFaculty$Response(params: DeleteFaculty$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return deleteFaculty(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Delete faculty.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `deleteFaculty$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteFaculty(params: DeleteFaculty$Params, context?: HttpContext): Observable<void> {
-    return this.deleteFaculty$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
   /** Path part for operation `updateFaculty()` */
   static readonly UpdateFacultyPath = '/faculties';
 
@@ -165,39 +130,6 @@ export class FacultyService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria9()` */
-  static readonly FindByCriteria9Path = '/faculties/by-criteria/';
-
-  /**
-   * Find faculty by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria9()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria9$Response(params: FindByCriteria9$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<FacultyDto>>> {
-    return findByCriteria9(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find faculty by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria9$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria9(params: FindByCriteria9$Params, context?: HttpContext): Observable<Array<FacultyDto>> {
-    return this.findByCriteria9$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<FacultyDto>>): Array<FacultyDto> => r.body)
-    );
-  }
-
   /** Path part for operation `findFacultyById()` */
   static readonly FindFacultyByIdPath = '/faculties/{id}';
 
@@ -228,6 +160,39 @@ export class FacultyService extends BaseService {
   findFacultyById(params: FindFacultyById$Params, context?: HttpContext): Observable<FacultyDto> {
     return this.findFacultyById$Response(params, context).pipe(
       map((r: StrictHttpResponse<FacultyDto>): FacultyDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteFaculty()` */
+  static readonly DeleteFacultyPath = '/faculties/{id}';
+
+  /**
+   * Delete faculty.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteFaculty()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteFaculty$Response(params: DeleteFaculty$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteFaculty(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Delete faculty.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteFaculty$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteFaculty(params: DeleteFaculty$Params, context?: HttpContext): Observable<void> {
+    return this.deleteFaculty$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

@@ -18,7 +18,6 @@ export { NotificationDto } from './models/notification-dto';
 export { PostedJobDto } from './models/posted-job-dto';
 export { ReferralDto } from './models/referral-dto';
 export { ReviewDto } from './models/review-dto';
-export { SearchCriteria } from './models/search-criteria';
 export { SkillDto } from './models/skill-dto';
 export { SpecializationDto } from './models/specialization-dto';
 export { TokenDto } from './models/token-dto';

@@ -6,16 +6,13 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { SpecializationDto } from '../../models/specialization-dto';
 
 export interface DeleteSpecialization$Params {
-      body: SpecializationDto
 }
 
-export function deleteSpecialization(http: HttpClient, rootUrl: string, params: DeleteSpecialization$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+export function deleteSpecialization(http: HttpClient, rootUrl: string, params?: DeleteSpecialization$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, deleteSpecialization.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
   }
 
   return http.request(

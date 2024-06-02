@@ -1,0 +1,69 @@
+<div>
+    <mat-card class="example-card">
+        <div>
+            <mat-card-header class="center">
+                <img mat-card-image src={{job.company?.logoUrl}} alt={{job.company?.name}}>
+            </mat-card-header>
+            <mat-card-title class="text-center">{{job.company?.name}}</mat-card-title>
+        </div>
+        <br>
+        <br>
+        <mat-card-content>
+            <p><b>Status:</b>
+                @if(job.status == "ACTIVE"){
+                <b style="color:rgb(20, 223, 20);"> {{job.status}}</b>
+                }@else{
+                <b style="color:rgb(78, 75, 75);"> {{job.status}}</b>
+                }
+            </p>
+            <p>
+                <b>Position:</b> {{job.position}}
+            </p>
+            <p>
+                <b>Job type:</b> {{job.type}}
+            </p>
+            <p>
+                <b>Location:</b> {{job.location}}
+            </p>
+            <p>
+                <b>Posted on:</b> {{job.postedDate}}
+            </p>
+            <p>
+                <b>Deadline:</b> {{job.openUntil}}
+            </p>
+            <p>
+                <b>Recruiter:</b>
+            </p>
+            <a (click)="navigateWithParam(job.user?.id)">
+                <mat-card-header>
+                    <div mat-card-avatar class="example-header-image"
+                        style=" background-image: url('http://localhost:8081/users/profilePhoto/view/{{job.user?.id}}');">
+                    </div>
+                    <h3> {{job.user?.name}}</h3>
+                </mat-card-header>
+            </a>
+            <p>
+                <b>Required skills:</b>
+                @if(job.skills && job.skills.length > 0){
+                <mat-chip-set aria-label="Skill selection">
+                    @for (skill of job.skills; track $index) {
+                    <mat-chip>{{skill.name}}</mat-chip>
+                    }
+                </mat-chip-set>
+                }@else {
+                <mat-chip-set aria-label="Skill selection">
+                    <mat-chip>None</mat-chip>
+                </mat-chip-set>
+                }
+            </p>
+            <p>
+                <b>Description:</b>
+            </p>
+            <p>{{job.description}}</p>
+        </mat-card-content>
+        <mat-card-actions>
+            <button mat-raised-button color="warn" (click)="applyJob(job)">APPLY</button>
+            <button mat-button color="warn" (click)="openDialog(job)">UPDATE</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

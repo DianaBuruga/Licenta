@@ -6,16 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { CourseDto } from '../../models/course-dto';
 
 export interface DeleteCourse$Params {
-      body: CourseDto
+
+/**
+ * Course that will be deleted
+ */
+  id: string;
 }
 
 export function deleteCourse(http: HttpClient, rootUrl: string, params: DeleteCourse$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, deleteCourse.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(

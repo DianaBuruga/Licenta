@@ -6,7 +6,7 @@ import { CompanyDto } from '../../services/models';
 import { ActivatedRoute } from '@angular/router';
 import { CompanyService } from '../../services/services';
 import { MatCardModule } from '@angular/material/card';
-import { CompanyJobsComponent } from "../../components/company-jobs/company-jobs.component";
+import { CompanyJobsComponent } from "../../components/company/company-jobs/company-jobs.component";
 
 @Component({
     selector: 'app-company',

@@ -20,6 +20,7 @@ import { EventService } from './services/event.service';
 import { EmailService } from './services/email.service';
 import { BibliographyService } from './services/bibliography.service';
 import { CourseService } from './services/course.service';
+import { PostedJobService } from './services/posted-job.service';
 import { CompanyService } from './services/company.service';
 import { SearchService } from './services/search.service';
 import { AuthenticationService } from './services/authentication.service';
@@ -48,6 +49,7 @@ import { AuthenticationService } from './services/authentication.service';
     EmailService,
     BibliographyService,
     CourseService,
+    PostedJobService,
     CompanyService,
     SearchService,
     AuthenticationService,

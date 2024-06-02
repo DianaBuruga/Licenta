@@ -3,8 +3,8 @@
     <mat-icon>add</mat-icon>
   </button>
 </h1>
+@if(reviews && reviews.length > 0){
 <br>
-
 <mat-card *ngFor="let review of reviews; let i = index">
   <div class="card">
     <div class="title">
@@ -17,8 +17,10 @@
     </div>
     <mat-card-actions class="actions">
       <button mat-button color="warn" (click)="deleteReview(review)">
-      <mat-icon>delete</mat-icon>
-    </button>
+        <mat-icon>delete</mat-icon>
+      </button>
     </mat-card-actions>
   </div>
 </mat-card>
+<br>
+}

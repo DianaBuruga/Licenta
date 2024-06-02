@@ -13,8 +13,6 @@ import { deleteSpecialization } from '../fn/specialization/delete-specialization
 import { DeleteSpecialization$Params } from '../fn/specialization/delete-specialization';
 import { findAllSpecializations } from '../fn/specialization/find-all-specializations';
 import { FindAllSpecializations$Params } from '../fn/specialization/find-all-specializations';
-import { findByCriteria3 } from '../fn/specialization/find-by-criteria-3';
-import { FindByCriteria3$Params } from '../fn/specialization/find-by-criteria-3';
 import { findSpecializationById } from '../fn/specialization/find-specialization-by-id';
 import { FindSpecializationById$Params } from '../fn/specialization/find-specialization-by-id';
 import { saveSpecialization } from '../fn/specialization/save-specialization';
@@ -110,9 +108,9 @@ export class SpecializationService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `deleteSpecialization()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
-  deleteSpecialization$Response(params: DeleteSpecialization$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+  deleteSpecialization$Response(params?: DeleteSpecialization$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
     return deleteSpecialization(this.http, this.rootUrl, params, context);
   }
 
@@ -124,9 +122,9 @@ export class SpecializationService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `deleteSpecialization$Response()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
-  deleteSpecialization(params: DeleteSpecialization$Params, context?: HttpContext): Observable<void> {
+  deleteSpecialization(params?: DeleteSpecialization$Params, context?: HttpContext): Observable<void> {
     return this.deleteSpecialization$Response(params, context).pipe(
       map((r: StrictHttpResponse<void>): void => r.body)
     );
@@ -162,39 +160,6 @@ export class SpecializationService extends BaseService {
   updateSpecialization(params: UpdateSpecialization$Params, context?: HttpContext): Observable<SpecializationDto> {
     return this.updateSpecialization$Response(params, context).pipe(
       map((r: StrictHttpResponse<SpecializationDto>): SpecializationDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria3()` */
-  static readonly FindByCriteria3Path = '/specializations/by-criteria/';
-
-  /**
-   * Find specialization by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria3()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria3$Response(params: FindByCriteria3$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<SpecializationDto>>> {
-    return findByCriteria3(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find specialization by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria3$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria3(params: FindByCriteria3$Params, context?: HttpContext): Observable<Array<SpecializationDto>> {
-    return this.findByCriteria3$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<SpecializationDto>>): Array<SpecializationDto> => r.body)
     );
   }
 

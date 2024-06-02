@@ -7,9 +7,10 @@ import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
 import { JobCandidatesDto } from '../../models/job-candidates-dto';
+import { PostedJobDto } from '../../models/posted-job-dto';
 
 export interface SaveJobCandidates$Params {
-      body: JobCandidatesDto
+      body: PostedJobDto
 }
 
 export function saveJobCandidates(http: HttpClient, rootUrl: string, params: SaveJobCandidates$Params, context?: HttpContext): Observable<StrictHttpResponse<JobCandidatesDto>> {

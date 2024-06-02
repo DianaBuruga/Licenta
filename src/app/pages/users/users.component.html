@@ -4,14 +4,19 @@
     <div class="parent">
         <div *ngFor="let user of users" class="card-container">
             <mat-card class="custom-border-card">
-                <img src="http://localhost:8081/users/profilePhoto/view/{{user.id}}" alt="Profile image">
+                <img class="mat-img" src="http://localhost:8081/users/profilePhoto/view/{{user.id}}"  alt="Profile image">
                 <mat-card-header>
                     <mat-card-title>{{ user.name }}</mat-card-title>
                     <mat-card-subtitle>{{ user.email }}</mat-card-subtitle>
+                    @if(user.role !== "COMPANY_REPRESENTATIVE"){
+                    <mat-card-subtitle>{{ user.role }}</mat-card-subtitle>
+                    }@else{
+                        <mat-card-subtitle>RECRUITER</mat-card-subtitle>
+                    }
                 </mat-card-header>
-                <mat-card-content>
-                    <p>{{ user.description }}</p>
-                </mat-card-content>
+                <div class="profile-actions">
+                    <button mat-raised-button color="warn" (click)="navigateWithParam(user.id)">View</button>
+                </div>
             </mat-card>
         </div>
     </div>

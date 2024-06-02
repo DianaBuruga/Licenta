@@ -13,8 +13,6 @@ import { deleteJobCandidates } from '../fn/job-candidates/delete-job-candidates'
 import { DeleteJobCandidates$Params } from '../fn/job-candidates/delete-job-candidates';
 import { findAllJobCandidates } from '../fn/job-candidates/find-all-job-candidates';
 import { FindAllJobCandidates$Params } from '../fn/job-candidates/find-all-job-candidates';
-import { findByCriteria8 } from '../fn/job-candidates/find-by-criteria-8';
-import { FindByCriteria8$Params } from '../fn/job-candidates/find-by-criteria-8';
 import { findJobById } from '../fn/job-candidates/find-job-by-id';
 import { FindJobById$Params } from '../fn/job-candidates/find-job-by-id';
 import { JobCandidatesDto } from '../models/job-candidates-dto';
@@ -99,39 +97,6 @@ export class JobCandidatesService extends BaseService {
     );
   }
 
-  /** Path part for operation `deleteJobCandidates()` */
-  static readonly DeleteJobCandidatesPath = '/jobCandidates';
-
-  /**
-   * Delete job candidate.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteJobCandidates()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteJobCandidates$Response(params: DeleteJobCandidates$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return deleteJobCandidates(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Delete job candidate.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `deleteJobCandidates$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteJobCandidates(params: DeleteJobCandidates$Params, context?: HttpContext): Observable<void> {
-    return this.deleteJobCandidates$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
   /** Path part for operation `updateJobCandidates()` */
   static readonly UpdateJobCandidatesPath = '/jobCandidates';
 
@@ -165,39 +130,6 @@ export class JobCandidatesService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria8()` */
-  static readonly FindByCriteria8Path = '/jobCandidates/by-criteria/';
-
-  /**
-   * Find job candidate by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria8()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria8$Response(params: FindByCriteria8$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<JobCandidatesDto>>> {
-    return findByCriteria8(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find job candidate by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria8$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria8(params: FindByCriteria8$Params, context?: HttpContext): Observable<Array<JobCandidatesDto>> {
-    return this.findByCriteria8$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<JobCandidatesDto>>): Array<JobCandidatesDto> => r.body)
-    );
-  }
-
   /** Path part for operation `findJobById()` */
   static readonly FindJobByIdPath = '/jobCandidates/{id}/{jobId}';
 
@@ -228,6 +160,39 @@ export class JobCandidatesService extends BaseService {
   findJobById(params: FindJobById$Params, context?: HttpContext): Observable<JobCandidatesDto> {
     return this.findJobById$Response(params, context).pipe(
       map((r: StrictHttpResponse<JobCandidatesDto>): JobCandidatesDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteJobCandidates()` */
+  static readonly DeleteJobCandidatesPath = '/jobCandidates/job/{jobId}/candidate/{candidateId}/';
+
+  /**
+   * Delete job candidate.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteJobCandidates()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteJobCandidates$Response(params: DeleteJobCandidates$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteJobCandidates(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Delete job candidate.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteJobCandidates$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteJobCandidates(params: DeleteJobCandidates$Params, context?: HttpContext): Observable<void> {
+    return this.deleteJobCandidates$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 

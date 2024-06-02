@@ -4,7 +4,7 @@ import { AverageRating, CompanyDto } from '../../../services/models';
 import { defineComponents, IgcRatingComponent } from 'igniteui-webcomponents';
 import 'igniteui-webcomponents/themes/light/bootstrap.css';
 import { MatDialog } from '@angular/material/dialog';
-import { CompanyProfileOpenDialogComponent } from '../../company-profile-open-dialog/company-profile-open-dialog.component';
+import { CompanyProfileOpenDialogComponent } from '../company-profile-open-dialog/company-profile-open-dialog.component';
 import { ReviewService } from '../../../services/services';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';

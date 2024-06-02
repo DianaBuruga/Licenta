@@ -6,16 +6,15 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { NotificationDto } from '../../models/notification-dto';
 
 export interface DeleteNotification$Params {
-      body: NotificationDto
+  id: string;
 }
 
 export function deleteNotification(http: HttpClient, rootUrl: string, params: DeleteNotification$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, deleteNotification.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -28,4 +27,4 @@ export function deleteNotification(http: HttpClient, rootUrl: string, params: De
   );
 }
 
-deleteNotification.PATH = '/notifications';
+deleteNotification.PATH = '/notifications/{id}';

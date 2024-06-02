@@ -6,16 +6,21 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { JobCandidatesDto } from '../../models/job-candidates-dto';
 
 export interface DeleteJobCandidates$Params {
-      body: JobCandidatesDto
+
+/**
+ * Job candidate that will be deleted
+ */
+  candidateId: string;
+  jobId: string;
 }
 
 export function deleteJobCandidates(http: HttpClient, rootUrl: string, params: DeleteJobCandidates$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, deleteJobCandidates.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('candidateId', params.candidateId, {});
+    rb.query('jobId', params.jobId, {});
   }
 
   return http.request(
@@ -28,4 +33,4 @@ export function deleteJobCandidates(http: HttpClient, rootUrl: string, params: D
   );
 }
 
-deleteJobCandidates.PATH = '/jobCandidates';
+deleteJobCandidates.PATH = '/jobCandidates/job/{jobId}/candidate/{candidateId}/';

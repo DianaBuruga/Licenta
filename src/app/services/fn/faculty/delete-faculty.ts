@@ -6,16 +6,19 @@ import { filter, map } from 'rxjs/operators';
 import { StrictHttpResponse } from '../../strict-http-response';
 import { RequestBuilder } from '../../request-builder';
 
-import { FacultyDto } from '../../models/faculty-dto';
 
 export interface DeleteFaculty$Params {
-      body: FacultyDto
+
+/**
+ * Id of the faculty that will be deleted
+ */
+  id: string;
 }
 
 export function deleteFaculty(http: HttpClient, rootUrl: string, params: DeleteFaculty$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
   const rb = new RequestBuilder(rootUrl, deleteFaculty.PATH, 'delete');
   if (params) {
-    rb.body(params.body, 'application/json');
+    rb.path('id', params.id, {});
   }
 
   return http.request(
@@ -28,4 +31,4 @@ export function deleteFaculty(http: HttpClient, rootUrl: string, params: DeleteF
   );
 }
 
-deleteFaculty.PATH = '/faculties';
+deleteFaculty.PATH = '/faculties/{id}';

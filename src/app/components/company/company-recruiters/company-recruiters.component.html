@@ -1,6 +1,7 @@
+<br>
+<h1 class="container"><b>Recruiters</b></h1>
+@if(recruiters && recruiters.length > 0){
 <div class="container">
-    <br>
-    <h1><b>Recruiters</b></h1>
     <div class="parent">
         <div *ngFor="let recruiter of recruiters" class="card-container">
             <mat-card class="custom-border-card">
@@ -13,10 +14,11 @@
                     <p>{{ recruiter.description }}</p>
                 </mat-card-content>
                 <mat-card-actions>
-                    <a mat-button href="{{recruiter.website}}" target="_blank">Afla mai mult</a>
+                    <button mat-raised-button color="warn" (click)="navigateWithParam(recruiter.id)">View</button>
                 </mat-card-actions>
             </mat-card>
         </div>
     </div>
 </div>
 <br>
+}

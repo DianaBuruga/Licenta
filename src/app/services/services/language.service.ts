@@ -13,8 +13,6 @@ import { deleteLanguage } from '../fn/language/delete-language';
 import { DeleteLanguage$Params } from '../fn/language/delete-language';
 import { findAllLanguages } from '../fn/language/find-all-languages';
 import { FindAllLanguages$Params } from '../fn/language/find-all-languages';
-import { findByCriteria } from '../fn/language/find-by-criteria';
-import { FindByCriteria$Params } from '../fn/language/find-by-criteria';
 import { findLanguageById } from '../fn/language/find-language-by-id';
 import { FindLanguageById$Params } from '../fn/language/find-language-by-id';
 import { LanguageDto } from '../models/language-dto';
@@ -129,39 +127,6 @@ export class LanguageService extends BaseService {
   updateLanguage(params: UpdateLanguage$Params, context?: HttpContext): Observable<LanguageDto> {
     return this.updateLanguage$Response(params, context).pipe(
       map((r: StrictHttpResponse<LanguageDto>): LanguageDto => r.body)
-    );
-  }
-
-  /** Path part for operation `findByCriteria()` */
-  static readonly FindByCriteriaPath = '/users/languages/by-criteria/';
-
-  /**
-   * Find language by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria$Response(params: FindByCriteria$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<LanguageDto>>> {
-    return findByCriteria(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find language by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria(params: FindByCriteria$Params, context?: HttpContext): Observable<Array<LanguageDto>> {
-    return this.findByCriteria$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<LanguageDto>>): Array<LanguageDto> => r.body)
     );
   }
 

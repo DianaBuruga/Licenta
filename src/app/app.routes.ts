@@ -24,6 +24,11 @@ export const routes: Routes = [
 }
 ,
 {
+    path: 'user/:id',
+    loadComponent: () => import('./pages/user/user.component').then(m => m.UserComponent)
+}
+,
+{
     path: 'users',
     loadComponent: () => import('./pages/users/users.component').then(m => m.UsersComponent)
 }
@@ -32,4 +37,14 @@ export const routes: Routes = [
     path: 'companies',
     loadComponent: () => import('./pages/companies/companies.component').then(m => m.CompaniesComponent)
 }
+,
+{
+    path: 'jobs',
+    loadComponent: () => import('./pages/jobs/jobs.component').then(m => m.JobsComponent)
+},
+{
+    path: 'job/:id',
+    loadComponent: () => import('./pages/job/job.component').then(m => m.JobComponent)
+}
+,
 ];

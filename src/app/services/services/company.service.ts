@@ -14,8 +14,6 @@ import { deleteCompany } from '../fn/company/delete-company';
 import { DeleteCompany$Params } from '../fn/company/delete-company';
 import { findAllCompanies } from '../fn/company/find-all-companies';
 import { FindAllCompanies$Params } from '../fn/company/find-all-companies';
-import { findByCriteria13 } from '../fn/company/find-by-criteria-13';
-import { FindByCriteria13$Params } from '../fn/company/find-by-criteria-13';
 import { findCompanyById } from '../fn/company/find-company-by-id';
 import { FindCompanyById$Params } from '../fn/company/find-company-by-id';
 import { getCompanyIcon } from '../fn/company/get-company-icon';
@@ -101,39 +99,6 @@ export class CompanyService extends BaseService {
     );
   }
 
-  /** Path part for operation `deleteCompany()` */
-  static readonly DeleteCompanyPath = '/companies';
-
-  /**
-   * Delete company.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `deleteCompany()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteCompany$Response(params: DeleteCompany$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
-    return deleteCompany(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Delete company.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `deleteCompany$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  deleteCompany(params: DeleteCompany$Params, context?: HttpContext): Observable<void> {
-    return this.deleteCompany$Response(params, context).pipe(
-      map((r: StrictHttpResponse<void>): void => r.body)
-    );
-  }
-
   /** Path part for operation `updateCompany()` */
   static readonly UpdateCompanyPath = '/companies';
 
@@ -167,39 +132,6 @@ export class CompanyService extends BaseService {
     );
   }
 
-  /** Path part for operation `findByCriteria13()` */
-  static readonly FindByCriteria13Path = '/companies/by-criteria/';
-
-  /**
-   * Find companies by criteria.
-   *
-   *
-   *
-   * This method provides access to the full `HttpResponse`, allowing access to response headers.
-   * To access only the response body, use `findByCriteria13()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria13$Response(params: FindByCriteria13$Params, context?: HttpContext): Observable<StrictHttpResponse<Array<CompanyDto>>> {
-    return findByCriteria13(this.http, this.rootUrl, params, context);
-  }
-
-  /**
-   * Find companies by criteria.
-   *
-   *
-   *
-   * This method provides access only to the response body.
-   * To access the full response (for headers, for example), `findByCriteria13$Response()` instead.
-   *
-   * This method sends `application/json` and handles request body of type `application/json`.
-   */
-  findByCriteria13(params: FindByCriteria13$Params, context?: HttpContext): Observable<Array<CompanyDto>> {
-    return this.findByCriteria13$Response(params, context).pipe(
-      map((r: StrictHttpResponse<Array<CompanyDto>>): Array<CompanyDto> => r.body)
-    );
-  }
-
   /** Path part for operation `findCompanyById()` */
   static readonly FindCompanyByIdPath = '/companies/{id}';
 
@@ -230,6 +162,39 @@ export class CompanyService extends BaseService {
   findCompanyById(params: FindCompanyById$Params, context?: HttpContext): Observable<CompanyDto> {
     return this.findCompanyById$Response(params, context).pipe(
       map((r: StrictHttpResponse<CompanyDto>): CompanyDto => r.body)
+    );
+  }
+
+  /** Path part for operation `deleteCompany()` */
+  static readonly DeleteCompanyPath = '/companies/{id}';
+
+  /**
+   * Delete company.
+   *
+   *
+   *
+   * This method provides access to the full `HttpResponse`, allowing access to response headers.
+   * To access only the response body, use `deleteCompany()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteCompany$Response(params: DeleteCompany$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
+    return deleteCompany(this.http, this.rootUrl, params, context);
+  }
+
+  /**
+   * Delete company.
+   *
+   *
+   *
+   * This method provides access only to the response body.
+   * To access the full response (for headers, for example), `deleteCompany$Response()` instead.
+   *
+   * This method doesn't expect any request body.
+   */
+  deleteCompany(params: DeleteCompany$Params, context?: HttpContext): Observable<void> {
+    return this.deleteCompany$Response(params, context).pipe(
+      map((r: StrictHttpResponse<void>): void => r.body)
     );
   }
 
