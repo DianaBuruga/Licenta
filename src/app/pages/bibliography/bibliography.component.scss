@@ -1,0 +1,29 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+  .example-card {
+    text-align: center;
+    margin-bottom: 20px;
+    width: 75vw;
+  }
+  
+  .example-header-image {
+    background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+    background-size: cover;
+  }
+
+  button.custom-icon-button {
+    background-color: transparent;
+    color: #ff2929;
+    width: 48px;
+    height: 48px;
+    border: 0px;
+
+    button.custom-icon-button:hover {
+        color: rgb(66, 4, 101) !important;
+    }
+}

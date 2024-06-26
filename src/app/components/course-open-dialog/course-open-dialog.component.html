@@ -1,0 +1,88 @@
+<h1 mat-dialog-title>Add New Course</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a faculty</mat-label>
+      <input type="text" matInput formControlName="faculty" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredFacultyOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    @if(form.get('faculty')?.value) {
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a specialization</mat-label>
+      <input type="text" matInput formControlName="specialization" [matAutocomplete]="auto2">
+      <mat-autocomplete #auto2="matAutocomplete">
+        <mat-option *ngFor="let option of specializationFilterOptions | async" [value]="option">
+    {{option}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+    }
+    <mat-form-field appearance="fill">
+      <mat-label>Course name</mat-label>
+      <input matInput formControlName="name">
+      <mat-error *ngIf="form.get('name')?.errors?.['required']">Title is required</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Year</mat-label>
+      <input matInput type="number" formControlName="year" min="0" max="getMaxYear()">
+      <mat-error *ngIf="form.get('year')?.errors?.['required']">Year is required</mat-error>
+      <mat-error *ngIf="form.get('year')?.errors?.['min']">Year must be at least 1</mat-error>
+      <mat-error *ngIf="form.get('year')?.errors?.['max']">Year must be at most faculy years of study</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Semester</mat-label>
+      <input matInput type="number" formControlName="semester" min="1" max="2">
+      <mat-error *ngIf="form.get('semester')?.errors?.['required']">Semester is required</mat-error>
+      <mat-error *ngIf="form.get('semester')?.errors?.['min']">Semester must be at least 1</mat-error>
+      <mat-error *ngIf="form.get('semester')?.errors?.['max']">Year must be at most 2</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Skills required</mat-label>
+      <input formControlName="skill" #skillInput [matChipInputFor]="chipGrid"
+          [matAutocomplete]="skillAuto" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="add($event)">
+      <mat-autocomplete #skillAuto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let skillOption of skillFilteredOptions | async" [value]="skillOption.name">
+              {{skillOption.name}}
+          </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="skills.length===0">Skill is required</mat-error>
+      <mat-chip-grid #chipGrid aria-label="Skills selection">
+          @for (skill of skills; track skill) {
+          <mat-chip-row (removed)="remove(skill)">
+              {{skill.name}}
+              <button matChipRemove [attr.aria-label]="'remove ' + skill.name">
+                  <mat-icon>cancel</mat-icon>
+              </button>
+          </mat-chip-row>
+          }
+      </mat-chip-grid>
+  </mat-form-field>
+  <div style="display: flex; flex-direction: column; align-items: center;">
+    @if(this.fileInfo){
+      <mat-chip [removable]="true" (removed)="removeFile()" (click)="openFile()" style="margin: 10px; padding: 5px; width: 100%;">
+        <mat-icon style="font-size: 25x;">file_present</mat-icon>
+      {{ fileInfo }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+}
+    <a mat-raised-button color="primary" (click)="fileInput.click()" class="large-button">
+      <mat-icon style="font-size: 25x;">upload_file</mat-icon>
+      Upload file
+    </a>
+    
+    <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" multiple>  
+  </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Cancel</button>
+      <button mat-button color="primary" [disabled]="!form.valid">SAVE</button>
+    </div>
+  </form>
+</div>

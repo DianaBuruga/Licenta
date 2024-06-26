@@ -1,0 +1,45 @@
+<h1 mat-dialog-title>Save Bibliography</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
+    <mat-form-field appearance="fill">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title">
+      <mat-error *ngIf="form.get('title')?.errors?.['required']">Title is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Text</mat-label>
+        <input matInput formControlName="text">
+        <mat-error *ngIf="form.get('text')?.errors?.['required']">Text is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>Skill</mat-label>
+        <input type="text" matInput formControlName="skill" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-error *ngIf="form.get('skill')?.errors?.['required']">Skill name is required</mat-error>
+      </mat-form-field>  
+    <input type="hidden" formControlName="bibliography">
+    <div style="display: flex; flex-direction: column; align-items: center;">
+      @if(this.fileInfo){
+        <mat-chip [removable]="true" (removed)="removeFile()" (click)="openFile()" style="margin: 10px; padding: 5px; width: 100%;">
+          <mat-icon style="font-size: 25x;">file_present</mat-icon>
+        {{ fileInfo }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+  }
+      <a mat-raised-button color="primary" (click)="fileInput.click()" class="large-button">
+        <mat-icon style="font-size: 25x;">upload_file</mat-icon>
+        Upload file
+      </a>
+      
+      <input type="file" #fileInput (change)="onFileSelected($event)" style="display: none;" multiple>  
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Cancel</button>
+      <button mat-button color="primary" [disabled]="!form.valid">Save</button>
+    </div>
+  </form>
+</div>
