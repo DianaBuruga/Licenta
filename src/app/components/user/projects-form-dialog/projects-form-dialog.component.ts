@@ -1,16 +1,16 @@
-import { CommonModule } from '@angular/common';
-import { Component, Inject, inject } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatButtonModule } from '@angular/material/button';
-import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { Observable, map, startWith } from 'rxjs';
-import { ExperienceService } from '../../../services/services';
-import { ExperienceDto } from '../../../services/models';
+import {CommonModule} from '@angular/common';
+import {Component, Inject, inject} from '@angular/core';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatButtonModule} from '@angular/material/button';
+import {MatNativeDateModule, provideNativeDateAdapter} from '@angular/material/core';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from '@angular/material/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {Observable, map, startWith} from 'rxjs';
+import {ExperienceService} from '../../../services/services';
+import {ExperienceDto} from '../../../services/models';
 
 @Component({
   selector: 'app-projects-form-dialog',
@@ -38,23 +38,26 @@ export class ProjectsFormDialogComponent {
   error: any = null;
   filteredOptions: Observable<string[]> = new Observable();
   dialogRef = inject(MatDialogRef);
+
   constructor(private experienceService: ExperienceService, @Inject(MAT_DIALOG_DATA) public data: any) {
     const fb = new FormBuilder();
     this.form = fb.group({
       title: [data.newExperience.title, [Validators.required]],
       description: [data.newExperience.description, [Validators.required]],
-      start: [data.newExperience.date, [Validators.required]],
+      start: [this.convertDate(data.newExperience.date), [Validators.required]],
       website: [data.newExperience.url, [Validators.required, Validators.pattern(/^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/)]],
-      type: [data.newExperience.type, Validators.required],
+      type: [data.newExperience.type, [Validators.required, Validators.pattern('COMPETITION|PROJECT')]],
       experience: []
     });
+
     this.filteredOptions = this.form.get('type')!.valueChanges.pipe(
       startWith(''),
-      map(value => this._filter(value))
+      map(value => this._filter(value || ''))
     );
   }
 
   experience: ExperienceDto = {} as ExperienceDto;
+
   initializeExperienceDto(): void {
     this.experience.id = this.data.newExperience.id;
     this.experience.userDTO = this.data.user;
@@ -69,7 +72,7 @@ export class ProjectsFormDialogComponent {
   onSubmit(): void {
     if (this.form.valid) {
       this.initializeExperienceDto();
-      const params = { body: this.experience };
+      const params = {body: this.experience};
       console.log('params', params);
       if (this.data.newExperience.id === '' || this.data.newExperience.id === undefined) {
         this.experienceService.saveExperience(params).subscribe(({
@@ -106,5 +109,18 @@ export class ProjectsFormDialogComponent {
     return this.options
       .filter(option => option.toLowerCase().includes(filterValue))
       .sort((a, b) => a.localeCompare(b));
+  }
+
+  private convertDate(dateString: string): Date | null {
+    if (!dateString) {
+      return null;
+    }
+
+    const [day, month, year] = dateString.split('.').map(part => parseInt(part, 10));
+    if (isNaN(day) || isNaN(month) || isNaN(year)) {
+      return null;
+    }
+
+    return new Date(year, month - 1, day);
   }
 }

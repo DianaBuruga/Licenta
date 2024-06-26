@@ -1,43 +1,43 @@
 /* tslint:disable */
 /* eslint-disable */
-import { HttpClient, HttpContext } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpContext} from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
-import { BaseService } from '../base-service';
-import { ApiConfiguration } from '../api-configuration';
-import { StrictHttpResponse } from '../strict-http-response';
+import {BaseService} from '../base-service';
+import {ApiConfiguration} from '../api-configuration';
+import {StrictHttpResponse} from '../strict-http-response';
 
-import { deleteUser } from '../fn/user/delete-user';
-import { DeleteUser$Params } from '../fn/user/delete-user';
-import { downloadFileById } from '../fn/user/download-file-by-id';
-import { DownloadFileById$Params } from '../fn/user/download-file-by-id';
-import { exportUserPdf } from '../fn/user/export-user-pdf';
-import { ExportUserPdf$Params } from '../fn/user/export-user-pdf';
-import { findAllUsers } from '../fn/user/find-all-users';
-import { FindAllUsers$Params } from '../fn/user/find-all-users';
-import { findUserByEmail } from '../fn/user/find-user-by-email';
-import { FindUserByEmail$Params } from '../fn/user/find-user-by-email';
-import { findUserById } from '../fn/user/find-user-by-id';
-import { FindUserById$Params } from '../fn/user/find-user-by-id';
-import { getAuthenticatedUser } from '../fn/user/get-authenticated-user';
-import { GetAuthenticatedUser$Params } from '../fn/user/get-authenticated-user';
-import { saveProfilePhoto } from '../fn/user/save-profile-photo';
-import { SaveProfilePhoto$Params } from '../fn/user/save-profile-photo';
-import { saveUser } from '../fn/user/save-user';
-import { SaveUser$Params } from '../fn/user/save-user';
-import { updateUser } from '../fn/user/update-user';
-import { UpdateUser$Params } from '../fn/user/update-user';
-import { UserDto } from '../models/user-dto';
-import { viewFileById } from '../fn/user/view-file-by-id';
-import { ViewFileById$Params } from '../fn/user/view-file-by-id';
+import {deleteUser} from '../fn/user/delete-user';
+import {DeleteUser$Params} from '../fn/user/delete-user';
+import {downloadFileById} from '../fn/user/download-file-by-id';
+import {DownloadFileById$Params} from '../fn/user/download-file-by-id';
+import {exportUserPdf} from '../fn/user/export-user-pdf';
+import {ExportUserPdf$Params} from '../fn/user/export-user-pdf';
+import {findAllUsers} from '../fn/user/find-all-users';
+import {FindAllUsers$Params} from '../fn/user/find-all-users';
+import {findUserByEmail} from '../fn/user/find-user-by-email';
+import {FindUserByEmail$Params} from '../fn/user/find-user-by-email';
+import {findUserById} from '../fn/user/find-user-by-id';
+import {FindUserById$Params} from '../fn/user/find-user-by-id';
+import {getAuthenticatedUser} from '../fn/user/get-authenticated-user';
+import {GetAuthenticatedUser$Params} from '../fn/user/get-authenticated-user';
+import {saveProfilePhoto} from '../fn/user/save-profile-photo';
+import {SaveProfilePhoto$Params} from '../fn/user/save-profile-photo';
+import {saveUser} from '../fn/user/save-user';
+import {SaveUser$Params} from '../fn/user/save-user';
+import {updateUser} from '../fn/user/update-user';
+import {UpdateUser$Params} from '../fn/user/update-user';
+import {UserDto} from '../models/user-dto';
+import {viewFileById} from '../fn/user/view-file-by-id';
+import {ViewFileById$Params} from '../fn/user/view-file-by-id';
 
 
 /**
  * The User API
  */
-@Injectable({ providedIn: 'root' })
+@Injectable({providedIn: 'root'})
 export class UserService extends BaseService {
   constructor(config: ApiConfiguration, http: HttpClient) {
     super(config, http);
@@ -337,7 +337,7 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  exportUserPdf$Response(params: ExportUserPdf$Params, context?: HttpContext): Observable<StrictHttpResponse<UserDto>> {
+  exportUserPdf$Response(params: ExportUserPdf$Params, context?: HttpContext): Observable<StrictHttpResponse<Blob>> {
     return exportUserPdf(this.http, this.rootUrl, params, context);
   }
 
@@ -351,9 +351,9 @@ export class UserService extends BaseService {
    *
    * This method doesn't expect any request body.
    */
-  exportUserPdf(params: ExportUserPdf$Params, context?: HttpContext): Observable<UserDto> {
+  exportUserPdf(params: ExportUserPdf$Params, context?: HttpContext): Observable<Blob> {
     return this.exportUserPdf$Response(params, context).pipe(
-      map((r: StrictHttpResponse<UserDto>): UserDto => r.body)
+      map((r: StrictHttpResponse<Blob>): Blob => r.body)
     );
   }
 
@@ -368,7 +368,7 @@ export class UserService extends BaseService {
    * This method provides access to the full `HttpResponse`, allowing access to response headers.
    * To access only the response body, use `deleteUser()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
   deleteUser$Response(params: DeleteUser$Params, context?: HttpContext): Observable<StrictHttpResponse<void>> {
     return deleteUser(this.http, this.rootUrl, params, context);
@@ -382,7 +382,7 @@ export class UserService extends BaseService {
    * This method provides access only to the response body.
    * To access the full response (for headers, for example), `deleteUser$Response()` instead.
    *
-   * This method sends `application/json` and handles request body of type `application/json`.
+   * This method doesn't expect any request body.
    */
   deleteUser(params: DeleteUser$Params, context?: HttpContext): Observable<void> {
     return this.deleteUser$Response(params, context).pipe(

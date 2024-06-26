@@ -1,12 +1,14 @@
 <div class="container">
   <br>
-  <h1><b>Experience</b><button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyJobHistory)">
+  <h1><b>Experience</b>
+    <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyJobHistory)">
       <mat-icon>add</mat-icon>
-    </button></h1>
+    </button>
+  </h1>
   @if (experiences?.length !==0) {
   <div class="timeline">
     <br>
-    <div *ngFor="let experience of experiences" class="timeline-event">
+    <div *ngFor="let experience of sortedExperiences" class="timeline-event">
       <div class="timeline-company">
         <img src="{{experience.company.logoUrl}}" alt="company logo" onclass="timeline-company-logo"
           style="width: 48px;">
@@ -18,12 +20,19 @@
         <div class="timeline-track"></div>
       </div>
       <div class="timeline-content">
+        <div style="width: 80%;">
         <span style="font-size: 20px;"><b>{{ experience.position}}</b></span>
         <br>
-        <span class="timeline-date">{{ experience.startDate }} - {{experience.endDate}}</span>
+        @if(experience.endDate){
+  <span class="timeline-date">{{ experience.startDate }} - {{experience.endDate}}</span>
+  }
+  @else {
+  <span class="timeline-date">{{ experience.startDate }} - Present</span>
+  }
+  <br>
+  <span>{{ experience.description }}</span>
         <br>
-        <span>{{ experience.description }}</span>
-        <br>
+        </div>
         <button mat-icon-button class="custom-icon-button" (click)="openDialog(experience)">
           <mat-icon>update</mat-icon>
         </button>

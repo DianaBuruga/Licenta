@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Add New Job</h1>
+<h1 mat-dialog-title>Add New Job Experience</h1>
 <div mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
     <mat-form-field appearance="fill">
@@ -8,8 +8,8 @@
     </mat-form-field>
     <mat-radio-group formControlName="needsQualification">
       <mat-label>This job need qualification?</mat-label>
-      <mat-radio-button value="true">Yes</mat-radio-button>
-      <mat-radio-button value="false" [checked]="true">No</mat-radio-button>
+      <mat-radio-button [value]="true" [checked]=data.job.needQualification>Yes</mat-radio-button>
+      <mat-radio-button [value]="false" [checked]=!data.job.needQualification>No</mat-radio-button>
     </mat-radio-group>
     <mat-form-field appearance="fill">
       <mat-label>Enter a date range</mat-label>
@@ -37,7 +37,8 @@
       </mat-autocomplete>
     </mat-form-field>
     <button mat-button *ngIf="!showNewOptionInput" (click)="toggleNewOptionInput(false)">My company is not in the
-      list</button>
+      list
+    </button>
     <div *ngIf="showNewOptionInput">
       <mat-form-field appearance="fill">
         <mat-label>Company website</mat-label>
@@ -48,7 +49,7 @@
     </div>
     <div mat-dialog-actions>
       <button mat-button (click)="closeDialog()">Cancel</button>
-      <button mat-button color="primary" [disabled]="!form.valid">Add</button>
+      <button mat-button color="primary" [disabled]="!form.valid">SAVE</button>
     </div>
   </form>
 </div>

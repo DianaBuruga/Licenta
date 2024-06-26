@@ -1,20 +1,34 @@
-import { Component, OnInit } from '@angular/core';
-import { FirstComponentComponent } from '../../components/first-component/first-component.component';
-import { ProfileCardComponent } from '../../components/user/profile-card/profile-card.component';
-import { ExperienceComponent } from '../../components/experience/experience.component';
-import { ProjectsCarouselComponent } from '../../components/user/projects-carousel/projects-carousel.component';
-import { SkillCircularProgressbarComponent } from '../../components/user/skill-circular-progressbar/skill-circular-progressbar.component';
-import { LanguageTableComponent } from '../../components/user/language-table/language-table.component';
-import { AcreditareCardComponent } from '../../components/user/acreditare-card/acreditare-card.component';
-import { ReferalComponent } from '../../components/user/referal/referal.component';
-import { ExperienceDto, JobHistoryDto, LanguageDto, ReferralDto, UserDto, UserSkillsDto } from '../../services/models';
-import { UserService } from '../../services/services/user.service';
-import { NgIf } from '@angular/common';
-import { SearchService } from '../../services/services';
+import {Component, OnInit} from '@angular/core';
+import {FirstComponentComponent} from '../../components/first-component/first-component.component';
+import {ProfileCardComponent} from '../../components/user/profile-card/profile-card.component';
+import {ExperienceComponent} from '../../components/user/experience/experience.component';
+import {ProjectsCarouselComponent} from '../../components/user/projects-carousel/projects-carousel.component';
+import {
+  SkillCircularProgressbarComponent
+} from '../../components/user/skill-circular-progressbar/skill-circular-progressbar.component';
+import {LanguageTableComponent} from '../../components/user/language-table/language-table.component';
+import {AcreditareCardComponent} from '../../components/user/acreditare-card/acreditare-card.component';
+import {ReferalComponent} from '../../components/user/referal/referal.component';
+import {
+  ExperienceDto,
+  JobHistoryDto,
+  LanguageDto,
+  ReferralDto,
+  SpecializationDto,
+  UserDto,
+  UserSkillsDto
+} from '../../services/models';
+import {UserService} from '../../services/services/user.service';
+import {NgIf} from '@angular/common';
+import {SearchService} from '../../services/services';
+import {EducationComponent} from "../../components/education/education.component";
 
 @Component({
   selector: 'app-profile',
   standalone: true,
+  templateUrl: './profile.component.html',
+  styleUrls: ['./profile.component.scss'] // Corrected from 'styleUrl' to 'styleUrls'
+  ,
   imports: [
     FirstComponentComponent,
     ProfileCardComponent,
@@ -24,10 +38,9 @@ import { SearchService } from '../../services/services';
     LanguageTableComponent,
     AcreditareCardComponent,
     ReferalComponent,
-    NgIf
-  ],
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'] // Corrected from 'styleUrl' to 'styleUrls'
+    NgIf,
+    EducationComponent
+  ]
 })
 export class ProfileComponent implements OnInit {
   user: UserDto = {} as UserDto;
@@ -37,8 +50,10 @@ export class ProfileComponent implements OnInit {
   skills: UserSkillsDto[] = [];
   languages: LanguageDto[] = [];
   referrals: ReferralDto[] = [];
+  specializations: SpecializationDto[] = [];
 
-  constructor(private userService: UserService, private searchService: SearchService) { }
+  constructor(private userService: UserService, private searchService: SearchService) {
+  }
 
   ngOnInit(): void {
     console.log('ProfileComponent initialized');
@@ -56,6 +71,7 @@ export class ProfileComponent implements OnInit {
         this.getSkill();
         this.getLanguages();
         this.getReferrals();
+        this.getSpecializations();
         console.log('User:', user);
       },
       error: (error: any) => {
@@ -88,6 +104,31 @@ export class ProfileComponent implements OnInit {
         },
         complete: () => {
           console.log('Completed fetching user');
+        }
+      });
+    }
+  }
+
+  private getSpecializations(): void {
+    if (this.user.id) {
+      console.log('Userul este:', this.user);
+      const param = {
+        endpoint: "specializations",
+        criteria: {
+          "user.id": this.user.id
+        }
+      };
+      this.searchService.search(param).subscribe({
+        next: (specializations: SpecializationDto[]) => {
+          this.specializations = specializations;
+          console.log('Specializations:', this.specializations);
+        },
+        error: (error: any) => {
+          this.error = error;
+          console.error('Error fetching specializations:', error);
+        },
+        complete: () => {
+          console.log('Completed fetching specializations');
         }
       });
     }
@@ -167,6 +208,7 @@ export class ProfileComponent implements OnInit {
       });
     }
   }
+
   private getReferrals(): void {
     if (this.user.id) {
       console.log('Userul este:', this.user);

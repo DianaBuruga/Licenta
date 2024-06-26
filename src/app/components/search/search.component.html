@@ -1,0 +1,327 @@
+<mat-card class="filter-bar-card">
+  <mat-card-title style="text-align: center;">Advanced Search</mat-card-title>
+  <mat-icon class="row-down"></mat-icon>
+  <p></p>
+  <form [formGroup]="filterForm" (ngSubmit)="onSubmit()" class="filter-form">
+    @if(endpoint==='users'){
+    <div class="form-row">
+  <mat-form-field appearance="fill">
+    <mat-label>User name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Position</mat-label>
+    <mat-select formControlName="userRole">
+      <mat-option value="STUDENT">Student</mat-option>
+      <mat-option value="COMPANY_REPRESENTATIVE">Company Representative</mat-option>
+      <mat-option value="TEACHER">Teacher</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Status</mat-label>
+    <mat-select formControlName="status">
+      <mat-option value="RECRUITING">RECRUITING</mat-option>
+      <mat-option value="OPEN_TO_WORK">OPEN TO WORK</mat-option>
+      <mat-option value="EMPLOYED">EMPLOYED</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+@if(filterForm.get('userRole')?.value === 'STUDENT' || filterForm.get('userRole')?.value === 'TEACHER') {
+  <div class="form-row">
+    <mat-form-field appearance="fill">
+    <mat-label>Faculty</mat-label>
+     <input type="text" matInput formControlName="faculty" [matAutocomplete]="auto3">
+    <mat-autocomplete #auto3="matAutocomplete">
+      <mat-option *ngFor="let option of filteredFacultyOptions | async" [value]="option">
+        {{option}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  @if(filterForm.get('faculty')?.value) {
+    <mat-form-field appearance="fill">
+      <mat-label>Specialization</mat-label>
+      <input type="text" matInput formControlName="specialization" [matAutocomplete]="auto2">
+      <mat-autocomplete #auto2="matAutocomplete">
+        <mat-option *ngFor="let option of specializationFilterOptions | async" [value]="option">
+    {{option}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+    }
+  </div>
+  }
+
+    @if(filterForm.get('userRole')?.value === 'STUDENT' || filterForm.get('userRole')?.value === 'COMPANY_REPRESENTATIVE')
+    {
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Company</mat-label>
+        <input matInput formControlName="company" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+            <img src={{option.logoUrl}} style="width: 15px;" alt="">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    }
+
+    @if(filterForm.get('userRole')?.value === 'STUDENT') {
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Skill</mat-label>
+        <input type="text" matInput formControlName="skill" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let option of skillFilteredOptions | async" [value]="option.name">
+            {{option.name}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+
+      @if(filterForm.get('skill')?.value !== '') {
+      <mat-form-field appearance="fill">
+        <mat-label>Minimum skill proficiency</mat-label>
+        <input matInput formControlName="percentageMin" type="number" min="0" max="100">
+        <mat-error *ngIf="percentageMin?.hasError('range')">
+          Skill proficiency must be between 0 and 100
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Maximum skill proficiency</mat-label>
+        <input matInput formControlName="percentageMax" type="number" min="0" max="100">
+        <mat-error *ngIf="percentageMax?.hasError('range')">
+          Skill proficiency must be between 0 and 100
+        </mat-error>
+      </mat-form-field>
+      }
+    </div>
+    <div class="form-row">
+      <mat-form-field appearance="fill">
+        <mat-label>Language</mat-label>
+        <input type="text" matInput formControlName="language" [matAutocomplete]="autoLanguage">
+        <mat-autocomplete #autoLanguage="matAutocomplete">
+          <mat-option *ngFor="let option of filteredLanguageOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      @if(filterForm.get('language')?.value !== ''){
+      <mat-form-field appearance="fill">
+        <mat-label>Listening</mat-label>
+         <mat-select formControlName="listeningLevel">
+          <mat-option value="A1">A1</mat-option>
+          <mat-option value="A2">A2</mat-option>
+          <mat-option value="B1">B1</mat-option>
+          <mat-option value="B2">B2</mat-option>
+          <mat-option value="C1">C1</mat-option>
+          <mat-option value="C2">C2</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Speaking</mat-label>
+       <mat-select formControlName="speakingLevel">
+        <mat-option value="A1">A1</mat-option>
+        <mat-option value="A2">A2</mat-option>
+        <mat-option value="B1">B1</mat-option>
+        <mat-option value="B2">B2</mat-option>
+        <mat-option value="C1">C1</mat-option>
+        <mat-option value="C2">C2</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Writing</mat-label>
+      <mat-select formControlName="writingLevel">
+          <mat-option value="A1">A1</mat-option>
+          <mat-option value="A2">A2</mat-option>
+          <mat-option value="B1">B1</mat-option>
+          <mat-option value="B2">B2</mat-option>
+          <mat-option value="C1">C1</mat-option>
+          <mat-option value="C2">C2</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Reading)</mat-label>
+      <mat-select formControlName="readingLevel">
+          <mat-option value="A1">A1</mat-option>
+          <mat-option value="A2">A2</mat-option>
+          <mat-option value="B1">B1</mat-option>
+          <mat-option value="B2">B2</mat-option>
+          <mat-option value="C1">C1</mat-option>
+          <mat-option value="C2">C2</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Conversation</mat-label>
+      <mat-select formControlName="conversationLevel">
+          <mat-option value="A1">A1</mat-option>
+          <mat-option value="A2">A2</mat-option>
+          <mat-option value="B1">B1</mat-option>
+          <mat-option value="B2">B2</mat-option>
+          <mat-option value="C1">C1</mat-option>
+          <mat-option value="C2">C2</mat-option>
+        </mat-select>
+    </mat-form-field>
+      }
+    </div>
+    }
+    }
+    @if(endpoint==='postedJobs'){
+    <div class="form-row">
+    <mat-form-field appearance="fill">
+      <mat-label>Skill</mat-label>
+      <input type="text" matInput formControlName="skill" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of skillFilteredOptions | async" [value]="option.name">
+    {{option.name}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Position</mat-label>
+  <input matInput formControlName="position">
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Job Status</mat-label>
+  <mat-select formControlName="status">
+    <mat-option value="active">Active</mat-option>
+    <mat-option value="inactive">Inactive</mat-option>
+  </mat-select>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Recruiter name</mat-label>
+  <input matInput formControlName="recruiterName">
+</mat-form-field>
+</div>
+<div class="form-row">
+  <mat-form-field appearance="fill">
+    <mat-label>Company</mat-label>
+    <input matInput formControlName="company" [matAutocomplete]="auto4">
+    <mat-autocomplete #auto4="matAutocomplete">
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option.name">
+        <img src={{option.logoUrl}} style="width: 15px;" alt="">
+        {{option.name}}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+<mat-form-field appearance="fill">
+<mat-label>Job location</mat-label>
+<input matInput formControlName="jobLocation">
+</mat-form-field>
+<mat-form-field appearance="fill">
+<mat-label>Job Type</mat-label>
+<mat-select formControlName="jobType">
+  <mat-option value="REMOTE">Remote</mat-option>
+  <mat-option value="ONSIDE">Onside</mat-option>
+  <mat-option value="HYBRID">Hybrid</mat-option>
+</mat-select>
+</mat-form-field>
+</div>
+<div class="form-row-rating">
+<label style="color:rgb(100, 100, 100); font-size: medium; margin-left: 15px;">Company Minimum Rating</label>
+<br>
+<igc-rating [(value)]="filterForm.controls['companyRating'].value" min="0" max="5" size="large" hover-preview
+  (igcChange)="updateRating($event)"></igc-rating>
+</div>
+<br>
+    }
+    @if(endpoint==='companies'){
+    <mat-form-field appearance="fill">
+      <mat-label>Company name</mat-label>
+      <input matInput formControlName="companyName">
+    </mat-form-field>
+    <div class="form-row-rating">
+      <label style="color:rgb(100, 100, 100); font-size: medium; margin-left: 15px;">Company Minimum Rating</label>
+      <br>
+      <igc-rating [(value)]="filterForm.controls['companyRating'].value" min="0" max="5" size="large" hover-preview
+          (igcChange)="updateRating($event)"></igc-rating>
+  </div>
+  <br>
+    }
+
+    @if(endpoint==='courses'){
+      <div class="form-row">
+        <mat-form-field appearance="fill">
+          <mat-label>Skill</mat-label>
+          <input type="text" matInput formControlName="skill" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of skillFilteredOptions | async" [value]="option.name">
+        {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+    <mat-label>Course name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  </div>
+  <div class="form-row">
+        <mat-form-field appearance="fill">
+        <mat-label>Faculty</mat-label>
+         <input type="text" matInput formControlName="faculty" [matAutocomplete]="auto3">
+        <mat-autocomplete #auto3="matAutocomplete">
+          <mat-option *ngFor="let option of filteredFacultyOptions | async" [value]="option">
+            {{option}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      @if(filterForm.get('faculty')?.value) {
+        <mat-form-field appearance="fill">
+          <mat-label>Specialization</mat-label>
+          <input type="text" matInput formControlName="specialization" [matAutocomplete]="auto2">
+          <mat-autocomplete #auto2="matAutocomplete">
+            <mat-option *ngFor="let option of specializationFilterOptions | async" [value]="option">
+        {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Year of study</mat-label>
+      <input matInput formControlName="year" type="number" min="0" max="6">
+      <mat-error *ngIf="year?.hasError('year')">
+        Skill proficiency must be between 0 and 6
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Semester</mat-label>
+      <input matInput formControlName="semester" type="number" min="1" max="2">
+      <mat-error *ngIf="semester?.hasError('semester')">
+        Skill proficiency must be 1 or 2
+      </mat-error>
+    </mat-form-field>
+        }
+      </div>
+    }
+    @if(endpoint==='bibliographies'){
+      <div class="form-row">
+        <mat-form-field appearance="fill">
+          <mat-label>Skill</mat-label>
+          <input type="text" matInput formControlName="skill" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngFor="let option of skillFilteredOptions | async" [value]="option.name">
+        {{option.name}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+    <mat-label>User name</mat-label>
+    <input matInput formControlName="name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Title</mat-label>
+    <input matInput formControlName="title">
+  </mat-form-field>
+</div>
+    }
+    <button mat-raised-button color="primary" (click)="sendData()">Search</button>
+    <br/>
+    <button mat-button type="button" (click)="resetForm()">Reset</button>
+  </form>
+</mat-card>

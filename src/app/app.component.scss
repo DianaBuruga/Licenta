@@ -1,4 +1,9 @@
 mat-card {
     margin: 10px;
 }
-  
+.content {
+    min-height: calc(100vh - 60px); 
+    padding-bottom: 60px;
+    padding-top: 80px;
+    box-sizing: border-box;
+  }

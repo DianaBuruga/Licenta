@@ -1,34 +1,45 @@
-import { Component } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
-import { MatIcon } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { NgFor } from '@angular/common';
-import { PostedJobDto } from '../../services/models';
-import { PostedJobService, SearchService } from '../../services/services';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PostedJobOpenDialogComponent } from '../../components/company/posted-job-open-dialog/posted-job-open-dialog.component';
+import {Component} from '@angular/core';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialog} from '@angular/material/dialog';
+import {MatIcon} from '@angular/material/icon';
+import {MatCardModule} from '@angular/material/card';
+import {NgFor} from '@angular/common';
+import {PostedJobDto} from '../../services/models';
+import {PostedJobService, SearchService} from '../../services/services';
+import {ActivatedRoute, Router} from '@angular/router';
+import {
+  PostedJobOpenDialogComponent
+} from '../../components/company/posted-job-open-dialog/posted-job-open-dialog.component';
+import {SearchComponent} from "../../components/search/search.component";
 
 @Component({
   selector: 'app-company-jobs',
   standalone: true,
+  templateUrl: './jobs.component.html',
+  styleUrl: './jobs.component.scss',
   imports: [
     MatButtonModule,
     MatIcon,
     MatCardModule,
-    NgFor
-  ],
-  templateUrl: './jobs.component.html',
-  styleUrl: './jobs.component.scss'
+    NgFor,
+    SearchComponent
+  ]
 })
 export class JobsComponent {
   id: any;
   error: any;
   jobs: PostedJobDto[] = [];
+  endpoint: string = 'postedJobs';
 
   emptyJob: PostedJobDto = {} as PostedJobDto;
 
-  constructor(private jobService: PostedJobService, private dialog: MatDialog, private route: ActivatedRoute, private searchService: SearchService, private router: Router) { };
+  constructor(private jobService: PostedJobService, private dialog: MatDialog, private route: ActivatedRoute, private searchService: SearchService, private router: Router) {
+  };
+
+  processPostedJobs(filterdJobs: PostedJobDto[]) {
+    console.log('Am primit job-urile:');
+    this.jobs = filterdJobs;
+  }
 
   ngOnInit(): void {
     this.emptyJob.id = '';
@@ -60,7 +71,7 @@ export class JobsComponent {
   openDialog(job: PostedJobDto): void {
     const dialogRef = this.dialog.open(PostedJobOpenDialogComponent, {
       width: '50%',
-      data: { companyId: this.id, job: job }
+      data: {companyId: this.id, job: job}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -70,8 +81,7 @@ export class JobsComponent {
         const index = this.jobs?.findIndex(x => x.id === result.job.id);
         if (index !== -1 && index !== undefined && index !== null && this.jobs !== undefined) {
           this.jobs[index] = result.job;
-        }
-        else {
+        } else {
           this.jobs?.push(result.job);
         }
         this.jobs = [...this.jobs ?? []];

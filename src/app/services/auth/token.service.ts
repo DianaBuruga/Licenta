@@ -1,22 +1,32 @@
-import { isPlatformBrowser } from '@angular/common';
-import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { CookieService } from 'ngx-cookie-service';
+import {Injectable} from '@angular/core';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TokenService {
   private readonly tokenKey = 'token';
-  constructor(private cookieService: CookieService) {}
-  
-  set token(token: string) {  
+  private roles: string[] = [];
+
+  constructor(private cookieService: CookieService) {
+  }
+
+  set token(token: string) {
     if (token && token !== "") {
       this.cookieService.set(this.tokenKey, token);
     }
   }
 
-  get token(): string{
+  get token(): string {
     return this.cookieService.get(this.tokenKey);
+  }
+
+  deleteToken(token: string): void {
+    this.cookieService.delete(this.tokenKey);
+  }
+
+  refreshToken(): string {
+    return this.token;
   }
 
   isTokenValid() {
@@ -33,5 +43,9 @@ export class TokenService {
 
   get userRoles(): string[] {
     return [];
+  }
+
+  get hasRole(role:string): boolean {
+    return false;
   }
 }

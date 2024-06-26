@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>Add New Language</h1>
+<h1 mat-dialog-title>Update Personal Data</h1>
 <div mat-dialog-content>
   <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
     <mat-form-field appearance="fill">
@@ -35,7 +35,7 @@
       <mat-error *ngIf="form.get('status')?.errors?.['required']">Current status is required</mat-error>
     </mat-form-field>
     <mat-form-field appearance="fill">
-      <mat-label>Company website</mat-label>
+      <mat-label>My website</mat-label>
       <input matInput formControlName="website">
       <mat-error *ngIf="form.get('website')?.errors?.['pattern']">Enter a valid URL</mat-error>
       <mat-error *ngIf="form.get('website')?.errors?.['required']">Website is required</mat-error>

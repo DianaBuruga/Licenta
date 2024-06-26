@@ -1,6 +1,9 @@
-<div class="container" id="google-btn">
-    <a mat-raised-button [style.background-color]="white" [style.color]="gray" href={{this.url}}>
-        <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google Logo">
-        <span style="font-size:20px;"> Authenticate with Google</span>
-    </a>
+<div class="background-container" id="google-btn">
 </div>
+<div class="container">
+  <button class="custom-button" (click)="openAuthUrl()">
+    <img src="https://fonts.gstatic.com/s/i/productlogos/googleg/v6/24px.svg" alt="Google Logo">
+    <span style="font-size:20px;"> Authenticate with Google</span>
+  </button>
+</div>
+

@@ -1,13 +1,14 @@
 <ng-container *ngIf="error == null || user == null">
-    <app-profile-card [profileCardUser]='user'></app-profile-card>
-    <app-experience [userExperiences]='user' [experiences]='jobHistories'></app-experience>
-    <app-projects-carousel [userExperiences]='user' [experiencesArray]='experiences'></app-projects-carousel>
-    <app-skill-circular-progressbar [user]='user' [userSkills]="skills"></app-skill-circular-progressbar>
-    <app-language-table [user]='user' [languages]='languages'></app-language-table>
-    <app-acreditare-card [userExperiences]='user' [experiencesArray]='experiences'></app-acreditare-card>
-    <app-referal [user]='user' [referrals]='referrals'></app-referal>
-  </ng-container>
-  <ng-container *ngIf="error != null">
-    <p>Error: {{error}}</p>
-    <p>Please check the console</p>
-  </ng-container>
+  <app-profile-card [profileCardUser]='user'></app-profile-card>
+  <app-education [user]='user' [specializations]="specializations"></app-education>
+  <app-experience [userExperiences]='user' [experiences]='jobHistories'></app-experience>
+  <app-projects-carousel [userExperiences]='user' [experiencesArray]='experiences'></app-projects-carousel>
+  <app-skill-circular-progressbar [user]='user' [userSkills]="skills"></app-skill-circular-progressbar>
+  <app-language-table [user]='user' [languages]='languages'></app-language-table>
+  <app-acreditare-card [userExperiences]='user' [experiencesArray]='experiences'></app-acreditare-card>
+  <app-referal [user]='user' [referrals]='referrals'></app-referal>
+</ng-container>
+<ng-container *ngIf="error != null">
+  <p>Error: {{error}}</p>
+  <p>Please check the console</p>
+</ng-container>

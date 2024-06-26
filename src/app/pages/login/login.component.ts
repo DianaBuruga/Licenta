@@ -1,7 +1,7 @@
-import { Component, inject } from '@angular/core';
-import { MatButton } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
-import { AuthenticationService } from '../../services/services/authentication.service';
+import {ChangeDetectorRef, Component} from '@angular/core';
+import {MatButton} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+import {AuthenticationService} from '../../services/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -14,13 +14,25 @@ import { AuthenticationService } from '../../services/services/authentication.se
   styleUrl: './login.component.scss'
 })
 export class LoginComponent {
-  private authService: AuthenticationService = inject(AuthenticationService);
+  constructor(private authService: AuthenticationService, private cdr: ChangeDetectorRef) {
+  }
 
   gray: string = 'gray';
   white: string = 'white';
   url: string = '';
-  
+
   ngOnInit(): void {
-    this.authService.auth().subscribe((response) => { console.log(response); this.url = response.authURL ?? ''; });
+    this.authService.auth().subscribe((response) => {
+      console.log(response);
+      this.url = response.authURL ?? '';
+    });
+    this.cdr.detectChanges();
+  }
+
+  openAuthUrl(): void {
+    console.log("Ai apasat butonul");
+    if (this.url) {
+      window.location.href = this.url;
+    }
   }
 }

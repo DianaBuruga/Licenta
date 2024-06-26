@@ -1,0 +1,55 @@
+<h1 mat-dialog-title>Add New Education</h1>
+<div mat-dialog-content>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="form-content">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a faculty</mat-label>
+      <input type="text" matInput formControlName="faculty" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredFacultyOptions | async" [value]="option">
+          {{option}}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    @if(form.get('faculty')?.value) {
+    <mat-form-field appearance="fill">
+      <mat-label>Choose a specialization</mat-label>
+      <input type="text" matInput formControlName="name" [matAutocomplete]="auto2">
+      <mat-autocomplete #auto2="matAutocomplete">
+        <mat-option *ngFor="let option of specializationFilterOptions | async" [value]="option">
+    {{option}}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>
+    }
+    <mat-form-field appearance="fill">
+      <mat-label>Degree</mat-label>
+      <mat-select formControlName="degree">
+        <mat-option value="BACHELOR">BACHELOR</mat-option>
+        <mat-option value="MASTER">MASTER</mat-option>
+        <mat-option value="PHD">PHD</mat-option>
+        <mat-option value="POSTDOC">POSTDOC</mat-option>
+        <mat-option value="NONE">NONE</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Started date</mat-label>
+      <input matInput placeholder="Date" [matDatepicker]="picker1" formControlName="startedDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+      <mat-datepicker #picker1></mat-datepicker>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Finish date</mat-label>
+      <input matInput placeholder="Date" [matDatepicker]="picker2" formControlName="finishedDate">
+      <mat-hint>MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+
+    <div mat-dialog-actions>
+      <button mat-button (click)="closeDialog()">Cancel</button>
+      <button mat-button color="primary" [disabled]="!form.valid">SAVE</button>
+    </div>
+  </form>
+</div>

@@ -2,6 +2,10 @@
   background-color: #f13a2d !important;
   color: white;
   padding: 0 2%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
 
   .navbar-brand {
     display: flex;
@@ -64,7 +68,6 @@
     display: none;
   }
 }
-
 
 .mobile-menu-trigger {
   display: none;

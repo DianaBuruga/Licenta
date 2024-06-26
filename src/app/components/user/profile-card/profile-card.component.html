@@ -1,6 +1,6 @@
 <mat-card class="profile-card">
-  <div class="profile-image">
-    <img src="http://localhost:8081/users/profilePhoto/view/{{profileCardUser.id}}" alt="Profile image">
+  <div class="profile-image image-container">
+    <img [src]="profilePhotoUrl" alt="Profile image" (click)="fileInput.click()" class="hover-image">
   </div>
   <div class="lines-container">
     <div class="line"></div>
@@ -20,11 +20,14 @@
     }
     <h3><a mat-raised-button href={{profileCardUser.website}}>Check more about me here</a></h3>
     <div class="profile-actions">
-      <button mat-raised-button color="warn">Download CV</button>
+      <button mat-raised-button color="warn" (click)="generateCV(profileCardUser)">Download CV</button>
+      @if(isOwner()||hasRole('ADMIN'){
       <button mat-raised-button color="primary" (click)="openDialog(profileCardUser)">Edit</button>
+      }
     </div>
-  </div>
-  <div class="section">
-    <h1>{{profileCardUser.role}}</h1>
+    <div>
+      <input type="file" (change)="onFileSelected($event)" #fileInput hidden>
+      <!-- <button mat-raised-button color="primary" (click)="onUpload()">Upload</button> -->
+    </div>
   </div>
 </mat-card>
