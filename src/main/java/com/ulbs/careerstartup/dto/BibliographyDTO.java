@@ -30,17 +30,12 @@ public class BibliographyDTO {
     @Size(max = 255, message = INPUT_TOO_LONG)
     private String title;
 
-    @NotNull(message = "Date is required")
-    @NotEmpty(message = "Date is required")
     private String date;
 
-    @NotNull(message = "Writer is required")
-    @NotEmpty(message = "Writer is required")
     @JsonProperty("writer")
     private UserDTO writerDTO;
 
     @NotNull(message = "Skill is required")
-    @NotEmpty(message = "Skill is required")
     @JsonProperty("skill")
     private SkillDTO skillDTO;
 }

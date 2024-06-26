@@ -1,6 +1,6 @@
 package com.ulbs.careerstartup.service;
 
-import com.ulbs.careerstartup.api.model.HTMLEmailRequest;
+import com.ulbs.careerstartup.api.model.ApplicationEmailRequest;
 import com.ulbs.careerstartup.dto.JobCandidatesDTO;
 import com.ulbs.careerstartup.dto.PostedJobDTO;
 import com.ulbs.careerstartup.entity.JobCandidates;
@@ -35,7 +35,6 @@ public class JobCandidatesService {
     private final PostedJobRepository postedJobRepository;
     private final UserRepository userRepository;
     private JobCandidatesRepository jobCandidatesRepository;
-
     private EmailService emailService;
     private Mapper mapper;
 
@@ -54,7 +53,7 @@ public class JobCandidatesService {
     public JobCandidatesDTO saveJobCandidates(PostedJobDTO postedJobDTO, Principal principal) {
         PostedJob postedJob = postedJobRepository.findById(postedJobDTO.getId())
                 .orElseThrow(() -> new EntityNotFoundException("PostedJob with id " + postedJobDTO.getId() + NOT_FOUND));
-        User user = userRepository.findByEmail("dianaelena.buruga@ulbsibiu.ro")
+        User user = userRepository.findByEmail(principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("User with email" + NOT_FOUND));
         JobCandidates jobCandidates = JobCandidates.builder()
                 .id(new JobCandidatesPK(user.getId(), postedJob.getId()))
@@ -87,10 +86,10 @@ public class JobCandidatesService {
     }
 
     private void sendConfirmationEmail(User user, PostedJob postedJob) {
-        String message = "Your application for job " + postedJob.getPosition() + " has been received."
-                + System.lineSeparator() + "You will be contacted soon." + System.lineSeparator() + "Thank you for applying.";
-        String subject = "Application for job " + postedJob.getPosition() + "at company" + postedJob.getCompany().getName();
-        HTMLEmailRequest emailRequest = new HTMLEmailRequest(user.getEmail(), subject, user.getName(), message);
-        emailService.htmlSend(emailRequest);
+        String message = "You have applied for the " + postedJob.getPosition() + " at " + postedJob.getCompany().getName() + ".";
+        String subject = "Application for job " + postedJob.getPosition() + " at company " + postedJob.getCompany().getName();
+        ApplicationEmailRequest emailRequest =
+                new ApplicationEmailRequest(user.getEmail(), subject, user.getName(), message, mapper.mapTimestampToString(postedJob.getOpenUntil()));
+        emailService.sendConfirmationApplication(emailRequest);
     }
 }

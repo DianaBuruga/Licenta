@@ -136,5 +136,5 @@ public interface BibliographyApiDoc {
                                     schema = @Schema(implementation = ErrorResponse.class))})
             },security = @SecurityRequirement(name = "oauth2")
     )
-    void deleteBibliography(@Parameter(description = "Bibliography that will be deleted", required = true) @Valid @RequestBody BibliographyDTO bibliographyDTO);
+    void deleteBibliography(@Parameter(description = "Bibliography that will be deleted", required = true) @Valid @PathVariable UUID id);
 }

@@ -10,6 +10,7 @@ import org.hibernate.validator.constraints.URL;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+
 import java.util.Collection;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public class UserCVDTO {
     private String name;
 
     @NotNull
-    @Pattern(regexp = Constants.ROMANIAN_PHONE_REGEX, message = INVALID_PHONE)
+    @Pattern(regexp = Constants.PHONE_REGEX, message = INVALID_PHONE)
     private String phone;
 
     @NotNull

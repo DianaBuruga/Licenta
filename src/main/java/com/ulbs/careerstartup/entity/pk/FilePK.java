@@ -1,7 +1,10 @@
 package com.ulbs.careerstartup.entity.pk;
 
+import com.ulbs.careerstartup.constant.FileType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.io.Serializable;
@@ -19,6 +22,10 @@ public class FilePK implements Serializable {
     private UUID tableId;
     @Column(name = "table_name")
     private String tableName;
+
+    @Column(name = "type")
+    @Enumerated(EnumType.STRING)
+    private FileType type;
 
     @Override
     public boolean equals(Object o) {

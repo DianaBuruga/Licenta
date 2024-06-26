@@ -31,19 +31,14 @@ public class GenericSpecification<T> implements Specification<T> {
         return builder.and(predicates.toArray(new Predicate[0]));
     }
 
-    private Predicate handleEqualsForDifferentDataTypes (SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
+    private Predicate handleEqualsForDifferentDataTypes(SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
         Predicate predicate;
         String[] keys = criteria.getKey().split("\\.");
         String value = criteria.getValue().toString();
         int length = keys.length;
 
         if (length > 1) {
-            Join<Object, Object> join = root.join(keys[0]);
-
-            for(int i = 1; i < length - 1; i++) {
-                join = join.join(keys[i]);
-            }
-            predicate = buildPredicate(join.get(keys[length - 1]), value, builder);
+            predicate = getPredicateAfterJoin(builder, root, keys, value, length);
         } else {
             predicate = buildPredicate(root.get(criteria.getKey()), value, builder);
         }
@@ -67,26 +62,78 @@ public class GenericSpecification<T> implements Specification<T> {
     }
 
     private Predicate handleGreaterThanForDifferentDataTypes(SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
-        String value = criteria.getValue().toString();
         Predicate predicate;
+        String[] keys = criteria.getKey().split("\\.");
+        String value = criteria.getValue().toString();
+        int length = keys.length;
 
-        try {
-            predicate = builder.greaterThanOrEqualTo(root.get(criteria.getKey()), Long.parseLong(value));
-        } catch (IllegalArgumentException e) {
-            predicate = builder.like(root.get(criteria.getKey()), "%" + value + "%");
+        if (length > 1) {
+            predicate = getPredicateGreaterThanAfterJoin(builder, root, keys, value, length);
+        } else {
+            try {
+                predicate = builder.greaterThanOrEqualTo(root.get(criteria.getKey()), Long.parseLong(value));
+            } catch (IllegalArgumentException e) {
+                predicate = builder.like(root.get(criteria.getKey()), "%" + value + "%");
+            }
         }
 
         return predicate;
     }
 
-    private Predicate handleLessThanForDifferentDataTypes(SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
-        String value = criteria.getValue().toString();
+    private Predicate getPredicateAfterJoin(CriteriaBuilder builder, Root<T> root, String[] keys, String value, int length) {
         Predicate predicate;
+        Join<Object, Object> join = root.join(keys[0]);
 
+        for (int i = 1; i < length - 1; i++) {
+            join = join.join(keys[i]);
+        }
+        predicate = buildPredicate(join.get(keys[length - 1]), value, builder);
+        return predicate;
+    }
+
+    private Predicate getPredicateLessThanAfterJoin(CriteriaBuilder builder, Root<T> root, String[] keys, String value, int length) {
+        Predicate predicate;
+        Join<Object, Object> join = root.join(keys[0]);
+
+        for (int i = 1; i < length - 1; i++) {
+            join = join.join(keys[i]);
+        }
         try {
-            predicate = builder.lessThanOrEqualTo(root.get(criteria.getKey()), Long.parseLong(value));
-        } catch (IllegalArgumentException e) {
-            predicate = builder.like(root.get(criteria.getKey()), "%" + value + "%");
+            predicate = builder.lessThanOrEqualTo(join.get(keys[length - 1]), Long.parseLong(value));
+        } catch (IllegalArgumentException ex) {
+            predicate = builder.like(join.get(keys[length - 1]).as(String.class), "%" + value + "%");
+        }
+        return predicate;
+    }
+
+    private Predicate getPredicateGreaterThanAfterJoin(CriteriaBuilder builder, Root<T> root, String[] keys, String value, int length) {
+        Predicate predicate;
+        Join<Object, Object> join = root.join(keys[0]);
+
+        for (int i = 1; i < length - 1; i++) {
+            join = join.join(keys[i]);
+        }
+        try {
+            predicate = builder.greaterThanOrEqualTo(join.get(keys[length - 1]), Long.parseLong(value));
+        } catch (IllegalArgumentException ex) {
+            predicate = builder.like(join.get(keys[length - 1]).as(String.class), "%" + value + "%");
+        }
+        return predicate;
+    }
+    private Predicate handleLessThanForDifferentDataTypes(SearchCriteria criteria, CriteriaBuilder builder, Root<T> root) {
+        Predicate predicate;
+        String[] keys = criteria.getKey().split("\\.");
+        String value = criteria.getValue().toString();
+        int length = keys.length;
+
+        if (length > 1) {
+            predicate = getPredicateLessThanAfterJoin(builder, root, keys, value, length);
+        } else {
+            try {
+                predicate = builder.lessThanOrEqualTo(root.get(criteria.getKey()), Long.parseLong(value));
+            } catch (IllegalArgumentException e) {
+                predicate = builder.like(root.get(criteria.getKey()), "%" + value + "%");
+            }
         }
 
         return predicate;

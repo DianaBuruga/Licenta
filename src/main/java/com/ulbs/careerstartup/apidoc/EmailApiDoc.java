@@ -1,7 +1,7 @@
 package com.ulbs.careerstartup.apidoc;
 
 import com.ulbs.careerstartup.api.model.EmailRequest;
-import com.ulbs.careerstartup.api.model.HTMLEmailRequest;
+import com.ulbs.careerstartup.api.model.ApplicationEmailRequest;
 import com.ulbs.careerstartup.exception.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,7 +39,7 @@ public interface EmailApiDoc {
             responses = {
                     @ApiResponse(responseCode = "200", description = "Successful retrieval",
                             content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = HTMLEmailRequest.class))),
+                                    schema = @Schema(implementation = ApplicationEmailRequest.class))),
                     @ApiResponse(responseCode = "400", description = "Bad Request",
                             content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
                                     schema = @Schema(implementation = ErrorResponse.class))}),
@@ -57,5 +57,5 @@ public interface EmailApiDoc {
                                     schema = @Schema(implementation = ErrorResponse.class))})
             }
     )
-    void sendHTMLEmail(@RequestBody HTMLEmailRequest sendHTMLEmailRequest);
+    void sendHTMLEmail(@RequestBody ApplicationEmailRequest sendApplicationEmailRequest);
 }

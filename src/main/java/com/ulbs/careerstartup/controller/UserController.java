@@ -1,5 +1,6 @@
 package com.ulbs.careerstartup.controller;
 
+import com.lowagie.text.DocumentException;
 import com.ulbs.careerstartup.apidoc.UserApiDoc;
 import com.ulbs.careerstartup.constant.FileType;
 import com.ulbs.careerstartup.dto.FileDTO;
@@ -7,7 +8,6 @@ import com.ulbs.careerstartup.dto.UserDTO;
 import com.ulbs.careerstartup.entity.pk.FilePK;
 import com.ulbs.careerstartup.service.FileService;
 import com.ulbs.careerstartup.service.UserService;
-import com.ulbs.careerstartup.util.UserPdfExporter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import org.apache.tika.metadata.Metadata;
@@ -18,11 +18,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
@@ -37,13 +37,7 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
-//@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
-//@CrossOrigin(origins = "*", allowedHeaders = "*")
-//@CrossOrigin(origins = "http://localhost:4200",
-//        allowedHeaders = { ORIGIN, CONTENT_TYPE, ACCEPT, AUTHORIZATION, ACCESS_CONTROL_ALLOW_ORIGIN},
-//    methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS, RequestMethod.PATCH },
-//        maxAge = 3600
-//)
+@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
 @Tag(name = "User", description = "The User API")
 public class UserController implements UserApiDoc {
 
@@ -67,39 +61,46 @@ public class UserController implements UserApiDoc {
     }
 
     @GetMapping(value = "/userinfo", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public UserDTO getAuthenticatedUser(Principal principal) {
-        return userService.findByEmail("anastasia.soare@amazon.com");
+        return userService.findByEmail(principal.getName());
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public Collection<UserDTO> findAllUsers() {
         return userService.findAllUsers();
     }
 
     @GetMapping(value = "/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public UserDTO findUserById(@PathVariable UUID id) {
         return userService.findById(id);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
     public UserDTO saveUser(@RequestBody UserDTO userDTO) {
         return userService.saveUser(userDTO);
     }
 
     @PatchMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public UserDTO updateUser(@RequestBody UserDTO userDTO) {
         return userService.updateUser(userDTO);
     }
 
     @PostMapping(value = "/profile-photo")
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public void saveProfilePhoto(@RequestParam UUID id, @RequestParam MultipartFile multipartFile) throws IOException {
-        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).build();
-        fileService.uploadFile(FileType.PROFILE_PHOTO, filePK, multipartFile);
+        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).type(FileType.PROFILE_PHOTO).build();
+        fileService.uploadFile(filePK, multipartFile);
     }
 
     @GetMapping(value = "/profilePhoto/download/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Resource> downloadFileById(@PathVariable UUID id) throws FileNotFoundException {
-        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).build();
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
+    public ResponseEntity<Resource> downloadFileById(@PathVariable UUID id) {
+        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).type(FileType.PROFILE_PHOTO).build();
 
         FileDTO fileDTO = fileService.findFileById(filePK);
 
@@ -107,28 +108,31 @@ public class UserController implements UserApiDoc {
     }
 
     @GetMapping(value = "/profilePhoto/view/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Resource> viewFileById(@PathVariable UUID id) throws FileNotFoundException {
-        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).build();
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
+    public ResponseEntity<Resource> viewFileById(@PathVariable UUID id) {
+        FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).type(FileType.PROFILE_PHOTO).build();
 
         FileDTO fileDTO = fileService.findFileById(filePK);
 
         return ResponseEntity.ok().contentType(detectMimeType(fileDTO.getContent(), fileDTO.getName())).header(HttpHeaders.CONTENT_DISPOSITION, INLINE_FILENAME + fileDTO.getName()).body(new ByteArrayResource(fileDTO.getContent()));
     }
 
-    @GetMapping(value = "/CV/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Resource> exportUserPdf(@PathVariable UUID id) {
-        UserPdfExporter userPdfExporter = new UserPdfExporter();
-        UserDTO userDTO = userService.findById(id);
-        userPdfExporter.generateCv(userDTO);
-        return ResponseEntity.ok().build();
+    @GetMapping(value = "/CV/{id}")
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
+    public ResponseEntity<Resource> exportUserPdf(@PathVariable UUID id) throws IOException, DocumentException {
+        FileDTO fileDTO = userService.generateCV(id);
+
+        return ResponseEntity.ok().contentType(detectMimeType(fileDTO.getContent(), fileDTO.getName())).header(HttpHeaders.CONTENT_DISPOSITION, INLINE_FILENAME + fileDTO.getName()).body(new ByteArrayResource(fileDTO.getContent()));
     }
 
     @DeleteMapping(value = "/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public void deleteUser(@RequestBody UserDTO userDTO) {
-        userService.deleteUser(userDTO);
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
+    public void deleteUser(@PathVariable String email) {
+        userService.deleteUser(email);
     }
 
     @GetMapping(value = "/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public UserDTO findUserByEmail(@PathVariable String email) {
         return userService.findByEmail(email);
     }

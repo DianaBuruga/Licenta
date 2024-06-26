@@ -1,6 +1,6 @@
 package com.ulbs.careerstartup.controller;
 
-import com.ulbs.careerstartup.api.model.HTMLEmailRequest;
+import com.ulbs.careerstartup.api.model.ApplicationEmailRequest;
 import com.ulbs.careerstartup.apidoc.EmailApiDoc;
 import com.ulbs.careerstartup.api.model.EmailRequest;
 import com.ulbs.careerstartup.service.EmailService;
@@ -26,7 +26,7 @@ public class EmailController implements EmailApiDoc {
     }
 
     @PostMapping("/sendHTMLEmail")
-    public void sendHTMLEmail(@RequestBody HTMLEmailRequest sendHTMLEmailRequest) {
-        emailService.htmlSend(sendHTMLEmailRequest);
+    public void sendHTMLEmail(@RequestBody ApplicationEmailRequest sendApplicationEmailRequest) {
+        emailService.sendConfirmationApplication(sendApplicationEmailRequest);
     }
 }

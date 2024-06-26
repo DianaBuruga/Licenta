@@ -14,7 +14,7 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @RequestMapping("users/languages")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
+@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
 @Tag(name = "Language", description = "The Language API")
 public class LanguageController implements LanguageApiDoc {
     private LanguageService languageService;

@@ -7,6 +7,7 @@ import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import jakarta.validation.constraints.NotNull;
+
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Objects;
@@ -59,7 +60,7 @@ public class PostedJob {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "postedJob")
-    private Collection<JobCandidates> jobCandidatesById;
+    private Collection<JobCandidates> jobCandidates;
 
     @ToString.Exclude
     @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
@@ -86,12 +87,12 @@ public class PostedJob {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PostedJob postedJob = (PostedJob) o;
-        return Objects.equals(id, postedJob.id) && Objects.equals(description, postedJob.description) && Objects.equals(openUntil, postedJob.openUntil) && Objects.equals(postedDate, postedJob.postedDate) && status == postedJob.status && Objects.equals(location, postedJob.location) && type == postedJob.type && Objects.equals(jobCandidatesById, postedJob.jobCandidatesById) && Objects.equals(company, postedJob.company);
+        PostedJob job = (PostedJob) o;
+        return Objects.equals(id, job.id) && Objects.equals(description, job.description) && Objects.equals(position, job.position) && Objects.equals(openUntil, job.openUntil) && Objects.equals(postedDate, job.postedDate) && status == job.status && Objects.equals(location, job.location) && type == job.type && Objects.equals(jobCandidates, job.jobCandidates) && Objects.equals(skills, job.skills) && Objects.equals(user, job.user) && Objects.equals(company, job.company);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, description, openUntil, postedDate, status, location, type, jobCandidatesById, company);
+        return Objects.hash(id, description, position, openUntil, postedDate, status, location, type, jobCandidates, skills, user, company);
     }
 }

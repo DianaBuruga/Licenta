@@ -8,12 +8,13 @@ import java.io.Serializable;
 import java.util.Objects;
 import java.util.UUID;
 
-@Embeddable
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
 @Getter
 @Builder
+@Embeddable
 public class UserSkillPK implements Serializable {
     @Column(name = "user_id")
     private UUID userId;

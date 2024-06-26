@@ -12,10 +12,10 @@ import com.ulbs.careerstartup.specification.GenericSpecification;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.Collection;
@@ -34,47 +34,63 @@ public class BibliographyService {
 
     public BibliographyDTO saveBibliography(BibliographyDTO bibliographyDTO) {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
-        UUID skillId = bibliographyDTO.getSkillDTO().getId();
+        String skillName = bibliographyDTO.getSkillDTO().getName();
 
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new EntityNotFoundException(String.format(NOT_FOUND_MESSAGE, "user", "email", email)));
 
-        Skill skill = skillRepository.findById(skillId)
-                .orElseThrow(() -> new EntityNotFoundException(String.format(NOT_FOUND_MESSAGE, "skill", "id", skillId)));
-
         Bibliography bibliography = mapper.bibliographyDTOToBibliography(bibliographyDTO);
         bibliography.setWriter(user);
-        bibliography.setSkill(skill);
         bibliography.setDate(Timestamp.from(Instant.now()));
-
+        skillRepository.findByName(bibliographyDTO.getSkillDTO().getName())
+                .ifPresentOrElse(
+                        bibliography::setSkill,
+                        () -> skillRepository.save(Skill.builder().name(skillName).build())
+                );
         user.getBibliographies().add(bibliography);
-        skill.getBibliographies().add(bibliography);
 
-        return mapper.bibliographyToBibliographyDTO(
-                bibliographyRepository.save(bibliography));
+        bibliography = bibliographyRepository.save(bibliography);
+        bibliographyDTO = mapper.bibliographyToBibliographyDTO(bibliography);
+        bibliographyDTO.setWriterDTO(mapper.userToUserDTO(user));
+        return bibliographyDTO;
     }
 
     public BibliographyDTO updateBibliography(BibliographyDTO bibliographyDTO) {
-        Bibliography bibliography = bibliographyRepository.findById(bibliographyDTO.getId())
-                .orElseThrow(() -> new EntityNotFoundException(String.format(NOT_FOUND_MESSAGE, "bibliography", "id", bibliographyDTO.getId())));
+        UUID id = bibliographyDTO.getId();
+        String skill = bibliographyDTO.getSkillDTO().getName();
+        Bibliography bibliography = bibliographyRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(String.format(NOT_FOUND_MESSAGE, "bibliography", "id", id)));
 
-        if (SecurityContextHolder.getContext().getAuthentication().getName().equals(bibliography.getWriter().getEmail())) {
-            throw new SecurityException("You are not allowed to update this bibliography");
+        if (bibliographyDTO.getText() != null) {
+            bibliography.setText(bibliographyDTO.getText());
         }
 
-        bibliography.setText(bibliographyDTO.getText());
-        bibliography.setTitle(bibliographyDTO.getTitle());
-        skillRepository.findById(bibliographyDTO.getSkillDTO().getId())
-                .ifPresent(bibliography::setSkill);
+        if (bibliographyDTO.getTitle() != null) {
+            bibliography.setTitle(bibliographyDTO.getTitle());
+        }
 
-        return mapper.bibliographyToBibliographyDTO(
-                bibliographyRepository.save(bibliography));
+        if (bibliographyDTO.getSkillDTO() != null) {
+            skillRepository.findByName(bibliographyDTO.getSkillDTO().getName())
+                    .ifPresentOrElse(
+                            bibliography::setSkill,
+                            () -> skillRepository.save(Skill.builder().name(skill).build())
+                    );
+        }
+
+        bibliography = bibliographyRepository.save(bibliography);
+        bibliographyDTO = mapper.bibliographyToBibliographyDTO(bibliography);
+        bibliographyDTO.setWriterDTO(mapper.userToUserDTO(bibliography.getWriter()));
+        return bibliographyDTO;
     }
 
     public Collection<BibliographyDTO> findAllBibliographies() {
         return bibliographyRepository.findAll()
                 .stream()
-                .map(mapper::bibliographyToBibliographyDTO)
+                .map(bibliogtraphy -> {
+                    BibliographyDTO bibliographyDTO = mapper.bibliographyToBibliographyDTO(bibliogtraphy);
+                    bibliographyDTO.setWriterDTO(mapper.userToUserDTO(bibliogtraphy.getWriter()));
+                    return bibliographyDTO;
+                })
                 .toList();
     }
 
@@ -87,14 +103,22 @@ public class BibliographyService {
 
     public Collection<BibliographyDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return bibliographyRepository
-                .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
-                .map(mapper::bibliographyToBibliographyDTO)
+                .findAll(new GenericSpecification<>(searchCriteria))
+                .stream()
+                .map(bibliogtraphy -> {
+                    BibliographyDTO bibliographyDTO = mapper.bibliographyToBibliographyDTO(bibliogtraphy);
+                    bibliographyDTO.setWriterDTO(mapper.userToUserDTO(bibliogtraphy.getWriter()));
+                    return bibliographyDTO;
+                })
                 .toList();
     }
 
-    public void deleteBibliography(BibliographyDTO bibliographyDTO) {
-        bibliographyRepository.delete(mapper.bibliographyDTOToBibliography(bibliographyDTO));
+    public void deleteBibliography(UUID id) {
+        bibliographyRepository.deleteById(id);
     }
 
-
+    public boolean isBibliographyOwner(UUID id, Principal principal) {
+        Bibliography bibliography = bibliographyRepository.findById(id).orElse(null);
+        return bibliography != null && principal.getName().equals(bibliography.getWriter().getEmail());
+    }
 }

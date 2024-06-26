@@ -10,9 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
-import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -221,30 +219,5 @@ public interface UserApiDoc {
             },
             security = @SecurityRequirement(name = "oauth2")
     )
-    void deleteUser(@Parameter(description = "User that will be deleted", required = true) @Valid @RequestBody UserDTO userDTO);
-
-    @Operation(summary = "Export a file in pdf format", tags = {"User"},
-            responses = {
-                    @ApiResponse(responseCode = "200", description = "Successful retrieval",
-                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = UserDTO.class))),
-                    @ApiResponse(responseCode = "400", description = "Bad Request",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))}),
-                    @ApiResponse(responseCode = "401", description = "Unauthorized",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))}),
-                    @ApiResponse(responseCode = "403", description = "Forbidden",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))}),
-                    @ApiResponse(responseCode = "404", description = "Not Found",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))}),
-                    @ApiResponse(responseCode = "500", description = "Internal Server Error",
-                            content = {@Content(mediaType = MediaType.APPLICATION_JSON_VALUE,
-                                    schema = @Schema(implementation = ErrorResponse.class))})
-            },
-            security = @SecurityRequirement(name = "oauth2")
-    )
-    ResponseEntity<Resource> exportUserPdf(@Valid @PathVariable UUID id) throws IOException;
+    void deleteUser(@Parameter(description = "User that will be deleted", required = true) @Valid @PathVariable String email);
 }

@@ -1,0 +1,124 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+        }
+
+        .flex-item-left {
+            flex: 50%;
+        }
+
+        .flex-item-right {
+            flex: 50%;
+        }
+
+        @media (max-width: 800px) {
+            .flex-item-right, .flex-item-left {
+                flex: 100%;
+            }
+
+            img {
+                width: 90%;
+            }
+        }
+
+        .header {
+            color: #f04e4e;
+            font-size: 24px;
+            text-align: left;
+        }
+
+        .subheader {
+            color: #333;
+            font-size: 36px;
+            margin: 10px 0;
+            padding: 10px 0;
+            text-align: left;
+        }
+
+        .content {
+            color: #555;
+            font-size: 18px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .footer {
+            color: #777;
+            font-size: 16px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .illustration {
+            margin-top: 20px;
+        }
+
+        .illustration img {
+            max-width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="flex-item-left">
+        <div class="header">
+            <p>Hello,
+                <span
+                        th:text="${name}"
+                        th:remove="tag">
+                    </span>
+            </p>
+        </div>
+        <div class="subheader">
+            <span>Application deadline has ended</span></div>
+        <div class="content">
+            <p>
+                We would like to inform you that the application deadline for the
+                <span th:text="${position}"></span>
+                has ended.
+                <br>
+                Attached to this email, you will find the CVs of all candidates who applied for this position.
+            </p>
+            <p>
+                Please find attached a ZIP archive containing all the CVs in PDF format.
+                <br>
+                Each PDF file is named according to the candidate's name to facilitate their identification.
+            </p>
+            <p>
+                If you have any questions or need further information, please do not hesitate to contact us.
+            </p>
+            <p>
+                Thank you for your cooperation, and we wish you success in selecting the right candidate.
+            </p>
+        </div>
+        <div class="footer"><i>
+            Best regards,<br>
+            Career Startup Team
+        </i>
+        </div>
+    </div>
+    <div class="flex-item-right">
+        <img class="illustration" alt="Illustration"
+             src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/1826/Image_1.png">
+    </div>
+</div>
+</body>
+</html>

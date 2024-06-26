@@ -1,34 +1,135 @@
-<!doctype html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>New User Email</title>
-</head>
-<body style="background-color:lightblue">
-<table align="center" border="0" cellpadding="0" cellspacing="0"
-       width="550" bgcolor="#20b2aa" style="border:2px solid black">
-  <tbody>
-  <tr>
-    <td align="center">
-      <br />
-      <div>Hi <span th:text="${name}" th:remove="tag"></span></div>
-      <p></p>
-      <div text="${message}"></div>
-      <p></p>
-    </td>
-  </tr>
-  <tr>
-    <td align="center">
-      <p>
-        Best regards,<br/>
-        <em>CareerStartup team</em>
-      </p>
-    </td>
-  </tr>
-  </tbody>
-</table>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
 
+        .container {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            align-items: center;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: 90%;
+        }
+
+        @media (max-width: 800px) {
+            .flex-item-right, .flex-item-left {
+                flex: 100%;
+            }
+        }
+
+        .container2 {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .header {
+            color: #f04e4e;
+            font-size: 24px;
+            text-align: left;
+        }
+
+        .subheader {
+            color: #333;
+            font-size: 36px;
+            margin: 10px 0;
+            padding: 10px 0;
+            text-align: left;
+        }
+
+        .content {
+            color: #555;
+            font-size: 18px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .footer {
+            color: #777;
+            font-size: 16px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .illustration {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .flex-item-left {
+            flex: 60%;
+        }
+
+        .flex-item-right {
+            flex: 40%;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="flex-item-left">
+        <div class="header">
+            <p>Hello,
+                <span
+                        th:text="${name}"
+                        th:remove="tag">
+                    </span>
+            </p>
+        </div>
+        <div class="subheader">We received your application!</div>
+        <div class="content">
+            <p>
+                    <span
+                            th:text="${message}"
+                            th:remove="tag">
+                    </span>
+                We will keep you posted on next steps! In the meantime, here are a few things you should know.
+            </p>
+        </div>
+        <div class="subheader" style="text-align: left;!important;">What Next?</div>
+        <div class="content">
+            After our interviewing period we will evaluate all applicants.
+            This might get time, and we might not be able to get in touch in you're not selected.
+            Here's our deadlines and when you can expect to hear back from us:
+        </div>
+        <div class="container2">
+            <div style="display: flex; align-items: center">
+                <div>
+                    <img alt="Illustration"
+                         src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/7056/numbers-11.png"
+                         style="width: 50px;">
+                </div>
+                <div style="width: 10px">
+
+                </div>
+                <div class="content">
+                    <span th:text="${deadline}"
+                          th:remove="tag">
+                    </span>
+                    | Deadline for applications
+                </div>
+            </div>
+        </div>
+        <div class="footer"><i>
+            Thank you for applying,<br>
+            Career Startup Team
+        </i>
+        </div>
+    </div>
+    <div class="flex-item-right">
+        <img class="illustration" alt="Illustration"
+             src="https://d1oco4z2z1fhwp.cloudfront.net/templates/default/7056/illustration_png-03.png">
+    </div>
+</div>
 </body>
 </html>

@@ -27,28 +27,35 @@ public class GoogleOpaqueTokenIntrospector implements OpaqueTokenIntrospector {
         if (tokens.containsKey(token)) {
             return tokens.get(token);
         } else {
-            UserInfo userInfo = userInfoClient.get()
-                    .uri(uriBuilder -> uriBuilder
-                            .path("/oauth2/v3/userinfo")
-                            .queryParam("access_token", token)
-                            .build())
-                    .retrieve()
-                    .bodyToMono(UserInfo.class)
-                    .block();
+            UserInfo userInfo = getUserInfo(token);
             if (userInfo == null) {
                 throw new IllegalStateException("User is not authenticated");
             }
-            UserDTO userDTO = authenticationService.saveUserIfDoesNotExist(userInfo);
-            Map<String, Object> attributes = new HashMap<>();
-            attributes.put("phone", userDTO.getPhone());
-            attributes.put("email", userDTO.getEmail());
-            attributes.put("name", userDTO.getName());
-            attributes.put("id", userDTO.getId());
-            OAuth2IntrospectionAuthenticatedPrincipal auth2IntrospectionAuthenticatedPrincipal =
-                    new OAuth2IntrospectionAuthenticatedPrincipal(userInfo.email(), attributes,
-                            Collections.singleton(new SimpleGrantedAuthority(userDTO.getRole().name())));
+            OAuth2IntrospectionAuthenticatedPrincipal auth2IntrospectionAuthenticatedPrincipal = createPrincipal(userInfo);
             tokens.put(token, auth2IntrospectionAuthenticatedPrincipal);
             return auth2IntrospectionAuthenticatedPrincipal;
         }
+    }
+
+    public UserInfo getUserInfo(String token) {
+        return userInfoClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/oauth2/v3/userinfo")
+                        .queryParam("access_token", token)
+                        .build())
+                .retrieve()
+                .bodyToMono(UserInfo.class)
+                .block();
+    }
+
+    public OAuth2IntrospectionAuthenticatedPrincipal createPrincipal(UserInfo userInfo) {
+        UserDTO userDTO = authenticationService.saveUserIfDoesNotExist(userInfo);
+        Map<String, Object> attributes = new HashMap<>();
+        attributes.put("phone", userDTO.getPhone());
+        attributes.put("email", userDTO.getEmail());
+        attributes.put("name", userDTO.getName());
+        attributes.put("id", userDTO.getId());
+        return new OAuth2IntrospectionAuthenticatedPrincipal(userInfo.email(), attributes,
+                Collections.singleton(new SimpleGrantedAuthority(userDTO.getRole().name())));
     }
 }

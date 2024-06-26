@@ -5,4 +5,5 @@ public enum FileType {
     CERTIFICATE,
     POST_PHOTO,
     PROFILE_PHOTO,
+    ASSETS
 }

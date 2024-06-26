@@ -33,13 +33,12 @@ public class SearchService {
             String key = entry.getKey();
             String value = entry.getValue();
 
-            if ((key.contains(">") || key.contains("<")) && value.isEmpty()) {
+            if ((key.contains(">") || key.contains("<")) && !value.isEmpty()) {
                 String[] parts = key.split(CRITERIA_REGEX, 3);
                 if (parts.length == CRITERIA_PARTS) {
                     String field = parts[0];
                     String operator = parts[1];
-                    String criterionValue = parts[2];
-                    criteriaList.add(new SearchCriteria(field, operator, criterionValue));
+                    criteriaList.add(new SearchCriteria(field, operator, value));
                 }
             } else if(!value.isEmpty()) {
                 criteriaList.add(new SearchCriteria(key, "=", value));

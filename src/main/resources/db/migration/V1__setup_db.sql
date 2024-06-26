@@ -68,26 +68,26 @@ CREATE TABLE IF NOT EXISTS review
 
 CREATE TABLE IF NOT EXISTS file
 (
-    table_id   BINARY(16)                                               NOT NULL,
-    table_name VARCHAR(255)                                             NOT NULL,
-    name       VARCHAR(255)                                             NOT NULL,
-    content    LONGBLOB                                                 NOT NULL,
-    type       ENUM ('CV','CERTIFICATE', 'PROFILE_PHOTO', 'POST_PHOTO') NOT NULL,
-    PRIMARY KEY (table_name, table_id)
+    table_id   BINARY(16)                                                         NOT NULL,
+    table_name VARCHAR(255)                                                       NOT NULL,
+    name       VARCHAR(255)                                                       NOT NULL,
+    content    LONGBLOB                                                           NOT NULL,
+    type       ENUM ('CV','CERTIFICATE', 'PROFILE_PHOTO', 'POST_PHOTO', 'ASSETS') NOT NULL,
+    PRIMARY KEY (table_name, table_id, type)
 );
 
 CREATE TABLE IF NOT EXISTS posted_job
 (
-    id          BINARY(16)                 NOT NULL PRIMARY KEY,
-    description TEXT                       NOT NULL,
-    position    VARCHAR(255)               NOT NULL,
+    id          BINARY(16)                        NOT NULL PRIMARY KEY,
+    description TEXT                              NOT NULL,
+    position    VARCHAR(255)                      NOT NULL,
     open_until  DATETIME,
-    posted_date DATETIME                   NOT NULL,
-    status      ENUM ('ACTIVE','INACTIVE') NOT NULL,
-    location    VARCHAR(100)               NOT NULL,
-    type        ENUM ('REMOTE','ONSITE','HYBRID')   NOT NULL,
-    company_id  BINARY(16)                 NOT NULL,
-    user_id     BINARY(16)                 NOT NULL,
+    posted_date DATETIME                          NOT NULL,
+    status      ENUM ('ACTIVE','INACTIVE')        NOT NULL,
+    location    VARCHAR(100)                      NOT NULL,
+    type        ENUM ('REMOTE','ONSITE','HYBRID') NOT NULL,
+    company_id  BINARY(16)                        NOT NULL,
+    user_id     BINARY(16)                        NOT NULL,
     FOREIGN KEY (company_id) REFERENCES company (id),
     FOREIGN KEY (user_id) REFERENCES user (id)
 );

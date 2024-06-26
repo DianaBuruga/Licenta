@@ -12,9 +12,9 @@ import jakarta.transaction.Transactional;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -24,7 +24,6 @@ import java.util.UUID;
 @Slf4j
 public class CompanyService {
     private CompanyRepository companyRepository;
-
     private CompanyUtil companyUtil;
     private Mapper mapper;
 
@@ -66,8 +65,18 @@ public class CompanyService {
 
     public Collection<CompanyDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
         return companyRepository
-                .findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10))
+                .findAll(new GenericSpecification<>(searchCriteria))
+                .stream()
                 .map(mapper::companyToCompanyDTO)
                 .toList();
+    }
+
+    public boolean isCompanyRepresentative(UUID id, Principal principal) {
+        List<SearchCriteria> searchCriteria = List.of(new SearchCriteria("jobHistories.id", "=", id),
+                new SearchCriteria("jobHistories.user.email", "=", principal.getName()),
+                new SearchCriteria("jobHistories.user.role", "=", "COMPANY_REPRESENTATIVE"));
+        CompanyDTO company = findByCriteria(searchCriteria).stream().toList().get(0);
+
+        return company != null;
     }
 }

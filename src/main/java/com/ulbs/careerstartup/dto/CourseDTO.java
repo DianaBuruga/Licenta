@@ -1,7 +1,6 @@
 package com.ulbs.careerstartup.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import jakarta.validation.constraints.Max;
@@ -25,7 +24,6 @@ public class CourseDTO {
     private UUID id;
 
     @NotNull(message = "Specialization is required")
-    @NotEmpty(message = "Specialization is required")
     @JsonProperty("specialization")
     private SpecializationDTO specializationDTO;
 

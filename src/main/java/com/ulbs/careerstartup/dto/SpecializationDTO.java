@@ -27,25 +27,20 @@ public class SpecializationDTO {
     private String finishedDate;
 
     @NotNull(message = "Degree is required")
-    @NotEmpty(message = "Degree is required")
     private Degree degree;
 
     @NotNull(message = "Name is required")
     @NotEmpty(message = "Name is required")
     private String name;
 
-    @NotNull(message = "Courses are required")
-    @NotEmpty(message = "Courses are required")
     @JsonProperty("courses")
     private Collection<CourseDTO> coursesDTO;
 
     @NotNull(message = "User is required")
-    @NotEmpty(message = "User is required")
     @JsonProperty("user")
     private UserDTO userDTO;
 
     @NotNull(message = "Faculty is required")
-    @NotEmpty(message = "Faculty is required")
     @JsonProperty("faculty")
     private FacultyDTO facultyDTO;
 }

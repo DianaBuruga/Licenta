@@ -14,33 +14,37 @@ import java.util.UUID;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/faculties")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
 @Tag(name = "Faculty", description = "The Faculty API")
 public class FacultyController implements FacultyApiDoc {
 
     private FacultyService facultyService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public Collection<FacultyDTO> findAllFaculties() {
         return facultyService.findAllFaculties();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public FacultyDTO findFacultyById(@PathVariable UUID id) {
         return facultyService.findFacultyById(id);
     }
 
     @PostMapping
+    @PreAuthorize("hasAnyAuthority('TEACHER','MODERATOR')")
     public FacultyDTO saveFaculty(@RequestBody FacultyDTO facultyDTO) {
         return facultyService.saveFaculty(facultyDTO);
     }
 
     @PatchMapping
+    @PreAuthorize("hasAnyAuthority('TEACHER','MODERATOR')")
     public FacultyDTO updateFaculty(@RequestBody FacultyDTO facultyDTO) {
         return facultyService.updateFaculty(facultyDTO);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyAuthority('TEACHER','MODERATOR')")
     public void deleteFaculty(@PathVariable UUID id) {
         facultyService.deleteFaculty(id);
     }

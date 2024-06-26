@@ -10,6 +10,8 @@ import com.ulbs.careerstartup.dto.UrlDto;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,5 +62,14 @@ public class AuthenticationController implements AuthenticationApiDoc {
         }
 
         return new TokenDto(token);
+    }
+
+    @GetMapping("/auth/role")
+    public String getUserRole(){
+        return SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+                .stream()
+                .map(GrantedAuthority::getAuthority)
+                .findFirst()
+                .orElse(null);
     }
 }

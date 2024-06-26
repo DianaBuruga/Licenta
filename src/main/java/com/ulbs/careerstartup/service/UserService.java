@@ -1,18 +1,24 @@
 package com.ulbs.careerstartup.service;
 
+import com.lowagie.text.DocumentException;
 import com.ulbs.careerstartup.constant.Role;
+import com.ulbs.careerstartup.dto.FileDTO;
 import com.ulbs.careerstartup.dto.UserDTO;
 import com.ulbs.careerstartup.entity.User;
 import com.ulbs.careerstartup.mapper.Mapper;
 import com.ulbs.careerstartup.repository.UserRepository;
 import com.ulbs.careerstartup.specification.GenericSpecification;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
+import com.ulbs.careerstartup.util.CVGenerator;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import jakarta.validation.constraints.NotNull;
+
+import java.io.IOException;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -22,7 +28,9 @@ import static com.ulbs.careerstartup.constant.Constants.ULBSIBIU_SUFFIX;
 @Service
 @AllArgsConstructor
 public class UserService {
+
     private UserRepository userRepository;
+    private CVGenerator cvGenerator;
     private Mapper mapper;
 
     public UserDTO findByEmail(String email) {
@@ -41,8 +49,8 @@ public class UserService {
     }
 
     @Transactional
-    public void deleteUser(UserDTO userDTO) {
-        userRepository.delete(mapper.userDTOToUser(userDTO));
+    public void deleteUser(String email) {
+        userRepository.deleteByEmail(email);
     }
 
 
@@ -53,12 +61,24 @@ public class UserService {
     public UserDTO updateUser(UserDTO userDTO) {
         User user = userRepository.findByEmail(userDTO.getEmail())
                 .orElseThrow(() -> new EntityNotFoundException("User with email " + userDTO.getEmail() + " not found"));
-        user.setId(userDTO.getId());
-        user.setName(userDTO.getName());
-        user.setPhone(userDTO.getPhone());
-        user.setWebsite(userDTO.getWebsite());
-        user.setDescription(userDTO.getDescription());
-        user.setStatus(userDTO.getStatus());
+        if (userDTO.getId() != null) {
+            user.setId(userDTO.getId());
+        }
+        if (userDTO.getName() != null) {
+            user.setName(userDTO.getName());
+        }
+        if (userDTO.getPhone() != null) {
+            user.setPhone(userDTO.getPhone());
+        }
+        if (userDTO.getWebsite() != null) {
+            user.setWebsite(userDTO.getWebsite());
+        }
+        if (userDTO.getDescription() != null) {
+            user.setDescription(userDTO.getDescription());
+        }
+        if (userDTO.getStatus() != null) {
+            user.setStatus(userDTO.getStatus());
+        }
         return mapper.userToUserDTO(userRepository.save(user));
     }
 
@@ -78,5 +98,16 @@ public class UserService {
                 .stream()
                 .map(mapper::userToUserDTO)
                 .toList();
+    }
+
+    public FileDTO generateCV(UUID id) throws DocumentException, IOException {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+
+        return mapper.fileToFileDTO(cvGenerator.generateCV(user));
+    }
+
+    public boolean isAutenticatedUser(String email, Principal principal) {
+        return email.equals(principal.getName());
     }
 }

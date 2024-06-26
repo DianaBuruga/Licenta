@@ -1,8 +1,9 @@
 package com.ulbs.careerstartup.entity;
 
-import com.ulbs.careerstartup.constant.FileType;
 import com.ulbs.careerstartup.entity.pk.FilePK;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
+import jakarta.persistence.Entity;
 import lombok.*;
 
 import java.util.Arrays;
@@ -26,21 +27,17 @@ public class File {
     @Column(nullable = false)
     private byte[] content;
 
-    @Column(nullable = false)
-    @Enumerated(EnumType.STRING)
-    private FileType type;
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         File file = (File) o;
-        return Objects.equals(id, file.id) && Objects.equals(name, file.name) && Arrays.equals(content, file.content) && type == file.type;
+        return Objects.equals(id, file.id) && Objects.equals(name, file.name) && Arrays.equals(content, file.content);
     }
 
     @Override
     public int hashCode() {
-        int result = Objects.hash(id, name, type);
+        int result = Objects.hash(id, name);
         result = 31 * result + Arrays.hashCode(content);
         return result;
     }

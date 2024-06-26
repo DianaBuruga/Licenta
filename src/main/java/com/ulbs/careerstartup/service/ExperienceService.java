@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import jakarta.validation.constraints.NotNull;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -59,5 +60,11 @@ public class ExperienceService {
 
     public void deleteExperience(UUID id) {
         experienceRepository.deleteById(id);
+    }
+
+    public boolean isExperienceOwner(UUID id, Principal principal) {
+        ExperienceDTO experienceDTO = findByCriteria(List.of(new SearchCriteria("id", "=", id),
+                new SearchCriteria("user.email", "=", principal.getName()))).stream().toList().get(0);
+        return experienceDTO != null;
     }
 }

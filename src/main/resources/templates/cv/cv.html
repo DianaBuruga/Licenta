@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <style>
+        html {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #FFFFFF;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        .container {
+            width: 100%;
+            background-color: #FFFFFF;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .row {
+            width: 100%;
+        }
+
+        .column {
+            padding: 10px;
+        }
+
+        .column-1 {
+            width: 33.33%;
+            background-color: #ffe7e7;
+        }
+
+        .column-2 {
+            width: 60%;
+            background-color: #ffffff;
+        }
+
+        .spacer {
+            height: 35px;
+        }
+
+        .heading {
+            padding-left: 25px;
+            padding-right: 10px;
+        }
+
+        .heading h1 {
+            margin: 0;
+            color: #282a2b;
+            font-size: 36px;
+            font-weight: normal;
+            line-height: 150%;
+            text-align: left;
+        }
+
+        .image-block img {
+            display: block;
+            height: auto;
+            border: 0;
+        }
+
+        .paragraph {
+            padding: 5px 15px;
+            color: #393d47;
+            font-size: 12px;
+            line-height: 120%;
+            text-align: center;
+        }
+
+        .icon {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .icon img {
+            display: block;
+            height: auto;
+            margin: 0 auto;
+            border: 0;
+            width: 32px;
+            height: auto;
+        }
+
+        .social-icons img {
+            width: 32px;
+            height: auto;
+        }
+
+        .container-skill {
+            background-color: rgb(192, 192, 192);
+            width: 100%;
+            border-radius: 15px;
+            height: 10px;
+        }
+
+        .skill {
+            background-color: rgb(116, 101, 240);
+            color: white;
+            padding: 1%;
+            font-size: 7px;
+            text-align: right;
+            border-radius: 15px;
+            height: 10px;
+        }
+
+        td {
+            vertical-align: top;
+        }
+
+        header-row {
+            background-color: #E5A7A0;
+            color: white;
+        }
+
+        .border {
+            border: 1px solid black;
+            text-align: center;
+            padding: 5px;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <table>
+        <tr class="row">
+            <td class="column column-1">
+                <div class="spacer"></div>
+                <div class="image-block">
+                    <img style="width: 250px;  border-radius:50px;" th:alt="${user.name}"
+                         th:src="@{'http://localhost:8081/users/profilePhoto/view/' + ${user.id}}"/>
+                </div>
+                <div class="spacer" style="height: 20px;"></div>
+                <div class="spacer"></div>
+                <div class="spacer" style="height: 20px;"></div>
+                <div class="icon">
+                    <img style="width: 32px;" alt="Phone" th:src="@{http://localhost:8081/files/view/phone.png}"/>
+                </div>
+                <div class="paragraph">
+                    <p th:text="${user.phone}"></p>
+                </div>
+                <div class="spacer" style="height: 20px;"></div>
+                <div class="icon">
+                    <img style="width: 32px;" alt="Email" th:src="@{http://localhost:8081/files/view/email.png}"/>
+                </div>
+                <div class="paragraph">
+                    <p th:text="${user.email}"></p>
+                </div>
+                <div class="icon">
+                    <img style="width: 32px;" alt="Website" th:src="@{http://localhost:8081/files/view/website.png}"/>
+                </div>
+                <div class="paragraph">
+                    <p th:text="${user.website}"></p>
+                </div>
+
+
+                <div th:if="${user.skills != null and !user.skills.isEmpty()}">
+                    <div class="spacer" style="height: 40px;"></div>
+                    <div class="heading" style="text-align:center;">
+                        <h1 style="font-size: 22px;"><strong>SKILLS</strong></h1>
+                    </div>
+                    <div class="spacer" style="height: 15px;"></div>
+                    <div class="paragraph" th:each="userSkill : ${user.skills}">
+                        <p th:text="${userSkill.skill.name}"></p>
+                        <div class="container-skill">
+                            <div class="skill" th:style="'width:' + ${userSkill.proficiency} + '%'">
+                                <span th:text="${userSkill.proficiency}"></span>
+                                <span>%</span>
+                                <span style="width:2px;"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td class="column column-2" style="flex:50%">
+                <div class="spacer" style="height: 80px;"></div>
+                <div class="heading">
+                    <h1 th:text="${user.name}"></h1>
+                </div>
+                <div class="heading" style="padding-right: 25px;">
+                    <h1 style="font-size: 18px;"><em th:text="${user.role}"></em></h1>
+                </div>
+                <div class="spacer" style="height: 80px;"></div>
+                <div class="heading">
+                    <h1 style="font-size: 22px;"><strong>ABOUT ME</strong></h1>
+                </div>
+                <div class="spacer" style="height: 20px;"></div>
+                <div class="paragraph" style="text-align:left;">
+                    <p th:text="${user.description}"></p>
+                </div>
+
+
+                <div th:if="${jobHistories != null and !jobHistories.isEmpty()}">
+                    <div class="spacer" style="height: 50px;"></div>
+                    <div class="heading">
+                        <h1 style="font-size: 22px;"><strong>WORK EXPERIENCE</strong></h1>
+                    </div>
+                    <div class="paragraph" style="text-align:left;" th:each="exp : ${jobHistories}">
+                        <p style="color:#E5A7A0;">
+                            <strong th:text="${exp.startDate != null ? exp.startDate : ''}"></strong>
+                            <span th:if="${exp.endDate != null}"> - <strong
+                                    th:text="${exp.endDate}"></strong> </span>
+                            <span th:unless="${exp.endDate != null}">
+                            - <strong>Present</strong>
+                        </span>
+                        </p>
+                        <p style="font-size: 14px;">
+                            <strong th:text="${exp.companyDTO.name}"></strong>
+                        </p>
+                        <p style="font-size: 14px;">
+                            <em th:text="${exp.position}"></em>
+                        </p>
+                        <p th:text="${exp.description}"></p>
+                    </div>
+                </div>
+
+
+                <div th:if="${educations != null and !educations.isEmpty()}">
+                    <div class="spacer" style="height: 50px;"></div>
+                    <div class="heading">
+                        <h1 style="font-size: 22px;"><strong>EDUCATION</strong></h1>
+                    </div>
+                    <div class="paragraph" style="text-align:left;" th:each="edu : ${educations}">
+                        <p style="color:#E5A7A0;">
+<!--                            <strong th:text="${exp.startDate != null ? exp.startDate : ''}"></strong>-->
+<!--                            <span th:if="${exp.endDate != null}"> - <strong-->
+<!--                                    th:text="${exp.endDate}"></strong> </span>-->
+<!--                            <span th:unless="${exp.endDate != null}">-->
+<!--                            - <strong>Present</strong>-->
+<!--                        </span>-->
+                        </p>
+                        <p style="font-size: 14px;">
+                            <strong th:text="${edu.name}"></strong>
+                            <strong th:text="${edu.faculty.name}"></strong>
+                        </p>
+                    </div>
+                </div>
+
+
+                <div th:if="${projects != null and !projects.isEmpty()}">
+                    <div class="spacer" style="height: 50px;"></div>
+                    <div class="heading">
+                        <h1 style="font-size: 22px;"><strong>PROJECTS</strong></h1>
+                    </div>
+                    <div class="paragraph" style="text-align:left;" th:each="exp : ${projects}">
+                        <p style="color:#E5A7A0;"><strong th:text="${exp.date}"></strong></p>
+                        <p style="font-size: 14px;">
+                            <strong th:text="${exp.title}"></strong>
+                        </p>
+                        <p><em th:text="${exp.url}"></em></p>
+                        <p th:text="${exp.description}"></p>
+                    </div>
+                </div>
+
+
+                <div th:if="${certifications != null and !certifications.isEmpty()}">
+                    <div class="spacer" style="height: 50px;"></div>
+                    <div class="heading">
+                        <h1 style="font-size: 22px;"><strong>CERTIFICATIONS</strong></h1>
+                    </div>
+                    <div class="paragraph" style="text-align:left;" th:each="exp : ${certifications}">
+                        <p style="color:#E5A7A0;"><strong th:text="${exp.date}"></strong></p>
+                        <p style="font-size: 14px;">
+                            <strong th:text="${exp.title}"></strong>
+                        </p>
+                        <p><em th:text="${exp.url}"></em></p>
+                        <p th:text="${exp.description}"></p>
+                    </div>
+                </div>
+
+
+                <div th:if="${user.languages != null and !user.languages.isEmpty()}">
+                    <div class="spacer" style="height: 50px;"></div>
+                    <div class="heading">
+                        <h1 style="font-size: 22px;"><strong>LANGUAGES</strong></h1>
+                    </div>
+                    <div class="spacer" style="height: 20px;"></div>
+                    <div style="font-size: 10px;">
+                        <table class="border" style="border-collapse: collapse;">
+                            <thead>
+                            <tr class="header-row">
+                                <th class="border header-row">Language</th>
+                                <th class="border header-row">Listening</th>
+                                <th class="border header-row">Reading</th>
+                                <th class="border header-row">Speaking</th>
+                                <th class="border header-row">Conversation</th>
+                                <th class="border header-row">Writing</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="language : ${user.languages}">
+                                <td class="border" th:text="${language.name}">Language
+                                </td>
+                                <td class="border" th:text="${language.listening}">Listening</td>
+                                <td class="border" th:text="${language.reading}">Reading</td>
+                                <td class="border" th:text="${language.speaking}">Speaking</td>
+                                <td class="border" th:text="${language.conversation}">Conversation</td>
+                                <td class="border" th:text="${language.writing}">Writing</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="spacer" style="height: 80px;"></div>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
+

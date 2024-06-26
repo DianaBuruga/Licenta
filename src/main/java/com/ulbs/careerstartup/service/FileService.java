@@ -1,6 +1,5 @@
 package com.ulbs.careerstartup.service;
 
-import com.ulbs.careerstartup.constant.FileType;
 import com.ulbs.careerstartup.dto.FileDTO;
 import com.ulbs.careerstartup.entity.File;
 import com.ulbs.careerstartup.entity.pk.FilePK;
@@ -26,6 +25,7 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -42,10 +42,9 @@ public class FileService {
     private FileRepository fileRepository;
     private Mapper mapper;
 
-    public FileDTO findFileById(FilePK id) throws FileNotFoundException {
-        File file = fileRepository.findById(id)
-                .orElseThrow(() -> new FileNotFoundException("File not found with ID: " + id));
-        return mapper.fileToFileDTO(file);
+    public FileDTO findFileById(FilePK id) {
+        Optional<File> file = fileRepository.findById(id);
+        return file.map(value -> mapper.fileToFileDTO(value)).orElse(new FileDTO());
     }
 
     public Collection<FileDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
@@ -55,13 +54,12 @@ public class FileService {
                 .toList();
     }
 
-    public void uploadFile(FileType fileType, FilePK filePK, MultipartFile multipartFile) throws IOException {
+    public void uploadFile(FilePK filePK, MultipartFile multipartFile) throws IOException {
         File file = mapper.multipartFileToFile(multipartFile);
         String extension = StringUtils.getFilenameExtension(file.getName());
         if (!allowedFileExtensions.contains(extension)) {
             throw new IOException(String.format("Invalid file extension %s", extension));
         }
-        file.setType(fileType);
         file.setId(filePK);
         fileRepository.save(file);
     }
@@ -73,8 +71,8 @@ public class FileService {
     }
 
     @Transactional
-    public void deleteFile(FileDTO fileDTO) {
-        fileRepository.delete(mapper.fileDTOToFile(fileDTO));
+    public void deleteFile(FilePK filePK) {
+        fileRepository.deleteById(filePK);
     }
 
     @Transactional
@@ -100,7 +98,6 @@ public class FileService {
 
             File file = File.builder()
                     .id(filePK)
-                    .type(FileType.PROFILE_PHOTO)
                     .name(filename)
                     .content(data)
                     .build();
@@ -123,11 +120,16 @@ public class FileService {
         } catch (IOException e) {
             File file = File.builder()
                     .id(filePK)
-                    .type(FileType.PROFILE_PHOTO)
                     .name("default.jpg")
                     .content(loadDefaultImage())
                     .build();
             fileRepository.save(file);
         }
+    }
+
+    public FileDTO findFileByName(String name) throws FileNotFoundException {
+        File file = fileRepository.findByName(name)
+                .orElseThrow(() -> new FileNotFoundException("File not found with name: " + name));
+        return mapper.fileToFileDTO(file);
     }
 }

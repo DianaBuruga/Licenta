@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.URL;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+
 import java.util.Collection;
 import java.util.Objects;
 import java.util.UUID;
@@ -23,7 +24,6 @@ import java.util.UUID;
 @ToString
 @Entity
 public class User {
-
     @Id
     @UuidGenerator(style = UuidGenerator.Style.RANDOM)
     @Column(unique = true, nullable = false)
@@ -43,7 +43,7 @@ public class User {
     @Column(nullable = false)
     private String name;
 
-    @Pattern(regexp = Constants.ROMANIAN_PHONE_REGEX, message = "Invalid phone number")
+    @Pattern(regexp = Constants.PHONE_REGEX, message = "Invalid phone number")
     private String phone;
 
     @URL
@@ -127,6 +127,7 @@ public class User {
 
     @OneToMany(mappedBy = "user",
             cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}, orphanRemoval = true)
+    @ToString.Exclude
     private Collection<PostedJob> postedJobs;
 
     @Override

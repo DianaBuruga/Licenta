@@ -1,7 +1,6 @@
 package com.ulbs.careerstartup.service;
 
 import com.ulbs.careerstartup.dto.ReferralDTO;
-import com.ulbs.careerstartup.entity.Referral;
 import com.ulbs.careerstartup.mapper.Mapper;
 import com.ulbs.careerstartup.repository.ReferralRepository;
 import com.ulbs.careerstartup.specification.GenericSpecification;
@@ -13,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.sql.Ref;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -54,12 +53,17 @@ public class ReferralService {
     public ReferralDTO updateReferral(ReferralDTO referralDTO) {
         if (referralRepository.existsById(referralDTO.getId())) {
             return mapper.referralWithUsersToReferralDTO(referralRepository.save(mapper.referralDTOWithUsersToReferral(referralDTO)));
-        }
-        else throw new EntityNotFoundException("Referral with id " + referralDTO.getId() + NOT_FOUND);
+        } else throw new EntityNotFoundException("Referral with id " + referralDTO.getId() + NOT_FOUND);
     }
 
     @Transactional
     public void deleteReferral(UUID id) {
         referralRepository.deleteById(id);
+    }
+
+    public boolean isReferralOwner(UUID id, Principal principal) {
+        return findByCriteria(List.of(new SearchCriteria("id", "=", id),
+                new SearchCriteria("teacher.email","=",principal.getName())))
+                .stream().toList().get(0) != null;
     }
 }

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.security.Principal;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -70,5 +71,11 @@ public class LanguageService {
     @Transactional
     public void deleteLanguage(UUID id) {
         languageRepository.deleteById(id);
+    }
+
+    public boolean isLanguageOwner(UUID id, Principal principal) {
+        LanguageDTO languageDTO = findByCriteria(List.of(new SearchCriteria("id", "=", id),
+                new SearchCriteria("user.email", "=", principal.getName()))).stream().toList().get(0);
+        return languageDTO != null;
     }
 }

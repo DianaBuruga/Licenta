@@ -13,7 +13,6 @@ import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -49,12 +48,10 @@ public class PostedJobService {
     }
 
     public Collection<PostedJobDTO> findByCriteria(List<SearchCriteria> searchCriteria) {
-        PostedJob postedJob = postedJobRepository.findById(UUID.fromString("b35105b0-fbac-4b36-ae68-3fac27a456fb")).orElseThrow();
-        postedJob.setUser(userRepository
-                .findByEmail("anastasia.soare@amazon.com")
-                .orElseThrow(() -> new EntityNotFoundException("User with email" + NOT_FOUND)));
-        postedJobRepository.save(postedJob);
-        return postedJobRepository.findAll(new GenericSpecification<>(searchCriteria), PageRequest.of(0, 10)).map(mapper::postedJobToPostedJobDTO).toList();
+        return postedJobRepository
+                .findAll(new GenericSpecification<>(searchCriteria))
+                .stream()
+                .map(mapper::postedJobToPostedJobDTO).toList();
     }
 
     public PostedJobDTO savePostedJob(PostedJobDTO postedJobDTO, Principal principal) {
@@ -120,5 +117,11 @@ public class PostedJobService {
         postedJob.setUser(userRepository
                 .findByEmail("anastasia.soare@amazon.com")
                 .orElseThrow(() -> new EntityNotFoundException("User with email" + principal.getName() + NOT_FOUND)));
+    }
+
+    public boolean isPostedJobOwner(UUID id, Principal principal) {
+        PostedJobDTO postedJobDTO = findByCriteria(List.of(new SearchCriteria("id", "=", id),
+                new SearchCriteria("user.email", "=", principal.getName()))).stream().toList().get(0);
+        return postedJobDTO != null;
     }
 }

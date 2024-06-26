@@ -10,7 +10,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -18,7 +17,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -32,48 +30,24 @@ import static org.springframework.http.HttpHeaders.*;
 @EnableWebSecurity
 @AllArgsConstructor
 @OpenAPIDefinition
-@SecurityScheme(
-        name = "oauth2",
-        type = SecuritySchemeType.OAUTH2,
-        flows = @OAuthFlows(
-                authorizationCode = @OAuthFlow(
-                        authorizationUrl = "https://accounts.google.com/o/oauth2/auth?prompt=select_account",
-                        tokenUrl = "https://oauth2.googleapis.com/token",
-                        scopes = {
-                                @OAuthScope(name = "email", description = "email access"),
-                                @OAuthScope(name = "profile", description = "profile access")
-                        }
-                )
-        )
-)
+@SecurityScheme(name = "oauth2", type = SecuritySchemeType.OAUTH2, flows = @OAuthFlows(authorizationCode = @OAuthFlow(authorizationUrl = "https://accounts.google.com/o/oauth2/auth?prompt=select_account", tokenUrl = "https://oauth2.googleapis.com/token", scopes = {@OAuthScope(name = "email", description = "email access"), @OAuthScope(name = "profile", description = "profile access")})))
 public class SecurityConfig {
 
-    private final AuthenticationFailureHandler authenticationFailureHandler;
     private final GoogleOpaqueTokenIntrospector googleOpaqueTokenIntrospector;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                .csrf(AbstractHttpConfigurer::disable)
-                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
+        http.cors(cors -> cors.configurationSource(corsConfigurationSource())).csrf(AbstractHttpConfigurer::disable)
+//                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-
-                .authorizeHttpRequests(request -> request
-                        .requestMatchers("/oauth2/authorization/google-login", "/",  "/auth/**",
-                                "/swagger-ui/**", "/v3/api-docs/**", "/error/**", "users/profilePhoto/**", "jobs/history/**").permitAll()
-                       // .anyRequest().authenticated()
-                        .anyRequest().permitAll()
-                )
-                .logout(logout -> logout
-                        .logoutUrl("/logout")
-                        .logoutSuccessHandler((request, response, authentication) -> {
-                            SecurityContextHolder.clearContext();
-                            response.setStatus(HttpServletResponse.SC_OK);
-                            response.sendRedirect("/");
-                        })
-                )
-                .oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
+                .authorizeHttpRequests(request ->
+                        request.requestMatchers("/oauth2/authorization/google-login", "/", "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/error/**", "users/profilePhoto/**", "files/**").permitAll()
+                        .anyRequest().authenticated()
+                ).logout(logout -> logout.logoutUrl("/logout").logoutSuccessHandler((request, response, authentication) -> {
+                    SecurityContextHolder.clearContext();
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.sendRedirect("/");
+                })).oauth2ResourceServer(c -> c.opaqueToken(Customizer.withDefaults()));
         return http.build();
     }
 
@@ -83,15 +57,8 @@ public class SecurityConfig {
         configuration.setAllowCredentials(true);
         configuration.setAllowedOrigins(Collections.singletonList("http://localhost:4200"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
-        configuration.setAllowedHeaders(Arrays.asList(
-                ORIGIN,
-                CONTENT_TYPE,
-                ACCEPT,
-                AUTHORIZATION,
-                ACCESS_CONTROL_ALLOW_ORIGIN,
-                CACHE_CONTROL
-        ));
-        configuration.setExposedHeaders(Collections.singletonList(ACCESS_CONTROL_ALLOW_ORIGIN));
+        configuration.setAllowedHeaders(Arrays.asList(ORIGIN, CONTENT_TYPE, ACCEPT, AUTHORIZATION, ACCESS_CONTROL_ALLOW_ORIGIN, CACHE_CONTROL));
+        configuration.setExposedHeaders(Arrays.asList("Access-Control-Allow-Origin", "Content-Disposition", "Content-Length", "X-Content-Type-Options", "X-Frame-Options", "X-XSS-Protection"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;

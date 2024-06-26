@@ -2,6 +2,7 @@ package com.ulbs.careerstartup.controller;
 
 import com.ulbs.careerstartup.apidoc.PostedJobApiDoc;
 import com.ulbs.careerstartup.dto.PostedJobDTO;
+import com.ulbs.careerstartup.security.isOwnerRole.postedJob.IsPostedJobOwner;
 import com.ulbs.careerstartup.service.PostedJobService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -17,7 +18,7 @@ import java.util.UUID;
 @Slf4j
 @AllArgsConstructor
 @RequestMapping("/company/jobs")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','MODERATOR')")
+@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
 @Tag(name = "PostedJob", description = "The PostedJob API")
 public class PostedJobController implements PostedJobApiDoc {
 
@@ -39,11 +40,13 @@ public class PostedJobController implements PostedJobApiDoc {
     }
 
     @PatchMapping
+    @IsPostedJobOwner
     public PostedJobDTO updatePostedJob(@RequestBody PostedJobDTO postedJobDTO) {
         return postedJobService.updatePostedJob(postedJobDTO);
     }
 
     @DeleteMapping("/{id}")
+    @IsPostedJobOwner
     public void deletePostedJob(@PathVariable UUID id) {
         postedJobService.deletePostedJob(id);
     }

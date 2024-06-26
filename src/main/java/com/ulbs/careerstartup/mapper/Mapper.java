@@ -9,8 +9,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
@@ -19,7 +18,6 @@ public interface Mapper {
 
     Mapper INSTANCE = Mappers.getMapper(Mapper.class);
 
-    //@Mapping(source = "writer", target = "writerDTO")
     @Mapping(target = "writerDTO", ignore = true)
     @Mapping(source = "skill", target = "skillDTO")
     @Mapping(source = "date", target = "date", qualifiedByName = "timestampToString")
@@ -29,8 +27,6 @@ public interface Mapper {
     @Mapping(target = "date", source = "date", qualifiedByName = "stringToTimestamp")
     Bibliography bibliographyDTOToBibliography(BibliographyDTO bibliographyDTO);
 
-    //  @Mapping(target = "jobHistoriesDTO", source = "jobHistories")
-//    @Mapping(target = "postedJobsDTO", source = "postedJobs")
     @Mapping(target = "jobHistoriesDTO", ignore = true)
     @Mapping(target = "postedJobsDTO", ignore = true)
     @Mapping(target = "reviewsDTO", source = "reviews")
@@ -39,15 +35,13 @@ public interface Mapper {
     @InheritInverseConfiguration(name = "companyToCompanyDTO")
     Company companyDTOToCompany(CompanyDTO companyDTO);
 
+    @InheritInverseConfiguration(name = "courseDTOToCourse")
     @Mapping(source = "specialization", target = "specializationDTO")
-    @Mapping(source = "skills", target = "skillsDTO")
     CourseDTO courseToCourseDTO(Course course);
 
-    @InheritInverseConfiguration(name = "courseToCourseDTO")
+    @Mapping(source = "skillsDTO", target = "skills")
     Course courseDTOToCourse(CourseDTO courseDTO);
 
-    //    @Mapping(source = "creator", target = "creatorDTO")
-//    @Mapping(source = "subscribers", target = "subscribersDTO")
     @Mapping(target = "creatorDTO", ignore = true)
     @Mapping(target = "subscribersDTO", ignore = true)
     @Mapping(source = "date", target = "date", qualifiedByName = "timestampToString")
@@ -57,8 +51,6 @@ public interface Mapper {
     @Mapping(target = "date", source = "date", qualifiedByName = "stringToTimestamp")
     Event eventDTOToEvent(EventDTO eventDTO);
 
-    //    @Mapping(source = "user", target = "userDTO")
-
     @Mapping(source = "date", target = "date", qualifiedByName = "timestampToString")
     ExperienceDTO experienceToExperienceDTO(Experience experience);
 
@@ -66,7 +58,6 @@ public interface Mapper {
     @Mapping(target = "date", source = "date", qualifiedByName = "stringToTimestamp")
     Experience experienceDTOToExperience(ExperienceDTO experienceDTO);
 
-    @Mapping(source = "specializations", target = "specializationsDTO")
     FacultyDTO facultyToFacultyDTO(Faculty faculty);
 
     @InheritInverseConfiguration(name = "facultyToFacultyDTO")
@@ -82,7 +73,6 @@ public interface Mapper {
     @Mapping(target = "applicationDate", source = "applicationDate", qualifiedByName = "stringToTimestamp")
     JobCandidates jobCandidatesDTOToJobCandidates(JobCandidatesDTO jobCandidatesDTO);
 
-    //    @Mapping(source = "user", target = "userDTO")
     @Mapping(source = "company", target = "companyDTO")
     @Mapping(source = "startDate", target = "startDate", qualifiedByName = "timestampToString")
     @Mapping(source = "endDate", target = "endDate", qualifiedByName = "timestampToString")
@@ -93,14 +83,10 @@ public interface Mapper {
     @Mapping(source = "endDate", target = "endDate", qualifiedByName = "stringToTimestamp")
     JobHistory jobHistoryDTOToJobHistory(JobHistoryDTO jobHistoryDTO);
 
-    //@Mapping(source = "user", target = "userDTO")
     LanguageDTO languageToLanguageDTO(Language language);
 
     @InheritInverseConfiguration(name = "languageToLanguageDTO")
     Language languageDTOToLanguage(LanguageDTO languageDTO);
-
-    //    @Mapping(source = "sender", target = "senderDTO")
-//    @Mapping(source = "receiver", target = "receiverDTO")
 
     @Mapping(source = "sendDate", target = "sendDate", qualifiedByName = "timestampToString")
     MessageDTO messageToMessageDTO(Message message);
@@ -109,7 +95,6 @@ public interface Mapper {
     @Mapping(source = "sendDate", target = "sendDate", qualifiedByName = "stringToTimestamp")
     Message messageDTOToMessage(MessageDTO messageDTO);
 
-    // @Mapping(source = "user", target = "userDTO")
     @Mapping(source = "date", target = "date", qualifiedByName = "timestampToString")
     NotificationDTO notificationToNotificationDTO(Notification notification);
 
@@ -118,7 +103,7 @@ public interface Mapper {
     Notification notificationDTOToNotification(NotificationDTO notificationDTO);
 
     @Mapping(source = "company", target = "companyDTO")
-    @Mapping(source = "jobCandidatesById", target = "jobCandidatesDTO")
+    @Mapping(source = "jobCandidates", target = "jobCandidatesDTO")
     @Mapping(source = "postedDate", target = "postedDate", qualifiedByName = "timestampToString")
     @Mapping(source = "openUntil", target = "openUntil", qualifiedByName = "timestampToString")
     @Mapping(source = "user", target = "userDTO")
@@ -131,33 +116,24 @@ public interface Mapper {
     @Mapping(source = "userDTO", target = "user")
     PostedJob postedJobDTOToPostedJob(PostedJobDTO postedJobDTO);
 
-    //    @Mapping(source = "teacher", target = "teacherDTO")
-//    @Mapping(source = "student", target = "studentDTO")
     ReferralDTO referralToReferralDTO(Referral referral);
 
     @InheritInverseConfiguration(name = "referralToReferralDTO")
     Referral referralDTOToReferral(ReferralDTO referralDTO);
 
-    //  @Mapping(source = "company", target = "companyDTO")
     ReviewDTO reviewToReviewDTO(Review review);
 
     @InheritInverseConfiguration(name = "reviewToReviewDTO")
     Review reviewDTOToReview(ReviewDTO reviewDTO);
 
-    //    @Mapping(source = "bibliographies", target = "bibliographiesDTO")
-//    @Mapping(source = "userSkills", target = "userSkillsDTO")
-//    @Mapping(source = "courses", target = "coursesDTO")
     SkillDTO skillToSkillDTO(Skill skill);
 
     @InheritInverseConfiguration(name = "skillToSkillDTO")
     Skill skillDTOToSkill(SkillDTO skillDTO);
 
-    //    @Mapping(source = "user", target = "userDTO")
-    //  @Mapping(source = "faculty", target = "facultyDTO")
-    // @Mapping(source = "courses", target = "coursesDTO")
-
     @Mapping(source = "startedDate", target = "startedDate", qualifiedByName = "timestampToString")
     @Mapping(source = "finishedDate", target = "finishedDate", qualifiedByName = "timestampToString")
+    @Mapping(source = "faculty", target = "facultyDTO")
     SpecializationDTO specializationToSpecializationDTO(Specialization specialization);
 
     @InheritInverseConfiguration(name = "specializationToSpecializationDTO")
@@ -165,16 +141,6 @@ public interface Mapper {
     @Mapping(source = "finishedDate", target = "finishedDate", qualifiedByName = "stringToTimestamp")
     Specialization specializationDTOToSpecialization(SpecializationDTO specializationDTO);
 
-    // @Mapping(target = "createdEventsDTO", ignore = true)
-//    @Mapping(target = "bibliographiesDTO", source = "bibliographies")
-//    @Mapping(target = "experiencesDTO", source = "experiences")
-//    @Mapping(target = "languagesDTO", source = "languages")
-//    // @Mapping(target = "notificationsDTO", source = "notifications")
-//    @Mapping(target = "receivedReferralsDTO", source = "receivedReferrals")
-//    @Mapping(target = "specializationsDTO", source = "specializations")
-//    @Mapping(target = "skillsDTO", source = "skills")
-//    @Mapping(target = "jobHistoriesDTO", source = "jobHistories")
-    //@Mapping(target = "jobCandidatesDTO", source = "jobCandidates")
     UserDTO userToUserDTO(User user);
 
     @InheritInverseConfiguration(name = "userToUserDTO")
@@ -235,7 +201,7 @@ public interface Mapper {
         if (Objects.nonNull(user.getReceivedReferrals())) {
             user.getReceivedReferrals().forEach(referral -> referral.setStudent(user));
         }
-        if(Objects.nonNull(user.getSkills())){
+        if (Objects.nonNull(user.getSkills())) {
             user.getSkills().forEach(userSkills -> userSkills.setUser(user));
         }
     }
@@ -262,18 +228,22 @@ public interface Mapper {
             return null;
         }
 
-        return timestamp.toInstant().atZone(ZoneId.of("Europe/Bucharest")).format(DateTimeFormatter.ISO_INSTANT);
+        LocalDateTime localDateTime = timestamp.toLocalDateTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
+        return localDateTime.toLocalDate().format(formatter);
     }
 
     @Named("stringToTimestamp")
     default Timestamp mapStringToTimestamp(String dateTimeStr) {
-        if (dateTimeStr == null) {
-            return null;
-        } else if (dateTimeStr.equals("")) {
+        if (dateTimeStr == null || dateTimeStr.isEmpty()) {
             return null;
         }
 
-        return Timestamp.from(ZonedDateTime.parse(dateTimeStr, DateTimeFormatter.ISO_OFFSET_DATE_TIME).toInstant());
+        DateTimeFormatter isoFormatter = DateTimeFormatter.ISO_OFFSET_DATE_TIME;
+        LocalDateTime localDateTime = LocalDateTime.parse(dateTimeStr, isoFormatter);
+
+        return Timestamp.valueOf(localDateTime);
     }
 
     default ReferralDTO referralWithUsersToReferralDTO(Referral referral) {
