@@ -24,7 +24,7 @@ public class IsOwnerAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.bibliography.IsBibliographyOwner) && args(bibliographyDTO,..)")
     public void checkOwnership(BibliographyDTO bibliographyDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = bibliographyService.isBibliographyOwner(bibliographyDTO.getId(), authentication);
+        boolean isOwner = bibliographyService.isOwner(bibliographyDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this bibliography");
         }
@@ -33,7 +33,7 @@ public class IsOwnerAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.bibliography.IsBibliographyOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = bibliographyService.isBibliographyOwner(id, authentication);
+        boolean isOwner = bibliographyService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }

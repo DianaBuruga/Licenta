@@ -13,6 +13,7 @@ import com.ulbs.careerstartup.specification.entity.SearchCriteria;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -62,8 +63,8 @@ public class PostedJobService {
         postedJob.setPostedDate(Timestamp.from(Instant.now()));
         setJobStatus(postedJob);
         setJobSkills(postedJobDTO, postedJob);
-        setCompany(postedJob, postedJobDTO);
         setUser(postedJob, principal);
+        setCompany(postedJob, postedJobDTO);
         return mapper.postedJobToPostedJobDTO(postedJobRepository.save(postedJob));
     }
 
@@ -106,20 +107,20 @@ public class PostedJobService {
     }
 
     private void setCompany(PostedJob postedJob, PostedJobDTO postedJobDTO) {
-        postedJob.setCompany(companyRepository
-                .findById(postedJobDTO.getCompanyDTO().getId())
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Company with id " + postedJobDTO.getCompanyDTO().getId() + NOT_FOUND))
+        postedJob.setCompany(
+                postedJob.getUser().getJobHistories().stream().findFirst()
+                        .map(jobHistory -> jobHistory.getCompany())
+                        .orElseThrow(() -> new EntityNotFoundException("Company with id " + postedJobDTO.getCompanyDTO().getId() + " not found"))
         );
     }
 
     private void setUser(PostedJob postedJob, Principal principal) {
         postedJob.setUser(userRepository
-                .findByEmail("anastasia.soare@amazon.com")
+                .findByEmail(principal.getName())
                 .orElseThrow(() -> new EntityNotFoundException("User with email" + principal.getName() + NOT_FOUND)));
     }
 
-    public boolean isPostedJobOwner(UUID id, Principal principal) {
+    public boolean isOwner(UUID id, Principal principal) {
         PostedJobDTO postedJobDTO = findByCriteria(List.of(new SearchCriteria("id", "=", id),
                 new SearchCriteria("user.email", "=", principal.getName()))).stream().toList().get(0);
         return postedJobDTO != null;

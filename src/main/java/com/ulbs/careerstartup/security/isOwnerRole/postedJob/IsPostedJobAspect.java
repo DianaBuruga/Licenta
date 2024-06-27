@@ -24,7 +24,7 @@ public class IsPostedJobAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.postedJob.IsPostedJobOwner) && args(postedJobDTO,..)")
     public void checkOwnership(PostedJobDTO postedJobDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = postedJobService.isPostedJobOwner(postedJobDTO.getId(), authentication);
+        boolean isOwner = postedJobService.isOwner(postedJobDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this posted job");
         }
@@ -33,7 +33,7 @@ public class IsPostedJobAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.postedJob.IsPostedJobOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = postedJobService.isPostedJobOwner(id, authentication);
+        boolean isOwner = postedJobService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }

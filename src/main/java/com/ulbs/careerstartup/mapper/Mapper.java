@@ -2,6 +2,7 @@ package com.ulbs.careerstartup.mapper;
 
 import com.ulbs.careerstartup.dto.*;
 import com.ulbs.careerstartup.entity.*;
+import com.ulbs.careerstartup.entity.Notification;
 import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 import org.springframework.util.StringUtils;

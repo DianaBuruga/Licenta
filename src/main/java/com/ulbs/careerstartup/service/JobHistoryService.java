@@ -12,6 +12,7 @@ import com.ulbs.careerstartup.repository.JobHistoryRepository;
 import com.ulbs.careerstartup.repository.UserRepository;
 import com.ulbs.careerstartup.specification.GenericSpecification;
 import com.ulbs.careerstartup.specification.entity.SearchCriteria;
+import com.ulbs.careerstartup.util.CompanyUtil;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,8 @@ import org.springframework.stereotype.Service;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.security.Principal;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +33,7 @@ import java.util.UUID;
 public class JobHistoryService {
     private final CompanyRepository companyRepository;
     private JobHistoryRepository jobHistoryRepository;
+    private CompanyUtil companyUtil;
     private UserRepository userRepository;
     private Mapper mapper;
 
@@ -47,6 +51,9 @@ public class JobHistoryService {
 
     public JobHistoryDTO saveJobHistory(JobHistoryDTO jobHistoryDTO) {
         JobHistory jobHistory = mapper.jobHistoryDTOToJobHistory(jobHistoryDTO);
+        if(jobHistory.getStartDate()==null){
+            jobHistory.setStartDate(Timestamp.from(Instant.now()));
+        }
         handleCompanyAssociation(jobHistoryDTO, jobHistory);
         handleUserAssociation(jobHistoryDTO, jobHistory);
         return mapper.jobHistoryToJobHistoryDTO(jobHistoryRepository.save(jobHistory));
@@ -119,10 +126,10 @@ public class JobHistoryService {
         if (domain.startsWith("www.")) {
             domain = domain.substring(4);
         }
-        return Company.builder().name(domain.substring(0, 1).toUpperCase() + domain.substring(1, domain.lastIndexOf('.'))).website(website).build();
+        return Company.builder().name(domain.substring(0, 1).toUpperCase() + domain.substring(1, domain.lastIndexOf('.'))).website(website).logoUrl(companyUtil.getFaviconUrl(website)).build();
     }
 
-    public boolean isJobHistoryOwner(UUID id, Principal principal) {
+    public boolean isOwner(UUID id, Principal principal) {
         JobHistoryDTO jobHistoryDTO = findByCriteria(List.of(new SearchCriteria("id", "=", id),
                 new SearchCriteria("user.email", "=", principal.getName()))).stream().toList().get(0);
         return jobHistoryDTO != null;

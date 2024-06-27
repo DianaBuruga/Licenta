@@ -161,14 +161,14 @@
                 </div>
 
 
-                <div th:if="${user.skills != null and !user.skills.isEmpty()}">
+                <div th:if="${user.skillsDTO != null and !user.skillsDTO.isEmpty()}">
                     <div class="spacer" style="height: 40px;"></div>
                     <div class="heading" style="text-align:center;">
                         <h1 style="font-size: 22px;"><strong>SKILLS</strong></h1>
                     </div>
                     <div class="spacer" style="height: 15px;"></div>
-                    <div class="paragraph" th:each="userSkill : ${user.skills}">
-                        <p th:text="${userSkill.skill.name}"></p>
+                    <div class="paragraph" th:each="userSkill : ${user.skillsDTO}">
+                        <p th:text="${userSkill.skillDTO.name}"></p>
                         <div class="container-skill">
                             <div class="skill" th:style="'width:' + ${userSkill.proficiency} + '%'">
                                 <span th:text="${userSkill.proficiency}"></span>
@@ -238,7 +238,7 @@
                         </p>
                         <p style="font-size: 14px;">
                             <strong th:text="${edu.name}"></strong>
-                            <strong th:text="${edu.faculty.name}"></strong>
+                            <strong th:text="${edu.facultyDTO.name}"></strong>
                         </p>
                     </div>
                 </div>
@@ -276,7 +276,7 @@
                 </div>
 
 
-                <div th:if="${user.languages != null and !user.languages.isEmpty()}">
+                <div th:if="${user.languagesDTO != null and !user.languagesDTO.isEmpty()}">
                     <div class="spacer" style="height: 50px;"></div>
                     <div class="heading">
                         <h1 style="font-size: 22px;"><strong>LANGUAGES</strong></h1>

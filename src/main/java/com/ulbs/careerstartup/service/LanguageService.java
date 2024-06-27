@@ -73,7 +73,7 @@ public class LanguageService {
         languageRepository.deleteById(id);
     }
 
-    public boolean isLanguageOwner(UUID id, Principal principal) {
+    public boolean isOwner(UUID id, Principal principal) {
         LanguageDTO languageDTO = findByCriteria(List.of(new SearchCriteria("id", "=", id),
                 new SearchCriteria("user.email", "=", principal.getName()))).stream().toList().get(0);
         return languageDTO != null;

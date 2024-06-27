@@ -62,35 +62,14 @@ public class UserDTO {
     @JsonProperty("bibliographies")
     private Collection<BibliographyDTO> bibliographiesDTO;
 
-//    @JsonProperty("createdEvents")
-//    private Collection<EventDTO> createdEventsDTO;
-//
-//    @JsonProperty("eventSubscribers")
-//    private Collection<EventDTO> eventSubscribersDTO;
-
     @JsonProperty("experiences")
     private Collection<ExperienceDTO> experiencesDTO;
-//
-//    @JsonProperty("jobCandidates")
-//    private Collection<JobCandidatesDTO> jobCandidatesDTO;
 
     @JsonProperty("postedJobs")
     private Collection<JobHistoryDTO> jobHistoriesDTO;
 
     @JsonProperty("languages")
     private Collection<LanguageDTO> languagesDTO;
-//
-//    @JsonProperty("sentMessages")
-//    private Collection<MessageDTO> sentMessagesDTO;
-//
-//    @JsonProperty("receivedMessages")
-//    private Collection<MessageDTO> receivedMessagesDTO;
-//
-//    @JsonProperty("notifications")
-//    private Collection<NotificationDTO> notificationsDTO;
-//
-//    @JsonProperty("writtenReferrals")
-//    private Collection<ReferralDTO> writtenReferralsDTO;
 
     @JsonProperty("receivedReferrals")
     private Collection<ReferralDTO> receivedReferralsDTO;

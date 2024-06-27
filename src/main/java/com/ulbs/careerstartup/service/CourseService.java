@@ -105,7 +105,7 @@ public class CourseService {
         }
     }
 
-    public boolean isCourseOwner(UUID courseId, Principal principal) {
+    public boolean isOwner(UUID courseId, Principal principal) {
         CourseDTO courseDTO = findByCriteria(List.of(new SearchCriteria("id", "=", courseId),
                 new SearchCriteria("specialization.user.email", "=", principal.getName()))).stream().toList().get(0);
         return courseDTO != null;

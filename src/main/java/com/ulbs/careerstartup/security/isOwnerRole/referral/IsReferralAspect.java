@@ -25,7 +25,7 @@ public class IsReferralAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.referral.IsReferralOwner) && args(referralDTO,..)")
     public void checkOwnership(ReferralDTO referralDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = referralService.isReferralOwner(referralDTO.getId(), authentication);
+        boolean isOwner = referralService.isOwner(referralDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this referral");
         }
@@ -34,7 +34,7 @@ public class IsReferralAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.referral.IsReferralOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = referralService.isReferralOwner(id, authentication);
+        boolean isOwner = referralService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }

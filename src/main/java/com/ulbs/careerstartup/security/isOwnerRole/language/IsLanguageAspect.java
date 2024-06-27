@@ -24,7 +24,7 @@ public class IsLanguageAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.language.IsLanguageOwner) && args(languageDTO,..)")
     public void checkOwnership(LanguageDTO languageDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = languageService.isLanguageOwner(languageDTO.getId(), authentication);
+        boolean isOwner = languageService.isOwner(languageDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this language");
         }
@@ -33,7 +33,7 @@ public class IsLanguageAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.language.IsLanguageOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = languageService.isLanguageOwner(id, authentication);
+        boolean isOwner = languageService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }

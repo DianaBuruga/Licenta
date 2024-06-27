@@ -20,7 +20,7 @@ public class IsAutenticatedUserAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.user.IsAutenticatedUser) && args(userDTO,..)")
     public void checkOwnership(UserDTO userDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = userService.isAutenticatedUser(userDTO.getEmail(), authentication);
+        boolean isOwner = userService.isOwner(userDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this referral");
         }

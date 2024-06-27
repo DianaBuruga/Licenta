@@ -96,7 +96,7 @@ public class SpecializationService {
         specializationRepository.deleteById(id);
     }
 
-    public boolean isSpecializationOwner(UUID id, Principal principal) {
+    public boolean isOwner(UUID id, Principal principal) {
         return findByCriteria(List.of(new SearchCriteria("id", "=", id),
                 new SearchCriteria("user.email","=",principal.getName())))
                 .stream().toList().get(0) != null;

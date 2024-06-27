@@ -24,7 +24,7 @@ public class IsSpecializationAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.specialization.IsSpecializationOwner) && args(specializationDTO,..)")
     public void checkOwnership(SpecializationDTO specializationDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = specializationService.isSpecializationOwner(specializationDTO.getId(), authentication);
+        boolean isOwner = specializationService.isOwner(specializationDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this referral");
         }
@@ -33,7 +33,7 @@ public class IsSpecializationAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.specialization.IsSpecializationOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = specializationService.isSpecializationOwner(id, authentication);
+        boolean isOwner = specializationService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }

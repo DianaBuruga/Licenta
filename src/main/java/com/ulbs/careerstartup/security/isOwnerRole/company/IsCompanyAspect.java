@@ -24,7 +24,7 @@ public class IsCompanyAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.company.IsCompanyOwner) && args(courseDTO,..)")
     public void checkOwnership(CourseDTO courseDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = companyService.isCompanyRepresentative(courseDTO.getId(), authentication);
+        boolean isOwner = companyService.isOwner(courseDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("The user is not a representative of this company");
         }
@@ -33,7 +33,7 @@ public class IsCompanyAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.company.IsCompanyOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner =  companyService.isCompanyRepresentative(id, authentication);
+        boolean isOwner =  companyService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }

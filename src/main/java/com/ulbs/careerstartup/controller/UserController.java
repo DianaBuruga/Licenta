@@ -37,7 +37,6 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")
-@PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
 @Tag(name = "User", description = "The User API")
 public class UserController implements UserApiDoc {
 
@@ -108,7 +107,6 @@ public class UserController implements UserApiDoc {
     }
 
     @GetMapping(value = "/profilePhoto/view/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAnyAuthority('STUDENT', 'TEACHER', 'COMPANY_REPRESENTATIVE','ADMIN')")
     public ResponseEntity<Resource> viewFileById(@PathVariable UUID id) {
         FilePK filePK = FilePK.builder().tableId(id).tableName(TABLE_NAME).type(FileType.PROFILE_PHOTO).build();
 

@@ -24,7 +24,7 @@ public class IsCourseAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.course.IsCourseOwner) && args(courseDTO,..)")
     public void checkOwnership(CourseDTO courseDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = courseService.isCourseOwner(courseDTO.getId(), authentication);
+        boolean isOwner = courseService.isOwner(courseDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this course");
         }
@@ -33,7 +33,7 @@ public class IsCourseAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.course.IsCourseOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = courseService.isCourseOwner(id, authentication);
+        boolean isOwner = courseService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }

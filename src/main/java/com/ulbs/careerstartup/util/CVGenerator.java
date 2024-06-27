@@ -3,7 +3,7 @@ package com.ulbs.careerstartup.util;
 import com.lowagie.text.DocumentException;
 import com.ulbs.careerstartup.constant.ExperienceType;
 import com.ulbs.careerstartup.constant.FileType;
-import com.ulbs.careerstartup.dto.JobHistoryDTO;
+import com.ulbs.careerstartup.dto.*;
 import com.ulbs.careerstartup.entity.*;
 import com.ulbs.careerstartup.entity.pk.FilePK;
 import com.ulbs.careerstartup.mapper.Mapper;
@@ -18,9 +18,9 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.Map;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
@@ -93,4 +93,97 @@ public class CVGenerator {
         context.setVariables(properties);
         return context;
     }
+
+    public Date getDate(String dateString) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd.MM.yyyy");
+        return formatter.parse(dateString);
+    }
+
+    public File generateCV(UserDTO user) throws DocumentException, IOException {
+        String html = parseThymeleafTemplate(user);
+        return generatePdfFromHtml(html, user);
+    }
+
+    private File generatePdfFromHtml(String html, UserDTO user) throws IOException, DocumentException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        ITextRenderer renderer = new ITextRenderer();
+        renderer.setDocumentFromString(html);
+        renderer.layout();
+        renderer.createPDF(byteArrayOutputStream);
+        byteArrayOutputStream.close();
+
+        String name = String.format("CV-%s%s", user.getName().trim().replace(" ", "_"), ".pdf");
+        return fileRepository.save(new File(new FilePK(user.getId(), "user", FileType.CV), name, byteArrayOutputStream.toByteArray()));
+    }
+
+    private String parseThymeleafTemplate(UserDTO user) {
+        String template = "cv2.html";
+        Context context = createContext(user);
+
+        return templateEngine.process("cv/" + template, context);
+    }
+
+    public Context createContext(UserDTO user) {
+        Context context = new Context();
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("cvPhotoAlt", "cv-photo");
+        properties.put("cvPhotoTitle", "cv-photo");
+        properties.put("jobHistories", user.getJobHistoriesDTO()
+                .stream()
+                .sorted((o1, o2) -> {
+                    try {
+                        return getDate(o1.getStartDate()).compareTo(getDate(o2.getStartDate()));
+                    } catch (ParseException e) {
+                        throw new RuntimeException(e);
+                    }
+                }));
+        properties.put("projects",
+                user.getExperiencesDTO()
+                        .stream()
+                        .filter(experience -> experience.getType().equals(ExperienceType.PROJECT))
+                        .sorted(Comparator.comparing(
+                                (ExperienceDTO o) -> {
+                                    try {
+                                        return getDate(o.getDate());
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                                ).reversed())
+                        .collect(Collectors.toList()));
+        properties.put("certifications",
+                user.getExperiencesDTO()
+                        .stream()
+                        .filter(experience -> experience.getType().equals(ExperienceType.ACCREDITATION))
+                        .sorted(Comparator.comparing(
+                                (ExperienceDTO o) -> {
+                                    try {
+                                        return getDate(o.getDate());
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                        ).reversed())
+                        .collect(Collectors.toList()));
+        properties.put("educations",
+                user.getSpecializationsDTO().
+                stream()
+                        .sorted(Comparator.comparing(
+                                (SpecializationDTO o) -> {
+                                    try {
+                                        return getDate(o.getStartedDate());
+                                    } catch (ParseException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
+                        ).reversed())
+                        .collect(Collectors.toList()));
+        properties.put("user", user);
+
+        context.setVariables(properties);
+        return context;
+    }
+
+
+
 }

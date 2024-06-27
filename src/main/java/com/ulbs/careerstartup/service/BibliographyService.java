@@ -117,7 +117,7 @@ public class BibliographyService {
         bibliographyRepository.deleteById(id);
     }
 
-    public boolean isBibliographyOwner(UUID id, Principal principal) {
+    public boolean isOwner(UUID id, Principal principal) {
         Bibliography bibliography = bibliographyRepository.findById(id).orElse(null);
         return bibliography != null && principal.getName().equals(bibliography.getWriter().getEmail());
     }

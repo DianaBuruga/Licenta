@@ -24,18 +24,19 @@ public class PostedJobScheduler {
     private PostedJobRepository postedJobRepository;
     private RecruiterNotificator recruiterNotificator;
 
-    @Scheduled(cron = "0 * * * * *", zone = "Europe/Bucharest")
+    @Scheduled(cron = "0 0 0 * * *", zone = "Europe/Bucharest")
     public void checkJobDeadlines() {
         LocalDateTime localDateTimeNow = LocalDateTime.now(ZoneId.of("Europe/Bucharest"));
         Timestamp now = Timestamp.valueOf(localDateTimeNow);
 
-        List<PostedJob> overdueJobs = postedJobRepository.findByOpenUntilBefore(now);
+        List<PostedJob> overdueJobs = postedJobRepository.findByOpenUntilBefore(now).stream().filter(job -> job.getStatus().equals(JobStatus.ACTIVE)).toList();
 
         if (!overdueJobs.isEmpty()) {
             overdueJobs.forEach(job -> {
                 job.setStatus(JobStatus.INACTIVE);
                 postedJobRepository.save(job);
             });
+
             log.info("Found " + overdueJobs.size() + " jobs with past deadlines:");
 
             overdueJobs.forEach(job -> {

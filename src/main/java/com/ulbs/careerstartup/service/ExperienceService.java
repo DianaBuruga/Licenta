@@ -62,7 +62,7 @@ public class ExperienceService {
         experienceRepository.deleteById(id);
     }
 
-    public boolean isExperienceOwner(UUID id, Principal principal) {
+    public boolean isOwner(UUID id, Principal principal) {
         ExperienceDTO experienceDTO = findByCriteria(List.of(new SearchCriteria("id", "=", id),
                 new SearchCriteria("user.email", "=", principal.getName()))).stream().toList().get(0);
         return experienceDTO != null;

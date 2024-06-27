@@ -13,6 +13,8 @@ import com.ulbs.careerstartup.util.CVGenerator;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Service;
 
 import jakarta.validation.constraints.NotNull;
@@ -107,7 +109,9 @@ public class UserService {
         return mapper.fileToFileDTO(cvGenerator.generateCV(user));
     }
 
-    public boolean isAutenticatedUser(String email, Principal principal) {
-        return email.equals(principal.getName());
+    public boolean isOwner(UUID id, Principal principal) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("User with id " + id + " not found"));
+        return user.getEmail().equals(principal.getName());
     }
 }

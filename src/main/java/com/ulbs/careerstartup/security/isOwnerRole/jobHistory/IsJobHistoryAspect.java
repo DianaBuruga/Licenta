@@ -25,7 +25,7 @@ public class IsJobHistoryAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.jobHistory.IsJobHistoryOwner) && args(jobHistoryDTO,..)")
     public void checkOwnership(JobHistoryDTO jobHistoryDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = jobHistoryService.isJobHistoryOwner(jobHistoryDTO.getId(), authentication);
+        boolean isOwner = jobHistoryService.isOwner(jobHistoryDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this job history");
         }
@@ -34,7 +34,7 @@ public class IsJobHistoryAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.jobHistory.IsJobHistoryOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = jobHistoryService.isJobHistoryOwner(id, authentication);
+        boolean isOwner = jobHistoryService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }

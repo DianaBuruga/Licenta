@@ -71,7 +71,7 @@ public class CompanyService {
                 .toList();
     }
 
-    public boolean isCompanyRepresentative(UUID id, Principal principal) {
+    public boolean isOwner(UUID id, Principal principal) {
         List<SearchCriteria> searchCriteria = List.of(new SearchCriteria("jobHistories.id", "=", id),
                 new SearchCriteria("jobHistories.user.email", "=", principal.getName()),
                 new SearchCriteria("jobHistories.user.role", "=", "COMPANY_REPRESENTATIVE"));

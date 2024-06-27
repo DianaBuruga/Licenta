@@ -24,7 +24,7 @@ public class IsExperienceAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.experience.IsExperienceOwner) && args(experienceDTO,..)")
     public void checkOwnership(ExperienceDTO experienceDTO) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = experienceService.isExperienceOwner(experienceDTO.getId(), authentication);
+        boolean isOwner = experienceService.isOwner(experienceDTO.getId(), authentication);
         if (!isOwner) {
             throw new AccessDeniedException("User is not the owner of this experience");
         }
@@ -33,7 +33,7 @@ public class IsExperienceAspect {
     @Before("@annotation(com.ulbs.careerstartup.security.isOwnerRole.experience.IsExperienceOwner) && args(id,..)")
     public void checkOwnership(UUID id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isOwner = experienceService.isExperienceOwner(id, authentication);
+        boolean isOwner = experienceService.isOwner(id, authentication);
         if(hasAdminRole(authentication) || isOwner){
             return;
         }
