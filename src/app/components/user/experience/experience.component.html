@@ -1,9 +1,13 @@
 <div class="container">
   <br>
   <h1><b>Experience</b>
+    @if(isOwner$ | async){
+      @if(isCompanyRepresentative$ |async){
     <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyJobHistory)">
       <mat-icon>add</mat-icon>
     </button>
+  }
+  }
   </h1>
   @if (experiences?.length !==0) {
   <div class="timeline">
@@ -33,12 +37,14 @@
   <span>{{ experience.description }}</span>
         <br>
         </div>
+        @if(isOwner$ | async){
         <button mat-icon-button class="custom-icon-button" (click)="openDialog(experience)">
           <mat-icon>update</mat-icon>
         </button>
         <button mat-icon-button class="custom-icon-button" (click)="deleteJobExperience(experience)">
           <mat-icon>delete</mat-icon>
         </button>
+      }
       </div>
     </div>
   </div>

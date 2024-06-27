@@ -1,18 +1,20 @@
 import { CommonModule, NgFor } from '@angular/common';
 import {CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { BibliographyDto, CourseDto } from '../../services/models';
+import { BibliographyDto, CourseDto, IsOwner, Role } from '../../services/models';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { BibliographyOpenDialogComponent } from '../../components/bibliography-open-dialog/bibliography-open-dialog.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { BibliographyService, CourseService, FileService } from '../../services/services';
+import { AuthenticationService, BibliographyService, CourseService, FileService } from '../../services/services';
 import Swal from 'sweetalert2';
 import { CourseOpenDialogComponent } from '../../components/course-open-dialog/course-open-dialog.component';
 import { ViewFileById1$Params } from '../../services/fn/file/view-file-by-id-1';
 import { FileData } from '../../services/models/file-data';
 import { SearchComponent } from '../../components/search/search.component';
+import { IsOwner$Params } from '../../services/fn/authentication/is-owner';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-bibliography',
@@ -41,6 +43,11 @@ bibliographyFileMap: Map<string, FileData> = new Map();
 courseFileMap: Map<string, FileData> = new Map();
 bibliographyEndpoint: string = 'bibliographies';
 courseEndpoint: string = 'courses';
+private isCourseOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+public isBibliographyeOwnerSubjectMap: Map<string, boolean> = new Map<string, boolean>();
+public isBCourseeOwnerSubjectMap: Map<string, boolean> = new Map<string, boolean>();
+private isTeacherSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+private isCompanyRepresentativeSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
 processBibliographies(filteredBibliographies: BibliographyDto[]) {
   this.bibliographies = filteredBibliographies;
@@ -50,7 +57,12 @@ processCourses(courses: CourseDto[]) {
   this.courses = courses;
 }
 
-constructor(private fileService: FileService, public dialog: MatDialog, private bibliographyService: BibliographyService, private courseService: CourseService) {
+getIsBibliograghyOwner(bibliography:  BibliographyDto): boolean {
+  return this.isBibliographyeOwnerSubjectMap.get(bibliography.id??'')?? false;
+}
+
+constructor(private fileService: FileService, public dialog: MatDialog, private bibliographyService: BibliographyService, private courseService: CourseService, private authService:AuthenticationService) {
+  this.checkIfTeacherOrCompanyRepresentative();
   this.bibliographyService.findAllBibliographies().subscribe({
     next: (response: BibliographyDto[]) => {
       this.bibliographies = response;
@@ -58,6 +70,7 @@ constructor(private fileService: FileService, public dialog: MatDialog, private 
       this.bibliographies.forEach(bibliography => {
         try{
         if (bibliography.id) {
+          this.checkIfBibliographyOwner(bibliography);
           const id = bibliography.id;
           const param = {
             id: bibliography.id,
@@ -86,6 +99,7 @@ constructor(private fileService: FileService, public dialog: MatDialog, private 
       this.courses.forEach(course => {
         try{
         if (course.id) {
+          this.checkIfCourseOwner(course);
           const id = course.id;
           const param = {
             id: course.id,
@@ -277,5 +291,80 @@ deleteCourse(course: any): void {
     ];
 
     return supportedTypes.includes(fileType);
+  }
+
+  isCourseOwner$(course: CourseDto) {
+    if(course.id){
+    return this.isBCourseeOwnerSubjectMap.get(course.id);
+    }
+    return false;
+  }
+
+  checkIfCourseOwner(course: CourseDto): void {
+    if(course?.id){
+      const id = course.id;
+    const param = {
+      id: course.id,
+      endpoint: "courses"
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isBCourseeOwnerSubjectMap.set(id,result.isOwner? true : false);
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
+  }
+  }
+
+  isBibliographyOwner$(bibliography: BibliographyDto) {
+    if(bibliography.id){
+    return this.isBibliographyeOwnerSubjectMap.get(bibliography.id);
+    }
+    return false;
+  }
+
+  checkIfBibliographyOwner(bibliography: BibliographyDto): void {
+    if(bibliography?.id){
+    const id = bibliography.id;
+    const param = {
+      id: bibliography.writer.id,
+      endpoint: "users"
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isBibliographyeOwnerSubjectMap.set(id,(result.isOwner? true : false));
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
+  }
+  }
+
+  get isTeacherOrAdmin$() {
+    return this.isTeacherSubject.asObservable();
+  }
+
+  get isCompanyRepresentativeOrAdmin$() {
+    return this.isCompanyRepresentativeSubject.asObservable();
+  }
+
+  checkIfTeacherOrCompanyRepresentative(): void {
+    this.authService.getUserRole().subscribe({
+      next: (result: Role) => {
+        console.log('Result received:', result.role);
+        this.isTeacherSubject.next(result.role==='TEACHER' || result.role ==='ADMIN');
+        this.isCompanyRepresentativeSubject.next(result.role==='COMPANY_REPRESENTATIVE' || result.role ==='ADMIN')
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
   }
 }

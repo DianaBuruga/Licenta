@@ -26,6 +26,7 @@
       <input matInput formControlName="description">
       <mat-error *ngIf="form.get('description')?.errors?.['required']">Description is required</mat-error>
     </mat-form-field>
+    @if(isCompanyRepresentative$ | async){
     <mat-form-field appearance="fill" *ngIf="!showNewOptionInput">
       <mat-label>Choose a company</mat-label>
       <input type="text" matInput formControlName="company" [matAutocomplete]="auto">
@@ -47,6 +48,7 @@
         <mat-error *ngIf="form.get('website')?.errors?.['required']">Website is required</mat-error>
       </mat-form-field>
     </div>
+  }
     <div mat-dialog-actions>
       <button mat-button (click)="closeDialog()">Cancel</button>
       <button mat-button color="primary" [disabled]="!form.valid">SAVE</button>

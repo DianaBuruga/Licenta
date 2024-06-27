@@ -1,8 +1,11 @@
+<p></p><p></p><p></p><p></p>
 <div style="text-align: center;">
   <h1><b>Skills</b>
+    @if(isOwner$ | async){
     <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyUserSkill)">
       <mat-icon>add</mat-icon>
     </button>
+  }
   </h1>
   <div *ngFor="let skill of userSkills" class="skill">
     <svg width="120" height="120" viewBox="0 0 120 120">
@@ -15,12 +18,15 @@
       <text x="60" y="65" text-anchor="middle" font-size="18" fill="#333">{{ skill.proficiency }}%</text>
     </svg>
     <h3>{{ skill.skill.name }}</h3>
-    <p><button mat-icon-button class="custom-icon-button" (click)="openDialog(skill)">
+    <p>
+      @if(isOwner$ | async){
+      <button mat-icon-button class="custom-icon-button" (click)="openDialog(skill)">
         <mat-icon>update</mat-icon>
       </button>
       <button mat-icon-button class="custom-icon-button" (click)="deleteSkill(skill)">
         <mat-icon>delete</mat-icon>
       </button>
+    }
     </p>
   </div>
 </div>

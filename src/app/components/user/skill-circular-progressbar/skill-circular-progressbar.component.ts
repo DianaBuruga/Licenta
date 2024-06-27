@@ -1,10 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { CommonModule, NgFor } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
-import { SkillDto, UserDto, UserSkillsDto } from '../../../services/models';
+import { IsOwner, SkillDto, UserDto, UserSkillsDto } from '../../../services/models';
 import { MatDialog } from '@angular/material/dialog';
-import { UserSkillService } from '../../../services/services';
+import { AuthenticationService, UserSkillService } from '../../../services/services';
 import { UserSkillsFormDialogComponent } from '../user-skills-form-dialog/user-skills-form-dialog.component';
+import { BehaviorSubject } from 'rxjs';
+import { IsOwner$Params } from '../../../services/fn/authentication/is-owner';
 
 @Component({
   selector: 'app-skill-circular-progressbar',
@@ -17,6 +19,16 @@ export class SkillCircularProgressbarComponent {
   @Input() user: UserDto | undefined;
   @Input() userSkills: UserSkillsDto[] = [];
   colors: Map<SkillDto, string> = new Map<SkillDto, string>();
+  private isOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.user !== undefined) {
+    if (this.user.id) {
+      this.checkIfOwner(this.user.id, 'users');
+    }
+  }
+  }
+  
   get emptyUserSkill(): UserSkillsDto {
     return {
       proficiency: 0,
@@ -39,7 +51,7 @@ export class SkillCircularProgressbarComponent {
     return this.colors;
   }
 
-  constructor(public dialog: MatDialog, private userSkillService: UserSkillService) { }
+  constructor(public dialog: MatDialog, private userSkillService: UserSkillService, private authService: AuthenticationService) { }
 
   openDialog(userSkillDto: UserSkillsDto): void {
     const dialogRef = this.dialog.open(UserSkillsFormDialogComponent, {
@@ -86,5 +98,26 @@ export class SkillCircularProgressbarComponent {
 
   getRandomColor() {
     return `hsl(${Math.random() * 360}, 100%, 50%)`;
+  }
+
+  get isOwner$() {
+    return this.isOwnerSubject.asObservable();
+  }
+
+  checkIfOwner(id: string, endpoint: string): void {
+    const param = {
+      id: id,
+      endpoint: endpoint
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isOwnerSubject.next(result.isOwner? true : false);
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
   }
 }

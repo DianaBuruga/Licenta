@@ -1,7 +1,9 @@
 <h1 style="text-align: center;"><b>Projects and Competitions</b>
+  @if(isOwner$ | async){
   <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyExperience)">
     <mat-icon>add</mat-icon>
   </button>
+}
 </h1>
 <div style="display: flex; justify-content: center; align-items: center;">
   <mat-chip-listbox class="mat-mdc-chip-set">
@@ -29,12 +31,14 @@
 <mat-card-content>{{ experience.description}}</mat-card-content>
 <a [href]="experience.url">See more details</a>
 <p>
+@if(isOwner$ | async){
 <button mat-icon-button class="custom-icon-button" (click)="openDialog(experience)">
 <mat-icon>update</mat-icon>
 </button>
 <button mat-icon-button class="custom-icon-button" (click)="deleteExperience(experience)">
 <mat-icon>delete</mat-icon>
 </button>
+}
 </p>
 </div>
 

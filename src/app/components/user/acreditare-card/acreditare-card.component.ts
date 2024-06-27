@@ -1,13 +1,15 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule, NgFor } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIcon } from '@angular/material/icon';
-import { ExperienceDto, UserDto } from '../../../services/models';
+import { ExperienceDto, IsOwner, UserDto } from '../../../services/models';
 import { MatDialog } from '@angular/material/dialog';
-import { ExperienceService } from '../../../services/services';
+import { AuthenticationService, ExperienceService } from '../../../services/services';
 import { FlexLayoutServerModule } from '@angular/flex-layout/server';
 import { AcreditationFormDialogComponent } from '../acreditation-form-dialog/acreditation-form-dialog.component';
+import { IsOwner$Params } from '../../../services/fn/authentication/is-owner';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Acreditare {
   id: any;
@@ -42,6 +44,15 @@ export class AcreditareCardComponent {
 
   @Input() userExperiences: UserDto | undefined;
   @Input() experiencesArray: ExperienceDto[] | undefined;
+  private isOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.userExperiences !== undefined) {
+    if (this.userExperiences.id) {
+      this.checkIfOwner(this.userExperiences.id, 'users');
+    }
+  }
+  }
 
   get emptyExperience(): ExperienceDto {
     return {
@@ -59,7 +70,7 @@ export class AcreditareCardComponent {
     return this.experiencesArray?.filter((experience) => experience.type === 'ACCREDITATION') ?? [];
   };
 
-  constructor(public dialog: MatDialog, private experienceService: ExperienceService) { }
+  constructor(public dialog: MatDialog, private experienceService: ExperienceService, private authService: AuthenticationService) { }
 
   openDialog(experience: ExperienceDto): void {
     const dialogRef = this.dialog.open(AcreditationFormDialogComponent, {
@@ -103,5 +114,25 @@ export class AcreditareCardComponent {
         },
       });
     }
+  }
+  get isOwner$() {
+    return this.isOwnerSubject.asObservable();
+  }
+
+  checkIfOwner(id: string, endpoint: string): void {
+    const param = {
+      id: id,
+      endpoint: endpoint
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isOwnerSubject.next(result.isOwner? true : false);
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
   }
 }

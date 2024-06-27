@@ -1,8 +1,9 @@
 <h1><b>Education</b>
+  @if(isOwner$ | async){
   <button mat-icon-button (click)="openDialog(emptySpecialization)" class="custom-icon-button">
     <mat-icon>add</mat-icon>
   </button>
-
+  }
   @for (specialization of sortedSpecializations; track $index) {
   <mat-card class="custom-card">
       <div class="card-content">
@@ -17,6 +18,7 @@
             <mat-card-title>{{  specialization.name }}</mat-card-title>
             <mat-card-subtitle> {{ specialization.startedDate }} - {{specialization.finishedDate}}</mat-card-subtitle>
             <mat-card-subtitle>Degree: {{ specialization.degree }}</mat-card-subtitle>
+            @if(isOwner$ | async){
             <mat-card-actions styele="align-items:center">
               <button mat-icon-button (click)="openDialog(specialization)" class="custom-icon-button">
                 <mat-icon>update</mat-icon>
@@ -25,6 +27,7 @@
                 <mat-icon>delete</mat-icon>
               </button>
             </mat-card-actions>
+          }
           </div>
         </div>
         </div>

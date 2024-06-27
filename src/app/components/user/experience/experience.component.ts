@@ -1,12 +1,14 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, SimpleChanges} from '@angular/core';
 import {MatCard, MatCardTitle, MatCardContent} from '@angular/material/card';
 import {CommonModule, NgFor} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {AddFormDialogComponent} from '../add-form-dialog/add-form-dialog.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {JobHistoryDto, UserDto} from '../../../services/models';
-import {JobHistoryService} from '../../../services/services';
+import {IsOwner, JobHistoryDto, Role, UserDto} from '../../../services/models';
+import {AuthenticationService, JobHistoryService} from '../../../services/services';
 import Swal from 'sweetalert2';
+import { BehaviorSubject } from 'rxjs';
+import { IsOwner$Params } from '../../../services/fn/authentication/is-owner';
 
 @Component({
   selector: 'app-experience',
@@ -26,7 +28,18 @@ import Swal from 'sweetalert2';
 export class ExperienceComponent {
   @Input() userExperiences: UserDto | undefined;
   @Input() experiences: JobHistoryDto[] | undefined;
+  private isOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private isCompanyRepresentative: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.userExperiences !== undefined) {
+    if (this.userExperiences.id) {
+      this.checkIfOwner(this.userExperiences.id, 'users');
+      this.checkIfCompanyRepresentative();
+    }
+  }
+  }
+  
   get sortedExperiences(): JobHistoryDto[] {
     return this.experiences?.sort((a, b) => this.parseDate(b.startDate).getTime() - this.parseDate(a.startDate).getTime()) ?? [];
   }
@@ -51,7 +64,7 @@ export class ExperienceComponent {
     } as JobHistoryDto;
   }
 
-  constructor(public dialog: MatDialog, private jobHistoryService: JobHistoryService) {
+  constructor(public dialog: MatDialog, private jobHistoryService: JobHistoryService, private authService: AuthenticationService) {
   }
 
   openDialog(jobHistory: JobHistoryDto): void {
@@ -129,4 +142,40 @@ export class ExperienceComponent {
     return new Date(year, month - 1, day + 1);
   };
 
+  get isOwner$() {
+    return this.isOwnerSubject.asObservable();
+  }
+
+  checkIfOwner(id: string, endpoint: string): void {
+    const param = {
+      id: id,
+      endpoint: endpoint
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isOwnerSubject.next(result.isOwner? true : false);
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
+  }
+
+  get isCompanyRepresentative$() {
+    return this.isCompanyRepresentative.asObservable();
+  }
+
+  checkIfCompanyRepresentative(): void {
+    this.authService.getUserRole().subscribe({
+      next: (result: Role) => {
+        console.log('Result received:', result);
+        this.isCompanyRepresentative.next(result.role!=='COMPANY_REPRESENTATIVE');
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
+  }
 }

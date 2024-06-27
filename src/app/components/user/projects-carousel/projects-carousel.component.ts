@@ -1,13 +1,15 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, SimpleChanges} from '@angular/core';
 import {CommonModule, NgFor} from '@angular/common';
 import {MatCardModule} from '@angular/material/card';
 import {MatIcon} from '@angular/material/icon';
-import {ExperienceDto, UserDto} from '../../../services/models';
+import {ExperienceDto, IsOwner, UserDto} from '../../../services/models';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {ExperienceService} from '../../../services/services';
+import {AuthenticationService, ExperienceService} from '../../../services/services';
 import {ProjectsFormDialogComponent} from '../projects-form-dialog/projects-form-dialog.component';
 import {MatChipsModule} from '@angular/material/chips';
 import Swal from 'sweetalert2';
+import { BehaviorSubject } from 'rxjs';
+import { IsOwner$Params } from '../../../services/fn/authentication/is-owner';
 
 @Component({
   selector: 'app-projects-carousel',
@@ -27,6 +29,15 @@ export class ProjectsCarouselComponent {
   @Input() userExperiences: UserDto | undefined;
   @Input() experiencesArray: ExperienceDto[] | undefined;
   currentIndex = 0;
+  private isOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.userExperiences !== undefined) {
+    if (this.userExperiences.id) {
+      this.checkIfOwner(this.userExperiences.id, 'users');
+    }
+  }
+  }
 
   types = ['All', 'PROJECT', 'COMPETITION'];
   selectedType = 'All';
@@ -61,7 +72,7 @@ export class ProjectsCarouselComponent {
     } as ExperienceDto;
   };
 
-  constructor(public dialog: MatDialog, private experienceService: ExperienceService) {
+  constructor(public dialog: MatDialog, private experienceService: ExperienceService, private authService: AuthenticationService) {
   }
 
 
@@ -163,4 +174,25 @@ export class ProjectsCarouselComponent {
     const [day, month, year] = dateStr.split('.').map(Number);
     return new Date(year, month - 1, day);
   };
+
+  get isOwner$() {
+    return this.isOwnerSubject.asObservable();
+  }
+
+  checkIfOwner(id: string, endpoint: string): void {
+    const param = {
+      id: id,
+      endpoint: endpoint
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isOwnerSubject.next(result.isOwner? true : false);
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
+  }
 }

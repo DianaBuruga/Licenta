@@ -1,21 +1,33 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
-import { LanguageDto, UserDto } from '../../../services/models';
+import { IsOwner, LanguageDto, UserDto } from '../../../services/models';
 import { MatIcon } from '@angular/material/icon';
 import { MatDialog } from '@angular/material/dialog';
-import { LanguageService } from '../../../services/services';
+import { AuthenticationService, LanguageService } from '../../../services/services';
 import { LanguageOpenDialogComponent } from '../language-open-dialog/language-open-dialog.component';
+import { BehaviorSubject } from 'rxjs';
+import { IsOwner$Params } from '../../../services/fn/authentication/is-owner';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-language-table',
   standalone: true,
-  imports: [MatTableModule, MatIcon],
+  imports: [MatTableModule, MatIcon, CommonModule],
   templateUrl: './language-table.component.html',
   styleUrl: './language-table.component.scss'
 })
 export class LanguageTableComponent {
   @Input() user: UserDto | undefined;
   @Input() languages: LanguageDto[] = [];
+  private isOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.user !== undefined) {
+    if (this.user.id) {
+      this.checkIfOwner(this.user.id, 'users');
+    }
+  }
+  }
 
   emptyLanguage: LanguageDto = {} as LanguageDto;
 
@@ -45,7 +57,7 @@ export class LanguageTableComponent {
       });
     }
   }
-  constructor(public dialog: MatDialog, private languageService: LanguageService) { }
+  constructor(public dialog: MatDialog, private languageService: LanguageService, private authService: AuthenticationService) { }
   openDialog(language: LanguageDto) {
     const dialogRef = this.dialog.open(LanguageOpenDialogComponent, {
       width: '50%',
@@ -74,4 +86,24 @@ export class LanguageTableComponent {
   fontSize: string = '16px';
   displayedColumns: string[] = ['language', 'conversation', 'listening', 'reading', 'speaking', 'writing', 'actions'];
 
+  get isOwner$() {
+    return this.isOwnerSubject.asObservable();
+  }
+
+  checkIfOwner(id: string, endpoint: string): void {
+    const param = {
+      id: id,
+      endpoint: endpoint
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isOwnerSubject.next(result.isOwner? true : false);
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
+  }
 }

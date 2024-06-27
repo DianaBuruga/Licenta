@@ -7,12 +7,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule, provideNativeDateAdapter} from '@angular/material/core';
 import {MatRadioModule} from '@angular/material/radio';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {map, startWith} from 'rxjs/operators';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {CommonModule} from '@angular/common';
-import {CompanyService, JobHistoryService} from '../../../services/services';
-import {CompanyDto, JobHistoryDto} from '../../../services/models';
+import {AuthenticationService, CompanyService, JobHistoryService} from '../../../services/services';
+import {CompanyDto, JobHistoryDto, Role} from '../../../services/models';
 import {companyNameValidator} from './companyNameValidator';
 
 @Component({
@@ -33,8 +33,10 @@ export class AddFormDialogComponent implements OnInit {
   filteredOptions: Observable<CompanyDto[]> = new Observable();
   dialogRef = inject(MatDialogRef);
   showNewOptionInput = false;
+  private isCompanyRepresentativeSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  role:string = '';
 
-  constructor(private jobHistoryService: JobHistoryService, private companyService: CompanyService, @Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(private jobHistoryService: JobHistoryService, private companyService: CompanyService, @Inject(MAT_DIALOG_DATA) public data: any, private authService: AuthenticationService) {
 
     const fb = new FormBuilder();
     this.form = fb.group({
@@ -49,6 +51,7 @@ export class AddFormDialogComponent implements OnInit {
       website: [data.job.company.website],
       jobHistory: []
     });
+    this.checkIfCompanyRepresentative();
   }
 
   ngOnInit() {
@@ -156,5 +159,21 @@ export class AddFormDialogComponent implements OnInit {
     }
 
     return new Date(year, month - 1, day);
+  }
+
+  get isCompanyRepresentative$() {
+    return this.isCompanyRepresentativeSubject.asObservable();
+  }
+
+  checkIfCompanyRepresentative(): void {
+    this.authService.getUserRole().subscribe({
+      next: (result: Role) => {
+        console.log('Result received:', result);
+        this.isCompanyRepresentativeSubject.next(result.role==='COMPANY_REPRESENTATIVE');
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
   }
 }

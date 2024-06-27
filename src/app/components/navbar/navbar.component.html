@@ -4,29 +4,28 @@
          style="width: 50px; height: 50px;">
   </a>
 
-  <!-- Meniu principal pentru desktop -->
   <nav class="main-menu">
-    <!-- <button mat-button class="menu-item" routerLink="/login" routerLinkActive="active">Home</button> -->
+    @if(tokenService.token){
     <button mat-button class="menu-item" routerLink="/profile" routerLinkActive="active">My profile</button>
     <button mat-button class="menu-item" routerLink="/jobs" routerLinkActive="active">Jobs</button>
     <button mat-button class="menu-item" routerLink="/users" routerLinkActive="active">Users</button>
     <button mat-button class="menu-item" routerLink="/companies" routerLinkActive="active">Companies</button>
     <button mat-button class="menu-item" routerLink="/bibliographies" routerLinkActive="active">Bibliographies</button>
+    }
   </nav>
-
-  <button mat-button class="cta-button" routerLink="/login" routerLinkActive="active">Logout</button>
+  @if(tokenService.token){
+    <button mat-button class="cta-button" (click)="logout()">Logout</button>
+  }
 </mat-toolbar>
+
 <div class="nav">
+  @if(tokenService.token){
   <button mat-icon-button [matMenuTriggerFor]="mobileMenu" class="mobile-menu-trigger warn">
     <mat-icon>menu</mat-icon>
   </button>
+}
   <mat-menu #mobileMenu class="mobile-menu">
-    <button mat-menu-item routerLink="/login" routerLinkActive="active">
-      <div class="item">
-        <mat-icon>home</mat-icon>
-        <span>Home</span>
-      </div>
-    </button>
+    @if(tokenService.token){
     <button mat-menu-item routerLink="/profile" routerLinkActive="active">
       <div class="item">
         <mat-icon>person</mat-icon>
@@ -59,5 +58,6 @@
         <span>Bibliographies</span>
       </div>
     </button>
+  }
   </mat-menu>
 </div>

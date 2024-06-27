@@ -1,0 +1,121 @@
+<p></p>
+<h1 style="text-align: center;"><b>Bibliography</b>
+  @if(selectedType === 'Bibliography'){
+    @if((isCompanyRepresentativeOrAdmin$ |async)||(isTeacherOrAdmin$ | async)){
+  <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyBibliography)">
+    <mat-icon>add</mat-icon>
+  </button>
+}
+}
+@if(selectedType === 'Course'){
+  @if(isTeacherOrAdmin$ | async){
+  <button mat-icon-button class="custom-icon-button" (click)="openCourseDialog(emptyCourse)">
+    <mat-icon>add</mat-icon>
+  </button>
+}
+}
+
+</h1>
+<div style="display: flex; justify-content: center; align-items: center;">
+    <mat-chip-listbox class="mat-mdc-chip-set">
+      <mat-chip-option
+        *ngFor="let type of types"
+        [selected]="selectedType === type"
+        (click)="selectType(type)">
+        {{type}}
+      </mat-chip-option>
+    </mat-chip-listbox>
+    </div>
+<p></p>
+@if(selectedType === 'Bibliography'){
+  <app-search [endpoint]='bibliographyEndpoint' (bibliographies)="processBibliographies($event)"></app-search>
+}
+@if(selectedType === 'Course'){
+  <app-search [endpoint]='courseEndpoint' (courses)="processCourses($event)"></app-search>
+}
+<div class="container">
+@if(selectedType === 'Bibliography'){
+<div *ngFor="let bibliography of bibliographies" class="post">
+  <mat-card class="example-card" appearance="outlined">
+    <mat-card-header>
+      <div mat-card-avatar class="example-header-image"></div>
+      <mat-card-title>{{ bibliography.writer.name }}</mat-card-title>
+      <mat-card-subtitle>{{ bibliography.date }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <p>
+        <mat-card-title>{{ bibliography.title }}</mat-card-title>
+        </p>
+        <p>
+          <mat-chip>{{bibliography.skill.name}}</mat-chip>
+        </p>
+        <p>{{ bibliography.text }}
+        </p>
+        @if(getIsBibliograghyOwner(bibliography)){
+          <mat-chip (click)="openFile(bibliography.id)" style="margin: 10px; padding: 5px;">
+            <mat-icon style="font-size: 25x;">file_present</mat-icon>
+            {{this.bibliographyFileMap.get(bibliography.id??'')?.name}}
+          </mat-chip>
+      }
+      <br>
+    </mat-card-content>
+    <div style="display: flex; justify-content: center; align-items: center;">
+      @if(isBibliographyeOwnerSubjectMap.get(bibliography.id||'')){
+    <mat-card-actions>
+      <button mat-icon-button class="custom-icon-button" (click)="openDialog(bibliography)">
+        <mat-icon>update</mat-icon>
+        </button>
+        <button mat-icon-button class="custom-icon-button" (click)="deleteBibliography(bibliography)">
+        <mat-icon>delete</mat-icon>
+        </button>
+    </mat-card-actions>
+  }
+  </div>
+  </mat-card>
+</div>
+}
+@if(selectedType === 'Course'){
+  <div *ngFor="let course of courses" class="post">
+    <mat-card class="example-card" appearance="outlined">
+      <mat-card-content>
+        <p>
+          <mat-card-title>{{ course.name }}</mat-card-title>
+          </p>
+            <mat-chip
+              *ngFor="let skill of course.skills">
+              {{skill.name}}
+            </mat-chip>
+          <p>
+            <mat-card-title>Faculty: {{ course.specialization.faculty.name}}</mat-card-title>
+            </p>
+            <p>
+              <mat-card-subtitle>Specialization: {{ course.specialization.name }}</mat-card-subtitle>
+            </p>
+          <p>Year of study: {{ course.year }}
+          </p>
+          <p>Semester: {{ course.semester }}</p>
+          @if(courseFileMap.get(course.id??'')){
+            <mat-chip (click)="openFile(course.id)" style="margin: 10px; padding: 5px;">
+              <mat-icon style="font-size: 25x;">file_present</mat-icon>
+              {{this.courseFileMap.get(course.id??'')?.name}}
+            </mat-chip>
+        }
+      </mat-card-content>
+      <div style="display: flex; justify-content: center; align-items: center;">
+      @if(isCourseOwner$(course)){
+      <mat-card-actions>
+        <button mat-icon-button class="custom-icon-button" (click)="openCourseDialog(course)">
+          <mat-icon>update</mat-icon>
+          </button>
+          <button mat-icon-button class="custom-icon-button" (click)="deleteCourse(course)">
+          <mat-icon>delete</mat-icon>
+          </button>
+      </mat-card-actions>
+    }
+    </div>
+    </mat-card>
+  </div>
+}
+</div>
+
+  

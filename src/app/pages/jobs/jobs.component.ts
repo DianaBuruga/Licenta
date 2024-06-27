@@ -1,16 +1,17 @@
-import {Component} from '@angular/core';
+import {Component, SimpleChanges} from '@angular/core';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialog} from '@angular/material/dialog';
 import {MatIcon} from '@angular/material/icon';
 import {MatCardModule} from '@angular/material/card';
-import {NgFor} from '@angular/common';
-import {PostedJobDto} from '../../services/models';
-import {PostedJobService, SearchService} from '../../services/services';
+import {CommonModule, NgFor} from '@angular/common';
+import {PostedJobDto, Role, UserDto} from '../../services/models';
+import {AuthenticationService, PostedJobService, SearchService} from '../../services/services';
 import {ActivatedRoute, Router} from '@angular/router';
 import {
   PostedJobOpenDialogComponent
 } from '../../components/company/posted-job-open-dialog/posted-job-open-dialog.component';
 import {SearchComponent} from "../../components/search/search.component";
+import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 
 @Component({
   selector: 'app-company-jobs',
@@ -22,18 +23,23 @@ import {SearchComponent} from "../../components/search/search.component";
     MatIcon,
     MatCardModule,
     NgFor,
-    SearchComponent
+    SearchComponent,
+    CommonModule
   ]
 })
 export class JobsComponent {
   id: any;
   error: any;
   jobs: PostedJobDto[] = [];
+  users: UserDto[] = [];
   endpoint: string = 'postedJobs';
-
+  private isCompanyRepresentativeSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  role:string = '';
+  
   emptyJob: PostedJobDto = {} as PostedJobDto;
 
-  constructor(private jobService: PostedJobService, private dialog: MatDialog, private route: ActivatedRoute, private searchService: SearchService, private router: Router) {
+  constructor(private jobService: PostedJobService, private dialog: MatDialog, private route: ActivatedRoute, private searchService: SearchService, private router: Router, private authService: AuthenticationService) {
+    this.checkIfCompanyRepresentative();
   };
 
   processPostedJobs(filterdJobs: PostedJobDto[]) {
@@ -67,7 +73,7 @@ export class JobsComponent {
       }
     });
   }
-
+  
   openDialog(job: PostedJobDto): void {
     const dialogRef = this.dialog.open(PostedJobOpenDialogComponent, {
       width: '50%',
@@ -100,5 +106,21 @@ export class JobsComponent {
     if (id) {
       this.router.navigate(['/company', id]);
     }
+  }
+
+  get isCompanyRepresentative$() {
+    return this.isCompanyRepresentativeSubject.asObservable();
+  }
+
+  checkIfCompanyRepresentative(): void {
+    this.authService.getUserRole().subscribe({
+      next: (result: Role) => {
+        console.log('Result received:', result);
+        this.isCompanyRepresentativeSubject.next(result.role==='COMPANY_REPRESENTATIVE');
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
   }
 }

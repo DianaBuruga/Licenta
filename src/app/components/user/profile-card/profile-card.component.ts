@@ -1,16 +1,20 @@
-import {CUSTOM_ELEMENTS_SCHEMA, Component, Input, SimpleChanges} from '@angular/core';
+import {CUSTOM_ELEMENTS_SCHEMA, Component, Input, SimpleChanges, OnChanges} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatButtonModule} from '@angular/material/button';
 import {UserDto} from '../../../services/models/user-dto';
 import {OnInit} from '@angular/core';
 import {MatDialog} from '@angular/material/dialog';
-import {UserService} from '../../../services/services';
+import {AuthenticationService, UserService} from '../../../services/services';
 import {ProfileOpenDialogComponent} from '../profile-open-dialog/profile-open-dialog.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {CommonModule} from '@angular/common';
 import "@uploadcare/blocks/web/lr-file-uploader-regular.min.css"
 import {SaveProfilePhoto$Params} from '../../../services/fn/user/save-profile-photo';
+import { IsOwner$Params } from '../../../services/fn/authentication/is-owner';
+import { BehaviorSubject } from 'rxjs';
+import { error } from 'console';
+import { IsOwner } from '../../../services/models';
 
 
 @Component({
@@ -29,6 +33,8 @@ import {SaveProfilePhoto$Params} from '../../../services/fn/user/save-profile-ph
 })
 export class ProfileCardComponent implements OnInit {
   profilePhotoUrl: string | undefined;
+  private isOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+
 
   refreshProfilePhoto() {
     const url = 'http://localhost:8081/users/profilePhoto/view/' + this.profileCardUser.id + '?timestamp=' + new Date().getTime();
@@ -90,10 +96,11 @@ export class ProfileCardComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges) {
     if (this.profileCardUser.id) {
       this.refreshProfilePhoto();
+      this.checkIfOwner(this.profileCardUser.id, 'users');
     }
   }
 
-  constructor(public dialog: MatDialog, private userService: UserService) {
+  constructor(public dialog: MatDialog, private userService: UserService, private authService: AuthenticationService) {
   }
 
   openDialog(user: UserDto): void {
@@ -111,4 +118,26 @@ export class ProfileCardComponent implements OnInit {
       console.log('Dialog was closed');
     });
   }
+
+  get isOwner$() {
+    return this.isOwnerSubject.asObservable();
+  }
+
+  checkIfOwner(id: string, endpoint: string): void {
+    const param = {
+      id: id,
+      endpoint: endpoint
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isOwnerSubject.next(result.isOwner? true : false);
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
+  }
+  
 }

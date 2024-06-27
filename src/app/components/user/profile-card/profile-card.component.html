@@ -21,7 +21,7 @@
     <h3><a mat-raised-button href={{profileCardUser.website}}>Check more about me here</a></h3>
     <div class="profile-actions">
       <button mat-raised-button color="warn" (click)="generateCV(profileCardUser)">Download CV</button>
-      @if(isOwner()||hasRole('ADMIN'){
+      @if(isOwner$ | async){
       <button mat-raised-button color="primary" (click)="openDialog(profileCardUser)">Edit</button>
       }
     </div>

@@ -1,12 +1,14 @@
 import {CommonModule, NgFor} from '@angular/common';
-import {ChangeDetectorRef, Component, Input} from '@angular/core';
+import {ChangeDetectorRef, Component, Input, SimpleChanges} from '@angular/core';
 import {MatCardModule} from '@angular/material/card';
 import {MatIconModule} from '@angular/material/icon';
-import {SpecializationDto, UserDto} from '../../services/models';
+import {IsOwner, SpecializationDto, UserDto} from '../../services/models';
 import Swal from 'sweetalert2';
-import {SpecializationService} from '../../services/services';
+import {AuthenticationService, SpecializationService} from '../../services/services';
 import {MatDialog} from '@angular/material/dialog';
 import {SpecializationOpenDialogComponent} from '../specialization-open-dialog/specialization-open-dialog.component';
+import { BehaviorSubject } from 'rxjs';
+import { IsOwner$Params } from '../../services/fn/authentication/is-owner';
 
 @Component({
   selector: 'app-education',
@@ -24,9 +26,19 @@ export class EducationComponent {
   @Input() user: UserDto | undefined;
   @Input() specializations: SpecializationDto[] = [];
   emptySpecialization: SpecializationDto = {} as SpecializationDto;
-
-  constructor(public dialog: MatDialog, private specializationService: SpecializationService, private cdr: ChangeDetectorRef) {
+  private isOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.user !== undefined) {
+    if (this.user.id) {
+      this.checkIfOwner(this.user.id, 'users');
+    }
   }
+  }
+  
+  constructor(public dialog: MatDialog, private specializationService: SpecializationService, private cdr: ChangeDetectorRef, private authService: AuthenticationService) {
+  }
+
 
   get sortedSpecializations(): SpecializationDto[] {
     return this.specializations?.sort((a, b) => this.parseDate(b.startedDate).getTime() - this.parseDate(a.startedDate).getTime()) ?? [];
@@ -105,4 +117,24 @@ export class EducationComponent {
     return new Date(year, month - 1, day);
   };
 
+  get isOwner$() {
+    return this.isOwnerSubject.asObservable();
+  }
+
+  checkIfOwner(id: string, endpoint: string): void {
+    const param = {
+      id: id,
+      endpoint: endpoint
+    } as IsOwner$Params;
+
+    this.authService.isOwner(param).subscribe({
+      next: (result: IsOwner) => {
+        console.log('Result received:', result);
+        this.isOwnerSubject.next(result.isOwner? true : false);
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
+  }
 }

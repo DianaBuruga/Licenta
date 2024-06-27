@@ -20,7 +20,9 @@ import Swal from 'sweetalert2';
   styleUrl: './profile-open-dialog.component.scss'
 })
 export class ProfileOpenDialogComponent {
-  status: string[] = [''];
+  status: string[] = ['RECRUITING',
+    'OPEN_TO_WORK',
+    'EMPLOYED'];
   dialogRef = inject(MatDialogRef);
   filteredStatusOptions: Observable<string[]> = new Observable();
   form: FormGroup;

@@ -1,9 +1,11 @@
 <app-search [endpoint]='endpoint' (postedJobs)="processPostedJobs($event)"></app-search>
 <h1 style="text-align: center;">
   <b>Available positions</b>
+  @if(isCompanyRepresentative$ | async){
   <button mat-icon-button color="warn" (click)="openDialog(emptyJob)">
     <mat-icon>add</mat-icon>
   </button>
+}
 </h1>
 <mat-card *ngFor="let job of jobs; let i = index">
   <div class="card">

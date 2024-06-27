@@ -1,5 +1,9 @@
 import {Injectable} from '@angular/core';
 import {CookieService} from 'ngx-cookie-service';
+import { AuthenticationService } from '../services';
+import { IsOwner$Params } from '../fn/authentication/is-owner';
+import { Observable } from 'rxjs';
+import { Role } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +12,7 @@ export class TokenService {
   private readonly tokenKey = 'token';
   private roles: string[] = [];
 
-  constructor(private cookieService: CookieService) {
+  constructor(private cookieService: CookieService, private authService: AuthenticationService) {
   }
 
   set token(token: string) {
@@ -21,7 +25,7 @@ export class TokenService {
     return this.cookieService.get(this.tokenKey);
   }
 
-  deleteToken(token: string): void {
+  deleteToken(): void {
     this.cookieService.delete(this.tokenKey);
   }
 
@@ -41,11 +45,8 @@ export class TokenService {
     return !this.isTokenValid();
   }
 
-  get userRoles(): string[] {
-    return [];
+  userRoles(): Observable<Role> {
+    return this.authService.getUserRole({});
   }
 
-  get hasRole(role:string): boolean {
-    return false;
-  }
 }

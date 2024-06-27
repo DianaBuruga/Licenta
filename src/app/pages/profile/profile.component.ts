@@ -22,6 +22,9 @@ import {UserService} from '../../services/services/user.service';
 import {NgIf} from '@angular/common';
 import {SearchService} from '../../services/services';
 import {EducationComponent} from "../../components/education/education.component";
+import { Router, ActivatedRoute} from '@angular/router';
+import { TokenService } from '../../services/auth/token.service';
+import { MessageService } from '../../services/services/message.service';
 
 @Component({
   selector: 'app-profile',
@@ -51,8 +54,23 @@ export class ProfileComponent implements OnInit {
   languages: LanguageDto[] = [];
   referrals: ReferralDto[] = [];
   specializations: SpecializationDto[] = [];
+  isVisible=false;
 
-  constructor(private userService: UserService, private searchService: SearchService) {
+
+
+  constructor(private userService: UserService, private searchService: SearchService, private router: Router, private route: ActivatedRoute, private tokenService: TokenService,  private messageService: MessageService) {
+    const token = this.tokenService.token;
+    this.route.queryParams.subscribe(params => {
+      const code = params['code'];
+      
+      if (!code) {
+        if(this.tokenService.token === undefined || this.tokenService.token ===''){
+          console.log('You are not authorized! Redirecting to login page.');
+          console.log(this.tokenService.token !== undefined || this.tokenService.token!='')
+          this.router.navigate(['login']);
+        }
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -65,6 +83,7 @@ export class ProfileComponent implements OnInit {
   private getCurrentUser(): void {
     this.userService.getAuthenticatedUser().subscribe({
       next: (user: UserDto) => {
+        this.isVisible=true;
         this.user = user;
         this.getJobHistory();
         this.getExperiences();
@@ -76,6 +95,7 @@ export class ProfileComponent implements OnInit {
       },
       error: (error: any) => {
         this.error = error;
+        this.router.navigate(['login']);
         console.error('Error fetching user:', error);
       },
       complete: () => {
@@ -210,25 +230,37 @@ export class ProfileComponent implements OnInit {
   }
 
   private getReferrals(): void {
-    if (this.user.id) {
-      console.log('Userul este:', this.user);
+    if (!this.user.id) {
+      return;
+    }
+  
+    if (this.user.role === 'TEACHER' || this.user.role === 'STUDENT') {
+      let criteria: { [key: string]: any } = {};
+      
+      if (this.user.role === 'TEACHER') {
+        criteria = { "teacher.id": this.user.id };
+      } else if (this.user.role === 'STUDENT') {
+        criteria = { "student.id": this.user.id };
+      }
+  
       const param = {
         endpoint: "referrals",
-        criteria: {
-          "student.id": this.user.id
-        }
+        criteria: criteria
       };
+  
+      console.log('Userul este:', this.user);
+  
       this.searchService.search(param).subscribe({
         next: (referrals: ReferralDto[]) => {
           this.referrals = referrals;
-          console.log('User:', this.user);
+          console.log('Referrals:', this.referrals);
         },
         error: (error: any) => {
           this.error = error;
-          console.error('Error fetching user:', error);
+          console.error('Error fetching referrals:', error);
         },
         complete: () => {
-          console.log('Completed fetching user');
+          console.log('Completed fetching referrals');
         }
       });
     }

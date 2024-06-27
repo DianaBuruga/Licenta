@@ -182,25 +182,37 @@ export class UserComponent implements OnInit {
   }
 
   private getReferrals(): void {
-    if (this.user.id) {
-      console.log('Userul este:', this.user);
+    if (!this.user.id) {
+      return;
+    }
+  
+    if (this.user.role === 'TEACHER' || this.user.role === 'STUDENT') {
+      let criteria: { [key: string]: any } = {};
+      
+      if (this.user.role === 'TEACHER') {
+        criteria = { "teacher.id": this.user.id };
+      } else if (this.user.role === 'STUDENT') {
+        criteria = { "student.id": this.user.id };
+      }
+  
       const param = {
         endpoint: "referrals",
-        criteria: {
-          "student.id": this.user.id
-        }
+        criteria: criteria
       };
+  
+      console.log('Userul este:', this.user);
+  
       this.searchService.search(param).subscribe({
         next: (referrals: ReferralDto[]) => {
           this.referrals = referrals;
-          console.log('User:', this.user);
+          console.log('Referrals:', this.referrals);
         },
         error: (error: any) => {
           this.error = error;
-          console.error('Error fetching user:', error);
+          console.error('Error fetching referrals:', error);
         },
         complete: () => {
-          console.log('Completed fetching user');
+          console.log('Completed fetching referrals');
         }
       });
     }

@@ -1,8 +1,10 @@
 <div class="container">
-    <h1><b>Acreditari</b>
+    <h1><b>Certificates</b>
+        @if(isOwner$ | async){
         <button mat-icon-button class="custom-icon-button" (click)="openDialog(emptyExperience)">
             <mat-icon>add</mat-icon>
         </button>
+    }
     </h1>
     @if(experiences.length!==0){
     <div class="parent">
@@ -20,12 +22,14 @@
                     <a mat-button [href]="acreditare.url" target="_blank">Afla mai mult</a>
                 </mat-card-actions>
                 <p>
+                    @if(isOwner$ | async){
                     <button mat-icon-button class="custom-icon-button" (click)="openDialog(acreditare)">
                         <mat-icon>update</mat-icon>
                     </button>
                     <button mat-icon-button class="custom-icon-button" (click)="deleteExperience(acreditare)">
                         <mat-icon>delete</mat-icon>
                     </button>
+                }
                 </p>
             </mat-card>
         </div>

@@ -1,5 +1,5 @@
 <div>
-    <mat-card class="example-card">
+    <mat-card class="example-card" style="height:80vh">
         <div>
             <mat-card-header class="center">
                 <img mat-card-image src={{job.company?.logoUrl}} alt={{job.company?.name}}>
@@ -8,6 +8,7 @@
         </div>
         <br>
         <br>
+        <div >
         <mat-card-content>
             <p><b>Status:</b>
                 @if(job.status == "ACTIVE"){
@@ -61,9 +62,23 @@
             </p>
             <p>{{job.description}}</p>
         </mat-card-content>
+        </div>  
         <mat-card-actions>
+            @if(isStudent$ | async){
+                @if(wasNotPressed){
             <button mat-raised-button color="warn" (click)="applyJob(job)">APPLY</button>
+                }@else {
+                    <h3>You have already applied</h3>
+                }
+            }
+            @if(isOwner$ | async){
             <button mat-button color="warn" (click)="openDialog(job)">UPDATE</button>
+            }
         </mat-card-actions>
     </mat-card>
 </div>
+@if(isOwner$ | async){
+ <p></p>
+<h1 style="text-align: center;"><b>Applicants</b></h1>
+<app-applicants [users]="users"></app-applicants>
+}

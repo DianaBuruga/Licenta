@@ -1,13 +1,14 @@
-import { Component, Input, ViewEncapsulation } from '@angular/core';
+import { Component, Input, SimpleChanges, ViewEncapsulation } from '@angular/core';
 import { SwiperModule } from 'swiper/angular';
 import SwiperCore, { Navigation, Pagination, EffectCoverflow } from 'swiper';
 import { MatCardModule } from '@angular/material/card';
 import { CommonModule, NgFor } from '@angular/common';
 import { MatIcon } from '@angular/material/icon';
-import { ReferralDto, UserDto } from '../../../services/models';
+import { IsOwner, ReferralDto, Role, UserDto } from '../../../services/models';
 import { MatDialog } from '@angular/material/dialog';
 import { ReferalOpenDialogComponent } from '../referal-open-dialog/referal-open-dialog.component';
-import { ReferralService } from '../../../services/services';
+import { AuthenticationService, ReferralService } from '../../../services/services';
+import { BehaviorSubject } from 'rxjs';
 
 SwiperCore.use([Navigation, Pagination, EffectCoverflow]);
 interface User {
@@ -40,7 +41,17 @@ interface Referal {
 export class ReferalComponent {
   @Input() user: UserDto | undefined;
   @Input() referrals: ReferralDto[] = [];
-
+  private isOwnerSubject: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  role:string = '';
+  
+  ngOnChanges(changes: SimpleChanges) {
+    if(this.user !== undefined) {
+    if (this.user.id) {
+      this.role=this.user.role;
+      this.checkIfTeacher();
+    }
+  }
+  }
   get emptyReferral(): ReferralDto {
     return {
       id: '',
@@ -65,7 +76,7 @@ export class ReferalComponent {
   }
 
 
-  constructor(public dialog: MatDialog, private referalService: ReferralService) { }
+  constructor(public dialog: MatDialog, private referalService: ReferralService, private authService: AuthenticationService) { }
 
   openDialog(referral: ReferralDto): void {
     console.log('Opening dialog', this.user);
@@ -106,5 +117,21 @@ export class ReferalComponent {
         },
       });
     }
+  }
+
+  get isOwner$() {
+    return this.isOwnerSubject.asObservable();
+  }
+
+  checkIfTeacher(): void {
+    this.authService.getUserRole().subscribe({
+      next: (result: Role) => {
+        console.log('Result received:', result);
+        this.isOwnerSubject.next(result.role==='TEACHER' || result.role === 'ADMIN');
+      },
+      error: (error: any) => {
+        console.error('Error:', error);
+      }
+    });
   }
 }
